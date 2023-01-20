@@ -1,0 +1,57 @@
+********************************************************************************
+
+		# Arquivo DESCONTINUADO (03/2017) .... vide "mpSistemaHelp.xhtml" !!!!!!!
+	
+********************************************************************************
+	
+	# Controle de Versão/Release Notes ... by: Marcus VPR (MPXDS) date: 04/2016.
+
+. Versão: 1.0.0 (04/2016):
+  ==============
+- Baseada no Sistema Comercial JSF/Primefaces AlgaWorks ;
+- Implementado o padrão MPXDS, com tabelas/classes com prefixo "mp" ;
+- Ajustes nas telas básicas de cadastro com barra de navegação e controle de edição do registro ;
+- Implemantado botão de hide(+) nos campos de filtros nas telas de pesquisas ;
+- Menu Dinâmico baseado no perfil do usuário ;
+- Implementado a de configuração do sistema ;
+- Implementado vários logs de controle no sistema ;
+- Implementado segurança com bloqueio do usuário após "N" tentativas de login, informando a
+  	senha inválida e solicitação da troca da senha após "N" dias em uso, diferente das últimas "N"
+  	senhas informadas, onde "N" é tratado na tabela de configuração do sistema ;
+- Multenancy (tenant_id) selecionado no ato do Login/Ambiente ;
+- Apelidos(Cod.transação) para as telas, com acesso direto no lado direito do rodapé ;
+- Implementado Schedulle/Jobs (Delta Spike CDI / Quartz) ;
+- Implementada a integração com o WebServices(API JSON/XML) do Correio para a captura dados do CEP ;
+
+. Versão: 1.0.1 (05/2016):
+  ========================
+- Inicio da Migração das telas para o modo responsivo (Baseado no workshopping Algaworks) ;
+- Inicio de implementação do Menu Dinâmico modo responsivo ;
+- Inicio implementação do PrettyFaces (mascaramento urls do sistema) ;
+- Implementada a integração com o WebServices da MULTIFARMAS (API JSON/XML) ;
+- Inicio da integração com o Aplicativo Telegram (API) ;
+- Inicio migração WebVideo.ZK ;
+- Inicio de implementação do Hibernate ENVERS (Auditoria) -> MpDolar... ;
+- Inicio de implementação Validação client-side -> MpDolar ... ;
+- Inicio de implementação tema PrimeFaces.SENTINEL ;
+
+. Versão: 1.0.3 (05/2016):
+  ========================
+- Continuação de implementação tema PrimeFaces.SENTINEL ;
+- Inicio Implementação Push-Notification(Google) x Android x IOS ;
+
+. Versão: 1.0.5 (05/2016):
+  ========================
+- Implementação tema PrimeFaces.SENTINEL ;
+- Continuação Implementação Push-Notification(Google) x Android x IOS ;
+
+. Versão: 1.0.9 (06/2016):
+  ========================
+- Conversão modulos sistema de oficio PRISCO ;
+	    
+. Versão: 1.0.10 (01/2017) -> 1.0.10.11 (03/2017) :
+  ========================
+- Conversão/Implantacão/Carga módulo sistema sisjuri.ZK (Reginaldo) ;
+- Implementação library+Eclipse LOMBOK ;
+- Programa geração de artefatos sistema VB/SQL.Server2000 ;
+	    

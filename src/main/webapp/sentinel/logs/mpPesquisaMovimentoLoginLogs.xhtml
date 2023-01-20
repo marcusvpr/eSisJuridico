@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Logins Usuário</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaMovimentoLoginsBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpMovimentoLoginsTable"
+									fileName="movimentoLogins"
+									postProcessor="#{mpPesquisaMovimentoLoginsBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="5" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:calendar pattern="dd/MM/yyyy" placeholder="Data De" mask="true"
+									value="#{mpPesquisaMovimentoLoginsBean.mpFiltro.dataCriacaoDe}" />
+								<p:calendar pattern="dd/MM/yyyy" placeholder="Data Até" mask="true"
+									value="#{mpPesquisaMovimentoLoginsBean.mpFiltro.dataCriacaoAte}" />
+								<p:inputText placeholder="Atividade"
+									value="#{mpPesquisaMovimentoLoginsBean.mpFiltro.atividade}" />
+								<p:inputText placeholder="NumeroIP"
+									value="#{mpPesquisaMovimentoLoginsBean.mpFiltro.numeroIP}" />
+								<p:inputText placeholder="Usuário"
+									value="#{mpPesquisaMovimentoLoginsBean.mpFiltro.usuario}" />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpMovimentoLoginsTable"
+							value="#{mpPesquisaMovimentoLoginsBean.mpMovimentoLoginsFiltrados}"
+							var="mpMovimentoLogin" selectionMode="single"
+							selection="#{mpPesquisaMovimentoLoginsBean.mpMovimentoLoginSelecionado}"
+							rowKey="#{mpMovimentoLogin.dtHrMovimento}" reflow="true"
+							style="margin-top:20px"
+							emptyMessage="Nenhum MovimentoLogin encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Data Hora"
+								style="text-align:center; width:150px"
+								sortBy="#{mpMovimentoLogin.dtHrMovimento}">
+								<h:outputText value="#{mpMovimentoLogin.dtHrMovimento}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Atividade"
+								style="text-align:center; width:80px"
+								sortBy="#{mpMovimentoLogin.atividade}">
+								<h:outputText value="#{mpMovimentoLogin.atividade}" />
+							</p:column>
+							<p:column headerText="Número IP"
+								style="text-align:center; width:150px"
+								sortBy="#{mpMovimentoLogin.numeroIP}">
+								<h:outputText value="#{mpMovimentoLogin.numeroIP}" />
+							</p:column>
+							<p:column headerText="Login"
+								style="text-align:center; width:150px">
+								<h:outputText value="#{mpMovimentoLogin.usuarioLogin}" />
+							</p:column>
+							<p:column headerText="E-mail">
+								<h:outputText value="#{mpMovimentoLogin.usuarioEmail}" />
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

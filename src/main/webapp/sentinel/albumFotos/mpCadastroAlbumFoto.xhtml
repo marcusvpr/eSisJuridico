@@ -1,0 +1,167 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpArquivoBD" value="#{mpCadastroArquivoBDBean.mpArquivoBD}" />
+			<f:viewAction action="#{mpCadastroArquivoBDBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Album Foto/Arquivo #{mpCadastroArquivoBDBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesAlbumFoto.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+
+						<h:panelGroup id="pgDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="descricao" maxlength="150"
+								placeholder="Descrição"
+								styleClass="Container40 Fnone MarAuto Fs18"
+								required="#{mpCadastroArquivoBDBean.indEditavel}"
+								validatorMessage="Informar Celular"
+								readonly="#{mpCadastroArquivoBDBean.indEditavel}"
+								value="#{mpCadastroArquivoBDBean.mpArquivoBD.descricao}" />
+							<p:tooltip for="descricao"
+								value="Descrição ( Ex.: Remédio Tylenol)" />
+						</h:panelGroup>
+
+						<h:panelGroup id="pgGrupo">
+							<p:spacer width="5" />
+							<p:outputLabel value="Grupo: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:selectOneMenu id="mpGrupo"
+								disabled="#{mpCadastroArquivoBDBean.indEditavel}"
+								value="#{mpCadastroArquivoBDBean.mpArquivoBD.mpGrupoTI}">
+								<f:selectItem itemLabel="Selecione o Grupo" />
+								<f:selectItems
+									value="#{mpCadastroArquivoBDBean.mpGrupoList}"
+									var="mpGrupo" itemValue="#{mpGrupo}"
+									itemLabel="#{mpGrupo.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="mpGrupo"
+								value="Grupo ( Ex.: Medicação - Tab.0007)" />
+						</h:panelGroup>
+						<h:panelGroup id="pgIndGlobal">
+							<p:spacer width="5" />
+							<p:outputLabel value="IndGlobal: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:selectBooleanButton id="indGlobal" onLabel="Sim" offLabel="Não"
+								onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:90px"
+								disabled="#{mpCadastroArquivoBDBean.indEditavel}"
+								value="#{mpCadastroArquivoBDBean.mpArquivoBD.indGlobal}" />
+							<p:tooltip for="indGlobal"
+								value="Ind.Global ( Ex.: SIM - Aparece para todos Usuários!)" />
+						</h:panelGroup>
+
+					</div>
+
+					<p:tabView id="tabViewA">
+
+						<p:tab title="Dados / Foto">
+							<p:messages id="messageFoto" autoUpdate="false" showDetail="false" />
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+
+												<h:panelGroup id="arquivoBD">
+													<p:outputLabel style="font-size:16px; color:blue;"
+														value="#{mpCadastroArquivoBDBean.mpArquivoBD.mpArquivoAcao.resultado}" />
+													<p:spacer width="5" />
+													<o:graphicImage dataURI="true" cache="false" width="200"
+														rendered="#{mpCadastroArquivoBDBean.arquivoBytes == null ? false : true}"
+														value="#{mpCadastroArquivoBDBean.arquivoBytes}" />
+												</h:panelGroup>
+
+											</div>
+										</div>
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent">
+													<p:panelGrid id="pGridFoto" columns="2"
+														styleClass="panelgrid-noborder" layout="grid"
+														columnClasses="ui-grid-col-2, ui-grid-col-10">
+
+														<p:outputLabel value="Ação" for="arquivoAcao"
+															style="font-size:14px; color:black;" />
+														<p:selectOneRadio id="arquivoAcao"
+															disabled="#{mpCadastroArquivoBDBean.indEditavel}"
+															value="#{mpCadastroArquivoBDBean.mpArquivoAcao}"
+															valueChangeListener="#{mpCadastroArquivoBDBean.arquivoAcaoSelecionado}">
+															<f:selectItems
+																value="#{mpCadastroArquivoBDBean.mpArquivoAcaoList}"
+																var="mpArquivoAcao" itemValue="#{mpArquivoAcao}"
+																itemLabel="#{mpArquivoAcao.descricao}" />
+															<f:ajax execute="@all" render="@all" />
+														</p:selectOneRadio>
+
+													</p:panelGrid>
+
+													<h:panelGroup id="carregaImagem"
+														rendered="#{mpCadastroArquivoBDBean.arquivoAcaoSelecao == 'Carregar'}">
+														<p:fileUpload label="Selecionar..."
+															disabled="#{mpCadastroArquivoBDBean.indEditavel}"
+															update="frm:tabViewA:frmFoto:messageFoto frm:tabViewA:frmFoto:arquivoBD"
+															fileUploadListener="#{mpCadastroArquivoBDBean.handleFileUpload}"
+															auto="true" mode="advanced" dragDropSupport="true"
+															sizeLimit="5000000"
+															allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+													</h:panelGroup>
+
+													<p:commandButton value="Proceder Captura"
+														icon="fa fa-camera Fs14 white"
+														rendered="#{mpCadastroArquivoBDBean.arquivoAcaoSelecao == 'Capturar'}"
+														oncomplete="PF('capturaDialog').show()" process="@this">
+													</p:commandButton>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+				</p:panel>
+			</h:form>
+		</div>
+
+		<div class="ContainerIndent">
+			<p:dialog widgetVar="capturaDialog" id="capturaDialogId" modal="true"
+				header="Captura Foto" showEffect="fade" hideEffect="fade"
+				resizable="false" responsive="true"
+				rendered="#{mpCadastroArquivoBDBean.arquivoAcaoSelecao == 'Capturar'}">
+				<h:form id="frmCapturaDialog">
+					<h:panelGrid columns="3" cellpadding="5">
+						<p:photoCam widgetVar="pc" width="250"
+							listener="#{mpCadastroArquivoBDBean.aoCapturarArquivo}"
+							update="photoDialog frm:tabViewA:frmFoto:arquivoBD" />
+						<p:commandButton type="button" value="Capturar" icon="fa fa-camera Fs14 white"
+							onclick="PF('pc').capture()" />
+						<p:outputPanel id="photoDialog">
+							<o:graphicImage dataURI="true" cache="false" width="250"
+								rendered="#{mpCadastroArquivoBDBean.arquivoBytesC == null ? false : true}"
+								value="#{mpCadastroArquivoBDBean.arquivoBytesC}" />
+						</p:outputPanel>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

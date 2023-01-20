@@ -1,0 +1,408 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/sentinel/template.xhtml">
+
+    <ui:define name="content">
+
+        <div class="ContainerIndent">
+            <p:panel header="Panel Samples">
+                <h:form>
+                    <div class="ContainerIndent">
+                        <h3 class="hardblue">Fieldset</h3>
+                        <p:fieldset legend="Toggleable Fieldset" toggleable="true" toggleSpeed="500">
+                            <h:outputText value="Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
+                                          In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
+                                          killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows."></h:outputText>
+                        </p:fieldset>
+
+                        <h3 class="hardblue">AccordionPanel</h3>
+                        <p:accordionPanel multiple="false">
+                            <p:tab title="Godfather Part I">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:outputText
+                                        value="Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
+                                        In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
+                                        killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Godfather Part II">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:outputText value="Francis Ford Coppola's legendary. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
+                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
+                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Godfather Part III">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:outputText value="After a break of more than 15 years. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
+                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
+                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
+                                </h:panelGrid>
+                            </p:tab>
+                        </p:accordionPanel>
+
+                        <h3 class="hardblue">PanelGrid Basic</h3>
+                        <p:panelGrid columns="2" layout="grid">
+                            <h:outputText value="Name" />
+                            <h:outputText value="Kobe Bryant" />
+
+                            <h:outputText value="Team" />
+                            <h:outputText value="Los Angeles Lakers" />
+
+                            <h:outputText value="Position" />
+                            <h:outputText value="Shooting Guard" />
+
+                            <h:outputText value="Number" />
+                            <h:outputText value="24" />
+                        </p:panelGrid>
+
+                        <h3 class="hardblue">PanelGrid Grouping</h3>
+                        <p:panelGrid style="margin-top:20px;width:100%">
+                            <f:facet name="header">
+                                <p:row>
+                                    <p:column colspan="7">1995-96 NBA Playoffs</p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="2">Conf. Semifinals</p:column>
+                                    <p:column colspan="2">Conf. Finals</p:column>
+                                    <p:column colspan="2">NBA Finals</p:column>
+                                    <p:column>Champion</p:column>
+                                </p:row>
+
+                            </f:facet>
+
+                            <p:row>
+                                <p:column style="font-weight: bold;">Seattle</p:column>
+                                <p:column style="font-weight: bold;">4</p:column>
+
+                                <p:column rowspan="2" style="font-weight: bold;">Seattle</p:column>
+                                <p:column rowspan="2" style="font-weight: bold;">4</p:column>
+
+                                <p:column rowspan="5">Seattle</p:column>
+                                <p:column rowspan="5">2</p:column>
+
+                                <p:column rowspan="11" style="font-weight: bold;">Chicago</p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>Houston</p:column>
+                                <p:column >0</p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column colspan="4" styleClass="ui-widget-header">
+                                    <p:spacer height="0"/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column style="font-weight: bold;">Utah</p:column>
+                                <p:column style="font-weight: bold;">4</p:column>
+
+                                <p:column rowspan="2">Utah</p:column>
+                                <p:column rowspan="2">3</p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>San Antonio</p:column>
+                                <p:column >2</p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column colspan="6" styleClass="ui-widget-header">
+                                    <p:spacer height="0"/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column style="font-weight: bold;">Chicago</p:column>
+                                <p:column style="font-weight: bold;">4</p:column>
+
+                                <p:column rowspan="2" style="font-weight: bold;">Chicago</p:column>
+                                <p:column rowspan="2" style="font-weight: bold;">4</p:column>
+
+                                <p:column rowspan="5" style="font-weight: bold;">Chicago</p:column>
+                                <p:column rowspan="5" style="font-weight: bold;">4</p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>New York</p:column>
+                                <p:column >1</p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column colspan="4" styleClass="ui-widget-header">
+                                    <p:spacer height="0"/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>Atlanta</p:column>
+                                <p:column >1</p:column>
+
+                                <p:column rowspan="2">Orlando</p:column>
+                                <p:column rowspan="2">0</p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column style="font-weight: bold;">Orlando</p:column>
+                                <p:column style="font-weight: bold;">4</p:column>
+                            </p:row>
+
+
+                            <f:facet name="footer">
+                                <p:row>
+                                    <p:column  colspan="4" style="text-align: right">
+                                        Finals MVP
+                                    </p:column>
+                                    <p:column  colspan="3" rowspan="3">
+                                        Michael Jordan (Chicago)
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column  colspan="4" style="text-align: right">
+                                        Season MVP
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column  colspan="4" style="text-align: right">
+                                        Top Scorer
+                                    </p:column>
+                                </p:row>
+                            </f:facet>
+                        </p:panelGrid>
+
+                        <div class="EmptyBox30"></div>
+
+                        <h3 style="margin-top:0" class="hardblue">Custom Scrollbars</h3>
+                        <p:scrollPanel style="height:200px; width:270px;">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean blandit tortor a ipsum vehicula, in semper sapien auctor. Nulla tempor eget est non consequat. Nulla sit amet lorem justo. Cras non tellus eros. Sed ultricies orci ut quam interdum fringilla. Nam vitae massa ac mi elementum mattis vel vitae sem. Ut eros ipsum, scelerisque a erat a, eleifend luctus nibh. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                            </p>
+                            <p>
+                                Vivamus ac ullamcorper magna. Aenean felis ante, elementum sit amet urna at, eleifend aliquet velit. Morbi a convallis magna. In nec leo vel dolor hendrerit pharetra. Cras in iaculis enim. Aenean porta sapien dignissim turpis dapibus, eu dictum velit elementum. Aliquam sollicitudin gravida luctus.
+                            </p>
+                            <p>
+                                Ut vel nulla sit amet erat laoreet eleifend nec sed lacus. Quisque placerat diam vitae justo eleifend, rutrum mollis mauris fringilla. Curabitur turpis odio, euismod id lorem a, ultricies suscipit ligula. Pellentesque ut erat a leo rhoncus porta ac sed velit. Nunc at erat ligula. Fusce vehicula posuere interdum. Curabitur tempus, tortor at sollicitudin dapibus, erat ante varius nisl, id dictum erat ipsum porttitor ipsum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla id varius enim, sed rutrum orci.
+                            </p>
+                            <p>
+                                Sed tincidunt urna quis metus lacinia commodo. Praesent convallis eros vel quam scelerisque bibendum. Mauris eget dignissim libero. Pellentesque sagittis sem quis ipsum viverra, sed consequat mi consectetur. Donec facilisis dapibus ultrices. Donec luctus auctor lacus, at congue nisi aliquet eu. Praesent in justo at risus faucibus ultricies. Fusce et libero lectus. Donec elementum pharetra sapien, at placerat purus sodales et. Vivamus iaculis lacus sed placerat rhoncus. Mauris iaculis sit amet nunc at placerat. Donec consequat euismod lacinia. Etiam nec quam vehicula, cursus massa in, ullamcorper erat.
+                            </p>
+                            <p>
+                                Praesent volutpat scelerisque vestibulum. In eu massa non neque rutrum commodo. Nunc vel enim nisi. Aenean leo ipsum, molestie vel justo nec, pharetra luctus dui. Nunc rhoncus turpis id lorem luctus consequat. Nulla condimentum adipiscing turpis consequat semper. Etiam ullamcorper velit nec hendrerit malesuada. Praesent venenatis leo sit amet arcu commodo, sit amet porta tellus suscipit. Quisque mi tortor, vestibulum in arcu non, pretium auctor libero. In commodo luctus placerat.
+                            </p>
+                        </p:scrollPanel>
+
+                        <h3 class="hardblue">toolbar</h3>
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton type="button" value="New" icon="fa fa-plus Fs14 white" />
+
+                                <p:commandButton type="button" value="Open" icon="fa fa-folder-open Fs14 white" />
+
+                                <span class="ui-separator">
+                                    <span class="fa fa-ellipsis-v leaden" />
+                                </span>
+
+                                <p:commandButton type="button" title="Save" icon="fa fa-save Fs14 white" />
+                                <p:commandButton type="button" title="Delete" icon="fa fa-trash Fs14 white" />
+                                <p:commandButton type="button" title="Print" icon="fa fa-print Fs14 white" />
+                            </f:facet>
+
+                            <f:facet name="right">
+                                <p:menuButton value="Options">
+                                    <p:menuitem value="Save" icon="fa fa-save" />
+                                    <p:menuitem value="Update" icon="fa fa-upload" />
+                                    <p:menuitem value="Delete" icon="fa fa-trash" />
+                                    <p:menuitem value="Homepage" icon="fa fa-home" />
+                                </p:menuButton>
+                            </f:facet>
+
+                        </p:toolbar>
+
+                        <h3 class="hardblue">notificationBar</h3>
+                        <p:notificationBar position="top" effect="slide" styleClass="top" widgetVar="bar">
+                            <h:outputText value="PrimeFaces Rocks!"/>
+                        </p:notificationBar>
+
+                        <p:commandButton value="Show" onclick="PF('bar').show()" type="button"/>
+                        <p:commandButton value="Hide" onclick="PF('bar').hide()" type="button"/>
+
+                        <h3 class="hardblue">Panel</h3>
+                        <p:panel id="basic" header="Basic Panel" footer="Panel Footer" style="margin-bottom:20px">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <i class="icon-apple Fs60"></i>
+                                <h:outputText
+                                    value="CUPERTINO, California—January 27, 2015—Apple® today announced financial results for its
+                                    fiscal 2015 first quarter ended December 27, 2014. The Company posted record quarterly revenue of 
+                                    $74.6 billion and record quarterly net profit of $18 billion, or $3.06 per diluted share. These results 
+                                    compare to revenue of $57.6 billion and net profit of $13.1 billion, or $2.07 per diluted share, in the 
+                                    year-ago quarter. Gross margin was 39.9 percent compared to 37.9 percent in the year-ago quarter. 
+                                    International sales accounted for 65 percent of the quarter’s revenue." />
+                            </h:panelGrid>
+                        </p:panel>
+
+                        <h3 class="hardblue">Ribbon</h3>
+                        <p:ribbon style="width: 500px;">
+                            <p:tab title="File">
+                                <p:ribbonGroup label="Options">
+                                    <p:commandButton value="New" icon="fa fa-plus" styleClass="ui-ribbon-bigbutton" type="button"/>
+                                    <p:commandButton value="Save" icon="fa fa-save" styleClass="ui-ribbon-bigbutton" type="button"/>
+                                </p:ribbonGroup>
+
+                                <p:ribbonGroup label="Clipboard">
+                                    <p:commandButton value="Paste" icon="fa fa-paste" styleClass="ui-ribbon-bigbutton" type="button"/>
+                                    <p:commandButton value="Cut" icon="fa fa-cut" type="button"/>
+                                    <p:commandButton value="Print" icon="fa fa-print" type="button"/>
+                                </p:ribbonGroup>
+
+                                <p:ribbonGroup label="Fonts">
+                                    <p:selectOneMenu appendTo="@this">
+                                        <f:selectItem itemLabel="Arial" itemValue="0" />
+                                        <f:selectItem itemLabel="Comis Sans" itemValue="1" />
+                                        <f:selectItem itemLabel="Helvetica" itemValue="2" />
+                                        <f:selectItem itemLabel="Times New Roman" itemValue="3" />
+                                        <f:selectItem itemLabel="Verdana" itemValue="4" />
+                                    </p:selectOneMenu>
+
+                                    <p:selectOneMenu appendTo="@this">
+                                        <f:selectItem itemLabel="10" itemValue="10" />
+                                        <f:selectItem itemLabel="12" itemValue="12" />
+                                        <f:selectItem itemLabel="14" itemValue="14" />
+                                        <f:selectItem itemLabel="18" itemValue="18" />
+                                        <f:selectItem itemLabel="24" itemValue="24" />
+                                        <f:selectItem itemLabel="36" itemValue="36" />
+                                        <f:selectItem itemLabel="72" itemValue="72" />
+                                    </p:selectOneMenu>
+
+                                    <p:selectManyButton>
+                                        <f:selectItem itemLabel="b" itemValue="b" />
+                                        <f:selectItem itemLabel="u" itemValue="u" />
+                                        <f:selectItem itemLabel="i" itemValue="i" />
+                                    </p:selectManyButton>
+
+                                    <p:colorPicker />  
+                                </p:ribbonGroup>
+                            </p:tab>
+
+                            <p:tab title="View">
+                                <p:ribbonGroup label="Zoom">
+                                    <p:commandButton value="In" icon="fa fa-search-plus" styleClass="ui-ribbon-bigbutton" type="button" />
+                                    <p:commandButton value="Out" icon="fa fa-search-minus" styleClass="ui-ribbon-bigbutton" type="button"/>   
+                                </p:ribbonGroup>
+                            </p:tab>
+                        </p:ribbon>
+
+                        <h3 class="hardblue">TabView Basic</h3>
+                        <p:tabView>
+                            <p:tab title="Godfather Part I">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:outputText
+                                        value="The story begins as Don Vito Corleone. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                        Aenean blandit tortor a ipsum vehicula, in semper sapien auctor. Nulla tempor eget est non consequat. The story begins as Don Vito Corleone. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                        Aenean blandit tortor a ipsum vehicula, in semper sapien auctor. Nulla tempor eget est non consequat." />
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Godfather Part II" closable="true">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:outputText value="Francis Ford Coppola's legendary. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                                  Aenean blandit tortor a ipsum vehicula, in semper sapien auctor. Nulla tempor eget est non consequat." />
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Godfather Part III">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:outputText value="After a break of more than 15 years. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                  Aenean blandit tortor a ipsum vehicula, in semper sapien auctor. Nulla tempor eget est non consequat." />
+                                </h:panelGrid>
+                            </p:tab>
+                        </p:tabView>
+                        <h3 class="hardblue">TabView Scrollable</h3>
+                        <p:tabView scrollable="true">
+                            <p:tab title="Tab 1">Tab 1 Content</p:tab>
+                            <p:tab title="Tab 2">Tab 2 Content</p:tab>
+                            <p:tab title="Tab 3">Tab 3 Content</p:tab>
+                            <p:tab title="Tab 4">Tab 4 Content</p:tab>
+                            <p:tab title="Tab 5">Tab 5 Content</p:tab>
+                            <p:tab title="Tab 6">Tab 6 Content</p:tab>
+                            <p:tab title="Tab 7">Tab 7 Content</p:tab>
+                            <p:tab title="Tab 8">Tab 8 Content</p:tab>
+                            <p:tab title="Tab 9">Tab 9 Content</p:tab>
+                            <p:tab title="Tab 10">Tab 10 Content</p:tab>
+                            <p:tab title="Tab 11">Tab 11 Content</p:tab>
+                            <p:tab title="Tab 12">Tab 12 Content</p:tab>
+                            <p:tab title="Tab 13">Tab 13 Content</p:tab>
+                            <p:tab title="Tab 14">Tab 14 Content</p:tab>
+                            <p:tab title="Tab 15">Tab 15 Content</p:tab>
+                            <p:tab title="Tab 16">Tab 16 Content</p:tab>
+                            <p:tab title="Tab 17">Tab 17 Content</p:tab>
+                            <p:tab title="Tab 18">Tab 18 Content</p:tab>
+                            <p:tab title="Tab 19">Tab 19 Content</p:tab>
+                            <p:tab title="Tab 20">Tab 20 Content</p:tab>
+                            <p:tab title="Tab 21">Tab 21 Content</p:tab>
+                            <p:tab title="Tab 22">Tab 22 Content</p:tab>
+                            <p:tab title="Tab 23">Tab 23 Content</p:tab>
+                            <p:tab title="Tab 24">Tab 24 Content</p:tab>
+                            <p:tab title="Tab 25">Tab 25 Content</p:tab>                
+                        </p:tabView>
+                        <div class="EmptyBox30"></div>
+                        <p:tabView scrollable="true" orientation="bottom">
+                            <p:tab title="Tab 1">Tab 1 Content</p:tab>
+                            <p:tab title="Tab 2">Tab 2 Content</p:tab>
+                            <p:tab title="Tab 3">Tab 3 Content</p:tab>
+                            <p:tab title="Tab 4">Tab 4 Content</p:tab>
+                            <p:tab title="Tab 5">Tab 5 Content</p:tab>
+                            <p:tab title="Tab 6">Tab 6 Content</p:tab>
+                            <p:tab title="Tab 7">Tab 7 Content</p:tab>
+                            <p:tab title="Tab 8">Tab 8 Content</p:tab>
+                            <p:tab title="Tab 9">Tab 9 Content</p:tab>
+                            <p:tab title="Tab 10">Tab 10 Content</p:tab>
+                            <p:tab title="Tab 11">Tab 11 Content</p:tab>
+                            <p:tab title="Tab 12">Tab 12 Content</p:tab>
+                            <p:tab title="Tab 13">Tab 13 Content</p:tab>
+                            <p:tab title="Tab 14">Tab 14 Content</p:tab>
+                            <p:tab title="Tab 15">Tab 15 Content</p:tab>
+                            <p:tab title="Tab 16">Tab 16 Content</p:tab>
+                            <p:tab title="Tab 17">Tab 17 Content</p:tab>
+                            <p:tab title="Tab 18">Tab 18 Content</p:tab>
+                            <p:tab title="Tab 19">Tab 19 Content</p:tab>
+                            <p:tab title="Tab 20">Tab 20 Content</p:tab>
+                            <p:tab title="Tab 21">Tab 21 Content</p:tab>
+                            <p:tab title="Tab 22">Tab 22 Content</p:tab>
+                            <p:tab title="Tab 23">Tab 23 Content</p:tab>
+                            <p:tab title="Tab 24">Tab 24 Content</p:tab>
+                            <p:tab title="Tab 25">Tab 25 Content</p:tab>                
+                        </p:tabView>
+
+                        <h3 class="hardblue">TabView Orientation - Left</h3>
+                        <p:tabView orientation="left">
+                            <p:tab title="Godfather Part I">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:outputText
+                                        value="The story begins as Don Vito Corleone.Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Aenean blandit tortor a ipsum vehicula, in semper sapien auctor. Nulla tempor eget est non consequat." />
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Godfather Part II">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:outputText value="Francis Ford Coppola's legendary. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                  Aenean blandit tortor a ipsum vehicula, in semper sapien auctor. Nulla tempor eget est non consequat." />
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Godfather Part III">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:outputText value="After a break of more than 15 years. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                  Aenean blandit tortor a ipsum vehicula, in semper sapien auctor. Nulla tempor eget est non consequat." />
+                                </h:panelGrid>
+                            </p:tab>
+                        </p:tabView>
+                    </div>
+                </h:form>
+            </p:panel>
+        </div>
+    </ui:define>
+
+</ui:composition>

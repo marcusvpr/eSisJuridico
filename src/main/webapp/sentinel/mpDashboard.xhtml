@@ -1,0 +1,179 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+			    xmlns:o="http://omnifaces.org/ui"
+                template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1'];
+                this.cfg.grid = {
+                    background: '#f3f5f7',
+                    borderColor: '#e5ebf0',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#9fadb5'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    markerOptions: {
+                        shadow: false
+                    }
+                }
+            }
+
+            function skinPie() {
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#33ccff', '#9fadb5'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#eaeaea',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false,
+                    borderWidth: 0
+                };
+                this.cfg.seriesDefaults.shadow = false;
+            }
+        </script>
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #9fadb5;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+    
+		<f:metadata>
+			<f:viewAction action="#{mpUsuariosOnline.inicializar}" />
+		</f:metadata>
+    
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="EmptyBox20"></div>
+
+                <div class="Container25 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height: 300px;">
+                        	<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario == null ? false : true}">
+								<o:graphicImage dataURI="true" cache="false" width="60"
+									rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario.arquivoBD == null ? false : true}"
+									value="#{mpSeguranca.mpUsuarioLogado.mpUsuario.arquivoBD}" />
+                        		<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario.arquivoBD == null ? true : false}">	
+									<i class="icon-user-2 Fs50 Fleft Wid25 hardblue TexAlCenter"></i>									
+								</h:panelGroup>																	
+							 	<o:graphicImage dataURI="true" cache="false" width="60"
+									rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario.mpArquivoBD.arquivo == null ? false : true}"
+									value="#{mpSeguranca.mpUsuarioLogado.mpUsuario.mpArquivoBD.arquivo}" />
+
+                             	<div class="Fs18 Fright MarTop10 leaden Wid70"><span class="hardblue">
+                            		#{mpSeguranca.mpUsuarioLogado.mpUsuario.nome}</span>, Bem vindo(a)
+                            	</div>
+                            	<h:panelGroup rendered="#{mpSeguranca.numNotificacaoUsuario > 0 ? true : false}">
+                             		<div class="Fs12 Fright leaden Wid70">Você possui <span class="red">
+                            			(#{mpSeguranca.numNotificacaoUsuario}) notificações</span>
+                             		</div>
+								</h:panelGroup>
+							</h:panelGroup>
+                        	<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario == null ? true : false}">
+								<o:graphicImage dataURI="true" cache="false" width="60"
+									rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.arquivoBD == null ? false : true}"
+									value="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.arquivoBD}" />
+                        		<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.arquivoBD == null ? true : false}">	
+									<i class="icon-user-2 Fs50 Fleft Wid25 hardblue TexAlCenter"></i>									
+								</h:panelGroup>
+							 	<o:graphicImage dataURI="true" cache="false" width="60"
+									rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.mpArquivoBD.arquivo == null ? false : true}"
+									value="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.mpArquivoBD.arquivo}" />
+                             	<div class="Fs18 Fright MarTop10 leaden Wid70"><span class="hardblue">
+                            		#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.nome}</span>, Bem vindo(a).
+                            	</div>
+                            	<h:panelGroup rendered="#{mpSeguranca.numNotificacaoUsuario > 0 ? true : false}">
+                             		<div class="Fs12 Fright leaden Wid70">Você possui <span class="red">
+                            			(#{mpSeguranca.numNotificacaoUsuario}) notificações</span>
+                             		</div>
+								</h:panelGroup>
+							</h:panelGroup>
+                            <div class="EmptyBox10"></div>
+                            <p:separator styleClass="Wid100"></p:separator>
+                            <div class="EmptyBox10"></div>
+                            <div class="Fs16 Fright">
+                            	<h:panelGroup rendered="#{mpSeguranca.numNotificacaoUsuario > 0 ? true : false}">
+                                	<a href="./notificacaoUsuariosRS" class="DispInlBlock Fleft Fs16 MarRight20">
+                                		<i class="icon-bell-alt hardblue">
+                                			Notificações (#{mpSeguranca.numNotificacaoUsuario})
+                                		</i>
+                               		 </a>
+								</h:panelGroup>
+                                <h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario == null ? false : true}">
+                                	<a href="./usuarioConfigRS" class="DispInlBlock Fleft Fs16 MarRight20">
+                                		<i class="icon-cog-alt hardblue"> Preferências</i>
+                                	</a>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario == null ? true : false}">
+                                	<a href="./usuarioTenantConfigRS" class="DispInlBlock Fleft Fs16 MarRight20">
+                                		<i class="icon-cog-alt hardblue"> Preferências.</i>
+                                	</a>
+                                </h:panelGroup>
+                            </div>
+                            <div class="EmptyBox5"></div>
+                            <p:separator styleClass="Wid100"></p:separator>
+                            <div class="Fs14 Fright">
+                                <a href="./sentinel/videos/mpProtestoTour.xhtml" target="_blank"
+                                					class="DispInlBlock Fleft Fs14 MarRight20">
+                                	<i class="icon-briefcase hardblue"> Vídeo Apresentação
+                                	</i>
+                                </a>
+                            </div>
+                            <div class="EmptyBox5"></div>
+                            <p:separator styleClass="Wid100"></p:separator>
+                            <div class="EmptyBox5"></div>
+                            <i class="icon-key softgray MarRight10 Fs14 Fleft">
+                             		Seu último Login :</i>
+                            <div class="EmptyBox5"></div>
+                            <i class="softgray MarRight10 Fs14 Fright">
+                            	 	#{mpSeguranca.ultimoLoginUsuarioAnt}</i>
+                            <div class="EmptyBox5"></div>
+                            <p:separator styleClass="Wid100"></p:separator>
+
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="Container25 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height: 300px;" rendered="#{mpLoginBean.indAdministrador}">
+                            <div class="Container">
+                                <i class=" icon-data-science-inv Fs50 Fleft Wid25 orange TexAlCenter"></i>
+                                <div class="Fs24 Fright MarTop10 leaden Wid70">Visitantes Relatório</div>
+                                <div class="Fs12 Fright leaden Wid70">Hoje <span class="red">
+                                			(#{mpSeguranca.numVisitaUsuarioDia})</span> visitantes,<span class="red">
+                                			(#{mpSeguranca.numVisitaUsuarioSemPercentual}%)</span> maior do que à última semana</div>
+                                <div class="EmptyBox10"></div>
+                                <p:separator styleClass="Wid100"></p:separator>
+                                <div class="EmptyBox10"></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Total Visitas<br/><span class="Fs24 orange">
+                                													(#{mpSeguranca.numVisitaUsuarioTotal})</span></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Hoje Visitas<br/><span class="Fs24 red">
+                                													(#{mpSeguranca.numVisitaUsuarioDia})</span></div>
+                                <div class="Fs12 Fright leaden Wid100 TexAlCenter">Online Visitantes<br/><span class="Fs24 hardblue">
+                                											(#{mpUsuariosOnline.mpUsuarioLogadoList.size()})</span></div>
+                                <div class="EmptyBox10"></div>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

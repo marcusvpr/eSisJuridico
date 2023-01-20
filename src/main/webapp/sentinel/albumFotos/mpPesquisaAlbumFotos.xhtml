@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Album Foto/Arquivo</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaAlbumFotosBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpAlbumFotosTable"
+									fileName="albumFotos"
+									postProcessor="#{mpPesquisaAlbumFotosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="5" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+	    						<p:inputText placeholder="Descrição"
+	    								value="#{mpPesquisaAlbumFotosBean.mpFiltro.descricao}" />
+	    						<p:outputLabel />
+	    						<p:outputLabel />
+	    						<p:outputLabel />
+	    						<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpAlbumFotosTable"
+							value="#{mpPesquisaAlbumFotosBean.mpArquivoBDsFiltrados}" 
+							var="mpArquivoBD" selectionMode="single"
+							selection="#{mpPesquisaAlbumFotosBean.mpArquivoBDSelecionado}"
+							rowKey="#{mpArquivoBD.id}" reflow="true" style="margin-top:20px"
+							emptyMessage="Nenhum Album Foto encontrado." rows="5"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="both">
+
+							<p:column headerText="Id" style="text-align:center;"
+																		sortBy="#{mpArquivoBD.id}">
+								<h:outputText value="#{mpArquivoBD.id}" />
+							</p:column>
+							<p:column headerText="Descrição" style="text-align:center;"
+																sortBy="#{mpArquivoBD.descricao}">
+								<h:outputText value="#{mpArquivoBD.descricao}" />
+							</p:column>
+							<p:column headerText="Grupo" style="text-align:center;"
+														sortBy="#{mpArquivoBD.mpGrupoTI.descricao}">
+								<h:outputText value="#{mpArquivoBD.mpGrupoTI.descricao}" />
+							</p:column>
+							<p:column headerText="I.Global" style="text-align:center;"
+																sortBy="#{mpArquivoBD.indGlobal}">
+								<h:outputText value="#{mpArquivoBD.indGlobal ? 'Sim' : ' '}" />
+							</p:column>
+							<p:column headerText="Foto" style="text-align:center;">
+								<o:graphicImage dataURI="true" cache="false" width="150"
+																value="#{mpArquivoBD.arquivo}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/albumFotos/mpCadastroAlbumFoto"
+															icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpArquivoBD" value="#{mpArquivoBD.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

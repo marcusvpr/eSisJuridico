@@ -1,0 +1,240 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           	http://www.springframework.org/schema/security
+           	http://www.springframework.org/schema/security/spring-security-3.2.xsd
+    	   	http://www.springframework.org/schema/mvc
+           	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+           	    
+    <beans:bean id="mpAppUserDetailsService" 
+    								class="com.mpxds.mpbasic.security.MpAppUserDetailsService" />						
+    								    
+	<beans:bean id="exceptionTranslationFilter" 
+						class="org.springframework.security.web.access.ExceptionTranslationFilter">
+	    <beans:property name="accessDeniedHandler" ref="mpJsfAccessDeniedHandler"/>
+	    <beans:property name="authenticationEntryPoint" ref="authenticationEntryPoint"/>
+	</beans:bean>
+	
+	<beans:bean id="mpJsfAccessDeniedHandler" class="com.mpxds.mpbasic.security.MpJsfAccessDeniedHandler">
+	    <beans:property name="loginPath" value="/sentinel/mpAccess-denied.xhtml" />
+	    <beans:property name="contextRelative" value="true" />
+	</beans:bean>
+	
+	<beans:bean id="authenticationEntryPoint" 
+					class="com.mpxds.mpbasic.security.MpJsfLoginUrlAuthenticationEntryPoint">
+	    <beans:property name="loginFormUrl" value="/loginRS"/>
+	    <beans:property name="redirectStrategy" ref="mpJsfRedirectStrategy" />
+	</beans:bean>
+	
+	<beans:bean id="mpJsfRedirectStrategy" class="com.mpxds.mpbasic.security.MpJsfRedirectStrategy"/>
+
+	<!-- ////////////////////////////////////////////////// -->
+	
+    <http pattern="/sentinel" security="none" />
+    
+    <http pattern="/login" security="none" />
+    <http pattern="/loginRS" security="none" />
+    <http pattern="/logout" security="none" />
+    <http pattern="/logoutRS" security="none" />
+    <http pattern="/dashboardRS" security="none" />
+    <http pattern="/termoPolitica" security="none" />
+    <http pattern="/acessoNegado" security="none" />
+
+    <http pattern="/clienteRS" security="none" />
+    <http pattern="/clientesRS" security="none" />
+    <http pattern="/clientesCatRS" security="none" />
+    <http pattern="/usuarioRS" security="none" />
+    <http pattern="/usuariosRS" security="none" />
+    <http pattern="/usuariosOnlineRS" security="none" />
+    <http pattern="/usuarioConfigRS" security="none" />
+    <http pattern="/sistemaConfigRS" security="none" />
+    <http pattern="/sistemaConfigsRS" security="none" />
+    <http pattern="/custasComposicaoRS" security="none" />
+    <http pattern="/custasComposicaosRS" security="none" />
+    <http pattern="/dolarRS" security="none" />
+    <http pattern="/dolarsRS" security="none" />
+    <http pattern="/atividadeRS" security="none" />
+    <http pattern="/atividadesRS" security="none" />
+    <http pattern="/pacienteRS" security="none" />
+    <http pattern="/pacientesRS" security="none" />
+    <http pattern="/pacienteWizardRS" security="none" />
+    <http pattern="/calendarioRS" security="none" />
+    <http pattern="/calendariosRS" security="none" />
+    <http pattern="/alarmeRS" security="none" />
+    <http pattern="/alarmesRS" security="none" />
+    <http pattern="/notificacaoRS" security="none" />
+    <http pattern="/notificacaosRS" security="none" />
+    <http pattern="/notificacaoUsuarioRS" security="none" />
+    <http pattern="/notificacaoUsuariosRS" security="none" />
+    <http pattern="/objetoRS" security="none" />
+    <http pattern="/objetosRS" security="none" />
+    <http pattern="/grupoRS" security="none" />
+    <http pattern="/gruposRS" security="none" />
+    <http pattern="/liberaUsuarioRS" security="none" />
+    <http pattern="/pesquisaTabelaBDsRS" security="none" />
+    <http pattern="/pesquisaAlertaLogRS" security="none" />
+    <http pattern="/pesquisaErrorLogRS" security="none" />
+    <http pattern="/pesquisaLoginLogRS" security="none" />
+    <http pattern="/pesquisaMovimentoLoginLogRS" security="none" />
+    <http pattern="/pesquisaSistemaLogRS" security="none" />
+    <http pattern="/tabelaInternaRS" security="none" />
+    <http pattern="/tabelaInternasRS" security="none" />
+    <http pattern="/graficoClienteIdadeRS" security="none" />
+    <http pattern="/graficoDolarRS" security="none" />
+    <http pattern="/graficoPedidoCriadoRS" security="none" />
+    <http pattern="/graficoUsuarioLoginRS" security="none" />
+    <http pattern="/albumFotoRS" security="none" />
+    <http pattern="/albumFotosRS" security="none" />
+    <http pattern="/relatorioPedidosEmitidosRS" security="none" />
+    <http pattern="/pessoaRS" security="none" />
+    <http pattern="/pessoasRS" security="none" />
+    <http pattern="/categoriaRS" security="none" />
+    <http pattern="/categoriasRS" security="none" />
+    <http pattern="/produtoRS" security="none" />
+    <http pattern="/produtosRS" security="none" />
+    <http pattern="/receitaRS" security="none" />
+    <http pattern="/receitasRS" security="none" />
+    <http pattern="/tenantRS" security="none" />
+    <http pattern="/tenantsRS" security="none" />
+    <http pattern="/pedidoRS" security="none" />
+    <http pattern="/pedidosRS" security="none" />
+    <http pattern="/vendaRS" security="none" />
+    <http pattern="/vendasRS" security="none" />
+    <http pattern="/compraRS" security="none" />
+    <http pattern="/comprasRS" security="none" />
+    <http pattern="/atoRS" security="none" />
+    <http pattern="/atosRS" security="none" />
+    <http pattern="/usuarioTenantRS" security="none" />
+    <http pattern="/usuarioTenantsRS" security="none" />
+    <http pattern="/usuarioTenantConfigRS" security="none" />
+    <http pattern="/calculaAtosRS" security="none" />
+    <http pattern="/cargaDadosRS" security="none" />
+    <http pattern="/turnoRS" security="none" />
+    <http pattern="/turnosRS" security="none" />
+    <http pattern="/enviaSqlRS" security="none" />
+    <http pattern="/receceTitulosRS" security="none" />
+    <http pattern="/recebimentoRS" security="none" />
+    <http pattern="/feriadoRS" security="none" />
+    <http pattern="/feriadosRS" security="none" />
+
+    <http pattern="/dataProcessoRS" security="none" />
+    <http pattern="/dataProcessosRS" security="none" />
+    <http pattern="/bancoRS" security="none" />
+    <http pattern="/bancosRS" security="none" />
+
+    <http pattern="/usuarioIffRS" security="none" />
+    <http pattern="/usuarioIffsRS" security="none" />
+    <http pattern="/indexIffRS" security="none" />
+
+    <http pattern="/observacaoRS" security="none" />
+    <http pattern="/observacaosRS" security="none" />
+
+    <http pattern="/tituloRS" security="none" />
+    <http pattern="/titulosRS" security="none" />
+    <http pattern="/pessoaTituloRS" security="none" />
+    <http pattern="/pessoaTitulosRS" security="none" />
+    <http pattern="/projetoRS" security="none" />
+    <http pattern="/projetosRS" security="none" />
+
+    <http pattern="/contatoRS" security="none" />
+    <http pattern="/contatosRS" security="none" />
+
+    <http pattern="/eCartorioRjRS" security="none" />
+
+    <http pattern="/certidaoQRCodeRS" security="none" />
+
+    <http pattern="/pessoaFisicaRS" security="none" />
+    <http pattern="/pessoaFisicasRS" security="none" />
+    <http pattern="/pessoaJuridicaRS" security="none" />
+    <http pattern="/pessoaJuridicasRS" security="none" />
+    <http pattern="/clienteSJRS" security="none" />
+    <http pattern="/clienteSJsRS" security="none" />
+
+    <http pattern="/processoRS" security="none" />
+    <http pattern="/processosRS" security="none" />
+
+    <http pattern="/cargaDadosSJRS" security="none" />
+
+    <http pattern="/relatorioProcessosRS" security="none" />
+    <http pattern="/graficoProcessosDiaRS" security="none" />
+
+    <http pattern="/tabelaInternaSJRS" security="none" />
+    <http pattern="/tabelaInternaSJsRS" security="none" />
+    
+    <http pattern="/tabelaInternaSJRSX" security="none" />
+    <http pattern="/tabelaInternaSJsRSX" security="none" />
+
+    <http pattern="/geraArtefatosRS" security="none" />
+
+    <http pattern="/sistemaHelpRS" security="none" />
+    
+    <http pattern="/pessoaERRS" security="none" />
+    <http pattern="/pessoaERsRS" security="none" />
+
+    <http pattern="/clienteConsignadoRS" security="none" />
+    <http pattern="/clienteConsignadosRS" security="none" />
+
+	<!-- ////////////////////////////////////////////////// -->
+	
+    <http pattern="/sentinel/mpLogin.xhtml" security="none" />
+    <http pattern="/sentinel/mpLogout.xhtml" security="none" />
+    <http pattern="/sentinel/mpPageTermoPolitica.xhtml" security="none" />
+    <http pattern="/sentinel/videos/mpProtestoTour.xhtml" security="none" />
+    
+    <http pattern="/sentinel/videos/MpProtesto.mp4" security="none" />
+    <http pattern="/sentinel/planoSaudes/**" security="none" />
+    <http pattern="/sentinel/iffs/index.xhtml" security="none" />
+    <http pattern="/sentinel/eBusiness/mpHome.xhtml" security="none" />
+
+    <http pattern="/alertaLogs/MpAlertaLogAlarme.xhtml" security="none" />
+    <http pattern="/alertaLogs/MpAlertaLogAtividade.xhtml" security="none" />
+    <http pattern="/alertaLogs/MpAlertaLogCalendario.xhtml" security="none" />
+    <http pattern="/alertaLogs/MpAlertaLogEstoqueReposicao.xhtml" security="none" />
+
+    <http pattern="/servicos/certidaoEletronica/mpGeraQRCode.xhtml" security="none" />
+    <http pattern="/resources/pdfs/**" security="none" />
+    
+    <http pattern="/testeJDBC.jsp" security="none" />
+    
+    <http pattern="/javax.faces.resource/**" security="none" />
+
+	<!-- ////////////////////////////////////////////////// -->
+    
+	<http auto-config="false" use-expressions="true">
+		<custom-filter ref="exceptionTranslationFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+	
+		<intercept-url pattern="/dialogos/**" access="isAuthenticated()" />
+		<intercept-url pattern="/pedidos/**" 
+						access="hasAnyRole('VENDEDORES', 'AUXILIARES', 'ADMINISTRADORES', 'SK_ADMIN')" />
+		<intercept-url pattern="/sentinel/produtos/**" 
+						access="hasAnyRole('ADMINISTRADORES', 'PROTESTOS_ADMIN', 'SK_ADMIN')" />
+		<intercept-url pattern="/sentinel/usuarioIffs/**" 
+						access="hasAnyRole('ADMINISTRADORES', 'IFFS_ADMIN')" />
+		<intercept-url pattern="/sentinel/sisjuri/**" 
+						access="hasAnyRole('ADMINISTRADORES', 'SISJURI_ADMIN')" />
+		<intercept-url pattern="/responsivos/**" access="hasAnyRole('ADMINISTRADORES')" />
+		<intercept-url pattern="/sentinel/**" access=
+"hasAnyRole('ADMINISTRADORES', 'PROTESTOS_ADMIN', 'PROTESTOS', 'IFFS_ADMIN', 'ENGREQ_ADMIN', 'SK_ADMIN', 'SISJURI_ADMIN', 'ADRICRED_ADMIN')" />
+		<intercept-url pattern="/telegrams/**" access="hasAnyRole('ADMINISTRADORES')" />
+		
+		<intercept-url pattern="/**" access="denyAll" />
+		
+		<form-login login-page="/login" 
+						authentication-failure-url="/sentinel/mpLogin.xhtml?invalid=true" 
+						default-target-url="/" always-use-default-target="true" />
+		<!-- form-login login-page="/MpLogin.xhtml" 
+						authentication-failure-url="/MpLogin.xhtml?invalid=true" 
+						default-target-url="/" always-use-default-target="true" />
+			logout logout-url="/j_spring_security_logout" invalidate-session="true" -->
+	</http>
+	
+	<authentication-manager>
+		<authentication-provider user-service-ref="mpAppUserDetailsService">
+			<!-- <password-encoder hash="md5" /> -->
+		</authentication-provider>
+	</authentication-manager>
+           
+</beans:beans>

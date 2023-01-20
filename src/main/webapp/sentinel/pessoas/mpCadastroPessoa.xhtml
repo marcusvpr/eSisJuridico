@@ -1,0 +1,452 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpPessoa" value="#{mpCadastroPessoaBean.mpPessoa}" />
+			<f:viewAction action="#{mpCadastroPessoaBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Pessoa #{mpCadastroPessoaBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesPessoa.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+						<h:panelGroup>
+							<p:outputLabel value="Nome: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="nome" maxlength="150" placeholder="Nome"
+								styleClass="Container40 Fnone MarAuto Fs18"
+								required="#{mpCadastroPessoaBean.indEditavel}"
+								validatorMessage="Informar Nome"
+								readonly="#{mpCadastroPessoaBean.indEditavel}"
+								value="#{mpCadastroPessoaBean.mpPessoa.nome}" />
+							<p:tooltip for="nome" value="Nome (Ex.: Fulano da Silva )" />
+						</h:panelGroup>
+					</div>
+
+					<p:tabView id="tabViewP">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgEmail">
+														<p:outputLabel value="Email: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="email" placeholder="E-mail"
+															required="#{mpCadastroPessoaBean.indEditavel}"
+															validatorMessage="Informar E-mail" type="email"
+															readonly="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.email}">
+															<f:validateRegex
+																pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+														</p:inputText>
+														<p:tooltip for="email"
+															value="E-mail (Ex.: fulano@provedor.com )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgTelefone">
+														<p:outputLabel value="Telefone: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="telefone" maxlength="100"
+															placeholder="Telefone"
+															readonly="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.telefone}" />
+														<p:tooltip for="telefone"
+															value="Telefone (Ex.: (21) 2345-7890 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgCelular">
+														<p:outputLabel value="Celular: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="celular" maxlength="100"
+															placeholder="Celular"
+															readonly="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.celular}" />
+														<p:tooltip for="celular"
+															value="Celular (Ex.: (21) 98765-4321 )" />
+													</h:panelGroup>
+													
+													<h:panelGroup id="pgTipoPessoa">
+														<p:outputLabel value="Tipo: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneRadio id="tipoPessoa" required="true"
+															disabled="#{mpCadastroPessoaBean.indEditavel}"
+															styleClass="sem-bordas"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpTipoPessoa}">
+															<f:selectItems
+																value="#{mpCadastroPessoaBean.mpTipoPessoaList}"
+																var="mpTipoPessoa" itemValue="#{mpTipoPessoa}"
+																itemLabel="#{mpTipoPessoa.descricao}" />
+														</p:selectOneRadio>
+														<p:tooltip for="tipoPessoa"
+															value="Tipo Pessoa (Ex.: Física )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgProfissaoPessoa">
+														<p:outputLabel value="Profissão: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="profissaoPessoa" required="true"
+															disabled="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpProfissaoPessoa}">
+															<f:selectItem itemLabel="Selecione uma opção" />
+															<f:selectItems
+																value="#{mpCadastroPessoaBean.mpProfissaoPessoaList}"
+																var="mpProfissaoPessoa" itemValue="#{mpProfissaoPessoa}"
+																itemLabel="#{mpProfissaoPessoa.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="profissaoPessoa"
+															value="Profissão Pessoa (Ex.: Médico(a) )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgDataNascimento">
+														<p:outputLabel value="Dt.Nascimento: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataNascimento" placeholder="Dt.Nascim."
+															pattern="dd/MM/yyyy" mask="true"
+															disabled="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.dataNascimento}" />
+														<p:tooltip for="dataNascimento"
+															value="Data Nascimento (Ex.: 31/03/1971 )" />
+													</h:panelGroup>
+													
+													<h:panelGroup id="pgMpSexo">
+														<p:outputLabel value="Sexo: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneRadio id="mpSexo" required="true"
+															styleClass="sem-bordas"
+															disabled="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpSexo}">
+															<f:selectItems value="#{mpCadastroPessoaBean.mpSexoList}"
+																var="mpSexo" itemValue="#{mpSexo}"
+																itemLabel="#{mpSexo.descricao}" />
+														</p:selectOneRadio>
+														<p:tooltip for="mpSexo" value="Sexo (Ex.: Masculino )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgMpStatus">
+														<p:outputLabel value="Status: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpStatus" required="true"
+															validatorMessage="Informar Status"
+															disabled="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpStatus}">
+															<f:selectItem itemLabel="Selecione o Status" />
+															<f:selectItems
+																value="#{mpCadastroPessoaBean.mpStatusList}"
+																var="mpStatus" itemValue="#{mpStatus}"
+																itemLabel="#{mpStatus.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpStatus" value="Status (Ex.: Ativo )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgSalario">
+														<p:outputLabel value="Salário: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="salario" placeholder="Salário"
+															maxlength="10" styleClass="moeda"
+															readonly="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.salario}">
+															<f:convertNumber maxFractionDigits="2"
+																minFractionDigits="2" />
+														</p:inputText>
+														<p:tooltip for="salario" value="Salário (Ex.: 2.200,00)" />
+													</h:panelGroup>
+													
+													<h:panelGroup id="pgMpTurno">
+														<p:outputLabel value="Turno: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpTurno"
+															disabled="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpTurno}">
+															<f:selectItem itemLabel="Selecione um Turno" />
+															<f:selectItems
+																value="#{mpCadastroPessoaBean.mpTurnoList}"
+																var="mpTurno" itemValue="#{mpTurno}"
+																itemLabel="#{mpTurno.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpTurno"
+															value="Turno (Ex.: Turno Cuidador(a) 24 x 72 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgDataInicio">
+														<p:outputLabel value="Dt.Início: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataInicio" placeholder="Dt.Início"
+															pattern="dd/MM/yyyy" mask="true"
+															disabled="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.dataInicio}" />
+														<p:tooltip for="dataInicio"
+															value="Data Inicio (Ex.: 01/07/2015 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgObs">
+														<p:outputLabel value="Observação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputTextarea id="obs" maxlength="255" rows="3"
+															placeholder="Observação"
+															readonly="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.observacao}" />
+														<p:tooltip for="obs" value="Observação" />
+													</h:panelGroup>
+													
+													<h:panelGroup id="pgProfissao">
+														<p:outputLabel value="Profissão: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpProfissao"
+															disabled="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpProfissao}">
+															<f:selectItem itemLabel="Selecione a Profissão" />
+															<f:selectItems
+																value="#{mpCadastroPessoaBean.mpProfissaoList}"
+																var="mpProfissao" itemValue="#{mpProfissao}"
+																itemLabel="#{mpProfissao.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpProfissao"
+															value="Profissão ( Ex.: Vendedor - Tab.0011)" />
+													</h:panelGroup>
+													<p:spacer />
+													<p:spacer />
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+						<p:tab title="Endereço">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="4" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup>
+														<p:outputLabel value="Cep: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="cep" maxlength="9" mask="99999-999"
+															placeholder="CEP"
+															readonly="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpEnderecoLocal.cep}" />
+														<p:tooltip for="cep" value="Cep" />
+														<p:commandButton icon="ui-icon-transferthick-e-w"
+															title="Pesquisar Cep WEB" process="@this cep"
+															disabled="#{mpCadastroPessoaBean.indEditavel}"
+															update="logradouro cidade bairro mpEstadoUF"
+															action="#{mpCadastroPessoaBean.onCepWebService}">
+														</p:commandButton>
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Logradouro(Rua): "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="logradouro" maxlength="150"
+															placeholder="Logradouro(Rua)"
+															readonly="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpEnderecoLocal.logradouro}" />
+														<p:tooltip for="logradouro" value="Logradouro(Rua)" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Número: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="numero" maxlength="20"
+															placeholder="Número"
+															readonly="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpEnderecoLocal.numero}" />
+														<p:tooltip for="numero" value="Número" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Complemento: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="complemento" maxlength="150"
+															placeholder="Complemento"
+															readonly="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpEnderecoLocal.complemento}" />
+														<p:tooltip for="complemento" value="Complemento" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Cidade: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="cidade" maxlength="60"
+															placeholder="Cidade"
+															readonly="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpEnderecoLocal.cidade}" />
+														<p:tooltip for="cidade" value="Cidade" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Bairro: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="bairro" maxlength="60"
+															placeholder="Bairro"
+															readonly="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpEnderecoLocal.bairro}" />
+														<p:tooltip for="bairro" value="Bairro" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Estado(UF): "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpEstadoUF"
+															disabled="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpEnderecoLocal.mpEstadoUF}">
+															<f:selectItem itemLabel="Selecione o Estado" />
+															<f:selectItems
+																value="#{mpCadastroPessoaBean.mpEstadoUFList}"
+																var="mpEstadoUF" itemValue="#{mpEstadoUF}"
+																itemLabel="#{mpEstadoUF.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpEstadoUF" value="Estado(UF)" />
+													</h:panelGroup>
+
+													<p:outputLabel />
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+						<p:tab title="Foto">
+							<p:messages id="messageFoto" autoUpdate="false"
+								showDetail="false" />
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+
+												<h:panelGroup id="arquivoBD">
+													<p:outputLabel style="font-size:16px; color:blue;"
+														value="#{mpCadastroPessoaBean.mpPessoa.mpArquivoAcao.resultado}" />
+													<p:spacer width="5" />
+													<o:graphicImage dataURI="true" cache="false" width="200"
+														rendered="#{mpCadastroPessoaBean.arquivoBytes == null ? false : true}"
+														value="#{mpCadastroPessoaBean.arquivoBytes}" />
+												</h:panelGroup>
+
+											</div>
+										</div>
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent">
+													<p:panelGrid id="pGridFoto" columns="2"
+														styleClass="panelgrid-noborder" layout="grid"
+														columnClasses="ui-grid-col-2, ui-grid-col-10">
+
+														<p:outputLabel value="Ação" for="arquivoAcao"
+															style="font-size:14px; color:black;" />
+														<p:selectOneRadio id="arquivoAcao"
+															disabled="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpArquivoAcao}"
+															valueChangeListener="#{mpCadastroPessoaBean.arquivoAcaoSelecionado}">
+															<f:selectItems
+																value="#{mpCadastroPessoaBean.mpArquivoAcaoList}"
+																var="mpArquivoAcao" itemValue="#{mpArquivoAcao}"
+																itemLabel="#{mpArquivoAcao.descricao}" />
+															<f:ajax execute="@all" render="@all" />
+														</p:selectOneRadio>
+
+														<p:outputLabel value="Associar" for="associaFoto"
+															rendered="#{mpCadastroPessoaBean.arquivoAcaoSelecao == 'Associar'}" />
+														<p:selectOneMenu id="associaFoto"
+															disabled="#{mpCadastroPessoaBean.indEditavel}"
+															value="#{mpCadastroPessoaBean.mpPessoa.mpArquivoBD}"
+															rendered="#{mpCadastroPessoaBean.arquivoAcaoSelecao == 'Associar'}">
+															<f:selectItem itemLabel="Selecione a Arquivo" />
+															<f:selectItems
+																value="#{mpCadastroPessoaBean.mpArquivoBDList}"
+																var="mpArquivoBD" itemValue="#{mpArquivoBD}"
+																itemLabel="#{mpArquivoBD.descricao}" />
+															<p:ajax event="change" process="@this"
+																update="frm:tabViewP:arquivoBD"
+																listener="#{mpCadastroPessoaBean.associaMpArquivoBD}"
+																ignoreAutoUpdate="true" />
+														</p:selectOneMenu>
+
+													</p:panelGrid>
+
+													<h:panelGroup id="carregaImagem"
+														rendered="#{mpCadastroPessoaBean.arquivoAcaoSelecao == 'Carregar'}">
+														<p:fileUpload label="Selecionar..."
+															disabled="#{mpCadastroPessoaBean.indEditavel}"
+															update="frm:tabViewP:messageFoto frm:tabViewP:arquivoBD"
+															fileUploadListener="#{mpCadastroPessoaBean.handleFileUpload}"
+															auto="true" mode="advanced" dragDropSupport="true"
+															sizeLimit="5000000"
+															allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+													</h:panelGroup>
+
+													<p:commandButton value="Proceder Captura"
+														icon="fa fa-camera Fs14 white"
+														rendered="#{mpCadastroPessoaBean.arquivoAcaoSelecao == 'Capturar'}"
+														oncomplete="PF('capturaDialog').show()" process="@this">
+													</p:commandButton>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+				</p:panel>
+			</h:form>
+		</div>
+
+		<div class="ContainerIndent">
+			<p:dialog widgetVar="capturaDialog" id="capturaDialogId" modal="true"
+				header="Captura Foto" showEffect="fade" hideEffect="fade"
+				resizable="false" responsive="true"
+				rendered="#{mpCadastroPessoaBean.arquivoAcaoSelecao == 'Capturar'}">
+				<h:form id="frmCapturaDialog">
+					<h:panelGrid columns="3" cellpadding="5">
+						<p:photoCam widgetVar="pc" width="250"
+							listener="#{mpCadastroPessoaBean.aoCapturarArquivo}"
+							update="photoDialog frm:tabViewP:arquivoBD" />
+						<p:commandButton type="button" value="Capturar" icon="fa fa-camera Fs14 white"
+							onclick="PF('pc').capture()" />
+						<p:outputPanel id="photoDialog">
+							<o:graphicImage dataURI="true" cache="false" width="250"
+								rendered="#{mpCadastroPessoaBean.arquivoBytesC == null ? false : true}"
+								value="#{mpCadastroPessoaBean.arquivoBytesC}" />
+						</p:outputPanel>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,29 @@
+<html>
+    <body>
+        <table>
+            <tr>
+                <td style="width: 100px">Login Usuario : </td>
+                <td>$mpUsuario.login</td>
+            </tr>
+            <tr>
+                <td style="width: 100px">Nome Usuario : </td>
+                <td>$mpUsuario.nome</td>
+            </tr>
+            <tr>
+                <td style="width: 100px">Senha : </td>
+                <td>$mpUsuario.senha</td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="width: 250px">
+					<a href="http://$scSistemaURL/mpProtesto/MpLogin.xhtml?idI=$mpUsuario.id&idU=$mpUsuario.login">
+						. Clique aqui! Para liberar sua conta... 
+					</a>
+                </td>
+            </tr>
+        </table>
+        
+        <br/>
+    </body>
+</html>

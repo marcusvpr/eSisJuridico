@@ -1,0 +1,157 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Objetos</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaObjetosBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpObjetosTable"
+									fileName="objetos"
+									postProcessor="#{mpPesquisaObjetosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="5" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<h:panelGroup id="pgTransacao">
+									<p:outputLabel value="Transação: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+	    							<p:inputText id="transacao" placeholder="Transação" 
+	    								value="#{mpPesquisaObjetosBean.mpFiltro.transacao}" />
+									<p:tooltip id="toolTipTransacao" for="transacao" value="Transação" />
+								</h:panelGroup>
+								<h:panelGroup id="pgCodigo">
+									<p:outputLabel value="Codigo: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+		    						<p:inputText id="codigo" placeholder="Código"
+		    							value="#{mpPesquisaObjetosBean.mpFiltro.codigo}" />
+									<p:tooltip id="toolTipCodigo" for="codigo" value="Codigo" />
+								</h:panelGroup>
+								<h:panelGroup id="pgNome">
+									<p:outputLabel value="Nome: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+				    				<p:inputText id="nome" placeholder="Nome"
+	    								value="#{mpPesquisaObjetosBean.mpFiltro.nome}" />
+									<p:tooltip id="toolTipNome" for="nome" value="Nome" />
+								</h:panelGroup>
+								<h:panelGroup id="pgDescricao">
+									<p:outputLabel value="Descrição: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+	    							<p:inputText id="descricao" placeholder="Descrição" 
+	    								value="#{mpPesquisaObjetosBean.mpFiltro.descricao}" />	    		
+									<p:tooltip id="toolTipDescricao" for="descricao" value="Descrição" />
+								</h:panelGroup>
+								<h:panelGroup id="pgClasseAssociada">
+									<p:outputLabel value="Classe Associada: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+	    							<p:inputText id="classeAssociada" placeholder="Classe Associada" 
+	    								value="#{mpPesquisaObjetosBean.mpFiltro.classeAssociada}" />	    		
+									<p:tooltip id="toolTipClasseAssociada" for="classeAssociada"
+										 value="Classe Associada" />
+								</h:panelGroup>
+								<h:panelGroup id="pgStatus">
+									<p:outputLabel value="Status: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+	    							<p:inputText id="status" placeholder="Status" 
+	    								value="#{mpPesquisaObjetosBean.mpFiltro.status}" />
+									<p:tooltip id="toolTipStatus" for="status" value="Status" />
+								</h:panelGroup>
+								
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpObjetosTable"
+							value="#{mpPesquisaObjetosBean.mpObjetosFiltrados}"
+							var="mpObjeto" selectionMode="single"
+							selection="#{mpPesquisaObjetosBean.mpObjetoSelecionado}"
+							rowKey="#{mpObjeto.codigo}" reflow="true" style="margin-top:20px"
+							emptyMessage="Nenhum Objeto encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Transação" sortBy="#{mpObjeto.transacao}">
+								<h:outputText value="#{mpObjeto.transacao}" />
+							</p:column>
+							<p:column headerText="Código" sortBy="#{mpObjeto.codigo}">
+								<h:outputText value="#{mpObjeto.codigo}" />
+							</p:column>
+							<p:column headerText="Nome" sortBy="#{mpObjeto.nome}">
+								<h:outputText value="#{mpObjeto.nome}" />
+							</p:column>
+							<p:column headerText="Descrição" sortBy="#{mpObjeto.descricao}">
+								<h:outputText value="#{mpObjeto.descricao}" />
+							</p:column>
+							<p:column headerText="Classe Associada" 
+																sortBy="#{mpObjeto.classeAssociada}">
+								<h:outputText value="#{mpObjeto.classeAssociada}" />
+							</p:column>
+							<p:column headerText="Status" style="text-align: center;"
+								sortBy="#{mpObjeto.mpStatusObjeto}">
+								<h:outputText value="#{mpObjeto.mpStatusObjeto.descricao}" />
+							</p:column>
+							<p:column headerText="Menu" style="text-align: center;"
+								sortBy="#{mpObjeto.mpGrupoMenu.descricao}">
+								<h:outputText value="#{mpObjeto.mpGrupoMenu.descricao}" />
+							</p:column>
+							<p:column headerText="Grupamento" style="text-align: center;"
+								sortBy="#{mpObjeto.mpGrupametoMenu.descricao}">
+								<h:outputText value="#{mpObjeto.mpGrupamentoMenu.descricao}" />
+							</p:column>
+							<p:column headerText="Tipo" style="text-align: center;"
+								sortBy="#{mpObjeto.mpTipoObjeto.descricao}">
+								<h:outputText value="#{mpObjeto.mpTipoObjeto.descricao}" />
+							</p:column>
+							<p:column headerText="Icon" sortBy="#{mpObjeto.icon}">
+								<h:outputText value="#{mpObjeto.icon}" />
+							</p:column>
+							<p:column headerText="Responsivo"
+								sortBy="#{mpObjeto.indResponsive}">
+								<h:outputText value="#{mpObjeto.indResponsive}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/objetos/mpCadastroObjeto"
+														icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpObjeto" value="#{mpObjeto.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

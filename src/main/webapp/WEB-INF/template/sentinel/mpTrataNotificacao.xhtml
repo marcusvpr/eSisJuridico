@@ -1,0 +1,246 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+	<p:dialog header="Envio de Notificação" id="notificacaoDialog"
+		modal="true" widgetVar="envioNotificacaoDialog" showEffect="fade"
+		hideEffect="fade" resizable="false" responsive="true">
+		<h:form>
+			<h:panelGroup id="envioPanelNotif">
+
+				<p:messages id="message" autoUpdate="false" showDetail="true" />
+
+				<h:panelGrid ig="gridNotif" columns="1">
+
+					<h:panelGroup id="pgUsuario">
+						<p:outputLabel value="Usuário: " 
+							rendered="#{mpLoginBean.scIndLabelCampo}" />
+						<p:selectOneMenu id="usuarioNotif" 
+							value="#{mpSeguranca.nomeMpUsuarioNotificacao}"
+							required="true" validatorMessage="Informar Usuário">
+							<f:selectItem itemLabel="Selecione o Usuário" />
+							<f:selectItems value="#{mpSeguranca.nomeMpUsuarioNotificacaoList}"
+								var="nomeMpNotificacaoUsuarioX" 
+								itemValue="#{nomeMpNotificacaoUsuarioX}"
+								itemLabel="#{nomeMpNotificacaoUsuarioX}" />
+						</p:selectOneMenu>
+					</h:panelGroup>
+
+					<h:panelGroup id="pgAssunto">
+						<p:outputLabel value="Assunto: " 
+							rendered="#{mpLoginBean.scIndLabelCampo}" />
+						<p:inputText id="assuntoNotif" style="width:250px"
+							placeholder="Assunto" required="true" maxlength="50"
+							validatorMessage="Informar Assunto"
+							value="#{mpSeguranca.assunto}" />
+					</h:panelGroup>
+
+					<h:panelGroup id="pgMensagem">
+						<p:outputLabel value="Mensagem: " 
+							rendered="#{mpLoginBean.scIndLabelCampo}" />
+						<p:inputTextarea id="mensagemNotif" style="width:250px"
+							placeholder="Mensagem" required="true" rows="2"
+							validatorMessage="Informar Mensagem" maxlength="250"
+							value="#{mpSeguranca.mensagem}" />
+					</h:panelGroup>
+
+					<h:panelGroup id="pgPrioridade">
+						<p:outputLabel value="Prioridade: "
+							rendered="#{mpLoginBean.scIndLabelCampo}" />
+    					<p:selectOneRadio id="customRadio" value="#{mpSeguranca.mpTipoPrioridade}" 
+    																			layout="custom">
+        					<f:selectItem itemLabel="Alta" itemValue="ALTA" />
+        					<f:selectItem itemLabel="Média" itemValue="MEDIA" />
+        					<f:selectItem itemLabel="Baixa" itemValue="BAIXA" />
+    					</p:selectOneRadio>
+    												
+						<h:panelGrid columns="3">
+							<p:radioButton id="opt1" for="customRadio" itemIndex="0" />
+							<h:outputLabel for="opt1" value="Alta" />
+							<i class="icon-flag red" />
+
+							<p:radioButton id="opt2" for="customRadio" itemIndex="1" />
+							<h:outputLabel for="opt2" value="Média" />
+							<i class="icon-flag yellow" />
+
+							<p:radioButton id="opt3" for="customRadio" itemIndex="2" />
+							<h:outputLabel for="opt3" value="Baixa" />
+							<i class="icon-flag" />
+						</h:panelGrid>
+					</h:panelGroup>
+
+					<p:separator style="width:1px; height:3px" />
+				</h:panelGrid>
+
+				<p:panel header="Alertas" toggleable="true" toggleSpeed="500"
+					closeSpeed="500" collapsed="true">
+					<p:panelGrid columns="1" layout="grid"
+						style="border:0px none;background:none" styleClass="ui-fluid">
+
+						<h:panelGroup rendered="#{mpLoginBean.scIndAtivaEmail}">
+							<p:outputLabel value="Alerta Email : " for="indEmail" />
+							<p:selectBooleanButton id="indEmail" onLabel="Sim" offLabel="Não"
+								onIcon="ui-icon-check" offIcon="ui-icon-close"
+								style="width:90px" value="#{mpSeguranca.mpAlerta.indEmail}" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{mpLoginBean.scIndAtivaSMS}">
+							<p:outputLabel value="Alerta SMS : " for="indSMS" />
+							<p:selectBooleanButton id="indSMS" onLabel="Sim" offLabel="Não"
+								onIcon="ui-icon-check" offIcon="ui-icon-close"
+								style="width:90px" value="#{mpSeguranca.mpAlerta.indSMS}" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{mpLoginBean.scIndAtivaPush}">
+							<p:outputLabel value="Alerta Push : " for="indPush" />
+							<p:selectBooleanButton id="indPush" onLabel="Sim" offLabel="Não"
+								onIcon="ui-icon-check" offIcon="ui-icon-close"
+								style="width:90px" value="#{mpSeguranca.mpAlerta.indPush}" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{mpLoginBean.scIndAtivaTelegram}">
+							<p:outputLabel value="Alerta Telegram : " for="indTelegram" />
+							<p:selectBooleanButton id="indTelegram" onLabel="Sim"
+								offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"
+								style="width:90px" value="#{mpSeguranca.mpAlerta.indTelegram}" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{mpLoginBean.scIndAtivaWhatsapp}">
+							<p:outputLabel value="Alerta Whatsapp : " for="indWhatsapp" />
+							<p:selectBooleanButton id="indWhatsapp" onLabel="Sim"
+								offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"
+								style="width:90px" value="#{mpSeguranca.mpAlerta.indWhatsapp}" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{mpLoginBean.scIndAtivaMpComunicator}">
+							<p:outputLabel value="Alerta MpComunicator : "
+								for="indMpComunicator" />
+							<p:selectBooleanButton id="indMpComunicator" onLabel="Sim"
+								offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"
+								style="width:90px"
+								value="#{mpSeguranca.mpAlerta.indMpComunicator}" />
+						</h:panelGroup>
+						<h:panelGroup />
+						<h:panelGroup />
+
+					</p:panelGrid>
+				</p:panel>
+
+				<p:commandButton value="Enviar"
+					action="#{mpSeguranca.enviaMpNotificacao}" id="enviaNotif"
+					update="envioPanelNotif" process="@this envioPanelNotif"
+					oncomplete="tratarEnvioNotificacao(args)"
+					styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check fa fa-check Fs14 white" />
+			</h:panelGroup>
+		</h:form>
+	</p:dialog>
+
+	<p:dialog header="Exibe Notificação" id="exibeNotificacaoDialog"
+		modal="true" widgetVar="exibeNotificacaoDialog" showEffect="fade"
+		hideEffect="fade" resizable="false" responsive="true"		
+		width="400" draggable="false" fixedCenter="true">  
+	
+		<h:form>
+			<h:panelGroup id="exibePanelNotif">
+
+				<h:panelGrid ig="gridExibeNotif" columns="1">
+					<p:outputLabel value="Usuário: " />
+					<p:outputLabel value="#{mpSeguranca.mpNotificacaoUsuario.nomeUsuario}" 
+														class="alertBubble BordRad10 Fs12" /> 
+					<p:separator style="width:1px; height:1px" />
+					
+					<p:outputLabel value="Assunto: " /> 
+					<p:outputLabel value="#{mpSeguranca.mpNotificacaoUsuario.assunto}"
+														class="alertBubble BordRad10 Fs12" /> 
+					<p:separator style="width:1px; height:1px" />
+
+					<p:outputLabel value="Mensagem: " />
+					<p:outputLabel value="#{mpSeguranca.mpNotificacaoUsuario.mensagem}"
+														class="alertBubble BordRad10 Fs12" /> 
+					<p:separator style="width:1px; height:5px" />
+
+					<p:outputLabel value="Prioridade: " />
+					<p:outputLabel value=
+							"#{mpSeguranca.mpNotificacaoUsuario.mpTipoPrioridade.descricao}"
+														class="alertBubble BordRad10 Fs12" /> 
+
+					<p:separator style="width:1px; height:1px" />
+				</h:panelGrid>
+
+				<p:panel header="Alertas" toggleable="true" toggleSpeed="500"
+					closeSpeed="500" collapsed="true">
+					<p:panelGrid columns="1" layout="grid"
+						style="border:0px none;background:none" styleClass="ui-fluid">
+
+						<h:panelGroup rendered="#{mpLoginBean.scIndAtivaEmail}">
+							<p:outputLabel value="Alerta Email : " />
+							<p:outputLabel value=
+										"#{mpSeguranca.mpNotificacaoUsuario.mpAlerta.indEmail}" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{mpLoginBean.scIndAtivaSMS}">
+							<p:outputLabel value="Alerta SMS : " />
+							<p:outputLabel value=
+										"#{mpSeguranca.mpNotificacaoUsuario.mpAlerta.indSMS}" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{mpLoginBean.scIndAtivaPush}">
+							<p:outputLabel value="Alerta Push : " />
+							<p:outputLabel value=
+										"#{mpSeguranca.mpNotificacaoUsuario.mpAlerta.indPush}" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{mpLoginBean.scIndAtivaTelegram}">
+							<p:outputLabel value="Alerta Telegram : " />
+							<p:outputLabel value=
+									"#{mpSeguranca.mpNotificacaoUsuario.mpAlerta.indTelegram}" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{mpLoginBean.scIndAtivaWhatsapp}">
+							<p:outputLabel value="Alerta Whatsapp : "/>
+							<p:outputLabel value=
+									"#{mpSeguranca.mpNotificacaoUsuario.mpAlerta.indWhatsapp}" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{mpLoginBean.scIndAtivaMpComunicator}">
+							<p:outputLabel value="Alerta MpComunicator : "
+																for="indMpComunicator" />
+							<p:outputLabel value=
+								"#{mpSeguranca.mpNotificacaoUsuario.mpAlerta.indMpComunicator}" />
+						</h:panelGroup>
+						<h:panelGroup />
+						<h:panelGroup />
+
+					</p:panelGrid>
+				</p:panel>
+
+				<p:commandButton value="Confimar LEITURA"
+					action="#{mpSeguranca.leituraMpNotificacao}" id="leituraNotif"
+					update="exibePanelNotif" process="@this exibePanelNotif"
+					oncomplete="tratarExibeNotificacao(args)"
+					styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check fa fa-check Fs14 white" />
+
+			</h:panelGroup>
+		</h:form>
+	</p:dialog>
+
+	<script>
+		/*Função responsavel por fechar o dialog após a inclusão*/
+		function tratarEnvioNotificacao(args) {
+			if (!args.validationFailed) {
+				PF('envioNotificacaoDialog').hide();
+			}
+		}
+		function enviaNotificacao() {
+			PF('envioNotificacaoDialog').show();
+		}
+		
+		function tratarExibeNotificacao(args) {
+			if (!args.validationFailed) {
+				PF('exibeNotificacaoDialog').hide();
+			}
+		}
+		function exibeNotificacao(input) {
+			PF('exibeNotificacaoDialog').show();
+		    if(input == false) {  
+		        jQuery('#exibeNotificacaoDialog').parent().effect("shake", { times:3 }, 100);  
+		    }
+		}
+	</script>
+
+</ui:composition>

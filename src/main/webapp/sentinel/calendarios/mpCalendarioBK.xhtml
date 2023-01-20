@@ -1,0 +1,188 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+	
+		<div class="ContainerIndent">
+
+			<f:metadata>
+				<!-- o:viewParam name="mpAlarme" value="#{mpCalendarioViewBean.mpAlarme}"  -->
+				<!-- f:viewAction action="#{mpCalendarioViewBean.init}"  -->
+			</f:metadata>
+
+			<!-- h:outputScript name="mpLocale-primefaces.js" library="js"  -->
+
+			<h2 style="margin-top:5;" class="aw-page-title">Calendário DashBoard</h2>
+
+			<h:form id="frm">
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> 
+							<p:commandButton value="Pesquisar" update="frm"
+													action="#{mpCalendarioViewBean.filtrar}" />
+						</span>
+						<span class="DispInlBlock Fright FloatNoneOnMobile">
+						 	<p:button title="Sair" icon="fa fa-close Fs14 yellow" 
+						 												href="/dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							
+							<p:panelGrid columns="9" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:calendar pattern="dd/MM/yyyy" placeholder="Data De ..."
+									value="#{mpCalendarioViewBean.mpFiltro.dataCriacaoDe}" />
+								<p:calendar pattern="dd/MM/yyyy" placeholder="Data Até ..."
+									value="#{mpCalendarioViewBean.mpFiltro.dataCriacaoAte}" />
+								<p:inputText placeholder="Descrição"
+									value="#{mpCalendarioViewBean.mpFiltro.descricao}" />
+								<p:outputLabel />
+								<p:outputLabel />
+
+								<h:panelGroup>
+									<p:outputLabel value="Alarme : " for="indShowAlarme" />
+									<p:inputSwitch id="indShowAlarme"
+										value="#{mpCalendarioViewBean.mpFiltro.indShowAlarme}" />
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel value="Calendário : " for="indShowCalendario" />
+									<p:inputSwitch id="indShowCalendario"
+										value="#{mpCalendarioViewBean.mpFiltro.indShowCalendario}" />
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel value="Atividade : " for="indShowAtividade" />
+									<p:inputSwitch id="indShowAtividade"
+										value="#{mpCalendarioViewBean.mpFiltro.indShowAtividade}" />
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel value="Turno : " for="indShowTurno" />
+									<p:inputSwitch id="indShowTurno"
+										value="#{mpCalendarioViewBean.mpFiltro.indShowTurno}" />
+								</h:panelGroup>
+								<p:outputLabel />
+								<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<!-- p:toolbar>
+	    		<p:toolbarGroup align="right">
+	    			<p:button value="Atividade" outcome="/responsivos/MpCadastroAtividade" />
+	    		</p:toolbarGroup>
+				</p:toolbar -->
+
+				<div class="ui-fluid">
+
+					<p:growl id="messages" showDetail="true" />
+
+					<h:panelGrid columnClasses="value">
+						<p:schedule id="schedule" locale="pt" timeZone="America/Sao_Paulo"
+							value="#{mpCalendarioViewBean.eventModel}" navigator="true"
+							pattern="dd/MM/yyyy HH:mm">
+							<!-- p:ajax event="dateSelect"
+								listener="#{mpCalendarioViewBean.onDateSelect}"
+								update="eventDetails" oncomplete="PF('eventDialog').show();">
+								<f:setPropertyActionListener value="#{event}"
+													target="#{mpCalendarioViewBean.event}" />
+							</p:ajax -->
+							<!-- p:ajax event="eventSelect"
+								listener="#{mpCalendarioViewBean.onEventSelect}"
+								update="eventDetails" oncomplete="PF('eventDialog').show();">
+								<f:setPropertyActionListener value="#{event}"
+													target="#{mpCalendarioViewBean.event}" />
+							</p:ajax -->
+							<!-- p:ajax event="eventMove"
+								listener="#{mpCalendarioViewBean.onEventMove}" update="messages" -->
+							<!-- p:ajax event="eventResize"
+								listener="#{mpCalendarioViewBean.onEventResize}"
+								update="messages" -->
+						</p:schedule>
+					</h:panelGrid>
+
+					<p:dialog widgetVar="eventDialog" header="Evento Detalhes"
+						showEffect="clip" hideEffect="clip">
+						<h:panelGrid id="eventDetails" columns="2">
+							<p:outputLabel for="title" value="Título:" />
+							<p:inputText id="title"
+								value="#{mpCalendarioViewBean.event.title}" required="true" />
+
+							<p:outputLabel for="from" value="De:" />
+							<p:calendar id="from" timeZone="America/Sao_Paulo"
+								value="#{mpCalendarioViewBean.event.startDate}"
+								pattern="dd/MM/yyyy HH:mm" />
+
+							<p:outputLabel for="to" value="Até:" />
+							<p:calendar id="to" value="#{mpCalendarioViewBean.event.endDate}"
+								timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy HH:mm" />
+
+							<!-- p:outputLabel for="allDay" value="Dia Todo:" />
+							<h:selectBooleanCheckbox id="allDay"
+								value="#{mpCalendarioViewBean.event.isAllDay()}" -->
+
+							<p:commandButton type="reset" value="Resetar" />
+							<p:commandButton id="addButton" value="Salvar"
+								actionListener="#{mpCalendarioViewBean.addEvent}"
+								oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+						</h:panelGrid>
+					</p:dialog>
+				</div>
+
+				<p:separator style="margin-top: 1px" />
+
+			</h:form>
+
+		</div>
+		
+<script type="text/javascript">
+PrimeFaces.locales['pt'] = {
+            closeText: 'Fechar',
+            prevText: 'Anterior',
+            nextText: 'Próximo',
+            currentText: 'Começo',
+            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun', 'Jul','Ago','Set','Out','Nov','Des'],
+            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+            dayNamesMin: ['D','S','T','Q','Q','S','S'],
+            weekHeader: 'Semana',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            timeOnlyTitle: 'Só Horas',
+            timeText: 'Tempo',
+            hourText: 'Hora',
+            minuteText: 'Minuto',
+            secondText: 'Segundo',
+            currentText: 'Data Atual',
+            ampm: false,
+            month: 'Mês',
+            week: 'Semana',
+            day: 'Dia',
+            allDayText : 'Todo Dia'
+        };
+</script>		
+		
+		
+	</ui:define>
+
+<style type="text/css">
+.value {
+	width: 1000px;
+}
+</style>
+
+</ui:composition>

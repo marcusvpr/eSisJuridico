@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Seleção de Cliente</title>
+	
+	<h:outputStylesheet library="css" name="sistema.css" />
+</h:head>
+<h:body>
+
+	<h:form>
+    	<div style="margin-top: 5px">
+    		<p:inputText id="nome" size="40" value="#{mpSelecaoClienteBean.nome}" 
+    															placeholder="Nome do Cliente" />
+    		<p:spacer width="10px"/>
+    		<p:commandButton value="Pesquisar" action="#{mpSelecaoClienteBean.pesquisar}"
+    				update="@form" />
+    	</div>
+    	
+    	<p:dataTable value="#{mpSelecaoClienteBean.mpClientesFiltrados}" var="mpCliente"
+    		style="margin-top: 20px" emptyMessage="Nenhum Cliente encontrado." rows="10"
+    		paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+    		<p:column headerText="Código" style="text-align: center; width: 40px">
+    			<h:outputText value="#{mpCliente.id}" />
+    		</p:column>
+    		<p:column headerText="Nome">
+    			<h:outputText value="#{mpCliente.nome}" />
+    		</p:column>
+    		<p:column style="width: 30px; text-align: center">
+    			<p:commandButton icon="ui-icon-check" title="Selecionar"
+    				process="@this" action="#{mpSelecaoClienteBean.selecionar(mpCliente)}" />
+    		</p:column>
+    	</p:dataTable>
+	</h:form>
+
+</h:body>
+</html>

@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces" target="head" />
+
+			<h:form id="frmCargaSJ">
+				<p:messages autoUpdate="false" />
+				
+				<h2 class="aw-page-title">Carga Dados Sistema SisJuri</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton id="loadButton"
+								value="Carregar" update="@form" onclick="loadButton.disable()"
+								action="#{mpCargaDadosSisJuriBean.carregar}" />
+						</span> <span class="DispInlBlock Fright FloatNoneOnMobile"> <p:button
+								title="Sair" icon="fa fa-close Fs14 yellow" href="/dashboardRS" />
+						</span>
+
+						<p:panelGrid columns="8" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+							<h:panelGroup>
+								<p:outputLabel value="Tabela InternaSJ : " for="indTabelaInternaSJ" />
+								<p:inputSwitch id="indTabelaInternaSJ" onLabel="Sim" offLabel="Não"
+									value="#{mpCargaDadosSisJuriBean.indCargaTabelaInternaSJ}" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel value="Cliente : " for="indClienteSJ" />
+								<p:inputSwitch id="indClienteSJ" onLabel="Sim" offLabel="Não"
+									value="#{mpCargaDadosSisJuriBean.indCargaClienteSJ}" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel value="Pessoa Física : " for="indPessoaFisica" />
+								<p:inputSwitch id="indPessoaFisica" onLabel="Sim" offLabel="Não"
+									value="#{mpCargaDadosSisJuriBean.indCargaPessoaFisica}" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel value="Pessoa Jurídica : " for="indPessoaJuridica" />
+								<p:inputSwitch id="indPessoaJuridica" onLabel="Sim" offLabel="Não"
+									value="#{mpCargaDadosSisJuriBean.indCargaPessoaJuridica}" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel value="Processo : " for="indProcesso" />
+								<p:inputSwitch id="indProcesso" onLabel="Sim" offLabel="Não"
+									value="#{mpCargaDadosSisJuriBean.indCargaProcesso}" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel value="Processo Andamento : " for="indProcessoAndamento" />
+								<p:inputSwitch id="indProcessoAndamento" onLabel="Sim" offLabel="Não"
+									value="#{mpCargaDadosSisJuriBean.indCargaProcessoAndamento}" />
+							</h:panelGroup>
+							<h:panelGroup />
+							<h:panelGroup>
+								<p:outputLabel value="Tenant.Id Carga (11=Reginaldo.Login) : " for="tenantIdCarga" />
+								<p:inputText id="tenantIdCarga" value="#{mpCargaDadosSisJuriBean.tenantIdCarga}" />
+							</h:panelGroup>
+						</p:panelGrid>
+						
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

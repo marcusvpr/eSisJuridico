@@ -1,0 +1,54 @@
+<ui:composition template="/WEB-INF/template/MpLayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">
+    	Liberação Acesso Ambiente
+    </ui:define>
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="mpTenant" value="#{mpCadastroTenantBean.mpTenant}" />
+			<f:viewAction action="#{mpCadastroTenantBean.inicializar}" />
+		</f:metadata>
+
+		<h:form id="frmX" prependId="false">
+			<p:focus context="frmX" />
+
+			<h1>Tenant #{mpCadastroTenantBean.txtModoTela}</h1>
+
+			<p:messages autoUpdate="true" closable="true" />
+
+			<ui:include src="/WEB-INF/template/controles/MpBotoesTenant.xhtml" />
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Código" for="codigo" />
+				<p:inputText id="codigo" size="20" maxlength="50"
+					disabled="#{mpCadastroTenantBean.indEditavel}"
+					value="#{mpCadastroTenantBean.mpTenant.codigo}" />
+
+				<p:outputLabel value="Descrição" for="descricao" />
+				<p:inputText id="descricao" size="50" maxlength="150"
+					disabled="#{mpCadastroTenantBean.indEditavel}"
+					value="#{mpCadastroTenantBean.mpTenant.descricao}" />
+
+				<p:outputLabel value="Status" for="mpStatus" />
+				<p:selectOneMenu id="mpStatus"
+					disabled="#{mpCadastroTenantBean.indEditavel}"
+					value="#{mpCadastroTenantBean.mpTenant.mpStatusObjeto}">
+					<f:selectItem itemLabel="Selecione o Status" />
+					<f:selectItems value="#{mpCadastroTenantBean.mpStatusObjetoList}"
+						var="mpStatusObjeto" itemValue="#{mpStatusObjeto}"
+						itemLabel="#{mpStatusObjeto}" />
+				</p:selectOneMenu>
+			
+			</p:panelGrid>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

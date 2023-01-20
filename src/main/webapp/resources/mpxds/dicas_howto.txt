@@ -1,0 +1,27 @@
+----------------------------------------------------------------------------------------
+mvn install:install-file -Dfile=simple-email-0.2.1.jar -DgroupId=com.outjected -DartifactId=simple-email -Dversion=0.2.1 -Dpackaging=jar
+
+mvn install:install-file -Dfile=sentinel-theme-2.1.jar -DgroupId=org.primefaces.premium -DartifactId=sentinel-theme -Dversion=2.1 -Dpackaging=jar
+
+mvn install:install-file -Dfile=facilitasdk.jar -DgroupId=facilitasdk -DartifactId=facilitasdk -Dversion=1.0 -Dpackaging=jar
+----------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------
+Ordem de criação dos objetos/formulários/procedimentos:
+=======================================================
+<01> com.mpxds.mpbasic.model.pt01 -> (Ex: MpDolar.java) ;
+<02> com.mpxds.mpbasic.repository.filter.pt01 -> (Ex.: MpDolarFilter.java) ;
+<03>  com.mpxds.mpbasic.repository.pt01 -> (Ex.: MpDolars.java) ;
+<04> com.mpxds.mpbasic.service.pt01 -> (Ex.: MpCadastroDolarService.java) ;
+<05> com.mpxds.mpbasic.converter.pt01 -> (Ex.: MpDolarConverter.java) ;
+<06> ... src -> webapp -> sentinel -> <nomePasta(s)> -> (Criar pasta. Ex: dolars) ; 
+<07> Criar tela de cadastro -> (Ex.: mpCadastroDolar.xhtml) ;
+<08> Criar template botões ... src -> webapp -> WEB-INF -> template -> sentinel -> (Ex.: mpBotoesDolar.xhtml) ;
+<09> com.mpxds.mpbasic.controller (Tela Cadastro) -> (Ex.: MpCadastroDolarBean.java)  ;
+<10> Criar tela de pesquisa -> (Ex.: mpPesquisaDolars.xhtml) ;
+<11> com.mpxds.mpbasic.controller (Tela Pesquisa) -> (Ex.: MpPesquisaDolarsBean.java) ;
+<12> Atualizar ENUM -> MpMenuGlobalObjeto.java ;
+<13> Cadastrar MENU Sistema -> OBJETO e relacionar no GRUPO ;
+<14> Atualizar CONTEXTO ->... resources -> context -> mpxds-applicationContext.xml ;
+<15> Atualizar PRETTY FACES -> .. WEB-INF -> pretty-config.xml ;
+----------------------------------------------------------------------------------------

@@ -1,0 +1,156 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <div id="layout-header" class="Unselectable fontRegular">
+        <a href="dashboardRS" id="layout-logo">
+            <h:graphicImage name="mpxds_logo5_menor.png" styleClass="Fleft" library="images" 
+            																	style="height:25px;" />
+            <span class="Fs19 FontTitilliumSemiBoldItalic Fleft">
+            	<!-- span class="softblue">MPXDS</span>  -->
+       			<p:spacer width="10" />
+            	<span class="hardblue" style="height:30px;">#{mpSeguranca.nomeAplicativo}</span>
+       			<p:spacer width="20" />
+            </span>
+        </a>
+        
+        <div class="Container50 Responsive100">
+       		<div class="DispInlBlock Fleft" style="margin-top: 10px;">
+       			<p:menubar model="#{mpLoginBean.modelMenu}" rendered="#{mpLoginBean.scIndMenuTop}" />
+         	</div>
+        </div>
+   	
+    	<ul id="sm-topmenu" class="layout-header-widgets white Fs14">
+    		<li class="Fleft BordRadHalf TexAlCenter">
+				<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario == null ? false : true}">
+					<o:graphicImage dataURI="true" cache="false" width="16" style="margin-top:7px;"
+						rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario.arquivoBD == null ? false : true}"
+						value="#{mpSeguranca.mpUsuarioLogado.mpUsuario.arquivoBD}" />						
+					<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario.arquivoBD == null ? true : false}">
+						<i class="icon-user-male"></i>
+					</h:panelGroup>
+					<o:graphicImage dataURI="true" cache="false" width="16" style="margin-top:7px;"
+						rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario.mpArquivoBD.arquivo == null ? false : true}"
+						value="#{mpSeguranca.mpUsuarioLogado.mpUsuario.mpArquivoBD.arquivo}" />
+				</h:panelGroup>
+				<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario == null ? true : false}">
+					<o:graphicImage dataURI="true" cache="false" width="16" style="margin-top:7px;"
+						rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.arquivoBD == null ? false : true}"
+						value="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.arquivoBD}" />
+					<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.arquivoBD == null ? true : false}">
+						<i class="icon-user-male"></i>
+					</h:panelGroup>
+					<o:graphicImage dataURI="true" cache="false" width="16" style="margin-top:7px;"
+						rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.mpArquivoBD.arquivo == null ? false : true}"
+						value="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.mpArquivoBD.arquivo}" />
+				</h:panelGroup>
+
+				<ul	class="layout-header-widgets-submenu BordRad5 shadows white Animated05">
+					<li class="Animated05"><a class="white Unselectable">
+						<!-- i class="icon-user-male Fs26 OvHidden"></i  --> 
+						<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario == null ? false : true}">
+							<o:graphicImage dataURI="true" cache="false" width="40"
+								rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario.arquivoBD == null ? false : true}"
+								value="#{mpSeguranca.mpUsuarioLogado.mpUsuario.arquivoBD}" />
+							<o:graphicImage dataURI="true" cache="false" width="40"
+								rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario.mpArquivoBD.arquivo == null ? false : true}"
+								value="#{mpSeguranca.mpUsuarioLogado.mpUsuario.mpArquivoBD.arquivo}" />
+						</h:panelGroup> 
+						<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario == null ? true : false}">
+							<o:graphicImage dataURI="true" cache="false" width="40"
+								rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.arquivoBD == null ? false : true}"
+								value="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.arquivoBD}" />
+							<o:graphicImage dataURI="true" cache="false" width="40"
+								rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.mpArquivoBD.arquivo == null ? false : true}"
+								value="#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.mpArquivoBD.arquivo}" />
+						</h:panelGroup> 
+						<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario == null ? false : true}">
+							<span class="Fs18">#{mpSeguranca.mpUsuarioLogado.mpUsuario.nome}<br />
+								<span class="Fs10"> Último Login. - #{mpSeguranca.ultimoLoginUsuarioAnt}
+								</span>
+							</span>
+						</h:panelGroup> 
+						<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario == null ? true : false}">
+							<span class="Fs18">#{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.mpPessoa.nome}<br />
+								<span class="Fs10"> Último Login.. - #{mpSeguranca.ultimoLoginUsuarioAnt}
+								</span>
+							</span>
+						</h:panelGroup>
+					</a></li>
+					<li class="Animated05">
+						<a href="javascript:enviaNotificacao()" class="white Unselectable">
+							 <i class="icon-bell"></i>Enviar Notificação
+						</a>
+					</li>
+					<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario == null ? false : true}">
+						<li class="Animated05"><a href="/mpProtesto/usuarioConfigRS"
+							class="white Unselectable"> <i class="icon-sliders"></i>Usuário
+								Preferências
+						</a></li>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{mpSeguranca.mpUsuarioLogado.mpUsuario == null ? true : false}">
+						<li class="Animated05"><a href="/mpProtesto/usuarioTenantConfigRS"
+							class="white Unselectable"> <i class="icon-sliders"></i>Usuário
+								Ambiente Preferências
+						</a></li>
+					</h:panelGroup>
+				</ul>
+			</li>
+    		
+			<h:panelGroup rendered="#{mpSeguranca.numNotificacaoUsuario > 0 ? true : false}">
+    			<li class="Fleft BordRadHalf TexAlCenter"><i class="icon-mail"></i><span class="alertBubble BordRad10 Fs9">#{mpSeguranca.numNotificacaoUsuario}</span>
+    				<ul class="layout-header-widgets-submenu BordRad5 shadows white Animated05">	
+						<ui:repeat id="mpNotificacaoUsuarioList" value="#{mpSeguranca.mpNotificacaoUsuarioList}" var="mpNotificacaoUsuario">
+    						<li id="liNotifUsu_#{mpNotificacaoUsuario.id}" class="Animated05">
+    							<a id="aNotifUsu_#{mpNotificacaoUsuario.id}" href="javascript:exibeNotificacao(#{mpSeguranca.exibeMpNotificacao(mpNotificacaoUsuario)})" class="white Unselectable TexAlRight">
+    								<i id="iNotifUsu_#{mpNotificacaoUsuario.id}" class="icon-chat-empty #{mpNotificacaoUsuario.mpTipoPrioridade.cor}"></i>#{mpNotificacaoUsuario.nomeUsuarioFrom}<br/>
+    								<span id="spanNotifUsu_#{mpNotificacaoUsuario.id}" class="Fs10">#{mpNotificacaoUsuario.assunto}</span>
+    							</a>
+    						</li>
+						</ui:repeat>
+    				</ul>
+    			</li>
+			</h:panelGroup>
+    		    		
+    		<li class="Fleft BordRadHalf TexAlCenter"><i class="icon-wrench-1"></i>
+    			<ul class="layout-header-widgets-submenu BordRad5 shadows white Animated05">
+                   	<h:panelGroup rendered="#{mpLoginBean.indAdministrador}">
+    					<li class="Animated05"><a href="/mpProtesto/sistemaConfigRS" class="white Unselectable">
+    						<i class="icon-sun"></i>Sistema Configuração</a>
+    					</li>
+    				</h:panelGroup>
+    				<li class="Animated05"><a href="https://#{mpSeguranca.freshdeskURL}" target="_blank"
+    				 													class="white Unselectable">
+    					<i class="icon-lifebuoy"></i>Help Desk</a>
+    				</li>
+    				<li class="Animated05"><a href="./sentinel/videos/mpProtestoTour.xhtml" 
+    													target="_blank" class="white Unselectable">
+    					<i class="icon-sun"></i>Video Apresentação</a>
+    				</li>
+    				<li class="Animated05"><a href="/mpProtesto/sistemaHelpRS" 
+    													target="_blank" class="white Unselectable">
+    					<i class="icon-book"></i>Sistema Documentação</a>
+    				</li>
+    			</ul>
+    		</li>
+    		<li class="Fleft BordRadHalf TexAlCenter"><i class="icon-power"></i>
+    			<ul class="layout-header-widgets-submenu BordRad5 shadows white Animated05">
+    				<li class="Animated05"><a href="/mpProtesto/logout" class="white Unselectable">
+    					<i class="icon-logout"></i>Sair</a></li>
+    			</ul>
+    		</li>
+    	</ul>
+    	<!-- NEVER REMOVE FOLLOWING 'UL' TAG ! BECAUSE THIS CONTAINS RESPONSIVE MODE HEADER MENU OPEN-CLOSE BUTTON -->
+    	<ul id="sm-mobiletopmenu" class="layout-header-widgets white Fs14">
+    		<li class="Fleft BordRadHalf TexAlCenter Animated05 DisplayOnResponsive">
+    																	<i class="icon-th-1"></i></li>
+    	</ul>
+    	<!-- ****** -->
+   	</div>
+    
+	<ui:include	src="/WEB-INF/template/sentinel/mpTrataNotificacao.xhtml" />
+    
+</ui:composition>

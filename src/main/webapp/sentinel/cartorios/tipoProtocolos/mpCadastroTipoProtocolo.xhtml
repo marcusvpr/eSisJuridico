@@ -1,0 +1,191 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpTipoProtocolo"
+				value="#{mpCadastroTipoProtocoloBean.mpTipoProtocolo}" />
+			<f:viewAction action="#{mpCadastroTipoProtocoloBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel
+					header="Tipo Protocolo #{mpCadastroTipoProtocoloBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="true" />
+
+					<ui:include
+						src="/WEB-INF/template/sentinel/cartorios/mpBotoesTipoProtocolo.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 45px;">
+						<div class="Container100">
+							<p:tabView id="tabViewC">
+
+								<p:tab title="Dados">
+									<div class="ContainerIndent ui-fluid">
+										<p:panel>
+											<div class="Container">
+												<div class="Container95 Responsive100">
+													<div class="Container100">
+														<p:panelGrid columns="1" layout="grid"
+															style="border:0px !important; background:none;"
+															styleClass="ui-panelgrid-blank">
+
+															<h:panelGroup id="pgCodigo">
+																<p:inputMask id="codigo" mask="9" style="width: 10%"
+																	required="#{mpCadastroTipoProtocoloBean.indEditavel}"
+																	validatorMessage="Informar Codigo" placeholder="Código"
+																	readonly="#{mpCadastroTipoProtocoloBean.indEditavel}"
+																	value="#{mpCadastroTipoProtocoloBean.mpTipoProtocolo.codigo}">
+																	<p:ajax event="change" process="@this" update=":frm"
+																		ignoreAutoUpdate="true"
+																		listener="#{mpCadastroTipoProtocoloBean.trataVisivel}" />
+																</p:inputMask>
+																<p:tooltip for="codigo" value="Codigo" />
+															</h:panelGroup>
+                                                         </p:panelGrid>
+                                                                                                   
+                                                        <p:panelGrid columns="3" layout="grid"
+															style="border:0px !important; background:none;"
+															styleClass="ui-panelgrid-blank">
+																													
+															<h:panelGroup id="pgDescricao">
+	    												        <p:inputText id="descricao" style="width: 90%"
+	   											                    readonly="#{mpCadastroTipoProtocoloBean.indEditavel}"
+												                    placeholder="Descricao" maxlength="30" 
+												                    required="#{mpCadastroTipoProtocoloBean.indEditavel}"
+ 												                    validatorMessage="Informar Descrição"
+	    										                    value="#{mpCadastroTipoProtocoloBean.mpTipoProtocolo.descricao}" />
+	    										                    <p:tooltip for="descricao" value="Descrição" />
+															</h:panelGroup>
+
+															<h:panelGroup id="pgCodigoAto">
+																<p:inputMask id="codigoAto" mask="9999" style="width: 80%"
+																	required="#{mpCadastroTipoProtocoloBean.indEditavel}"
+																	validatorMessage="Informar CodigoAto" placeholder="Código Ato"
+																	readonly="#{mpCadastroTipoProtocoloBean.indEditavel}"
+																	value="#{mpCadastroTipoProtocoloBean.mpTipoProtocolo.codigoAto}" />
+																<p:tooltip for="codigoAto" value="CodigoAto" />
+															</h:panelGroup>
+                                                                                                                  
+															<h:panelGroup id="pgAtoSequencia">
+																<p:inputMask id="atoSequencia" mask="9" style="width: 80%"
+																	required="#{mpCadastroTipoProtocoloBean.indEditavel}"
+																	validatorMessage="Informar Ato Sequência"
+																	placeholder="AtoSequencia"
+																	readonly="#{mpCadastroTipoProtocoloBean.indEditavel}"
+																	value="#{mpCadastroTipoProtocoloBean.mpTipoProtocolo.atoSequencia}" />
+																<p:tooltip for="atoSequencia" value="Ato Sequencia" />
+															</h:panelGroup>
+														 </p:panelGrid>
+														
+														<p:panelGrid columns="1" layout="grid"
+															style="border:0px !important; background:none;"
+															styleClass="ui-panelgrid-blank">
+
+															<h:panelGroup id="pgPrazoEntrega">
+																<p:inputMask id="prazoEntrega" mask="99" style="width: 29%"
+																	required="#{mpCadastroTipoProtocoloBean.indEditavel}"
+																	validatorMessage="Informar Prazo Entrega"
+																	placeholder="PrazoEntrega"
+																	readonly="#{mpCadastroTipoProtocoloBean.indEditavel}"
+																	value="#{mpCadastroTipoProtocoloBean.mpTipoProtocolo.prazoEntrega}" />
+																<p:tooltip for="prazoEntrega" value="Prazo Entrega" />
+															</h:panelGroup>
+
+															<h:panelGroup id="pgObservacao"> 
+															   <p:inputTextarea id="observacao" maxlength="300"
+																style="text-transform:uppercase; width:29%;" rows="3"
+																validatorMessage="Informar Observação"
+																placeholder="Observação" 
+																readonly="#{mpCadastroTipoProtocoloBean.indEditavel}"
+																value="#{mpCadastroTipoProtocoloBean.mpTipoProtocolo.observacao}" />
+															  <p:tooltip for="observacao" value="Observação" />
+															</h:panelGroup>
+															
+															<p:outputLabel />
+													   	</p:panelGrid>                                       
+
+													</div>
+												</div>
+												<div class="Container5 Responsive100">
+													<div class="Container100">
+														<div class="ContainerIndent"></div>
+													</div>
+												</div>
+											</div>
+										</p:panel>
+
+									</div>
+								</p:tab>
+
+							</p:tabView>
+						</div>
+					</div>
+				</p:panel>
+			</h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpTipoProtocoloDialog" id="helpTipoProtocoloDialogId" modal="true"
+					header="HELP - TipoProtocolo" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpTipoProtocoloPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCadastroTipoProtocoloBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroTipoProtocoloBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCadastroTipoProtocoloBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroTipoProtocoloBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCadastroTipoProtocoloBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCadastroTipoProtocoloBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

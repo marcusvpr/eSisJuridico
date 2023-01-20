@@ -1,0 +1,229 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpNotificacaoUsuario"
+				value="#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario}" />
+			<f:viewAction action="#{mpCadastroNotificacaoUsuarioBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel
+					header="Notificação Usuário #{mpCadastroNotificacaoUsuarioBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesNotificacaoUsuario.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgDataEnvio">
+														<p:outputLabel value="Data:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataEnvio" pattern="dd/MM/yyyy HH:mm"
+															mask="true" placeholder="Data"
+															required="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+															validatorMessage="Informar Data"
+															style="background-color:black; color:yellow;"
+															disabled="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+															value="#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario.dataEnvio}" />
+														<p:tooltip for="dataEnvio" value="Data" />
+													</h:panelGroup>
+													<h:panelGroup id="pgUsuario">
+														<p:outputLabel value="Usuário: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="usuarioNotif"
+															disabled="#{mpCadastroNotificacaoUsuarioBean.indEditavelPerfil}"
+															value="#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario.nomeUsuarioFrom}"
+															required="true" validatorMessage="Informar Usuário">
+															<f:selectItem itemLabel="Selecione o Usuário" />
+															<f:selectItems
+																value="#{mpSeguranca.nomeMpUsuarioNotificacaoList}"
+																var="nomeMpNotificacaoUsuarioX"
+																itemValue="#{nomeMpNotificacaoUsuarioX}"
+																itemLabel="#{nomeMpNotificacaoUsuarioX}" />
+														</p:selectOneMenu>
+													</h:panelGroup>
+													<h:panelGroup id="pgUsuarioFrom">
+														<p:outputLabel value="De:" />
+														<p:inputText styleClass="Fs18" readonly="true" value=
+															"#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario.nomeUsuarioFrom}" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup id="pgAssunto">
+														<p:outputLabel value="Assunto:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="assunto" maxlength="100" placeholder="Assunto"
+															required="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+															validatorMessage="Informar Assunto"
+															readonly="#{mpCadastroNotificacaoUsuarioBean.indEditavelPerfil}"
+															value="#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario.assunto}">
+															<f:validateLength maximum="100" />
+															<p:clientValidator event="keyup" />
+														</p:inputText>
+														<p:tooltip for="assunto" value="Assunto" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgMensagem">
+														<p:outputLabel value="Mensagem:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputTextarea id="mensagem" maxlength="150"
+															placeholder="Mensagem" rows="2"
+															required="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+															validatorMessage="Informar Mensagem"
+															readonly="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+															value="#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario.mensagem}">
+															<f:validateLength maximum="150" />
+															<p:clientValidator event="keyup" />
+														</p:inputTextarea>
+														<p:tooltip for="mensagem" value="Mensagem" />
+													</h:panelGroup>													
+													<h:panelGroup id="pgPrioridade">
+														<p:outputLabel value="Prioridade:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpTipoPrioridade"
+															disabled="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+															value="#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario.mpTipoPrioridade}">
+															<f:selectItem itemLabel="Selecione a Prioridade" />
+															<f:selectItems value="#{mpCadastroNotificacaoUsuarioBean.mpTipoPrioridadeList}"
+																var="mpTipoPrioridade" itemValue="#{mpTipoPrioridade}"
+																style="color: \##{mpTipoPrioridade.cor}" 
+																itemLabel="#{mpTipoPrioridade.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpTipoPrioridade" value="Prioridade" />
+													</h:panelGroup>
+													
+													<h:panelGroup id="pgStatus">
+														<p:outputLabel value="Status:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpStatusNotificacao"
+															disabled="#{mpCadastroNotificacaoUsuarioBean.indEditavelPerfil}"
+															value="#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario.mpStatusNotificacao}">
+															<f:selectItem itemLabel="Selecione o Status" />
+															<f:selectItems
+																value="#{mpCadastroNotificacaoUsuarioBean.mpStatusNotificacaoList}"
+																var="mpStatusNotificacao"
+																itemValue="#{mpStatusNotificacao}"
+																itemLabel="#{mpStatusNotificacao.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpStatusNotificacao" value="Status" />
+													</h:panelGroup>
+													<p:outputLabel />
+													<p:outputLabel />
+
+												</p:panelGrid>
+												
+												<p:panel header="Alertas" toggleable="true" toggleSpeed="500"
+													closeSpeed="500" collapsed="false">
+													<p:panelGrid columns="7" layout="grid"
+														style="border:0px none;background:none"
+														styleClass="ui-fluid">
+
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaEmail}">
+															<p:outputLabel value="Alerta Email : " for="indEmail" />
+															<p:selectBooleanButton id="indEmail" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+																disabled="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+																value="#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario.mpAlerta.indEmail}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaSMS}">
+															<p:outputLabel value="Alerta SMS : " for="indSMS" />
+															<p:selectBooleanButton id="indSMS" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+																disabled="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+																value="#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario.mpAlerta.indSMS}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaPush}">
+															<p:outputLabel value="Alerta Push : " for="indPush" />
+															<p:selectBooleanButton id="indPush" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+																disabled="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+																value="#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario.mpAlerta.indPush}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaTelegram}">
+															<p:outputLabel value="Alerta Telegram : "
+																for="indTelegram" />
+															<p:selectBooleanButton id="indTelegram" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+																disabled="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+																value="#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario.mpAlerta.indTelegram}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaWhatsapp}">
+															<p:outputLabel value="Alerta Whatsapp : "
+																for="indWhatsapp" />
+															<p:selectBooleanButton id="indWhatsapp" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+																disabled="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+																value="#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario.mpAlerta.indWhatsapp}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaMpComunicator}">
+															<p:outputLabel value="Alerta MpComunicator : "
+																for="indMpComunicator" />
+															<p:selectBooleanButton id="indMpComunicator"
+																onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+																disabled="#{mpCadastroNotificacaoUsuarioBean.indEditavel}"
+																value="#{mpCadastroNotificacaoUsuarioBean.mpNotificacaoUsuario.mpAlerta.indMpComunicator}" />
+														</h:panelGroup>
+														<h:panelGroup />
+
+													</p:panelGrid>
+												</p:panel>
+
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

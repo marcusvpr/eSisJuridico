@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmCatalogo">
+				<h2 class="aw-page-title">Catálogo de Clientes</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile">
+							<p:commandButton value="Pesquisar" update="@form"
+												action="#{mpCatalogoClientesBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpClientesTable"
+									fileName="clientes"
+									postProcessor="#{mpCatalogoClientesBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="4" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:inputText placeholder="Código"
+									value="#{mpCatalogoClientesBean.mpFiltro.codigo}" />
+
+								<p:inputText placeholder="Nome"
+									value="#{mpCatalogoClientesBean.mpFiltro.nome}" />
+
+								<p:inputText placeholder="E-mail"
+									value="#{mpCatalogoClientesBean.mpFiltro.email}" />
+
+								<p:inputText placeholder="Doc.Rec.Federal" value=
+									"#{mpCatalogoClientesBean.mpFiltro.documentoReceitaFederal}" />
+
+								<p:inputText placeholder="Tipo Pessoa"
+									value="#{mpCatalogoClientesBean.mpFiltro.tipoPessoa}" />
+
+								<p:inputText  placeholder="Status"
+									value="#{mpCatalogoClientesBean.mpFiltro.status}" />
+
+								<p:inputText  placeholder="Sexo"
+									value="#{mpCatalogoClientesBean.mpFiltro.sexo}" />
+
+								<p:inputText  placeholder="Estado Civil"
+									value="#{mpCatalogoClientesBean.mpFiltro.estadoCivil}" />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpClientesTable"
+							value="#{mpCatalogoClientesBean.mpClientesFiltrados}"
+							var="mpCliente" selectionMode="single"
+							selection="#{mpCatalogoClientesBean.mpClienteSelecionado}"
+							rowKey="#{mpCliente.nome}" reflow="true" style="margin-top:20px"
+							emptyMessage="Nenhum Cliente encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Id" style="text-align:center; width:30px"
+								sortBy="#{mpCliente.id}">
+								<h:outputText value="#{mpCliente.id}" />
+							</p:column>
+							<p:column headerText="Código"
+								style="text-align:center; width:40px"
+								sortBy="#{mpCliente.codigo}">
+								<h:outputText value="#{mpCliente.codigo}" />
+							</p:column>
+							<p:column headerText="Nome" sortBy="#{mpCliente.nome}">
+								<h:outputText value="#{mpCliente.nome}" />
+							</p:column>
+							<p:column headerText="Foto">
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/clientes/mpCadastroCliente"
+									icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpCliente" value="#{mpCliente.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

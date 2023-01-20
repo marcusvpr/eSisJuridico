@@ -1,0 +1,150 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpUsuarioTenant" value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant}" />
+			<f:viewAction action="#{mpCadastroUsuarioTenantBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Usuário Ambiente #{mpCadastroUsuarioTenantBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesUsuarioTenant.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+						<h:panelGroup id="pgLogin">
+							<p:outputLabel value="Login: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="login" placeholder="Login"
+								styleClass="Container40 Fnone MarAuto Fs16"
+								required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+								validatorMessage="Informar Login"
+								readonly="#{mpCadastroUsuarioTenantBean.indEditavel}"
+								value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.login}" />
+							<p:tooltip for="login" value="Login (Ex.: fulano )" />
+						</h:panelGroup>
+					</div>
+
+					<p:tabView id="tabViewU">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup id="pgNome">
+														<p:outputLabel value="Nome: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="pessoa" effect="fold"
+															required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															validatorMessage="Informar Pessoa"
+															disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.mpPessoa}">
+															<f:selectItem itemLabel="Selecione a Pessoa" />
+															<f:selectItems
+																value="#{mpCadastroUsuarioTenantBean.mpPessoaList}"
+																var="mpPessoa" itemLabel="#{mpPessoa.nome}"
+																itemValue="#{mpPessoa}" />
+														</p:selectOneMenu>
+														<p:tooltip for="pessoa" value="Pessoa (Ex.: Fulano Silva )" />
+													</h:panelGroup>
+													<h:panelGroup>
+														<h:panelGroup id="pgSenha">
+															<p:outputLabel value="Senha: "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="senha" placeholder="Senha"
+																required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																validatorMessage="Informar Senha" style="width:50px;"
+																readonly="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.senha}" />
+															<p:tooltip for="senha" value="Senha (Ex.: Senha12345 )" />
+														</h:panelGroup>
+														<h:panelGroup id="pgTenant" 
+																	rendered="#{mpLoginBean.indAdministrador ? true : false}">
+															<p:spacer width="20px" />
+															<p:outputLabel value="Ambiente" for="tenant" />
+															<p:spacer width="5px" />
+															<p:inputText id="tenant" size="4"
+																disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																readonly="#{mpLoginBean.indAdministrador ? false : true}"
+																style="color:blue; width:80px; align:center;"
+																value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.tenantId}" />
+														</h:panelGroup>
+													</h:panelGroup>
+													<h:panelGroup id="pgStatus">
+														<p:outputLabel value="Status: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="status" effect="fold"
+															required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															validatorMessage="Informar Status"
+															disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.mpStatus}">
+															<f:selectItem itemLabel="Selecione o Status" />
+															<f:selectItems
+																value="#{mpCadastroUsuarioTenantBean.mpStatusList}"
+																var="mpStatus" itemLabel="#{mpStatus.descricao}"
+																itemValue="#{mpStatus}" />
+														</p:selectOneMenu>
+														<p:tooltip for="status" value="Status (Ex.: Ativo )" />
+													</h:panelGroup>
+													
+													<h:panelGroup id="pgPerfil">
+														<p:outputLabel value="Perfil: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneRadio id="perfil" class="FontSourceSansLight Fs12 FloatNoneOnMobile"
+															layout="responsive" columns="3"
+															required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															validatorMessage="Informar Perfil"
+															disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.mpGrupoTenant}">
+															<f:selectItems layout="responsive" columns="2"
+																value="#{mpCadastroUsuarioTenantBean.mpGrupoTenantList}" var="mpGrupoTenant"
+																itemLabel="#{mpGrupoTenant.descricao}" itemValue="#{mpGrupoTenant}" />
+														</p:selectOneRadio>
+														<p:tooltip for="perfil" value="Perfil (Ex.: Cuidador )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgObs">
+														<p:outputLabel value="Observação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputTextarea id="obs" placeholder="Observação"
+															readonly="#{mpCadastroUsuarioTenantBean.indEditavel}" rows="2"
+															value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.observacao}" />
+														<p:tooltip for="obs" value="Observação" />
+													</h:panelGroup>
+													
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+				</p:panel>
+			</h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

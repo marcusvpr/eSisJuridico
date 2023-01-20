@@ -1,0 +1,119 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Custas Composição</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaCustasComposicaosBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpCustasComposicaosTable"
+								fileName="custasComposicaos"
+								postProcessor="#{mpPesquisaCustasComposicaosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="4" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:inputText placeholder="Tabela"
+									value="#{mpPesquisaCustasComposicaosBean.mpFiltro.tabela}" />
+								<p:inputText placeholder="Item"
+									value="#{mpPesquisaCustasComposicaosBean.mpFiltro.item}" />
+								<p:inputText placeholder="Sub.Item"
+									value="#{mpPesquisaCustasComposicaosBean.mpFiltro.subItem}" />
+								<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpCustasComposicaosTable"
+						value="#{mpPesquisaCustasComposicaosBean.mpCustasComposicaosFiltrados}"
+						var="mpCustasComposicao" selectionMode="single"
+						selection="#{mpPesquisaCustasComposicaosBean.mpCustasComposicaoSelecionado}"
+						rowKey="#{mpCustasComposicao.tabela}" reflow="true" style="margin-top:20px"
+						emptyMessage="Nenhum CustasComposicao encontrado." rows="10"
+						paginator="true" paginatorAlwaysVisible="false"
+						paginatorPosition="bottom">
+
+							<p:column headerText="Tabela" sortBy="#{mpCustasComposicao.tabela}">
+								<h:outputText value="#{mpCustasComposicao.tabela}" />
+							</p:column>
+							<p:column headerText="Item" sortBy="#{mpCustasComposicao.item}">
+								<h:outputText value="#{mpCustasComposicao.item}" />
+							</p:column>
+							<p:column headerText="Sub.Item" sortBy="#{mpCustasComposicao.subItem}">
+								<h:outputText value="#{mpCustasComposicao.subItem}" />
+							</p:column>
+							<p:column headerText="Descricão" 
+													sortBy="#{mpCustasComposicao.descricaoTabela}">
+								<h:outputText value="#{mpCustasComposicao.descricaoTabela}" />
+							</p:column>
+							<p:column headerText="Valor Custa" sortBy="#{mpCustasComposicao.valorCusta}">
+								<h:outputText value="#{mpCustasComposicao.valorCusta}">
+	    							<f:convertNumber type="currency" pattern="###,###,##0.00"/>
+	    						</h:outputText>
+							</p:column>
+							<p:column headerText="Valor De" sortBy="#{mpCustasComposicao.valorDe}">
+								<h:outputText value="#{mpCustasComposicao.valorDe}">
+	    							<f:convertNumber type="currency" pattern="###,###,##0.00"/>
+	    						</h:outputText>
+							</p:column>
+							<p:column headerText="Valor Até" sortBy="#{mpCustasComposicao.valorAte}">
+								<h:outputText value="#{mpCustasComposicao.valorAte}">
+	    							<f:convertNumber type="currency" pattern="###,###,##0.00"/>
+	    						</h:outputText>
+							</p:column>
+							<p:column headerText="Cod.Ato" sortBy="#{mpCustasComposicao.codigoAto}">
+								<h:outputText value="#{mpCustasComposicao.codigoAto}" />
+							</p:column>
+							<p:column headerText="Cod.Ato Conv." 
+													sortBy="#{mpCustasComposicao.codigoAtoConvenio}">
+								<h:outputText value="#{mpCustasComposicao.codigoAtoConvenio}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome=
+								"/sentinel/cartorios/custasComposicaos/mpCadastroCustasComposicao"
+															icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpCustasComposicao" value=
+																		"#{mpCustasComposicao.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

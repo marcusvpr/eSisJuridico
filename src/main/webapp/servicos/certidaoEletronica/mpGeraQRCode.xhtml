@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>MPXDS - Certidão Eletrônica - Geração QrCode</title>
+	<meta name="viewport" 
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        
+    <h:outputStylesheet name="css/font-icon-layout.css" library="sentinel-layout" />
+    <h:outputStylesheet name="css/sentinel-layout.css" library="sentinel-layout" />
+    <h:outputStylesheet name="css/core-layout.css" library="sentinel-layout" />
+</h:head>
+
+<f:metadata>
+   <f:viewParam name="dummy" />
+   	<f:viewParam name="cerp" value="#{mpGeraQRCodeBean.numCerp}" />
+   	<f:viewParam name="tipo" value="#{mpGeraQRCodeBean.tipo}" />
+   	<f:viewParam name="posX" value="#{mpGeraQRCodeBean.posX}" />
+   	<f:viewParam name="posY" value="#{mpGeraQRCodeBean.posY}" />
+   	<f:event listener="#{mpGeraQRCodeBean.preRender}" type="preRenderView" />
+</f:metadata>
+
+<h:body class="fontRegular red-back">
+    
+	<p:messages id="message" autoUpdate="false" showDetail="false" />
+    
+    <div class="Container100 Top20Percent PosAbsolute MarAuto OvHidden">
+        <div class="Wid100 MarAuto OvHidden TexAlCenter">
+            <div class="EmptyBox20"></div>
+            <span class="white Wid100 DispBlock Fs24">MPXDS - Certidão Eletrônica - Geração QRCode</span><br/>
+            <span class="white Wid100 DispBlock Fs12">
+            	Num.CERP : #{mpGeraQRCodeBean.numCerp} #{mpGeraQRCodeBean.posX} #{mpGeraQRCodeBean.posY}<br/>
+            </span>
+            <span class="white Wid100 DispBlock Fs12">
+            	PathX : #{mpGeraQRCodeBean.pathY}<br/>
+            </span>
+			<div class="EmptyBox100">
+				<p:panelGrid columns="1" layout="grid"
+					style="border:0px !important; background:none;"
+					styleClass="ui-panelgrid-blank">
+
+					<!-- h:form id="frm">
+						<h:panelGroup id="pgCerp">
+							<p:outputLabel value="Número CERP : " />
+							<p:inputText id="cerp" placeholder="Número CERP" maxlength="50" style="width:20%"
+								value="#{mpGeraQRCodeBean.numCerp}">
+								<f:validateLength maximum="50" />
+							<p:clientValidator event="keyup" />
+							</p:inputText>
+							<p:tooltip for="cerp" value="Número CERP" />
+						</h:panelGroup>
+					</h:form -->
+
+					<h:form id="frmUp" enctype="multipart/form-data">
+						<p:fileUpload label="Selecionar..." auto="true"
+							fileUploadListener="#{mpGeraQRCodeBean.handleFileUpload}"
+							mode="advanced" allowTypes="/(\.|\/)(pdf)$/" />
+					</h:form>
+				</p:panelGrid>
+			</div>
+            <div class="EmptyBox50">
+ 	           <span class="white Wid100 DispBlock Fs18">
+    	        	MsgX : #{mpGeraQRCodeBean.msgX}<br/>
+        	    </span>
+            </div>
+        </div>
+    </div>
+    
+</h:body>
+
+</html>

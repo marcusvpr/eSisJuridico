@@ -1,0 +1,10 @@
+# Vide: apache-maven-3.3.9 -. copiar libs, para pasta bin e executar mvn abaixo...
+
+mvn install:install-file -Dfile=simple-email-0.2.1.jar -DgroupId=com.outjected -DartifactId=simple-email -Dversion=0.2.1 -Dpackaging=jar
+
+mvn install:install-file -Dfile=sentinel-theme-2.1.2.jar -DgroupId=org.primefaces.premium -DartifactId=sentinel-theme -Dversion=2.1.2 -Dpackaging=jar
+
+mvn install:install-file -Dfile=facilitasdk-1.0.jar -DgroupId=facilitasdk -DartifactId=facilitasdk -Dversion=1.0 -Dpackaging=jar
+
+
+# java -jar lombok.jar (Install Eclipse!!! -> verificar param. ECLIPSE.INI!) ;

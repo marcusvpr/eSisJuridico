@@ -1,0 +1,109 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpDolar" value="#{mpCadastroDolarBean.mpDolar}" />
+			<f:viewAction action="#{mpCadastroDolarBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Dólar #{mpCadastroDolarBean.txtModoTela}">
+
+					<p:messages id="messages" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesDolar.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+					</div>
+					
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup id="pgDataD">
+														<h:panelGroup id="pgDataD1" rendered="#{mpCadastroDolarBean.indEditavel}">
+															<p:outputLabel value="Data Cadastro : " />
+															<h:outputText value="#{mpCadastroDolarBean.mpDolar.dataMovimento}"
+																styleClass="Fnone MarAuto Fs15 red">
+																<f:convertDateTime pattern="dd/MM/yyyy"
+																	timeZone="America/Sao_Paulo" />
+															</h:outputText>
+														</h:panelGroup>
+														<h:panelGroup id="pgDataD2" rendered="#{!mpCadastroDolarBean.indEditavel}">
+															<p:outputLabel value="Data: "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:calendar id="dataMovimento" showOn="button"
+																pattern="dd/MM/yyyy" mask="true"
+																placeholder="Data Movimento"
+																required="#{mpCadastroDolarBean.indEditavel}"
+																validatorMessage="Informar Data Movimento"
+																value="#{mpCadastroDolarBean.mpDolar.dataMovimento}" />
+															<p:tooltip for="dataMovimento" value="Data (Ex.: 31/03/2016)" />
+														</h:panelGroup>
+													</h:panelGroup>
+
+													<h:panelGroup id="pgValor">
+														<p:outputLabel value="Valor: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="valor" placeholder="Valor"
+															maxlength="10" styleClass="moeda"
+															required="#{mpCadastroDolarBean.indEditavel}"
+															validatorMessage="Informar Valor"
+															readonly="#{mpCadastroDolarBean.indEditavel}"
+															value="#{mpCadastroDolarBean.mpDolar.valor}">
+															<f:convertNumber maxFractionDigits="3"
+																minFractionDigits="3" />
+														</p:inputText>
+														<p:tooltip for="valor" value="Valor (Ex.: 3,231)" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgObs">
+														<p:outputLabel value="Obs.: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="obs" placeholder="Observação" maxlength="155"
+														readonly="#{mpCadastroDolarBean.indEditavel}"
+														value="#{mpCadastroDolarBean.mpDolar.observacao}">
+															<f:validateLength maximum="150" />
+															<p:clientValidator event="keyup" />
+														</p:inputText>
+														<p:tooltip for="obs" value="Observação" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+			</h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

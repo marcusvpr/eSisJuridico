@@ -1,0 +1,764 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpProduto" value="#{mpCadastroProdutoBean.mpProduto}" />
+			<f:viewAction action="#{mpCadastroProdutoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frmProd">
+				<p:panel header="Produto #{mpCadastroProdutoBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesProduto.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent">
+								<p:panel>
+									<div class="Container">
+
+										<p:panelGrid columns="4" layout="grid"
+											style="border:0px !important; background:none;"
+											styleClass="ui-panelgrid-blank">
+
+											<p:outputLabel value="Tipo Produto: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+											<h:panelGroup id="pgTipoProduto">
+												<p:selectOneMenu id="tipoProduto"
+													disabled="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpProduto.mpTipoProduto}">
+													<f:selectItem itemLabel="Selecione Tipo Produto" />
+													<f:selectItems var="mpTipoProduto"
+														value="#{mpCadastroProdutoBean.mpTipoProdutoList}"
+														itemLabel="#{mpTipoProduto.descricao}"
+														itemValue="#{mpTipoProduto}" />
+													<p:ajax listener="#{mpCadastroProdutoBean.carregarMpCategorias}"
+														update="mpCategoria" />
+												</p:selectOneMenu>
+												<p:tooltip for="pgTipoProduto"
+													value="Tipo Produto (Ex.: Medicamentos )" />
+											</h:panelGroup>
+
+											<p:outputLabel value="Cód.Interno(SKU): "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+											<h:panelGroup id="pgSku">
+												<p:inputText id="sku" maxlength="20" placeholder="SKU"
+													readonly="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpProduto.sku}" />
+												<p:tooltip for="pgSku"
+													value="Código Interno Produto - SKU (Ex.: PR0001 )" />
+											</h:panelGroup>
+
+											<p:outputLabel value="Localização: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+											<h:panelGroup id="pgLocalizacao">
+												<p:selectOneMenu id="mpLocalizacao"
+													disabled="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpProduto.mpLocalizacao}">
+													<f:selectItem itemLabel="Selecione a Localização" />
+													<f:selectItems
+														value="#{mpCadastroProdutoBean.mpLocalizacaoList}"
+														var="mpLocalizacao" itemValue="#{mpLocalizacao}"
+														itemLabel="#{mpLocalizacao.descricao}" />
+												</p:selectOneMenu>
+												<p:tooltip for="pgLocalizacao"
+													value="Localização ( Ex.: Armário No.9 - Tab.0009)" />
+											</h:panelGroup>
+
+											<p:outputLabel value="Nome: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+											<h:panelGroup id="pgNome">
+												<p:inputText id="nome" placeholder="Nome"
+													readonly="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpProduto.nome}" />
+												<p:tooltip for="pgNome" value="Nome Produto (Ex.: Tylenol )" />
+												<p:commandButton icon="fa fa-globe Fs14 white"
+													title="Pesquisar Produto WEB..."
+													disabled="#{mpCadastroProdutoBean.indEditavel}"
+													update="nome valorUnitario frmProd frmMF"
+													process="@this nome"
+													action="#{mpCadastroProdutoBean.onMultiFarmaWebService}"
+													oncomplete="PF('produtoDialogMF').show();" />
+											</h:panelGroup>
+
+											<p:outputLabel value="Unidade: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+											<h:panelGroup id="pgUnidade">
+												<p:selectOneMenu id="mpUnidade"
+													disabled="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpProduto.mpUnidade}">
+													<f:selectItem itemLabel="Selecione Unidade'" />
+													<f:selectItems
+														value="#{mpCadastroProdutoBean.mpUnidadeList}"
+														var="mpUnidade" itemValue="#{mpUnidade}"
+														itemLabel="#{mpUnidade.descricao}" />
+												</p:selectOneMenu>
+												<p:tooltip for="pgUnidade"
+													value="Unidade do Produto (Ex.: Comprimido )" />
+											</h:panelGroup>
+
+											<p:outputLabel value="Categoria: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+											<h:panelGroup id="pgCategoria">
+												<p:selectOneMenu id="mpCategoria"
+													disabled="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpCategoriaPai}">
+													<f:selectItem itemLabel="Selecione a categoria" />
+													<f:selectItems
+														value="#{mpCadastroProdutoBean.mpCategoriasRaizes}"
+														var="mpCategoria" itemValue="#{mpCategoria}"
+														itemLabel="#{mpCategoria.descricao}" />
+													<p:ajax listener="#{mpCadastroProdutoBean.carregarMpSubCategorias}"
+														update="mpSubCategoria" />
+												</p:selectOneMenu>
+												<p:tooltip for="pgCategoria"
+													value="Categoria Produto (Ex.: Alergias e Infecções )" />
+											</h:panelGroup>
+
+											<p:outputLabel value="SubCategoria: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+											<h:panelGroup id="pgSubCategoria">
+												<p:selectOneMenu id="mpSubCategoria"
+													disabled="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpProduto.mpCategoria}">
+													<f:selectItem itemLabel="Selecione a subcategoria" />
+													<f:selectItems
+														value="#{mpCadastroProdutoBean.mpSubCategorias}"
+														var="mpSubCategoria" itemValue="#{mpSubCategoria}"
+														itemLabel="#{mpSubCategoria.descricao}" />
+												</p:selectOneMenu>
+												<p:tooltip for="pgSubCategoria"
+													value="Subcategoria do Produto (Ex.: R$ 15,00 )" />
+											</h:panelGroup>
+
+											<p:outputLabel value="Qtde.Min.: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+											<h:panelGroup id="quantidadeMinima">
+												<p:spinner placeholder="Qtde.Mínima"
+													readonly="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpProduto.quantidadeMinima}" />
+												<p:tooltip for="quantidadeMinima"
+													value="Quantidade Mínima no Estoque (Ex.: 5 )" />
+											</h:panelGroup>
+
+											<p:outputLabel value="Qtde.Estoque Atual: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+											<h:panelGroup id="estoque">
+												<p:inputText maxlength="5" placeholder="Estoque Atual"
+													readonly="true" style="color:blue;"
+													value="#{mpCadastroProdutoBean.mpProduto.quantidadeEstoque}" />
+												<p:tooltip for="estoque"
+													value="Quantidade Estoque Atual (Ex.: 50 )" />
+											</h:panelGroup>
+
+											<p:outputLabel value="Status: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+											<h:panelGroup id="status">
+												<p:selectOneMenu id="mpStatusProduto"
+													disabled="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpProduto.mpStatusProduto}">
+													<f:selectItem itemLabel="Selecione o Status" />
+													<f:selectItems
+														value="#{mpCadastroProdutoBean.mpStatusProdutoList}"
+														var="mpStatusProduto" itemValue="#{mpStatusProduto}"
+														itemLabel="#{mpStatusProduto}" />
+												</p:selectOneMenu>
+												<p:tooltip for="status"
+													value="Status do Produto (Ex.: Ativo )" />
+											</h:panelGroup>
+
+											<p:outputLabel value="Marca: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+											<h:panelGroup id="marca">
+												<p:autoComplete id="mpMarca" placeholder="Marca Produto"
+													readonly="#{mpCadastroProdutoBean.indEditavel}"
+													scrollHeight="250" var="mpMarcaProduto"
+													value="#{mpCadastroProdutoBean.mpProduto.mpMarcaProduto}"
+													completeMethod="#{mpCadastroProdutoBean.completaMpMarcaProduto}"
+													itemLabel="#{mpMarcaProduto.descricao}"
+													itemValue="#{mpMarcaProduto}"
+													groupBy="#{mpCadastroProdutoBean.getMpMarcaProdutoGrupo(mpMarcaProduto)}" />
+												<p:tooltip for="marca"
+													value="Marca do Produto (Ex.: Bayer )" />
+											</h:panelGroup>
+
+											<p:outputLabel value="Apresentação: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+											<h:panelGroup id="apresentacao">
+												<p:selectOneMenu id="mpApresentacao"
+													disabled="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpProduto.mpApresentacaoProduto}">
+													<f:selectItem itemLabel="Selecione Apresentação" />
+													<f:selectItems
+														value="#{mpCadastroProdutoBean.mpApresentacaoProdutoList}"
+														var="mpApresentacaoProduto"
+														itemValue="#{mpApresentacaoProduto}"
+														itemLabel="#{mpApresentacaoProduto.descricao}" />
+												</p:selectOneMenu>
+												<p:tooltip for="apresentacao"
+													value="Apresentação do Produto (Ex.: Comprimido )" />
+											</h:panelGroup>
+
+											<p:outputLabel value="Observação: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+											<h:panelGroup id="pgObs">
+												<p:inputText id="obs" maxlength="80"
+													placeholder="Observação"
+													readonly="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpProduto.observacao}" />
+												<p:tooltip for="pgObs" value="Observação sobre o Produto" />
+											</h:panelGroup>
+
+											<p:outputLabel value="Controla Estoque : "
+												for="indControleEstoque" />
+											<h:panelGroup>
+												<p:selectBooleanButton id="indControleEstoque" onLabel="Sim"
+													offLabel="Não" onIcon="ui-icon-check"
+													offIcon="ui-icon-close" style="width:90px"
+													required="#{mpCadastroProdutoBean.indEditavel}"
+													disabled="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpProduto.indControleEstoque}" />
+											</h:panelGroup>
+
+											<p:outputLabel value="Conservação: "
+												rendered="#{mpLoginBean.scIndLabelCampo ? mpCadastroProdutoBean.indConservacao : false }" />
+											<h:panelGroup>
+												<p:selectOneRadio id="mpConservacao"
+													rendered="#{mpCadastroProdutoBean.indConservacao}"
+													disabled="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpProduto.mpTipoConservacao}">
+													<f:selectItems
+														value="#{mpCadastroProdutoBean.mpTipoConservacaoList}"
+														var="mpTipoConservacao"
+														itemLabel="#{mpTipoConservacao.descricao}"
+														itemValue="#{mpTipoConservacao}" />
+												</p:selectOneRadio>
+											</h:panelGroup>
+
+											<p:outputLabel />
+											<p:outputLabel />
+
+											<p:outputLabel value="Tipo Medicamento: "
+												rendered="#{mpLoginBean.scIndLabelCampo ? mpCadastroProdutoBean.indMedicamento : false }" />
+											<h:panelGroup>
+												<p:selectOneMenu id="mpMedicamento"
+													rendered="#{mpCadastroProdutoBean.indMedicamento}"
+													disabled="#{mpCadastroProdutoBean.indEditavel}"
+													value="#{mpCadastroProdutoBean.mpProduto.mpTipoMedicamento}">
+													<f:selectItem itemLabel="Selecione Tipo Medicamento" />
+													<f:selectItems
+														value="#{mpCadastroProdutoBean.mpTipoMedicamentoList}"
+														var="mpTipoMedicamento"
+														itemLabel="#{mpTipoMedicamento.descricao}"
+														itemValue="#{mpTipoMedicamento}" />
+												</p:selectOneMenu>
+											</h:panelGroup>
+
+										</p:panelGrid>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+						<p:tab title="Informação">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="1" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<p:inputTextarea placeholder="Informação" maxlength="10000"
+														readonly="#{mpCadastroProdutoBean.indEditavel}" rows="5"
+														value="#{mpCadastroProdutoBean.mpProduto.informacao}">
+														<f:validateLength maximum="10000" />
+														<p:clientValidator event="keyup" />
+													</p:inputTextarea>
+												</p:panelGrid>
+
+												<p:panelGrid columns="4" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup id="valorUnitario">
+														<p:outputLabel value="Preço Unitário: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText maxlength="10" placeholder="Preço Unitário"
+															styleClass="moeda"
+															readonly="#{mpCadastroProdutoBean.indEditavel}"
+															value="#{mpCadastroProdutoBean.mpProduto.valorUnitario}">
+															<f:convertNumber maxFractionDigits="2"
+																minFractionDigits="2" />
+														</p:inputText>
+														<p:tooltip for="valorUnitario" value="Preço Unitário (Ex.: R$ 20,00 )" />
+													</h:panelGroup>
+													<h:panelGroup id="precoVenda">
+														<p:outputLabel value="Preço Venda: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText maxlength="10" placeholder="Preço Venda"
+															styleClass="moeda"
+															readonly="#{mpCadastroProdutoBean.indEditavel}"
+															value="#{mpCadastroProdutoBean.mpProduto.precoVenda}">
+															<f:convertNumber maxFractionDigits="2"
+																minFractionDigits="2" />
+														</p:inputText>
+														<p:tooltip for="precoVenda" value="Preço Venda (Ex.: R$ 30,00 )" />
+													</h:panelGroup>
+													<h:panelGroup id="precoVendaEspecial">
+														<p:outputLabel value="Preço Venda Especial: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText maxlength="10" placeholder="Preço Venda Especial"
+															styleClass="moeda"
+															readonly="#{mpCadastroProdutoBean.indEditavel}"
+															value="#{mpCadastroProdutoBean.mpProduto.precoVendaEspecial}">
+															<f:convertNumber maxFractionDigits="2"
+																minFractionDigits="2" />
+														</p:inputText>
+														<p:tooltip for="precoVendaEspecial" 
+																			value="Preço Venda Especial (Ex.: R$ 35,00 )" />
+													</h:panelGroup>
+													<h:panelGroup id="margemLucro">
+														<p:outputLabel value="Margem Lucro(%): "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText maxlength="10" placeholder="Margem Lucro(%)"
+															styleClass="moeda"
+															readonly="#{mpCadastroProdutoBean.indEditavel}"
+															value="#{mpCadastroProdutoBean.mpProduto.margemLucro}">
+															<f:convertNumber maxFractionDigits="2"
+																minFractionDigits="2" />
+														</p:inputText>
+														<p:tooltip for="margemLucro" value="Margem Lucro(%) (Ex.: 50 )" />
+													</h:panelGroup>
+													
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+						<p:tab id="tabMovimento" title="Movimento">
+							<p:commandButton value="Novo Movimento"
+								icon="fa fa-plus Fs14 white"
+								action="#{mpCadastroProdutoBean.adicionarMpMovimentoProduto}"
+								disabled="#{mpCadastroProdutoBean.indEditavel}"
+								oncomplete="PF('movimentoDialog').show()" process="@this"
+								update="frmMov:movimentoPanel">
+								<p:resetInput target="frmMov:movimentoPanel" />
+							</p:commandButton>
+
+							<p:dataTable id="movimentosTable"
+								value="#{mpCadastroProdutoBean.mpProduto.mpMovimentoProdutos}"
+								var="mpMovimentoProduto"
+								emptyMessage="Nenhum movimento adicionado." reflow="true"
+								style="margin-top: 10px">
+
+								<p:column headerText="Data">
+									<h:outputText value="#{mpMovimentoProduto.dtHrMovimento}">
+										<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+											timeZone="America/Sao_Paulo" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Tipo">
+									<h:outputText
+										value="#{mpMovimentoProduto.mpTipoMovimento.descricao}" />
+								</p:column>
+
+								<p:column headerText="Quantidade">
+									<h:outputText value="#{mpMovimentoProduto.quantidade}">
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Observação">
+									<h:outputText value="#{mpMovimentoProduto.observacao}" />
+								</p:column>
+
+								<p:column style="text-align:center;">
+									<p:commandButton icon="ui-icon-trash" title="Excluir"
+										disabled="#{mpCadastroProdutoBean.indEditavel}"
+										oncomplete="PF('confirmacaoExclusaoMovimento').show()"
+										process="@this">
+										<f:setPropertyActionListener
+											target="#{mpCadastroProdutoBean.mpMovimentoProduto}"
+											value="#{mpMovimentoProduto}" />
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="Foto">
+							<p:messages id="messageFoto" autoUpdate="false"
+								showDetail="false" />
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+
+												<h:panelGroup id="arquivoBD">
+													<p:outputLabel style="font-size:16px; color:blue;"
+														value="#{mpCadastroProdutoBean.mpProduto.mpArquivoAcao.resultado}" />
+													<p:spacer width="5" />
+													<o:graphicImage dataURI="true" cache="false" width="400"
+														rendered="#{mpCadastroProdutoBean.arquivoBytes == null ? false : true}"
+														value="#{mpCadastroProdutoBean.arquivoBytes}" />
+												</h:panelGroup>
+
+											</div>
+										</div>
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent">
+													<p:panelGrid id="pGridFoto" columns="2"
+														styleClass="panelgrid-noborder" layout="grid"
+														columnClasses="ui-grid-col-2, ui-grid-col-10">
+
+														<p:outputLabel value="Ação" for="arquivoAcao"
+															style="font-size:14px; color:black;" />
+														<p:selectOneRadio id="arquivoAcao"
+															disabled="#{mpCadastroProdutoBean.indEditavel}"
+															value="#{mpCadastroProdutoBean.mpArquivoAcao}"
+															valueChangeListener="#{mpCadastroProdutoBean.arquivoAcaoSelecionado}">
+															<f:selectItems value="#{mpCadastroProdutoBean.mpArquivoAcaoList}"
+																var="mpArquivoAcao" itemValue="#{mpArquivoAcao}"
+																itemLabel="#{mpArquivoAcao.descricao}" />
+															<f:ajax execute="@all" render="@all" />
+														</p:selectOneRadio>
+
+														<p:outputLabel value="Associar" for="associaFoto"
+															rendered="#{mpCadastroProdutoBean.arquivoAcaoSelecao == 'Associar'}" />
+														<p:selectOneMenu id="associaFoto"
+															disabled="#{mpCadastroProdutoBean.indEditavel}"
+															value="#{mpCadastroProdutoBean.mpProduto.mpArquivoBD}"
+															rendered="#{mpCadastroProdutoBean.arquivoAcaoSelecao == 'Associar'}">
+															<f:selectItem itemLabel="Selecione a Arquivo" />
+															<f:selectItems value="#{mpCadastroProdutoBean.mpArquivoBDList}"
+																var="mpArquivoBD" itemValue="#{mpArquivoBD}"
+																itemLabel="#{mpArquivoBD.descricao}" />
+															<p:ajax event="change" process="@this" update="arquivoBD"
+																listener="#{mpCadastroProdutoBean.associaMpArquivoBD}"
+																ignoreAutoUpdate="true" />
+														</p:selectOneMenu>
+
+													</p:panelGrid>
+
+													<h:panelGroup id="carregaImagem"
+														rendered="#{mpCadastroProdutoBean.arquivoAcaoSelecao == 'Carregar'}">
+														<p:fileUpload label="Selecionar..."
+															disabled="#{mpCadastroProdutoBean.indEditavel}"
+															update="messageFoto arquivoBD"
+															fileUploadListener="#{mpCadastroProdutoBean.handleFileUpload}"
+															auto="true" mode="advanced" dragDropSupport="true"
+															sizeLimit="5000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+													</h:panelGroup>
+
+													<p:commandButton value="Proceder Captura"
+														icon="fa fa-camera Fs14 white"
+														rendered="#{mpCadastroProdutoBean.arquivoAcaoSelecao == 'Capturar'}"
+														oncomplete="PF('capturaDialog').show()" process="@this">
+													</p:commandButton>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+
+				<p:confirmDialog header="Exclusão Movimento"
+					message="Tem certeza que deseja excluir o Movimento = ( #{mpCadastroProdutoBean.mpMovimentoProduto.dtHrMovimentoSDF} )?"
+					widgetVar="confirmacaoExclusaoMovimento"
+					id="confirmacaoExclusaoMovimento">
+					<p:button value="Não"
+						onclick="PF('confirmacaoExclusaoMovimento').hide(); return false;" />
+					<p:commandButton value="Sim" process="@this" 
+						oncomplete="PF('confirmacaoExclusaoMovimento').hide();"
+						action="#{mpCadastroProdutoBean.removerMpMovimentoProduto}"
+						update=
+						":frmProd:tabViewC:movimentosTable :frmProd:tabViewC:estoque" />
+				</p:confirmDialog>
+
+			</h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmMov">
+				<p:dialog widgetVar="movimentoDialog"
+					header="Novo Movimento Produto" resizable="false"
+					style="min-width: 300px" responsive="true">
+
+					<h:panelGroup id="movimentoPanel" layout="block"
+						styleClass="ui-fluid">
+						<p:messages id="msgDialog" autoUpdate="false" />
+
+						<p:panelGrid columns="2" layout="grid"
+							styleClass="panelgrid-noborder"
+							columnClasses="ui-grid-col-4, ui-grid-col-8">
+
+							<p:outputLabel value="Data" for="dtHrMovimento" />
+							<p:calendar id="dtHrMovimento" size="16"
+								pattern="dd/MM/yyyy HH:mm" validatorMessage="Informar Data/Hora"
+								value="#{mpCadastroProdutoBean.mpMovimentoProduto.dtHrMovimento}" />
+
+							<p:outputLabel value="Tipo" for="mpTipo" />
+							<p:selectOneMenu id="mpTipo"
+								value="#{mpCadastroProdutoBean.mpMovimentoProduto.mpTipoMovimento}">
+								<f:selectItem itemLabel="Selecione o Tipo" />
+								<f:selectItems
+									value="#{mpCadastroProdutoBean.mpTipoMovimentoList}"
+									var="mpTipo" itemValue="#{mpTipo}" itemLabel="#{mpTipo}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Quantidade" for="quantidade" />
+							<p:inputText id="quantidade" size="7" maxlength="7"
+								validatorMessage="Informar Quantidade"
+								value="#{mpCadastroProdutoBean.mpMovimentoProduto.quantidade}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</p:inputText>
+
+							<p:outputLabel value="Código Barra" for="codigoBarra" />
+							<p:inputText id="codigoBarra"
+								value="#{mpCadastroProdutoBean.mpMovimentoProduto.codigoBarra}" />
+
+							<p:outputLabel value="Código Barra 2D" for="codigoBarra2D" />
+							<p:inputText id="codigoBarra2D"
+								value="#{mpCadastroProdutoBean.mpMovimentoProduto.codigoBarra2D}">
+								<p:ajax listener="#{mpCadastroProdutoBean.onEventSelect2D}"
+									update="lote dataFabricacao dataValidade" />
+							</p:inputText>
+
+							<p:outputLabel value="Lote" for="lote" />
+							<p:inputText id="lote"
+								value="#{mpCadastroProdutoBean.mpMovimentoProduto.lote}" />
+
+							<p:outputLabel value="Data Fabricação" for="dataFabricacao" />
+							<p:calendar id="dataFabricacao" size="10" pattern="dd/MM/yyyy"
+								value="#{mpCadastroProdutoBean.mpMovimentoProduto.dataFabricacao}" />
+
+							<p:outputLabel value="Data Validade" for="dataValidade" />
+							<p:calendar id="dataValidade" size="10" pattern="dd/MM/yyyy"
+								value="#{mpCadastroProdutoBean.mpMovimentoProduto.dataValidade}" />
+
+							<p:outputLabel value="Observação" for="observacao" />
+							<p:inputText id="observacao"
+								value="#{mpCadastroProdutoBean.mpMovimentoProduto.observacao}" />
+
+							<p:outputLabel />
+
+							<p:commandButton value="Salvar" process="movimentoPanel"
+								update="movimentoPanel frmProd:tabViewC:movimentosTable"
+								action="#{mpCadastroProdutoBean.salvarMpMovimentoProduto}"
+								oncomplete="if (!args.validationFailed) PF('movimentoDialog').hide()">
+								<p:collector
+									value="#{mpCadastroProdutoBean.mpMovimentoProduto}"
+									addTo="#{mpCadastroProdutoBean.mpProduto.mpMovimentoProdutos}" />
+							</p:commandButton>
+
+						</p:panelGrid>
+
+					</h:panelGroup>
+				</p:dialog>
+		  </h:form>					
+		</div>
+
+		<div class="ContainerIndent">
+			<p:dialog widgetVar="capturaDialog" id="capturaDialogId" modal="true"
+				header="Captura Foto" showEffect="fade" hideEffect="fade"
+				resizable="false" responsive="true"
+				rendered="#{mpCadastroProdutoBean.arquivoAcaoSelecao == 'Capturar'}">
+				<h:form id="frmCapturaDialog">
+					<h:panelGrid columns="3" cellpadding="5">
+						<p:photoCam widgetVar="pc" width="250"
+							listener="#{mpCadastroProdutoBean.aoCapturarArquivo}"
+							update="photoDialog arquivoBD" />
+						<p:commandButton type="button" value="Capturar" icon="fa fa-camera Fs14 white"
+							onclick="PF('pc').capture()" />
+						<p:outputPanel id="photoDialog">
+							<o:graphicImage dataURI="true" cache="false" width="250"
+								rendered="#{mpCadastroProdutoBean.arquivoBytesC == null ? false : true}"
+								value="#{mpCadastroProdutoBean.arquivoBytesC}" />
+						</p:outputPanel>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</div>
+
+
+		<div class="ContainerIndent">
+			<h:form id="frmMF">
+				<p:dialog header="Produtos Web MultiFarmas" responsive="true"
+					widgetVar="produtoDialogMF" modal="true" resizable="true">
+
+					<div class="ContainerIndent">
+						<p:panel id="panelFiltra" header="Filtra" toggleable="true"
+							toggleSpeed="500" closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="6" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<h:panelGroup>
+									<p:outputLabel value="Nome: "
+													rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText placeholder="Nome"
+										value="#{mpCadastroProdutoBean.mpFiltro.nome}" />
+								</h:panelGroup>
+								<p:outputLabel />
+								<h:panelGroup>
+									<p:outputLabel value="Posolgia: "
+													rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText placeholder="Posoolgia"
+										value="#{mpCadastroProdutoBean.mpFiltro.posologia}" />
+								</h:panelGroup>
+								<p:outputLabel />
+								<h:panelGroup>
+									<p:outputLabel value="Principio Ativo: "
+													rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText placeholder="Principio Ativo"
+										value="#{mpCadastroProdutoBean.mpFiltro.principioAtivo}" />
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel value="."
+													rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:commandButton icon="fa fa-search Fs14 white" title="Filtrar"
+										update="frmMF" process="@this"
+										action="#{mpCadastroProdutoBean.filtrar}"
+										oncomplete="PF('produtoDialogMF').show();">
+									</p:commandButton>
+
+
+								</h:panelGroup>
+							</p:panelGrid>
+						</p:panel>
+
+						<p:dataTable value="#{mpCadastroProdutoBean.produtoList}"
+							var="produto" paginator="true" rows="5" id="produtos">
+							<p:column headerText="Foto"
+								style="text-align:center; width:120px">
+								<h:graphicImage value="#{produto.produto_thumb}"
+									style="width:100px" />
+							</p:column>
+							<p:column headerText="Nome">
+								<h:outputText value="#{produto.produto_nome}" />
+							</p:column>
+							<p:column headerText="Link">
+								<a href="#{produto.produto_link}" target="_blank"> 
+									<h:outputText value="#{produto.produto_link}" />
+								</a>
+							</p:column>
+							<p:column headerText="Posologia">
+								<h:outputText value="#{produto.produto_posologia}" />
+							</p:column>
+							<p:column headerText="Princípio Ativo">
+								<h:outputText value="#{produto.produto_principio_ativo}" />
+							</p:column>
+							<p:column headerText="Preço"
+								style="text-align:center; width:70px"
+								sortBy="#{produto.produto_preco}">
+								<h:outputText value="#{produto.produto_preco}" />
+							</p:column>
+							<p:column headerText="Farmacia" style="text-align:center;"
+								sortBy="#{produto.farmacia_nome}">
+								<h:outputText value="#{produto.farmacia_nome}" />
+							</p:column>
+							<p:column style="text-align:center; width:90px">
+								<p:commandButton icon="ui-icon-check" title="Selecionar">
+									<p:ajax event="click" ignoreAutoUpdate="true"
+										update="frmProd:tabViewC:nome frmProd:tabViewC:valorUnitario"
+										listener="#{mpCadastroProdutoBean.produtoSelecionado(produto)}"
+										oncomplete="if (!args.validationFailed) PF('produtoDialogMF').hide();" />
+								</p:commandButton>
+							</p:column>
+
+						</p:dataTable>
+
+						<div class="EmptyBox20"></div>
+					</div>
+
+				</p:dialog>
+			</h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpProdutoDialog" id="helpProdutoDialogId" modal="true"
+					header="HELP - Produto" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpProdutoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCadastroProdutoBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroProdutoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCadastroProdutoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroProdutoBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCadastroProdutoBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCadastroProdutoBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

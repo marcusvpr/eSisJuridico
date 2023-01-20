@@ -1,0 +1,1750 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpProjeto" value="#{mpCadastroProjetoBean.mpProjeto}" />
+			<f:viewAction action="#{mpCadastroProjetoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Projeto #{mpCadastroProjetoBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesProjeto.xhtml" />
+
+					<div class="ContainerIndent ui-fluid" style="margin-top: 60px;">
+						<p:outputLabel value="Nome: " />
+						<p:inputText id="nome" maxlength="200"
+							placeholder="Informar Nome do Projeto"
+							readonly="#{mpCadastroProjetoBean.indEditavel}"
+							value="#{mpCadastroProjetoBean.mpProjeto.nome}" />
+						<p:tooltip for="nome" value="Nome (Ex.: Rodizio Saber )" />
+					</div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="1" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgDescricao">
+														<p:outputLabel value="Descrição: " />
+														<p:inputTextarea id="descricao" maxlength="10000"
+															placeholder="Informar Descrição do Projeto" rows="5"
+															readonly="#{mpCadastroProjetoBean.indEditavel}"
+															value="#{mpCadastroProjetoBean.mpProjeto.descricao}" />
+														<p:tooltip for="descricao" value="Descricao" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Status: " />
+														<p:selectOneMenu id="status" effect="fold"
+															required="#{mpCadastroProjetoBean.indEditavel}"
+															validatorMessage="Informar Status"
+															disabled="#{mpCadastroProjetoBean.indEditavel}"
+															value="#{mpCadastroProjetoBean.mpProjeto.mpStatusRequisito}">
+															<f:selectItem itemLabel="Selecione o Status" />
+															<f:selectItems
+																value="#{mpCadastroProjetoBean.mpStatusRequisitoList}"
+																var="mpStatusRequisito" itemValue="#{mpStatusRequisito}"
+																itemLabel="#{mpStatusRequisito.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="status" value="Status (Ex.: Validado )" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+						<p:tab title="Macro Requisitos" closable="false">
+							<p:commandButton value="Novo Macro Requisito"
+								icon="fa fa-plus Fs14 white"
+								action="#{mpCadastroProjetoBean.adicionarMpMacroRequisitoX}"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								oncomplete="PF('novoMacroRequisitoDialog').show()" process="@this"
+								update="frmMReq:novoMacroRequisitoDialogId">
+								<p:resetInput target="frmMReq:novoMacroRequisitoDialogId" />
+							</p:commandButton>
+
+							<p:dataTable id="macroRequisitosTable" rowIndexVar="rowIndex"
+								value="#{mpCadastroProjetoBean.mpProjeto.mpMacroRequisitoList}"
+								emptyMessage="O Projeto ainda não possui Macro Requisitos"
+								var="macroRequisito" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Número" style="text-align:center;">
+									<h:outputText value="#{rowIndex + 1}" />
+								</p:column>
+								<p:column headerText="Descrição" sortBy="#{macroRequisito.descricao}">
+									<h:outputText value="#{macroRequisito.descricao}" />
+								</p:column>
+								<p:column headerText="Status" style="text-align:center;">
+									<h:outputText value="#{macroRequisito.mpStatusRequisito.descricao}" />
+								</p:column>
+
+								<p:column style="text-align:center">
+									<p:commandButton title="Alterar" icon="fa fa-edit Fs14 blue"
+										oncomplete="PF('novoMacroRequisitoDialog').show()"
+										action="#{mpCadastroProjetoBean.alterarMpMacroRequisito}"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update="frmMReq:novoMacroRequisitoDialogId">
+										<f:setPropertyActionListener value="#{macroRequisito}"
+											target="#{mpCadastroProjetoBean.mpMacroRequisito}" />
+									</p:commandButton>
+
+									<p:commandButton title="Excluir" icon="fa fa-trash Fs14 blue"
+										oncomplete="PF('confirmacaoExclusaoMReqDialog').show()"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update=":frm:confirmacaoExclusaoMReqDialog">
+										<f:setPropertyActionListener value="#{macroRequisito}"
+											target="#{mpCadastroProjetoBean.mpMacroRequisito}" />
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="Modulos" closable="false">
+							<p:commandButton value="Novo Modulo"
+								icon="fa fa-plus Fs14 white"
+								action="#{mpCadastroProjetoBean.adicionarMpModuloX}"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								oncomplete="PF('novoModuloDialog').show()" process="@this"
+								update="frmMod:novoModuloDialogId">
+								<p:resetInput target="frmMod:novoModuloDialogId" />
+							</p:commandButton>
+
+							<p:dataTable id="modulosTable" rowIndexVar="rowIndex"
+								value="#{mpCadastroProjetoBean.mpProjeto.mpModuloList}"
+								emptyMessage="O Projeto ainda não possui módulos"
+								var="modulo" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Número" style="text-align:center;">
+									<h:outputText value="#{rowIndex + 1}" />
+								</p:column>
+								<p:column headerText="Descrição" sortBy="#{modulo.descricao}">
+									<h:outputText value="#{modulo.descricao}" />
+								</p:column>
+								<p:column headerText="Status" style="text-align:center;">
+									<h:outputText value="#{modulo.mpStatusRequisito.descricao}" />
+								</p:column>
+
+								<p:column style="text-align:center">
+									<p:commandButton title="Alterar" icon="fa fa-edit Fs14 blue"
+										oncomplete="PF('novoModuloDialog').show()"
+										action="#{mpCadastroProjetoBean.alterarMpModulo}"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update="frmMod:novoModuloDialogId">
+										<f:setPropertyActionListener value="#{modulo}"
+											target="#{mpCadastroProjetoBean.mpModulo}" />
+									</p:commandButton>
+
+									<p:commandButton title="Excluir" icon="fa fa-trash Fs14 blue"
+										oncomplete="PF('confirmacaoExclusaoModDialog').show()"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update=":frm:confirmacaoExclusaoModDialog">
+										<f:setPropertyActionListener value="#{modulo}"
+											target="#{mpCadastroProjetoBean.mpModulo}" />
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="Funcionalidades" closable="false">
+							<p:commandButton value="Nova Funcionalidade"
+								icon="fa fa-plus Fs14 white"
+								action="#{mpCadastroProjetoBean.adicionarMpFuncionalidadeX}"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								oncomplete="PF('novoFuncionalidadeDialog').show()" process="@this"
+								update="frmFun:novoFuncionalidadeDialogId">
+								<p:resetInput target="frmFun:novoFuncionalidadeDialogId" />
+							</p:commandButton>
+
+							<p:dataTable id="funcionalidadesTable" rowIndexVar="rowIndex"
+								value="#{mpCadastroProjetoBean.mpProjeto.mpFuncionalidadeList}"
+								emptyMessage="O Projeto ainda não possui Funcionalidades"
+								var="funcionalidade" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Número" style="text-align:center;">
+									<h:outputText value="#{rowIndex + 1}" />
+								</p:column>
+								<p:column headerText="Modulo" sortBy="#{funcionalidade.mpModulo.descricao}">
+									<h:outputText value="#{funcionalidade.mpModulo.descricao}" />
+								</p:column>
+								<p:column headerText="Descrição">
+									<h:outputText value="#{funcionalidade.descricao}" />
+								</p:column>
+								<p:column headerText="Status" style="text-align:center;">
+									<h:outputText value="#{funcionalidade.mpStatusRequisito.descricao}" />
+								</p:column>
+
+								<p:column style="text-align:center">
+									<p:commandButton title="Alterar" icon="fa fa-edit Fs14 blue"
+										oncomplete="PF('novoFuncionalidadeDialog').show()"
+										action="#{mpCadastroProjetoBean.alterarMpFuncionalidade}"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update="frmFun:novoFuncionalidadeDialogId">
+										<f:setPropertyActionListener value="#{funcionalidade}"
+											target="#{mpCadastroProjetoBean.mpFuncionalidade}" />
+									</p:commandButton>
+
+									<p:commandButton title="Excluir" icon="fa fa-trash Fs14 blue"
+										oncomplete="PF('confirmacaoExclusaoFunDialog').show()"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update=":frm:confirmacaoExclusaoFunDialog">
+										<f:setPropertyActionListener value="#{funcionalidade}"
+											target="#{mpCadastroProjetoBean.mpFuncionalidade}" />
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="Requisitos Funcionais" closable="false">
+							<p:commandButton value="Novo Requisito Funcional"
+								icon="fa fa-plus Fs14 white"
+								action="#{mpCadastroProjetoBean.adicionarMpRequisitoFuncionalX}"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								oncomplete="PF('novoRequisitoFuncionalDialog').show()" process="@this"
+								update="frmReqF:novoRequisitoFuncionalDialogId">
+								<p:resetInput target="frmReqF:novoRequisitoFuncionalDialogId" />
+							</p:commandButton>
+
+							<p:dataTable id="requisitoFuncionalsTable" rowIndexVar="rowIndex"
+								value="#{mpCadastroProjetoBean.mpProjeto.mpRequisitoFuncionalList}"
+								emptyMessage="O Projeto ainda não possui Requisitos Funcionais"
+								var="requisitoFuncional" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Número" style="text-align:center;">
+									<h:outputText value="#{rowIndex + 1}" />
+								</p:column>
+								<p:column headerText="Modulo" sortBy="#{requisitoFuncional.mpModulo.descricao}">
+									<h:outputText value="#{requisitoFuncional.mpModulo.descricao}" />
+								</p:column>
+								<p:column headerText="Funcionalidade">
+									<h:outputText value="#{requisitoFuncional.mpFuncionalidade.descricao}" />
+								</p:column>
+								<p:column headerText="Id.RF" style="text-align:center">
+									<h:outputText value="#{requisitoFuncional.idRF}" />
+								</p:column>
+								<p:column headerText="Descrição" sortBy="#{requisitoFuncional.descricao}">
+									<h:outputText value="#{requisitoFuncional.descricao}" />
+								</p:column>
+								<p:column headerText="Associação" sortBy="#{requisitoFuncional.associacao}">
+									<h:outputText value="#{requisitoFuncional.associacao}" />
+								</p:column>
+								<p:column headerText="Prioridade" style="text-align:center">
+									<h:outputText value="#{requisitoFuncional.mpPrioridade.descricao}" />
+								</p:column>
+								<p:column headerText="Complexibilidade" style="text-align:center">
+									<h:outputText value="#{requisitoFuncional.mpComplexibilidade.descricao}" />
+								</p:column>
+								<p:column headerText="Esforço(h)" sortBy="#{requisitoFuncional.numHoraEsforco}">
+									<h:outputText value="#{requisitoFuncional.numHoraEsforco}">
+	    								<f:convertNumber type="currency" pattern="##0.00"/>
+	    							</h:outputText>
+								</p:column>
+								<p:column headerText="Status" style="text-align:center">
+									<h:outputText value="#{requisitoFuncional.mpStatusRequisito.descricao}" />
+								</p:column>
+
+								<p:column style="text-align:center">
+									<p:commandButton title="Alterar" icon="fa fa-edit Fs14 blue"
+										oncomplete="PF('novoRequisitoFuncionalDialog').show()"
+										action="#{mpCadastroProjetoBean.alterarMpRequisitoFuncional}"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update="frmReqF:novoRequisitoFuncionalDialogId">
+										<f:setPropertyActionListener value="#{requisitoFuncional}"
+											target="#{mpCadastroProjetoBean.mpRequisitoFuncional}" />
+									</p:commandButton>
+
+									<p:commandButton title="Excluir" icon="fa fa-trash Fs14 blue"
+										oncomplete="PF('confirmacaoExclusaoReqFDialog').show()"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update=":frm:confirmacaoExclusaoReqFDialog">
+										<f:setPropertyActionListener value="#{requisitoFuncional}"
+											target="#{mpCadastroProjetoBean.mpRequisitoFuncional}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="Regras Negócio" closable="false">
+							<p:commandButton value="Nova Regra Negócio"
+								icon="fa fa-plus Fs14 white"
+								action="#{mpCadastroProjetoBean.adicionarMpRegraNegocioX}"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								oncomplete="PF('novoRegraNegocioDialog').show()" process="@this"
+								update="frmRegN:novoRegraNegocioDialogId">
+								<p:resetInput target="frmRegN:novoRegraNegocioDialogId" />
+							</p:commandButton>
+
+							<p:dataTable id="regraNegociosTable" rowIndexVar="rowIndex"
+								value="#{mpCadastroProjetoBean.mpProjeto.mpRegraNegocioList}"
+								emptyMessage="O Projeto ainda não possui Regra Negócio"
+								var="regraNegocio" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Número" style="text-align:center;">
+									<h:outputText value="#{rowIndex + 1}" />
+								</p:column>
+								<p:column headerText="Id.RN" style="text-align:center">
+									<h:outputText value="#{regraNegocio.idRN}" />
+								</p:column>
+								<p:column headerText="Descrição" sortBy="#{regraNegocio.descricao}">
+									<h:outputText value="#{regraNegocio.descricao}" />
+								</p:column>
+								<p:column headerText="Dependencia" sortBy="#{regraNegocio.dependencia}">
+									<h:outputText value="#{regraNegocio.dependencia}" />
+								</p:column>
+								<p:column headerText="Complexibilidade" style="text-align:center">
+									<h:outputText value="#{regraNegocio.mpComplexibilidade.descricao}" />
+								</p:column>
+								<p:column headerText="Status" style="text-align:center">
+									<h:outputText value="#{regraNegocio.mpStatusRequisito.descricao}" />
+								</p:column>
+
+								<p:column style="text-align:center">
+									<p:commandButton title="Alterar" icon="fa fa-edit Fs14 blue"
+										oncomplete="PF('novoRegraNegocioDialog').show()"
+										action="#{mpCadastroProjetoBean.alterarMpRegraNegocio}"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update="frmRegN:novoRegraNegocioDialogId">
+										<f:setPropertyActionListener value="#{regraNegocio}"
+											target="#{mpCadastroProjetoBean.mpRegraNegocio}" />
+									</p:commandButton>
+
+									<p:commandButton title="Excluir" icon="fa fa-trash Fs14 blue"
+										oncomplete="PF('confirmacaoExclusaoRegNDialog').show()"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update=":frm:confirmacaoExclusaoRegNDialog">
+										<f:setPropertyActionListener value="#{regraNegocio}"
+											target="#{mpCadastroProjetoBean.mpRegraNegocio}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</p:tab>
+						
+						<p:tab title="Requisitos Não Funcionais" closable="false">
+							<p:commandButton value="Novo Requisito Não Funcional"
+								icon="fa fa-plus Fs14 white"
+								action="#{mpCadastroProjetoBean.adicionarMpRequisitoNaoFuncionalX}"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								oncomplete="PF('novoRequisitoNaoFuncionalDialog').show()" process="@this"
+								update="frmReqNF:novoRequisitoNaoFuncionalDialogId">
+								<p:resetInput target="frmReqNF:novoRequisitoNaoFuncionalDialogId" />
+							</p:commandButton>
+
+							<p:dataTable id="requisitoNaoFuncionalsTable" rowIndexVar="rowIndex"
+								value="#{mpCadastroProjetoBean.mpProjeto.mpRequisitoNaoFuncionalList}"
+								emptyMessage="O Projeto ainda não possui Requisitos Não Funcionais"
+								var="requisitoNaoFuncional" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Número" style="text-align:center;">
+									<h:outputText value="#{rowIndex + 1}" />
+								</p:column>
+								<p:column headerText="Modulo" sortBy="#{requisitoNaoFuncional.mpModulo.descricao}">
+									<h:outputText value="#{requisitoNaoFuncional.mpModulo.descricao}" />
+								</p:column>
+								<p:column headerText="Funcionalidade">
+									<h:outputText value="#{requisitoNaoFuncional.mpFuncionalidade.descricao}" />
+								</p:column>								
+								<p:column headerText="Id.RNF" style="text-align:center">
+									<h:outputText value="#{requisitoNaoFuncional.idRNF}" />
+								</p:column>
+								<p:column headerText="Descrição" sortBy="#{requisitoNaoFuncional.descricao}">
+									<h:outputText value="#{requisitoNaoFuncional.descricao}" />
+								</p:column>
+								<p:column headerText="Associação" sortBy="#{requisitoNaoFuncional.associacao}">
+									<h:outputText value="#{requisitoNaoFuncional.associacao}" />
+								</p:column>
+								<p:column headerText="Categoria" style="text-align:center">
+									<h:outputText value="#{requisitoNaoFuncional.mpCategoriaRNF.descricao}" />
+								</p:column>
+								<p:column headerText="Prioridade" style="text-align:center">
+									<h:outputText value="#{requisitoNaoFuncional.mpPrioridade.descricao}" />
+								</p:column>
+								<p:column headerText="Complexibilidade" style="text-align:center">
+									<h:outputText value="#{requisitoNaoFuncional.mpComplexibilidade.descricao}" />
+								</p:column>
+								<p:column headerText="Esforço(h)" sortBy="#{requisitoNaoFuncional.numHoraEsforco}">
+									<h:outputText value="#{requisitoNaoFuncional.numHoraEsforco}">
+	    								<f:convertNumber type="currency" pattern="##0.00"/>
+	    							</h:outputText>
+								</p:column>
+								<p:column headerText="Status" style="text-align:center">
+									<h:outputText value="#{requisitoNaoFuncional.mpStatusRequisito.descricao}" />
+								</p:column>
+
+								<p:column style="text-align:center">
+									<p:commandButton title="Alterar" icon="fa fa-edit Fs14 blue"
+										oncomplete="PF('novoRequisitoNaoFuncionalDialog').show()"
+										action="#{mpCadastroProjetoBean.alterarMpRequisitoNaoFuncional}"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update="frmReqNF:novoRequisitoNaoFuncionalDialogId">
+										<f:setPropertyActionListener value="#{requisitoNaoFuncional}"
+											target="#{mpCadastroProjetoBean.mpRequisitoNaoFuncional}" />
+									</p:commandButton>
+
+									<p:commandButton title="Excluir" icon="fa fa-trash Fs14 blue"
+										oncomplete="PF('confirmacaoExclusaoReqNFDialog').show()"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update=":frm:confirmacaoExclusaoReqNFDialog">
+										<f:setPropertyActionListener value="#{requisitoNaoFuncional}"
+											target="#{mpCadastroProjetoBean.mpRequisitoNaoFuncional}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</p:tab>
+												
+						<p:tab title="MR - RF x RN">
+                			<div class="ContainerIndent">
+								<p:outputLabel value="MATRIZ RASTREABILIDADE - Requisito Funcional (RF) x Regra Negócio (RN): "
+									styleClass="Container80 Fnone MarAuto Fs18" />
+								<p:dataTable id="listaRfRnsTable"
+									value="#{mpCadastroProjetoBean.mpMatrizRfRnDTOList}"
+									emptyMessage="O Projeto não possui RASTREABILIDADE RF x RN"
+									var="mpMatrizRfRnDTO" style="margin-top:10px" reflow="true">
+
+									<p:column headerText="RF x RN" 
+										style="vertical-align:middle; width:70px;">
+										<h:outputText value="#{mpMatrizRfRnDTO.requisitoFuncional}" />
+									</p:column>
+									<p:column headerText="R N 0 0 0 1" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[0]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 0 2" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[1]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 0 3" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[2]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 0 4" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[3]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 0 5" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[4]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 0 6" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[5]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 0 7" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[6]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 0 8" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[7]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 0 9" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[8]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 1 0" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[9]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 1 1" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[10]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 1 2" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[11]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 1 3" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[12]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 1 4" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[13]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 1 5" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[14]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 1 6" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[15]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 1 7" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[16]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 1 8" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[17]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 1 9" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[18]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 2 0" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[19]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 2 1" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[20]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 2 2" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[21]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 2 3" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[22]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 2 4" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[23]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 2 5" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[24]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 2 6" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[25]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 2 7" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[26]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 2 8" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[27]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 2 9" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[28]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 3 0" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[29]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 3 1" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[20]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 3 2" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[31]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 3 3" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[32]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 3 4" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[33]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 3 5" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[34]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 3 6" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[35]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 3 7" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[36]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 3 8" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[37]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 3 9" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[38]}" />
+									</p:column>
+									<p:column headerText="R N 0 0 4 0" 
+										style="vertical-align:middle; width:15px;">
+										<h:outputText
+											value="#{mpMatrizRfRnDTO.regraNegocioList[39]}" />
+									</p:column>
+
+								</p:dataTable>
+							</div>
+						</p:tab>
+
+						<p:tab title="Painel de Bordo" closable="false">
+							<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px !important; background:none;">
+								<p:chart type="pie" model="#{mpCadastroProjetoBean.pieModelRfStatus}" />
+								<p:chart type="pie" model="#{mpCadastroProjetoBean.pieModelRfPrioridade}" /> 
+								<p:chart type="pie" model="#{mpCadastroProjetoBean.pieModelRfComplexibilidade}" />
+								<p:chart type="pie" model="#{mpCadastroProjetoBean.pieModelRnStatus}" />
+								<p:chart type="pie" model="#{mpCadastroProjetoBean.pieModelRnComplexibilidade}" />
+								<p:chart type="bar" model="#{mpCadastroProjetoBean.barModelRnfCategoria}" />
+							</p:panelGrid>
+						</p:tab>
+
+						<p:tab title="Estimativas" closable="false">
+							<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px !important; background:none;">
+
+								<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank"
+									style="border:0px !important; background:none;">
+									
+									<p:outputLabel value="ESTIMATIVAS: "
+															styleClass="Container80 Fnone MarAuto Fs18" />
+									
+									<h:panelGroup id="pgEsforcoRequisitoFuncional">
+										<p:outputLabel value="Esforço - Requisito Funcional: " />
+										<p:inputText id="esforcoRequisitoFuncional" readonly="true"
+											maxlength="9" styleClass="moeda"
+											value="#{mpCadastroProjetoBean.esforcoRequisitoFuncional}">
+											<f:convertNumber maxFractionDigits="7" minFractionDigits="2" />
+										</p:inputText>
+									</h:panelGroup>
+									<h:panelGroup id="pgEsforcoRequisitoNaoFuncional">
+										<p:outputLabel value="Esforço - Requisito Não Funcional: " />
+										<p:inputText id="esforcoRequisitoNaoFuncional" readonly="true"
+											maxlength="9" styleClass="moeda"
+											value="#{mpCadastroProjetoBean.esforcoRequisitoNaoFuncional}">
+											<f:convertNumber maxFractionDigits="7" minFractionDigits="2" />
+										</p:inputText>
+									</h:panelGroup>
+									<h:panelGroup id="pgEsforcoTotal">
+										<p:outputLabel value="Esforço Total: " />
+										<p:inputText id="esforcoTotal" readonly="true" maxlength="9"
+											styleClass="moeda"
+											value="#{mpCadastroProjetoBean.esforcoTotal}">
+											<f:convertNumber maxFractionDigits="7" minFractionDigits="2" />
+										</p:inputText>
+									</h:panelGroup>
+									<h:panelGroup id="pgValHorEquipe">
+										<p:outputLabel value="Valor Hora Equipe: " />
+										<p:inputText id="valHorEquipe"
+											readonly="#{mpCadastroProjetoBean.indEditavel}"
+											validatorMessage="Informar Valor Hora Equipe" maxlength="9"
+											styleClass="moeda"
+											value="#{mpCadastroProjetoBean.mpProjeto.valorHoraEquipe}">
+											<f:convertNumber maxFractionDigits="7" minFractionDigits="2" />
+										</p:inputText>
+										<p:tooltip for="valHorEquipe" value="Esforço ( Ex.: 150,00)" />
+									</h:panelGroup>
+									<h:panelGroup id="pgValFinProjeto">
+										<p:outputLabel value="Valor Final Projeto: " />
+										<p:inputText id="valFinProjeto" readonly="true" maxlength="9"
+											styleClass="moeda"
+											value="#{mpCadastroProjetoBean.mpProjeto.valorFinalProjeto}">
+											<f:convertNumber maxFractionDigits="9" minFractionDigits="2" />
+										</p:inputText>
+									</h:panelGroup>
+									<h:panelGroup id="pgQtdProf">
+										<p:outputLabel value="Quantidade Profissionais: " />
+										<p:inputText id="qtdProf"
+											readonly="#{mpCadastroProjetoBean.indEditavel}"
+											validatorMessage="Informar Quantidade Profissionais"
+											maxlength="5" styleClass="moeda"
+											value="#{mpCadastroProjetoBean.mpProjeto.qtdProfissional}">
+											<f:convertNumber maxFractionDigits="5" minFractionDigits="0" />
+										</p:inputText>
+										<p:tooltip for="qtdProf" value="Esforço ( Ex.: 2)" />
+									</h:panelGroup>
+									<h:panelGroup id="pgPzoProjeto">
+										<p:outputLabel value="Prazo Projeto (meses=160H): " />
+										<p:inputText id="pzoProjeto" readonly="true" maxlength="9"
+											styleClass="moeda"
+											value="#{mpCadastroProjetoBean.prazoProjeto}">
+											<f:convertNumber maxFractionDigits="6" minFractionDigits="3" />
+										</p:inputText>
+									</h:panelGroup>
+
+								</p:panelGrid>
+								
+								<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank"
+									style="border:0px !important; background:none;">
+									
+									<p:outputLabel value="RECURSOS E PLANEJAMENTO - PRELIMINAR: " />
+
+									<h:panelGroup id="pgEsforcoPre">
+										<p:outputLabel value="Esforço: " />
+										<p:inputText id="esforcoPre" readonly="true"
+											value="N/A">
+										</p:inputText>
+									</h:panelGroup>
+									<h:panelGroup id="pgEsforcoRequisitoFuncionalPre">
+										<p:outputLabel value="Esforço - Requisito Funcional: " />
+										<p:inputText id="esforcoRequisitoFuncionalPre" readonly="true"
+											value="N/A">
+										</p:inputText>
+									</h:panelGroup>
+									<h:panelGroup id="pgEsforcoTotalPre">
+										<p:outputLabel value="Esforço Total: " />
+										<p:inputText id="valEsforcoTotPre" readonly="true" 
+											maxlength="9" styleClass="moeda"
+											value="#{mpCadastroProjetoBean.esforcoTotalPre}">
+											<f:convertNumber maxFractionDigits="9" minFractionDigits="2" />
+										</p:inputText>
+										<p:tooltip for="valEsforcoTotPre" value="Esforço Total ( Ex.: 1.500,00)" />
+									</h:panelGroup>
+									<h:panelGroup id="pgValHorEquipePre">
+										<p:outputLabel value="Valor Hora Equipe: " />
+										<p:inputText id="valHorEquipePre"
+											readonly="#{mpCadastroProjetoBean.indEditavel}"
+											validatorMessage="Informar Valor Hora Equipe" maxlength="9"
+											styleClass="moeda"
+											value="#{mpCadastroProjetoBean.mpProjeto.valorHoraEquipePre}">
+											<f:convertNumber maxFractionDigits="7" minFractionDigits="2" />
+										</p:inputText>
+										<p:tooltip for="valHorEquipePre" value="Esforço ( Ex.: 150,00)" />
+									</h:panelGroup>
+									<h:panelGroup id="pgValFinProjetoPre">
+										<p:outputLabel value="Valor Final Projeto: " />
+										<p:inputText id="valFinProjetoPre" readonly="#{mpCadastroProjetoBean.indEditavel}"
+											maxlength="9" styleClass="moeda"
+											value="#{mpCadastroProjetoBean.mpProjeto.valorFinalProjetoPre}">
+											<f:convertNumber maxFractionDigits="9" minFractionDigits="2" />
+										</p:inputText>
+									</h:panelGroup>
+									<h:panelGroup id="pgQtdProfPre">
+										<p:outputLabel value="Quantidade Profissionais: " />
+										<p:inputText id="qtdProfPre"
+											readonly="#{mpCadastroProjetoBean.indEditavel}"
+											validatorMessage="Informar Quantidade Profissionais"
+											maxlength="5" styleClass="moeda"
+											value="#{mpCadastroProjetoBean.mpProjeto.qtdProfissionalPre}">
+											<f:convertNumber maxFractionDigits="5" minFractionDigits="0" />
+										</p:inputText>
+										<p:tooltip for="qtdProfPre" value="Esforço ( Ex.: 2)" />
+									</h:panelGroup>
+									<h:panelGroup id="pgPzoProjetoPre">
+										<p:outputLabel value="Prazo Projeto (meses=160H): " />
+										<p:inputText id="pzoProjetoPre" readonly="#{mpCadastroProjetoBean.indEditavel}" 
+											maxlength="9" styleClass="moeda"
+											value="#{mpCadastroProjetoBean.mpProjeto.prazoProjetoPre}">
+											<f:convertNumber maxFractionDigits="6" minFractionDigits="3" />
+										</p:inputText>
+									</h:panelGroup>
+
+								</p:panelGrid>
+
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px !important; background:none;">
+
+								<p:outputLabel value="CONSOLIDADO: " 
+														styleClass="Container80 Fnone MarAuto Fs18" />
+								<p:dataTable id="listaProjetoFaseEtapasTable"
+									value="#{mpCadastroProjetoBean.mpProjetoFaseEtapaDTOList}"
+									emptyMessage="O ProjetoFaseEtapa não possui lista valores"
+									var="mpProjetoFaseEtapaDTO" style="margin-top:10px" reflow="true">
+
+									<p:column headerText="Fase-Etapa/Disciplina">
+										<h:outputText value=
+									"#{mpProjetoFaseEtapaDTO.mpProjetoFaseEtapa.faseEtapa}" />
+									</p:column>
+									<p:column headerText="Percentual de consumo (%)" 
+																		style="text-align:center">
+										<h:outputText value=
+									"#{mpProjetoFaseEtapaDTO.mpProjetoFaseEtapa.percentualConsumo}" />
+									</p:column>
+									<p:column headerText="Esforço (H/H)" style="text-align:center">
+										<h:outputText value="#{mpProjetoFaseEtapaDTO.esforco}" />
+									</p:column>
+									<p:column headerText="Duração (dias corridos)" 
+																		style="text-align:center">
+										<h:outputText value="#{mpProjetoFaseEtapaDTO.duracao}" />
+									</p:column>
+									<p:column headerText="Custo (R$)">
+										<h:outputText value="#{mpProjetoFaseEtapaDTO.custo}">
+	    									<f:convertNumber type="currency" pattern="#,###,##0.000" />
+	    								</h:outputText>
+									</p:column>
+
+								</p:dataTable>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px !important; background:none;">
+
+								<p:outputLabel value="DETALHADO: " 
+													styleClass="Container80 Fnone MarAuto Fs18" />
+								<p:dataTable id="listaProjetoFaseEtapasDetTable"
+									value="#{mpCadastroProjetoBean.mpProjetoFaseEtapaDetDTOList}"
+									emptyMessage="O ProjetoFaseEtapaDet não possui lista valores"
+									var="mpProjetoFaseEtapaDTO" style="margin-top:10px" reflow="true">
+
+									<p:column headerText="Fase-Etapa/Disciplina">
+										<h:outputText value=
+									"#{mpProjetoFaseEtapaDTO.mpProjetoFaseEtapa.disciplina}"
+											rendered=
+									"#{mpProjetoFaseEtapaDTO.mpProjetoFaseEtapa.isDisciplina}" />
+										<h:outputText 
+										style="text-align:center; font-weight:bold;" value=
+									"#{mpProjetoFaseEtapaDTO.mpProjetoFaseEtapa.faseEtapa}"
+											rendered=
+									"#{!mpProjetoFaseEtapaDTO.mpProjetoFaseEtapa.isDisciplina}" />
+									</p:column>
+									<p:column headerText="Percentual de consumo (%)" 
+																		style="text-align:center">
+										<h:outputText value=
+									"#{mpProjetoFaseEtapaDTO.mpProjetoFaseEtapa.percentualConsumo}" />
+									</p:column>
+									<p:column headerText="Esforço (H/H)" style="text-align:center">
+										<h:outputText value="#{mpProjetoFaseEtapaDTO.esforco}" />
+									</p:column>
+									<p:column headerText="Duração (dias corridos)" 
+																		style="text-align:center">
+										<h:outputText value="#{mpProjetoFaseEtapaDTO.duracao}" />
+									</p:column>
+									<p:column headerText="Custo (R$)">
+										<h:outputText value="#{mpProjetoFaseEtapaDTO.custo}">
+	    									<f:convertNumber type="currency" pattern="#,###,##0.000" />
+	    								</h:outputText>
+									</p:column>
+
+								</p:dataTable>
+							</p:panelGrid>
+
+						</p:tab>
+
+						<p:tab title="Lista Valores" closable="false">
+
+							<p:dataTable id="listaValorsTable"
+								value="#{mpCadastroProjetoBean.mpStatusDTOList}"
+								emptyMessage="O Projeto não possui lista valores"
+								var="mpStatusDTO" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Prioridade" style="text-align:center">
+									<h:outputText value="#{mpStatusDTO.mpPrioridade.descricao}" />
+								</p:column>
+								<p:column headerText="Complexibilidade" style="text-align:center">
+									<h:outputText value="#{mpStatusDTO.mpComplexibilidade.descricao}" />
+								</p:column>
+								<p:column headerText="Status" style="text-align:center">
+									<h:outputText value="#{mpStatusDTO.mpStatusRequisito.descricao}" />
+								</p:column>
+								<p:column headerText="Categoria RNF" style="text-align:center">
+									<h:outputText value="#{mpStatusDTO.mpCategoriaRNF.descricao}" />
+								</p:column>
+							</p:dataTable>
+
+						</p:tab>
+
+						<p:tab title="Pessoas" closable="false">
+							<p:commandButton value="Nova Pessoa"
+								icon="fa fa-plus Fs14 white"
+								action="#{mpCadastroProjetoBean.adicionarMpProjetoPessoaERX}"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								oncomplete="PF('novoProjetoPessoaERDialog').show()" process="@this"
+								update="frmPPesER:novoProjetoPessoaERDialogId">
+								<p:resetInput target="frmPPesER:novoProjetoPessoaERDialogId" />
+							</p:commandButton>
+
+							<p:dataTable id="projetoPessoaERsTable" rowIndexVar="rowIndex"
+								value="#{mpCadastroProjetoBean.mpProjeto.mpProjetoPessoaERList}"
+								emptyMessage="O Projeto ainda não possui Pessoas"
+								var="mpProjetoPessoaER" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Número" style="text-align:center;">
+									<h:outputText value="#{rowIndex + 1}" />
+								</p:column>
+								<p:column headerText="Nome" sortBy="#{mpProjetoPessoaER.mpPessoaER.nome}">
+									<h:outputText value="#{mpProjetoPessoaER.mpPessoaER.nome}" />
+								</p:column>
+								<p:column headerText="Grupo / Função" 
+														sortBy="#{mpProjetoPessoaER.mpPessoaFuncao.grupoFuncao}">
+									<h:outputText value="#{mpProjetoPessoaER.mpPessoaFuncao.grupoFuncao}" />
+								</p:column>
+								<p:column headerText="Observação" sortBy="#{mpProjetoPessoaER.observacao}">
+									<h:outputText value="#{mpProjetoPessoaER.observacao}" />
+								</p:column>
+
+								<p:column style="text-align:center">
+									<p:commandButton title="Alterar" icon="fa fa-edit Fs14 blue"
+										oncomplete="PF('novoProjetoPessoaERDialog').show()"
+										action="#{mpCadastroProjetoBean.alterarMpProjetoPessoaER}"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update="frmPPesER:novoProjetoPessoaERDialogId">
+										<f:setPropertyActionListener value="#{mpProjetoPessoaER}"
+											target="#{mpCadastroProjetoBean.mpProjetoPessoaER}" />
+									</p:commandButton>
+
+									<p:commandButton title="Excluir" icon="fa fa-trash Fs14 blue"
+										oncomplete="PF('confirmacaoExclusaoProjetoPessoaERDialog').show()"
+										disabled="#{mpCadastroProjetoBean.indEditavel}"
+										process="@this" update=":frm:confirmacaoExclusaoProjetoPessoaERDialog">
+										<f:setPropertyActionListener value="#{mpProjetoPessoaER}"
+											target="#{mpCadastroProjetoBean.mpProjetoPessoaER}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="Relatórios" closable="false">
+
+							<p:dataTable id="relatoriosTable" rowIndexVar="rowIndex"
+								value="#{mpCadastroProjetoBean.mpRelatorioERList}"
+								emptyMessage="O Projeto ainda não possui Relatórios"
+								var="mpRelatorioER" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Número" style="text-align:center;">
+									<h:outputText value="#{rowIndex + 1}"
+												styleClass="Container80 Fnone MarAuto Fs18" />
+								</p:column>
+								<p:column headerText="Grupo" sortBy="#{mpRelatorioER.grupo}" style="text-align:center;">
+									<h:outputText value="#{mpRelatorioER.grupo}" />
+								</p:column>
+								<p:column headerText="Relatório" sortBy="#{mpRelatorioER.relatorio}">
+									<h:outputText value="#{mpRelatorioER.relatorio}" />
+								</p:column>
+								<p:column headerText="Acrobat PDF" sortBy="#{mpRelatorioER.indPdf}" style="text-align:center;">
+									<h:outputText value=" x " rendered="#{!mpRelatorioER.indPdf}" />
+									<p:commandButton rendered="#{mpRelatorioER.indPdf}"
+											icon="fa fa-fw fa-file-pdf-o" title="Gera PDF" />									
+								</p:column>
+								<p:column headerText="MS Word" sortBy="#{mpRelatorioER.indDoc}" style="text-align:center;">
+									<h:outputText value=" x " rendered="#{!mpRelatorioER.indDoc}" />
+									<p:commandButton rendered="#{mpRelatorioER.indDoc}"
+											icon="fa fa-fw fa-file-word-o" title="Gera MS Doc" />									
+								</p:column>
+								<p:column headerText="MS Excel" sortBy="#{mpRelatorioER.indXls}" style="text-align:center;">
+									<h:outputText value=" x " rendered="#{!mpRelatorioER.indXls}" />
+									<p:commandButton rendered="#{mpRelatorioER.indXls}"
+											icon="fa fa-fw fa-file-excel-o" title="Gera MS Excel" />									
+								</p:column>
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="Processos BPM" closable="false">
+
+							<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank"
+								style="border:0px !important; background:none;">
+
+							</p:panelGrid>
+							
+						</p:tab>
+
+					</p:tabView>
+
+					<p:confirmDialog header="Exclusão Macro Requisito" message=
+			"Tem certeza que deseja excluir o Macro Requisito = ( #{mpCadastroProjetoBean.mpMacroRequisito.descricao} )?"
+						widgetVar="confirmacaoExclusaoMReqDialog"
+						id="confirmacaoExclusaoMReqDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoMReqDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoMReqDialog').hide();"
+							action="#{mpCadastroProjetoBean.removerMpMacroRequisitoX}"
+							process="@this" update=":frm:tabViewC:macroRequisitosTable" />
+					</p:confirmDialog>
+
+					<p:confirmDialog header="Exclusão Módulo" message=
+			"Tem certeza que deseja excluir o Módulo = ( #{mpCadastroProjetoBean.mpModulo.descricao} )?"
+						widgetVar="confirmacaoExclusaoModDialog"
+						id="confirmacaoExclusaoModDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoModDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoModDialog').hide();"
+							action="#{mpCadastroProjetoBean.removerMpModuloX}"
+							process="@this" update=":frm:tabViewC:modulosTable" />
+					</p:confirmDialog>
+
+					<p:confirmDialog header="Exclusão Funcionalidade" message=
+			"Tem certeza que deseja excluir a Funcionalidade = ( #{mpCadastroProjetoBean.mpFuncionalidade.descricao} )?"
+						widgetVar="confirmacaoExclusaoFunDialog"
+						id="confirmacaoExclusaoFunDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoFunDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoFunDialog').hide();"
+							action="#{mpCadastroProjetoBean.removerMpFuncionalidadeX}"
+							process="@this" update=":frm:tabViewC:funcionalidadesTable" />
+					</p:confirmDialog>
+
+					<p:confirmDialog header="Exclusão Requisito Funcional" message=
+	"Tem certeza que deseja excluir o Requisito Funcional = ( #{mpCadastroProjetoBean.mpRequisitoFuncional.descricao} )?"
+						widgetVar="confirmacaoExclusaoReqFDialog"
+						id="confirmacaoExclusaoReqFDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoReqFDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoReqFDialog').hide();"
+							action="#{mpCadastroProjetoBean.removerMpRequisitoFuncionalX}"
+							process="@this" update=":frm:tabViewC:requisitoFuncionalsTable" />
+					</p:confirmDialog>
+
+					<p:confirmDialog header="Exclusão Regra Negócio" message=
+				"Tem certeza que deseja excluir a Regra Negócio = ( #{mpCadastroProjetoBean.mpRegraNegocio.descricao} )?"
+						widgetVar="confirmacaoExclusaoRegNDialog"
+						id="confirmacaoExclusaoRegNDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoRegNDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoRegNDialog').hide();"
+							action="#{mpCadastroProjetoBean.removerMpRegraNegocioX}"
+							process="@this" update=":frm:tabViewC:regraNegociosTable" />
+					</p:confirmDialog>
+
+					<p:confirmDialog header="Exclusão Requisito Não Funcional" message=
+"Tem certeza que deseja excluir o Requisito Não Funcional = ( #{mpCadastroProjetoBean.mpRequisitoNaoFuncional.descricao} )?"
+						widgetVar="confirmacaoExclusaoReqNFDialog"
+						id="confirmacaoExclusaoReqNFDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoReqNFDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoReqNFDialog').hide();"
+							action="#{mpCadastroProjetoBean.removerMpRequisitoNaoFuncionalX}"
+							process="@this" update=":frm:tabViewC:requisitoNaoFuncionalsTable" />
+					</p:confirmDialog>
+
+					<p:confirmDialog header="Exclusão Pessoa" message=
+			"Tem certeza que deseja excluir a Pessoa = ( #{mpCadastroProjetoBean.mpProjetoPessoaER.mpPessoaER.nome} )?"
+						widgetVar="confirmacaoExclusaoProjetoPessoaERDialog"
+						id="confirmacaoExclusaoProjetoPessoaERDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoProjetoPessoaERDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoProjetoPessoaERDialog').hide();"
+							action="#{mpCadastroProjetoBean.removerMpProjetoPessoaERX}"
+							process="@this" update=":frm:tabViewC:projetoPessoaERsTable" />
+					</p:confirmDialog>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmMReq">
+			<p:dialog widgetVar="novoMacroRequisitoDialog" id="novoMacroRequisitoDialogId" modal="true"
+				header="#{mpCadastroProjetoBean.txtModoMacroRequisitoDialog} Macro Requisito" 
+			 	showEffect="fade" hideEffect="fade" resizable="false" responsive="true" closable="false">
+
+				<h:panelGroup id="novoMacroRequisitoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+													
+						<h:panelGroup id="pgDescricaoMReq">
+							<p:outputLabel value="Descrição: " />
+							<p:inputTextarea id="descricaoMReq" required="#{mpCadastroProjetoBean.indEditavelMReq}"
+ 										validatorMessage="Informar Descrição" placeholder="Descrição" rows="3"
+						 				value="#{mpCadastroProjetoBean.mpMacroRequisito.descricao}" />
+							<p:tooltip for="descricaoMReq" value="Descrição" />
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<p:outputLabel value="Status: " />
+							<p:selectOneMenu id="statusMReq" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Status"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpMacroRequisito.mpStatusRequisito}">
+								<f:selectItem itemLabel="Selecione o Status" />
+								<f:selectItems	value="#{mpCadastroProjetoBean.mpStatusRequisitoList}"
+									var="mpStatusRequisito" itemValue="#{mpStatusRequisito}"
+									itemLabel="#{mpStatusRequisito.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="statusMReq" value="Status (Ex.: Validado )" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:commandButton value="Salvar" process="novoMacroRequisitoDialogId"
+								update=":frm:tabViewC:macroRequisitosTable novoMacroRequisitoPanel"
+								action="#{mpCadastroProjetoBean.salvarMpMacroRequisito}"
+								oncomplete="if (!args.validationFailed) PF('novoMacroRequisitoDialog').hide()">
+								<p:collector value="#{mpCadastroProjetoBean.mpMacroRequisito}"
+										addTo="#{mpCadastroProjetoBean.mpProjeto.mpMacroRequisitoList}" />
+							</p:commandButton>
+							<p:commandButton value="Fechar" process="@this"
+								update=":frm:tabViewC:macroRequisitosTable"
+								action="#{mpCadastroProjetoBean.fecharMpMacroRequisito}"
+								oncomplete="if (!args.validationFailed) PF('novoMacroRequisitoDialog').hide()">
+							</p:commandButton>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmMod">
+			<p:dialog widgetVar="novoModuloDialog" id="novoModuloDialogId" modal="true"
+				header="#{mpCadastroProjetoBean.txtModoModuloDialog} Módulo" 
+			 	showEffect="fade" hideEffect="fade" resizable="false" responsive="true" closable="false">
+
+				<h:panelGroup id="novoModuloPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+													
+						<h:panelGroup id="pgDescricaoMod">
+							<p:outputLabel value="Descrição: " />
+							<p:inputTextarea id="descricaoMod" required="#{mpCadastroProjetoBean.indEditavelMod}"
+ 										validatorMessage="Informar Descrição" placeholder="Descrição" rows="3"
+						 				value="#{mpCadastroProjetoBean.mpModulo.descricao}" />
+							<p:tooltip for="descricaoMod" value="Descrição" />
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<p:outputLabel value="Status: " />
+							<p:selectOneMenu id="statusMod" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Status"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpModulo.mpStatusRequisito}">
+								<f:selectItem itemLabel="Selecione o Status" />
+								<f:selectItems	value="#{mpCadastroProjetoBean.mpStatusRequisitoList}"
+									var="mpStatusRequisito" itemValue="#{mpStatusRequisito}"
+									itemLabel="#{mpStatusRequisito.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="statusMod" value="Status (Ex.: Validado )" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:commandButton value="Salvar" process="novoModuloDialogId"
+								update=":frm:tabViewC:modulosTable novoModuloPanel"
+								action="#{mpCadastroProjetoBean.salvarMpModulo}"
+								oncomplete="if (!args.validationFailed) PF('novoModuloDialog').hide()">
+								<p:collector value="#{mpCadastroProjetoBean.mpModulo}"
+										addTo="#{mpCadastroProjetoBean.mpProjeto.mpModuloList}" />
+							</p:commandButton>
+							<p:commandButton value="Fechar" process="@this"
+								update=":frm:tabViewC:modulosTable"
+								action="#{mpCadastroProjetoBean.fecharMpModulo}"
+								oncomplete="if (!args.validationFailed) PF('novoModuloDialog').hide()">
+							</p:commandButton>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmFun">
+			<p:dialog widgetVar="novoFuncionalidadeDialog" id="novoFuncionalidadeDialogId" modal="true"
+				header="#{mpCadastroProjetoBean.txtModoFuncionalidadeDialog} Funcionalidade" 
+			 	showEffect="fade" hideEffect="fade" resizable="false" responsive="true" closable="false">
+
+				<h:panelGroup id="novoFuncionalidadePanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+
+						<h:panelGroup>
+							<p:outputLabel value="Módulo: " />
+							<p:selectOneMenu id="moduloFun" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Módulo"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpFuncionalidade.mpModulo}">
+								<f:selectItem itemLabel="Selecione o Módulo" />
+								<f:selectItems	value="#{mpCadastroProjetoBean.mpModuloList}"
+									var="mpModulo" itemValue="#{mpModulo}"
+									itemLabel="#{mpModulo.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="moduloFun" value="Módulo (Ex.: Livros )" />
+						</h:panelGroup>
+													
+						<h:panelGroup id="pgDescricaoFun">
+							<p:outputLabel value="Descrição: " />
+							<p:inputTextarea id="descricaoFun" required="#{mpCadastroProjetoBean.indEditavelFun}"
+ 										validatorMessage="Informar Descrição" placeholder="Descrição" rows="3"
+						 				value="#{mpCadastroProjetoBean.mpFuncionalidade.descricao}" />
+							<p:tooltip for="descricaoFun" value="Descrição" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Status: " />
+							<p:selectOneMenu id="statusFun" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Status"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpFuncionalidade.mpStatusRequisito}">
+								<f:selectItem itemLabel="Selecione o Status" />
+								<f:selectItems	value="#{mpCadastroProjetoBean.mpStatusRequisitoList}"
+									var="mpStatusRequisito" itemValue="#{mpStatusRequisito}"
+									itemLabel="#{mpStatusRequisito.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="statusFun" value="Status (Ex.: Validado )" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:commandButton value="Salvar" process="novoFuncionalidadeDialogId"
+								update=":frm:tabViewC:funcionalidadesTable novoFuncionalidadePanel"
+								action="#{mpCadastroProjetoBean.salvarMpFuncionalidade}"
+								oncomplete="if (!args.validationFailed) PF('novoFuncionalidadeDialog').hide()">
+								<p:collector value="#{mpCadastroProjetoBean.mpFuncionalidade}"
+										addTo="#{mpCadastroProjetoBean.mpProjeto.mpFuncionalidadeList}" />
+							</p:commandButton>
+							<p:commandButton value="Fechar" process="@this"
+								update=":frm:tabViewC:funcionalidadesTable"
+								action="#{mpCadastroProjetoBean.fecharMpFuncionalidade}"
+								oncomplete="if (!args.validationFailed) PF('novoFuncionalidadeDialog').hide()">
+							</p:commandButton>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmReqF">
+			<p:dialog widgetVar="novoRequisitoFuncionalDialog" id="novoRequisitoFuncionalDialogId" modal="true"
+				header="#{mpCadastroProjetoBean.txtModoRequisitoFuncionalDialog} Requisito Funcional" 
+			 	showEffect="fade" hideEffect="fade" resizable="false" responsive="true" closable="false">
+
+				<h:panelGroup id="novoRequisitoFuncionalPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+						
+						<h:panelGroup>
+							<p:outputLabel value="Modulo: " />
+							<p:selectOneMenu id="moduloReqF" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Modulo"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpRequisitoFuncional.mpModulo}">
+								<f:selectItem itemLabel="Selecione o Modulo" />
+								<f:selectItems value="#{mpCadastroProjetoBean.mpModuloList}"
+									var="mpModulo" itemValue="#{mpModulo}"
+									itemLabel="#{mpModulo.descricao}" />
+								<p:ajax	listener="#{mpCadastroProjetoBean.carregarMpFuncionalidadesRF}"
+																update="funcionalidadeReqF" />
+							</p:selectOneMenu>
+							<p:tooltip for="moduloReqF" value="Modulo (Ex.: Livros )" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Funcionalidade: " />
+							<p:selectOneMenu id="funcionalidadeReqF" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Funcionalidade"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpRequisitoFuncional.mpFuncionalidade}">
+								<f:selectItem itemLabel="Selecione a Funcionalidade" />
+								<f:selectItems	value="#{mpCadastroProjetoBean.mpFuncionalidadeList}"
+									var="mpFuncionalidade" itemValue="#{mpFuncionalidade}"
+									itemLabel="#{mpFuncionalidade.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="funcionalidadeReqF" value="Funcionalidade (Ex.: Cadastro Livro )" />
+						</h:panelGroup>													
+						<h:panelGroup id="pgIdReqF">
+							<p:outputLabel value="Id.RF: " />
+							<p:inputText id="idReqF" readonly="true"
+						 				value="#{mpCadastroProjetoBean.mpRequisitoFuncional.idRF}" />
+							<p:tooltip for="idReqF" value="Id.RF" />
+						</h:panelGroup>
+						<h:panelGroup id="pgDescricaoReqF">
+							<p:outputLabel value="Descrição: " />
+							<p:inputTextarea id="descricaoReqF" required="#{mpCadastroProjetoBean.indEditavelReqF}"
+ 										validatorMessage="Informar Descrição" placeholder="Descrição" rows="3"
+						 				value="#{mpCadastroProjetoBean.mpRequisitoFuncional.descricao}" />
+							<p:tooltip for="descricaoReqF" value="Descrição" />
+						</h:panelGroup>						
+						<h:panelGroup id="pgAssociacaoReqF">
+							<p:outputLabel value="Associação: " />
+							<p:inputText id="associacaoReqF" placeholder="Associação"
+						 				value="#{mpCadastroProjetoBean.mpRequisitoFuncional.associacao}" />
+							<p:tooltip for="associacaoReqF" value="Associação ( Ex.: FC.CLI.0001 FC.USU.0005)" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Prioridade: " />
+							<p:selectOneMenu id="prioridadeReqF" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Prioridade"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpRequisitoFuncional.mpPrioridade}">
+								<f:selectItem itemLabel="Selecione a Prioridade" />
+								<f:selectItems	value="#{mpCadastroProjetoBean.mpPrioridadeList}"
+									var="mpPrioridade" itemValue="#{mpPrioridade}"
+									itemLabel="#{mpPrioridade.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="prioridadeReqF" value="Prioridade (Ex.: Essencial )" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Complexibilidade: " />
+							<p:selectOneMenu id="complexibilidadeReqF" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Complexibilidade"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpRequisitoFuncional.mpComplexibilidade}">
+								<f:selectItem itemLabel="Selecione a Complexibilidade" />
+								<f:selectItems value="#{mpCadastroProjetoBean.mpComplexibilidadeList}"
+									var="mpComplexibilidade" itemValue="#{mpComplexibilidade}"
+									itemLabel="#{mpComplexibilidade.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="complexibilidadeReqF" value="Complexibilidade (Ex.: Alta )" />
+						</h:panelGroup>
+						<h:panelGroup id="pgEsforcoReqF">
+							<p:outputLabel value="Esforço (Horas): " />
+							<p:inputText id="esforcoReqF" required="#{mpCadastroProjetoBean.indEditavelReqF}"
+ 										validatorMessage="Informar Esforco" placeholder="Esforco"
+										maxlength="7" styleClass="moeda"
+						 				value="#{mpCadastroProjetoBean.mpRequisitoFuncional.numHoraEsforco}">
+								<f:convertNumber maxFractionDigits="4" minFractionDigits="2" />
+							</p:inputText>
+							<p:tooltip for="esforcoReqF" value="Esforço ( Ex.: 2,50)" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Status: " />
+							<p:selectOneMenu id="statusReqF" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Status"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpRequisitoFuncional.mpStatusRequisito}">
+								<f:selectItem itemLabel="Selecione o Status" />
+								<f:selectItems	value="#{mpCadastroProjetoBean.mpStatusRequisitoList}"
+									var="mpStatusRequisito" itemValue="#{mpStatusRequisito}"
+									itemLabel="#{mpStatusRequisito.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="statusReqF" value="Status (Ex.: Validado )" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:commandButton value="Salvar" process="novoRequisitoFuncionalDialogId"
+								update=":frm:tabViewC:requisitoFuncionalsTable novoRequisitoFuncionalPanel"
+								action="#{mpCadastroProjetoBean.salvarMpRequisitoFuncional}"
+								oncomplete="if (!args.validationFailed) PF('novoRequisitoFuncionalDialog').hide()">
+								<p:collector value="#{mpCadastroProjetoBean.mpRequisitoFuncional}" unique="true"
+									addTo="#{mpCadastroProjetoBean.mpProjeto.mpRequisitoFuncionalList}" />
+							</p:commandButton>
+							<p:commandButton value="Fechar" process="@this"
+								update=":frm:tabViewC:requisitoFuncionalsTable"
+								action="#{mpCadastroProjetoBean.fecharMpRequisitoFuncional}"
+								oncomplete="if (!args.validationFailed) PF('novoRequisitoFuncionalDialog').hide()">
+							</p:commandButton>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmRegN">
+			<p:dialog widgetVar="novoRegraNegocioDialog" id="novoRegraNegocioDialogId" modal="true"
+				header="#{mpCadastroProjetoBean.txtModoRegraNegocioDialog} Regra Negócio" 
+			 	showEffect="fade" hideEffect="fade" resizable="false" responsive="true" closable="false">
+
+				<h:panelGroup id="novoRegraNegocioPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+						
+						<h:panelGroup id="pgIdRegN">
+							<p:outputLabel value="Id.RN: " />
+							<p:inputText id="idRegN" readonly="true"
+						 				value="#{mpCadastroProjetoBean.mpRegraNegocio.idRN}" />
+							<p:tooltip for="idRegN" value="Id.RN ( Ex.: RN0004)" />
+						</h:panelGroup>
+						<h:panelGroup id="pgDescricaoRegN">
+							<p:outputLabel value="Descrição: " />
+							<p:inputTextarea id="descricaoRegN" required="#{mpCadastroProjetoBean.indEditavelRegN}"
+ 										validatorMessage="Informar Descrição" placeholder="Descrição" rows="3"
+						 				value="#{mpCadastroProjetoBean.mpRegraNegocio.descricao}" />
+							<p:tooltip for="descricaoRegN" value="Descrição" />
+						</h:panelGroup>
+						<h:panelGroup id="pgDependenciaRegN">
+							<p:outputLabel value="Dependencia: " />
+							<p:inputTextarea id="dependenciaRegN" placeholder="Dependencia" rows="2"
+ 										validator="#{mpCadastroProjetoBean.validateRnDependencia}"
+						 				value="#{mpCadastroProjetoBean.mpRegraNegocio.dependencia}" />
+							<p:tooltip for="dependenciaRegN" value="Dependencia ( Ex.: RF0011 RF0031)" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Complexibilidade: " />
+							<p:selectOneMenu id="complexibilidadeRegN" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Complexibilidade"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpRegraNegocio.mpComplexibilidade}">
+								<f:selectItem itemLabel="Selecione a Complexibilidade" />
+								<f:selectItems	value="#{mpCadastroProjetoBean.mpComplexibilidadeList}"
+									var="mpComplexibilidade" itemValue="#{mpComplexibilidade}"
+									itemLabel="#{mpComplexibilidade.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="complexibilidadeRegN" value="Complexibilidade (Ex.: Alta )" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Status: " />
+							<p:selectOneMenu id="statusRegN" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Status"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpRegraNegocio.mpStatusRequisito}">
+								<f:selectItem itemLabel="Selecione o Status" />
+								<f:selectItems	value="#{mpCadastroProjetoBean.mpStatusRequisitoList}"
+									var="mpStatusRequisito" itemValue="#{mpStatusRequisito}"
+									itemLabel="#{mpStatusRequisito.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="statusRegN" value="Status (Ex.: Implementado )" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:commandButton value="Salvar" process="novoRegraNegocioDialogId"
+								update=":frm:tabViewC:regraNegociosTable novoRegraNegocioPanel"
+								action="#{mpCadastroProjetoBean.salvarMpRegraNegocio}"
+								oncomplete="if (!args.validationFailed) PF('novoRegraNegocioDialog').hide()">
+								<p:collector value="#{mpCadastroProjetoBean.mpRegraNegocio}"
+										addTo="#{mpCadastroProjetoBean.mpProjeto.mpRegraNegocioList}" />
+							</p:commandButton>
+							<p:commandButton value="Fechar" process="@this"
+								update=":frm:tabViewC:regraNegociosTable"
+								action="#{mpCadastroProjetoBean.fecharMpRegraNegocio}"
+								oncomplete="if (!args.validationFailed) PF('novoRegraNegocioDialog').hide()">
+							</p:commandButton>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmReqNF">
+			<p:dialog widgetVar="novoRequisitoNaoFuncionalDialog" id="novoRequisitoNaoFuncionalDialogId" modal="true"
+				header="#{mpCadastroProjetoBean.txtModoRequisitoNaoFuncionalDialog} Requisito Não Funcional" 
+			 	showEffect="fade" hideEffect="fade" resizable="false" responsive="true"  closable="false">
+
+				<h:panelGroup id="novoRequisitoNaoFuncionalPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+						
+						<h:panelGroup>
+							<p:outputLabel value="Modulo: " />
+							<p:selectOneMenu id="moduloReqNF" effect="fold"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpRequisitoNaoFuncional.mpModulo}">
+								<f:selectItem itemLabel="Selecione o Modulo" />
+								<f:selectItems	value="#{mpCadastroProjetoBean.mpModuloList}"
+									var="mpModulo" itemValue="#{mpModulo}"
+									itemLabel="#{mpModulo.descricao}" />
+								<p:ajax	listener="#{mpCadastroProjetoBean.carregarMpFuncionalidadesRNF}"
+																update="funcionalidadeReqNF" />
+							</p:selectOneMenu>
+							<p:tooltip for="moduloReqNF" value="Modulo (Ex.: Livros )" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Funcionalidade: " />
+							<p:selectOneMenu id="funcionalidadeReqNF" effect="fold"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpRequisitoNaoFuncional.mpFuncionalidade}">
+								<f:selectItem itemLabel="Selecione a Funcionalidade" />
+								<f:selectItems value="#{mpCadastroProjetoBean.mpFuncionalidadeList}"
+									var="mpFuncionalidade" itemValue="#{mpFuncionalidade}"
+									itemLabel="#{mpFuncionalidade.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="funcionalidadeReqNF" value="Funcionalidade (Ex.: Cadastro Livro )" />
+						</h:panelGroup>													
+						<h:panelGroup id="pgIdReqNF">
+							<p:outputLabel value="Id.RNF: " />
+							<p:inputText id="idReqNF" readonly="true"
+						 				value="#{mpCadastroProjetoBean.mpRequisitoNaoFuncional.idRNF}" />
+							<p:tooltip for="idReqNF" value="Id.RNF ( Ex.: RNF0018)" />
+						</h:panelGroup>
+						<h:panelGroup id="pgDescricaoReqNF">
+							<p:outputLabel value="Descrição: " />
+							<p:inputTextarea id="descricaoReqNF" required="#{mpCadastroProjetoBean.indEditavelReqNF}"
+ 										validatorMessage="Informar Descrição" placeholder="Descrição" rows="3"
+						 				value="#{mpCadastroProjetoBean.mpRequisitoNaoFuncional.descricao}" />
+							<p:tooltip for="descricaoReqNF" value="Descrição" />
+						</h:panelGroup>
+						<h:panelGroup id="pgAssociacaoReqNF">
+							<p:outputLabel value="Associação: " />
+							<p:inputText id="associacaoReqNF" placeholder="Associação"
+ 										validator="#{mpCadastroProjetoBean.validateRnfAssociacao}"
+						 				value="#{mpCadastroProjetoBean.mpRequisitoNaoFuncional.associacao}" />
+							<p:tooltip for="associacaoReqNF" value="Associação ( Ex.: RF0011 RF0031)" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Categoria: " />
+							<p:selectOneMenu id="categoriaReqNF" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Categoria"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpRequisitoNaoFuncional.mpCategoriaRNF}">
+								<f:selectItem itemLabel="Selecione a Categoria" />
+								<f:selectItems value="#{mpCadastroProjetoBean.mpCategoriaRNFList}"
+									var="mpCategoriaRNF" itemValue="#{mpCategoriaRNF}"
+									itemLabel="#{mpCategoriaRNF.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="categoriaReqNF" value="Categoria (Ex.: Interoperabilidade )" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Prioridade: " />
+							<p:selectOneMenu id="prioridadeReqNF" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Prioridade"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpRequisitoNaoFuncional.mpPrioridade}">
+								<f:selectItem itemLabel="Selecione a Prioridade" />
+								<f:selectItems value="#{mpCadastroProjetoBean.mpPrioridadeList}"
+									var="mpPrioridade" itemValue="#{mpPrioridade}"
+									itemLabel="#{mpPrioridade.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="prioridadeReqNF" value="Prioridade (Ex.: Essencial )" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Complexibilidade: " />
+							<p:selectOneMenu id="complexibilidadeReqNF" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Complexibilidade"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpRequisitoNaoFuncional.mpComplexibilidade}">
+								<f:selectItem itemLabel="Selecione a Complexibilidade" />
+								<f:selectItems	value="#{mpCadastroProjetoBean.mpComplexibilidadeList}"
+									var="mpComplexibilidade" itemValue="#{mpComplexibilidade}"
+									itemLabel="#{mpComplexibilidade.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="complexibilidadeReqNF" value="Complexibilidade (Ex.: Alta )" />
+						</h:panelGroup>
+						<h:panelGroup id="pgEsforcoReqNF">
+							<p:outputLabel value="Esforço (Horas): " />
+							<p:inputText id="esforcoReqNF" required="#{mpCadastroProjetoBean.indEditavelReqNF}"
+ 										validatorMessage="Informar Esforco" placeholder="Esforco"
+										maxlength="7" styleClass="moeda"
+						 				value="#{mpCadastroProjetoBean.mpRequisitoNaoFuncional.numHoraEsforco}">
+								<f:convertNumber maxFractionDigits="4" minFractionDigits="2" />
+							</p:inputText>
+							<p:tooltip for="esforcoReqNF" value="Esforço ( Ex.: 2,50)" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Status: " />
+							<p:selectOneMenu id="statusReqNF" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Status"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpRequisitoNaoFuncional.mpStatusRequisito}">
+								<f:selectItem itemLabel="Selecione o Status" />
+								<f:selectItems	value="#{mpCadastroProjetoBean.mpStatusRequisitoList}"
+									var="mpStatusRequisito" itemValue="#{mpStatusRequisito}"
+									itemLabel="#{mpStatusRequisito.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="statusReqNF" value="Status (Ex.: Implementado )" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:commandButton value="Salvar" process="novoRequisitoNaoFuncionalDialogId"
+								update=":frm:tabViewC:requisitoNaoFuncionalsTable novoRequisitoNaoFuncionalPanel"
+								action="#{mpCadastroProjetoBean.salvarMpRequisitoNaoFuncional}"
+								oncomplete="if (!args.validationFailed) PF('novoRequisitoNaoFuncionalDialog').hide()">
+								<p:collector value="#{mpCadastroProjetoBean.mpRequisitoNaoFuncional}"
+										addTo="#{mpCadastroProjetoBean.mpProjeto.mpRequisitoNaoFuncionalList}" />
+							</p:commandButton>
+							<p:commandButton value="Fechar" process="@this"
+								update=":frm:tabViewC:requisitoNaoFuncionalsTable"
+								action="#{mpCadastroProjetoBean.fecharMpRequisitoNaoFuncional}"
+								oncomplete="if (!args.validationFailed) PF('novoRequisitoNaoFuncionalDialog').hide()">
+							</p:commandButton>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmPPesER">
+			<p:dialog widgetVar="novoProjetoPessoaERDialog" id="novoProjetoPessoaERDialogId" modal="true"
+				header="#{mpCadastroProjetoBean.txtModoProjetoPessoaERDialog} Pessoa" 
+			 	showEffect="fade" hideEffect="fade" resizable="false" responsive="true"  closable="false">
+
+				<h:panelGroup id="novoProjetoPessoaERPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+
+						<h:panelGroup>						
+							<p:selectOneMenu id="nomePPesER" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Pessoa"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpProjetoPessoaER.mpPessoaER}">
+								<f:selectItem itemLabel="Selecione a Pessoa" />
+								<f:selectItems value="#{mpCadastroProjetoBean.mpPessoaERList}"
+									var="mpPessoaER" itemValue="#{mpPessoaER}"
+									itemLabel="#{mpPessoaER.nome}" />
+							</p:selectOneMenu>
+							<p:tooltip for="nomePPesER" value="Nome (Ex.: Marcus Rodrigues )" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Grupo/Função: " />
+							<p:selectOneMenu id="funcaoPPesER" effect="fold"
+								required="#{mpCadastroProjetoBean.indEditavel}"
+								validatorMessage="Informar Função"
+								disabled="#{mpCadastroProjetoBean.indEditavel}"
+								value="#{mpCadastroProjetoBean.mpProjetoPessoaER.mpPessoaFuncao}">
+								<f:selectItem itemLabel="Selecione o Grupo/Função" />
+								<f:selectItems	value="#{mpCadastroProjetoBean.mpPessoaFuncaoList}"
+									var="mpPessoaFuncao" itemValue="#{mpPessoaFuncao}"
+									itemLabel="#{mpPessoaFuncao.grupoFuncao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="funcaoPPesER" value="Grupo/Função (Ex.: Equipe/Gerente Projetos )" />
+						</h:panelGroup>						
+						<h:panelGroup id="pgObservacaoPPesER">
+							<p:outputLabel value="Observação: " />
+							<p:inputTextarea id="observacaoPPesER" placeholder="Observação" rows="3"
+						 				value="#{mpCadastroProjetoBean.mpProjetoPessoaER.observacao}" />
+							<p:tooltip for="observacaoPPesER" value="Observação" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:commandButton value="Salvar" process="novoProjetoPessoaERDialogId"
+								update=":frm:tabViewC:projetoPessoaERsTable novoProjetoPessoaERPanel"
+								action="#{mpCadastroProjetoBean.salvarMpProjetoPessoaER}"
+								oncomplete="if (!args.validationFailed) PF('novoProjetoPessoaERDialog').hide()">
+								<p:collector value="#{mpCadastroProjetoBean.mpProjetoPessoaER}"
+										addTo="#{mpCadastroProjetoBean.mpProjeto.mpProjetoPessoaERList}" />
+							</p:commandButton>
+							<p:commandButton value="Fechar" process="@this"
+								update=":frm:tabViewC:projetoPessoaERsTable"
+								action="#{mpCadastroProjetoBean.fecharMpProjetoPessoaER}"
+								oncomplete="if (!args.validationFailed) PF('novoProjetoPessoaERDialog').hide()">
+							</p:commandButton>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpProjetoDialog" id="helpProjetoDialogId" modal="true"
+					header="HELP - Projeto" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpProjetoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCadastroProjetoBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroProjetoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCadastroProjetoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroProjetoBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCadastroProjetoBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCadastroProjetoBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,136 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div class="ContainerIndent">
+		<div class="Container100">
+			<span class="DispInlBlock Fleft FloatNoneOnMobile"> 
+				<p:toolbar>
+					<p:toolbarGroup>
+
+						<p:commandButton title="Novo registro"
+							icon="fa fa-plus Fs14 white"
+							action="#{mpCadastroPedidoBean.mpNew}" process="@this"
+							update="@form" rendered="#{mpCadastroPedidoBean.indEditavel}" />
+						<p:commandButton title="Edita registro"
+							icon="fa fa-edit Fs14 white"
+        					disabled="#{mpCadastroPedidoBean.mpPedido.naoAlteravel}"
+							action="#{mpCadastroPedidoBean.mpEdit}" process="@this"
+							update="@form" rendered="#{mpCadastroPedidoBean.indEditavel}" />
+						<p:commandButton title="Exclui registro"
+        					disabled="true"
+							icon="fa fa-trash Fs14 white"
+							oncomplete="PF('confirmacaoExclusaoR').show()"
+							rendered="#{mpCadastroPedidoBean.indEditavel}" process="@this"
+							update=":frmCadastro:confirmacaoExclusaoDialogR" />
+
+						<h:panelGroup rendered="#{mpCadastroPedidoBean.indEditavelNav}">
+							<span class="ui-separator">
+								<span class="fa fa-ellipsis-v leaden" />
+							</span>
+							<p:commandButton title="Registro Inicial" update="@form"
+								icon="fa fa-fast-backward Fs10 black"
+								action="#{mpCadastroPedidoBean.mpFirst}" process="@this" />
+							<p:commandButton title="Registro Anterior" update="@form"
+								icon="fa fa-backward Fs10 black"
+								action="#{mpCadastroPedidoBean.mpPrev}" process="@this" />
+						</h:panelGroup>
+
+						<p:commandButton title="Gravar registro"
+							icon="fa fa-save Fs14 yellow"
+							action="#{mpCadastroPedidoBean.mpGrava}" process="@form"
+							update="@form" rendered="#{mpCadastroPedidoBean.indNaoEditavel}" />
+						<p:commandButton title="Desfaz registro"
+							icon="fa fa-undo Fs14 yellow"
+							action="#{mpCadastroPedidoBean.mpDesfaz}" process="@this"
+							update="@form" rendered="#{mpCadastroPedidoBean.indNaoEditavel}" />
+
+						<h:panelGroup rendered="#{mpCadastroPedidoBean.indEditavelNav}">
+							<p:commandButton title="Registro Próximo" update="@form"
+								icon="fa fa-forward Fs10 black"
+								action="#{mpCadastroPedidoBean.mpNext}" process="@this" />
+							<p:commandButton title="Registro Final" update="@form"
+								icon="fa fa-fast-forward Fs10 black"
+								action="#{mpCadastroPedidoBean.mpEnd}" process="@this" />
+							<span class="ui-separator"> 
+								<span class="fa fa-ellipsis-v leaden" />
+							</span>
+						</h:panelGroup>
+
+						<p:commandButton title="Registro Clona"
+							icon="fa fa-copy Fs14 white"
+							action="#{mpCadastroPedidoBean.mpClone}" process="@this"
+							update="@form" rendered="#{mpCadastroPedidoBean.indEditavel}" />
+
+						<p:button title="Registro Pesquisa..."
+							icon="fa fa-search Fs14 white"
+							rendered="#{mpCadastroPedidoBean.indEditavel}"
+							outcome="/sentinel/pedidos/mpPesquisaPedidos" />
+
+						<span class="ui-separator">
+							<span class="fa fa-ellipsis-v leaden" />
+						</span>
+						<p:commandButton title="Emitir"
+							icon="fa fa-indent Fs14 white"
+							disabled="#{mpCadastroPedidoBean.mpPedido.naoEmissivel}"
+							action="#{mpEmissaoPedidoBean.emitirMpPedido}" process="@this"
+							update="@form" rendered="#{mpCadastroPedidoBean.indEditavel}" />
+							
+  						<p:commandButton value="Cancelar" action="#{mpCancelamentoPedidoBean.cancelarMpPedido}"
+  							rendered="#{mpCadastroPedidoBean.indEditavel}"
+  							process="@this" update="@form" disabled="#{mpCadastroPedidoBean.mpPedido.naoCancelavel}" />
+  						<p:commandButton value="Enviar por e-mail" action="#{mpEnvioPedidoEmailBean.enviarMpPedido}"
+  							rendered="#{mpCadastroPedidoBean.indEditavel}"
+  							process="@this" disabled="#{mpCadastroPedidoBean.mpPedido.naoEnviavelPorEmail}" />
+
+						<p:confirmDialog header="Exclusão do Pedido" responsive="true"
+							global="true" showEffect="fade" hideEffect="fade" message=
+							"Deseja excluir o Pedido #{mpCadastroPedidoBean.mpPedido.dataCriacao}?"
+							widgetVar="confirmacaoExclusaoR" id="confirmacaoExclusaoDialogR">
+							<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+							 			icon="ui-icon-close fa fa-close Fs14 white"
+										onclick="PF('confirmacaoExclusaoR').hide(); return false;" />
+							<p:commandButton value="Sim" update=":frmCadastro" id="yesButtonR"
+								oncomplete="PF('confirmacaoExclusaoR').hide();"
+								action="#{mpCadastroPedidoBean.mpDelete}" process="@this"
+								styleClass="ui-confirmdialog-yes"
+								icon="ui-icon-check fa fa-check Fs14 white" />
+						</p:confirmDialog>
+
+					</p:toolbarGroup>
+				</p:toolbar>
+
+			</span>
+			<span class="DispInlBlock Fright FloatNoneOnMobile">
+				<p:toolbar>
+					<p:toolbarGroup>
+
+						<p:outputLabel class="Fs18 FontTitilliumRegular black"
+							value="Data Criação" rendered="#{mpCadastroPedidoBean.mpPedido.existente}" />
+        				<h:outputText class="Fs18 FontTitilliumRegular red"
+        					value="#{mpCadastroPedidoBean.mpPedido.dataCriacao}" 
+        										rendered="#{mpCadastroPedidoBean.mpPedido.existente}">
+        					<f:convertDateTime pattern="dd/MM/yyyy" />
+        				</h:outputText>
+        				<p:spacer width="20" height="5" />
+						<p:outputLabel class="Fs18 FontTitilliumRegular black" 
+							value="Número" rendered="#{mpCadastroPedidoBean.mpPedido.existente}" />
+						<h:outputText class="Fs18 FontTitilliumRegular red" 
+							value="#{mpCadastroPedidoBean.mpPedido.id}" 
+							rendered="#{mpCadastroPedidoBean.mpPedido.existente}" />
+        				<p:spacer width="20" height="5" />
+        				<p:outputLabel class="Fs18 FontTitilliumRegular black" value="Status : "/>
+        				<h:outputText class="Fs18 FontTitilliumRegular red"
+        					value="#{mpCadastroPedidoBean.mpPedido.mpStatus.descricao}" />
+        				<p:spacer width="20" height="5" />
+						<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="/dashboardRS" />
+						
+					</p:toolbarGroup>
+				</p:toolbar>
+			</span>
+		</div>
+	</div>
+
+</ui:composition>

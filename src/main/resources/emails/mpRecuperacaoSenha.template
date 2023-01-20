@@ -1,0 +1,20 @@
+<html>
+    <body>
+        <table>
+            <tr>
+                <td style="width: 100px">Login Usuario : </td>
+                <td>$mpUsuario.login</td>
+            </tr>
+            <tr>
+                <td style="width: 100px">Nome Usuario : </td>
+                <td>$mpUsuario.nome</td>
+            </tr>
+            <tr>
+                <td style="width: 100px">Recuperacao Senha : </td>
+                <td><b>$mpUsuario.senha</b></td>
+            </tr>
+        </table>
+        
+        <br/>
+    </body>
+</html>

@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+	
+		<f:metadata>
+			<f:viewAction action="#{mpUsuariosOnline.inicializar}" />
+		</f:metadata>
+	
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Usuários Online</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpUsuariosTable" var="mpUsuario"
+							value="#{mpUsuariosOnline.mpUsuarioLogadoList}"
+							rowKey="#{mpUsuario.login}" reflow="true" style="margin-top:20px"
+							emptyMessage="Nenhum Usuário encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Login" style="text-align:center;" 
+																sortBy="#{mpUsuario.Login}">
+								<h:outputText value="#{mpUsuario.login}" />
+							</p:column>
+							<p:column headerText="Nome" sortBy="#{mpUsuario.nome}">
+								<h:outputText value="#{mpUsuario.nome}" />
+							</p:column>
+							<p:column headerText="Email" sortBy="#{mpUsuario.email}">
+								<h:outputText value="#{mpUsuario.email}" />
+							</p:column>
+							<p:column headerText="Sexo" sortBy="#{mpUsuario.mpSexo.descricao}">
+								<h:outputText value="#{mpUsuario.mpSexo.descricao}" />
+							</p:column>
+							<p:column headerText="Data" sortBy="#{mpUsuario.dataUltimoLogin}">
+								<h:outputText value="#{mpUsuario.dataUltimoLogin}">
+	    							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" 
+	    															timeZone="America/Sao_Paulo" />
+	    						</h:outputText>
+							</p:column>
+							<p:column headerText="IP" sortBy="#{mpUsuario.numIpUltimoLogin}">
+								<h:outputText value="#{mpUsuario.numIpUltimoLogin}" />
+							</p:column>
+							<p:column style="text-align: center; width: 50px" exportable="false">
+								<p:commandButton icon="ui-icon-check" title="Encerrar Sessão"
+									oncomplete="PF('confirmacaoLiberacao').show()" process="@this"
+									update=":frmPesquisa:confirmacaoLiberacaoDialog">
+									<f:setPropertyActionListener value="#{mpUsuario}"
+										target="#{mpUsuariosOnline.mpUsuarioSelecionado}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+
+						<p:confirmDialog header="Encerra sessão Usuário" responsive="true"
+								global="true" showEffect="fade" hideEffect="fade" message=
+	"Tem certeza que deseja ENCERRAR a SESSÃO do usuário ( #{mpUsuariosOnline.mpUsuarioSelecionado.login} )?"
+	    						widgetVar="confirmacaoLiberacao" id="confirmacaoLiberacaoDialog">
+							<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+							 			icon="ui-icon-close fa fa-close Fs14 white"
+										onclick="PF('confirmacaoLiberacao').hide(); return false;" />
+							<p:commandButton value="Sim" 
+										update=":frmPesquisa:mpUsuariosTable" id="yesButton"
+										oncomplete="PF('confirmacaoLiberacao').hide();"
+	    								action="#{mpUsuariosOnline.liberar}" process="@this"
+										styleClass="ui-confirmdialog-yes"
+										icon="ui-icon-check fa fa-check Fs14 white" />
+						</p:confirmDialog>
+						
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

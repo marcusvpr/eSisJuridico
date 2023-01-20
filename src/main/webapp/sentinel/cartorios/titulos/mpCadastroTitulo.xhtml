@@ -1,0 +1,696 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpTitulo"
+				value="#{mpCadastroTituloBean.mpTitulo}" />
+			<f:viewAction action="#{mpCadastroTituloBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Titulo #{mpCadastroTituloBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include
+						src="/WEB-INF/template/sentinel/cartorios/mpBotoesTitulo.xhtml" /> 
+
+					<div class="ContainerIndent" style="margin-top:60px;">
+					</div>
+					
+					<p:tabView id="tabViewA">
+
+						<p:tab title="Apresentante/Favorecido/Sacador">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup>
+														<p:spacer width="100" height="10" />
+														<p:spacer width="100" height="10" />
+														<p:outputLabel value="#{mpCadastroTituloBean.txtDigital}" 
+															styleClass="Container40 Fnone MarAuto Fs26 yellow" />
+													</h:panelGroup>
+													
+													<h:panelGroup>
+														<p:panel header="Protocolo">
+
+															<p:panelGrid columns="2" layout="grid"
+																style="border:0px !important; background:none;"
+																styleClass="ui-panelgrid-blank">
+
+																<h:panelGroup id="pgDataProtocoloA">
+																	<p:outputLabel value="Data Protocolo: "
+																		rendered="#{mpLoginBean.scIndLabelCampo}" />
+																	<p:calendar id="dataProtocoloA"
+																		style="background-color:black; color:yellow;"
+																		pattern="dd/MM/yyyy" mask="true" placeholder="Data Protocolo"
+																		required="#{mpCadastroTituloBean.indEditavel}"
+																		validatorMessage="Informar Data Protocolo"
+																		disabled="#{mpCadastroTituloBean.indEditavel}"
+																		value="#{mpCadastroTituloBean.mpTitulo.dataProtocolo}" />
+																		<p:tooltip for="dataProtocoloA" value="Data Protocolo (Ex.: 31/03/2016)" />
+																</h:panelGroup>
+																<h:panelGroup id="pgNumeroProtocoloA">
+																	<p:outputLabel value="Numero Protocolo: "
+																		rendered="#{mpLoginBean.scIndLabelCampo}" />
+																	<p:inputText id="numeroProtocoloA" maxlength="6"
+																		style="text-transform: uppercase"
+																		required="#{mpCadastroTituloBean.indEditavel}"
+																		validatorMessage="Informar Numero Protocolo" placeholder="Número Protocolo"
+																		readonly="#{mpCadastroTituloBean.indEditavel}"
+																		value="#{mpCadastroTituloBean.mpTitulo.numeroProtocolo}" />
+																	<p:tooltip for="numeroProtocoloA" value="Número Protocolo (Ex.: 017716)" />
+																</h:panelGroup>			
+															</p:panelGrid>											
+														</p:panel>																													
+													</h:panelGroup>
+													
+													<h:panelGroup>
+														<p:outputLabel value="Protesto: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataProtestoA"
+															style="background-color:black; color:yellow;"
+															pattern="dd/MM/yyyy" mask="true" placeholder="Data Protesto"
+															required="#{mpCadastroTituloBean.indEditavel}"
+															validatorMessage="Informar Data Protesto"
+															disabled="#{mpCadastroTituloBean.indEditavel}"
+															value="#{mpCadastroTituloBean.mpTitulo.dataAte}" />
+														<p:tooltip for="dataProtestoA" value="Data Protesto (Ex.: 31/03/2016)" />
+													</h:panelGroup>														
+													
+												</p:panelGrid>
+												
+												<p:panel header="Apresentante">
+													<p:panelGrid columns="4" layout="grid"
+														style="border:0px !important; background:none;"
+														styleClass="ui-panelgrid-blank">
+														
+														<h:panelGroup>
+															<p:outputLabel value="Código: "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="codigoA" maxlength="6"
+																style="text-transform: uppercase"
+																required="#{mpCadastroTituloBean.indEditavel}"
+																validatorMessage="Informar Código" placeholder="Código"
+																readonly="#{mpCadastroTituloBean.indEditavel}"
+																value="#{mpCadastroTituloBean.mpTitulo.codigoApresentante}" />
+															<p:tooltip for="codigoA" value="Código Apresentante (Ex.: 745)" />
+														</h:panelGroup>
+														
+														<p:spacer width="30" height="10" />
+														<h:panelGroup>
+															<p:outputLabel value="Nome: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:selectOneMenu id="nomeA" disabled="#{mpCadastroTituloBean.indEditavel}"
+																value="#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloApresentante}">
+																<f:selectItem itemLabel="Selecione o Nome" />
+																<f:selectItems value="#{mpCadastroTituloBean.mpPessoaTituloList}"
+																	var="mpPessoaTituloA" itemValue="#{mpPessoaTituloA}"
+																	itemLabel="#{mpPessoaTituloA.nome}" />
+																<p:ajax listener="#{mpCadastroTituloBean.changeNome}" update="pgGridA" />
+															</p:selectOneMenu>
+															<p:tooltip for="nomeA" value="Nome Apresentante (Ex.: Banco Citybank S.A.)" />
+														</h:panelGroup>
+														<p:spacer width="30" height="10" />
+													</p:panelGrid>
+													
+													<p:panelGrid id="pgGridA" columns="5" layout="grid"
+														style="border:0px !important; background:none;"
+														styleClass="ui-panelgrid-blank">
+														<h:panelGroup>
+															<p:outputLabel value="CEP: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputMask id="cepA" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloApresentante.mpEnderecoLocal.cep}" />
+															<p:tooltip for="cepA" value="CEP (Ex.: 01311-920)" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Endereço: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="enderecoA" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloApresentante.mpEnderecoLocal.logradouro}" />
+															<p:tooltip for="enderecoA" value="Endereço (Ex.: Rua Domingues de Sá)" />
+														</h:panelGroup>
+														
+														<h:panelGroup>
+															<p:outputLabel value="Número: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="numeroA" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloApresentante.mpEnderecoLocal.numero}" />
+															<p:tooltip for="numeroA" value="Numero (Ex.: 1111)" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Complemento: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="complementoA" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloApresentante.mpEnderecoLocal.complemento}" />
+															<p:tooltip for="complementoA" value="Complemento (Ex.: Bloco A)" />
+														</h:panelGroup>
+
+														<h:panelGroup>
+															<p:outputLabel value="Cidade: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="cidadeA" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloApresentante.mpEnderecoLocal.cidade}" />
+															<p:tooltip for="cidadeA" value="Cidade (Ex.: Rio de Janeiro)" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Bairro: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="bairroA" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloApresentante.mpEnderecoLocal.bairro}" />
+															<p:tooltip for="bairroA" value="Bairro (Ex.: Vila Isabel)" />
+														</h:panelGroup>
+
+														<h:panelGroup>
+															<p:outputLabel value="Estado/UF: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="mpEstadoUFA" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloApresentante.mpEnderecoLocal.mpEstadoUF.descricao}" />
+															<p:tooltip for="mpEstadoUFA" value="Estado/UF (Ex.: RJ - Rio de Janeiro)" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Tipo Documento: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="tipoDocumentoA" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloApresentante.tipoDocumento}" />
+															<p:tooltip for="tipoDocumentoA" value="Tipo Documento (Ex.: ????)" />
+														</h:panelGroup>
+														
+														<h:panelGroup>
+															<p:outputLabel value="Número Documento: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="numeroDocumentoA" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloApresentante.numeroDocumento}" />
+															<p:tooltip for="numeroDocumentoA" value="Número Documento (Ex.: ????)" />
+														</h:panelGroup>
+														<h:panelGroup />
+													</p:panelGrid>																								
+												</p:panel>
+												
+												<p:panel header="Favorecido">
+													<p:selectOneMenu id="favorecido" disabled="#{mpCadastroTituloBean.indEditavel}"
+														value="#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloFavorecido}">
+														<f:selectItem itemLabel="Selecione o Nome" />
+														<f:selectItems value="#{mpCadastroTituloBean.mpPessoaTituloList}"
+															var="mpPessoaTituloF" itemValue="#{mpPessoaTituloF}"
+															itemLabel="#{mpPessoaTituloF.nome}" />
+													</p:selectOneMenu>
+													<p:tooltip for="favorecido" value="Nome Favorecido (Ex.: Air Liquide Brasil LTDA)" />
+												</p:panel>																								
+
+												<p:panel header="Sacador">
+													<p:panelGrid columns="1" layout="grid"
+														style="border:0px !important; background:none;"
+														styleClass="ui-panelgrid-blank">
+														<h:panelGroup>
+															<p:outputLabel value="Nome: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:selectOneMenu id="nomeS" disabled="#{mpCadastroTituloBean.indEditavel}"
+																value="#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloSacador}">
+																<f:selectItem itemLabel="Selecione o Nome" />
+																<f:selectItems value="#{mpCadastroTituloBean.mpPessoaTituloList}"
+																	var="mpPessoaTituloS" itemValue="#{mpPessoaTituloS}"
+																	itemLabel="#{mpPessoaTituloS.nome}" />
+																<p:ajax listener="#{mpCadastroTituloBean.changeNome}" update="pgGridS" />
+															</p:selectOneMenu>																
+															<p:tooltip for="nomeS" value="Nome Sacador (Ex.: Air Liquide Brasil LTDA)" />
+														</h:panelGroup>													
+													</p:panelGrid>																								
+													<p:panelGrid id="pgGridS" columns="5" layout="grid"
+														style="border:0px !important; background:none;"
+														styleClass="ui-panelgrid-blank">
+														<h:panelGroup>
+															<p:outputLabel value="CEP: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="cepS" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloSacador.mpEnderecoLocal.cep}" />
+															<p:tooltip for="cepS" value="CEP (Ex.: 01311-920)" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Endereço: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="enderecoS" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloSacador.mpEnderecoLocal.logradouro}" />
+															<p:tooltip for="enderecoS" value="Endereço (Ex.: Rua Domingues de Sá)" />
+														</h:panelGroup>
+														
+														<h:panelGroup>
+															<p:outputLabel value="Número: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="numeroS" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloSacador.mpEnderecoLocal.numero}" />
+															<p:tooltip for="numeroS" value="Numero (Ex.: 1111)" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Complemento: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="complementoS" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloSacador.mpEnderecoLocal.complemento}" />
+															<p:tooltip for="complementoS" value="Complemento (Ex.: Bloco A)" />
+														</h:panelGroup>
+
+														<h:panelGroup>
+															<p:outputLabel value="Cidade: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="cidadeS" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloSacador.mpEnderecoLocal.cidade}" />
+															<p:tooltip for="cidadeS" value="Cidade (Ex.: Rio de Janeiro)" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Bairro: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="bairroS" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloSacador.mpEnderecoLocal.bairro}" />
+															<p:tooltip for="bairroS" value="Bairro (Ex.: Vila Isabel)" />
+														</h:panelGroup>
+
+														<h:panelGroup>
+															<p:outputLabel value="Estado/UF: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="mpEstadoUFS" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloSacador.mpEnderecoLocal.mpEstadoUF.descricao}" />
+															<p:tooltip for="mpEstadoUFS" value="Estado/UF (Ex.: RJ - Rio de Janeiro)" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Tipo Documento: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="tipoDocumentoS" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloSacador.tipoDocumento}" />
+															<p:tooltip for="tipoDocumentoS" value="Tipo Documento" />
+														</h:panelGroup>
+														
+														<h:panelGroup>
+															<p:outputLabel value="Número Documento: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="numeroDocumentoS" style="text-transform: uppercase" readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloSacador.numeroDocumento}" />
+															<p:tooltip for="numeroDocumentoS" value="Número Documento" />
+														</h:panelGroup>
+														<h:panelGroup />
+													</p:panelGrid>																								
+												</p:panel>
+												
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+
+							</div>
+						</p:tab>
+
+						<p:tab title="Informações Titulo">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+											
+												<p:panelGrid columns="5" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<h:panelGroup />
+													<h:panelGroup id="pgConvenio">
+														<p:outputLabel value="Convenio: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="convenio" maxlength="100"
+															required="#{mpCadastroTituloBean.indEditavel}"
+															validatorMessage="Informar Convênio" placeholder="Convênio"
+															readonly="#{mpCadastroTituloBean.indEditavel}"
+															value="#{mpCadastroTituloBean.mpTitulo.convenio}">
+														</p:inputMask>
+														<p:tooltip id="toolTipConvenio" for="convenio" value="Convênio" />
+													</h:panelGroup>
+													<h:panelGroup />
+													<h:panelGroup />
+													<h:panelGroup />
+												</p:panelGrid>
+
+												<p:panelGrid columns="5" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<p:panel header="Distribuição">
+														<p:panelGrid columns="2" layout="grid"
+															style="border:0px !important; background:none;"
+															styleClass="ui-panelgrid-blank">
+															<h:panelGroup>
+																<p:calendar id="dataDistribuicaoT"
+																	style="background-color:black; color:yellow;"
+																	pattern="dd/MM/yyyy" mask="true" placeholder="Data Distribuição"
+																	required="#{mpCadastroTituloBean.indEditavel}"
+																	validatorMessage="Informar Data Distribuição"
+																	disabled="#{mpCadastroTituloBean.indEditavel}"
+																	value="#{mpCadastroTituloBean.mpTitulo.dataDistribuicao}" />
+																<p:tooltip for="dataDistribuicaoT" value="Data Distribuição (Ex.: 31/03/2016)" />
+															</h:panelGroup>													
+															<h:panelGroup>
+																<p:inputText id="numeroDistribuicaoT" style="text-transform: uppercase"
+																	required="#{mpCadastroTituloBean.indEditavel}"
+																	validatorMessage="Informar Número Distribuição" placeholder="Número Distribuição"
+																	readonly="#{mpCadastroTituloBean.indEditavel}" value=
+																	"#{mpCadastroTituloBean.mpTitulo.numeroDistribuicao}" />
+																<p:tooltip for="numeroDistribuicaoT" value="Número Distribuição (Ex.: 70843)" />
+															</h:panelGroup>													
+														</p:panelGrid>
+													</p:panel>																								
+
+													<p:panel>
+														<p:panelGrid columns="4" layout="grid"
+															style="border:0px !important; background:none;"
+															styleClass="ui-panelgrid-blank">
+															<h:panelGroup>
+																<p:outputLabel value="Emissão: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+																<p:calendar id="dataEmissaoT"
+																	style="background-color:black; color:yellow;"
+																	pattern="dd/MM/yyyy" mask="true" placeholder="Data Distribuição"
+																	required="#{mpCadastroTituloBean.indEditavel}"
+																	validatorMessage="Informar Data Emissão"
+																	disabled="#{mpCadastroTituloBean.indEditavel}"
+																	value="#{mpCadastroTituloBean.mpTitulo.dataEmissao}" />
+																<p:tooltip for="dataEmissaoT" value="Data Emissão (Ex.: 31/03/2016)" />
+															</h:panelGroup>													
+															<h:panelGroup>
+																<p:outputLabel value="Vencimento: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+																<p:calendar id="dataVencimentoT"
+																	style="background-color:black; color:yellow;"
+																	pattern="dd/MM/yyyy" mask="true" placeholder="Data Vencimento"
+																	required="#{mpCadastroTituloBean.indEditavel}"
+																	validatorMessage="Informar Data Vencimento"
+																	disabled="#{mpCadastroTituloBean.indEditavel}"
+																	value="#{mpCadastroTituloBean.mpTitulo.dataVencimento}" />
+																<p:tooltip for="dataVencimentoT" value="Data Vencimento (Ex.: 31/03/2016)" />
+															</h:panelGroup>													
+															<h:panelGroup>
+																<p:outputLabel value="À vista: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														        <p:selectOneMenu id="aVistaT" value="#{mpCadastroTituloBean.mpTitulo.pagamentoAVista}" 
+														        	style="width:50px" disabled="#{mpCadastroTituloBean.indEditavel}">
+														            <f:selectItem itemLabel="Sim" itemValue="S" />
+														            <f:selectItem itemLabel="Não" itemValue="N" />
+														        </p:selectOneMenu>
+																<p:tooltip for="aVistaT" value="À vista (Ex.: S=Sim / N=Não)" />
+															</h:panelGroup>													
+															<h:panelGroup>
+																<p:outputLabel value="Número Cliente: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+																<p:inputText id="numeroClienteT" style="text-transform: uppercase"
+																	required="#{mpCadastroTituloBean.indEditavel}"
+																	validatorMessage="Informar Número Cliente" placeholder="Número Cliente"
+																	readonly="#{mpCadastroTituloBean.indEditavel}" value=
+																	"#{mpCadastroTituloBean.mpTitulo.numeroCliente}" />
+																<p:tooltip for="numeroClienteT" value="Número Cliente (Ex.: ????)" />
+															</h:panelGroup>													
+														</p:panelGrid>
+													</p:panel>
+												</p:panelGrid>
+												<p:panel>
+													<p:panelGrid columns="7" layout="grid"
+														style="border:0px !important; background:none;"
+														styleClass="ui-panelgrid-blank">
+														<h:panelGroup>
+															<p:outputLabel value="Número Título: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="numeroTituloT" style="text-transform: uppercase"
+																required="#{mpCadastroTituloBean.indEditavel}"
+																validatorMessage="Informar Número Titulo" placeholder="Número Titulo"
+																readonly="#{mpCadastroTituloBean.indEditavel}" value=
+																"#{mpCadastroTituloBean.mpTitulo.numeroTitulo}" />
+															<p:tooltip for="numeroTituloT" value="Número Titulo (Ex.: 0000007885)" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:outputLabel value="Número Banco: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="numeroBancoT" style="text-transform: uppercase"
+																required="#{mpCadastroTituloBean.indEditavel}"
+																validatorMessage="Informar Número Banco" placeholder="Número Banco"
+																readonly="#{mpCadastroTituloBean.indEditavel}" value=
+																"#{mpCadastroTituloBean.mpTitulo.numeroBanco}" />
+															<p:tooltip for="numeroBancoT" value="Número Banco (Ex.: 000000617622)" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:outputLabel value="Agência/Cod.Cedente: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="agenciaCedenteT" style="text-transform: uppercase"
+																required="#{mpCadastroTituloBean.indEditavel}"
+																validatorMessage="Informar Agência/Cod.Cedente" placeholder="Agência/Cod.Cedente"
+																readonly="#{mpCadastroTituloBean.indEditavel}" value=
+																"#{mpCadastroTituloBean.mpTitulo.agenciaCedente}" />
+															<p:tooltip for="agenciaCedenteT" value="Agência/Cod.Cedente (Ex.: 01010107562028)" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:outputLabel value="Endosso: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														        <p:selectOneMenu id="endossoT" value="#{mpCadastroTituloBean.mpTitulo.codigoEndosso}" 
+														        	style="width:50px" readonly="#{mpCadastroTituloBean.indEditavel}">
+														            <f:selectItem itemLabel="M" itemValue="M" />
+														            <f:selectItem itemLabel="_" itemValue="_" />
+														        </p:selectOneMenu>
+															<p:tooltip for="endossoT" value="Endosso (Ex.: M=???)" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:outputLabel value="Espécie: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														        <p:selectOneMenu id="especieT" value="#{mpCadastroTituloBean.mpTitulo.especieCodigo}" 
+														        	style="width:50px" readonly="#{mpCadastroTituloBean.indEditavel}">
+														            <f:selectItem itemLabel="DMI" itemValue="DMI" />
+														            <f:selectItem itemLabel="___" itemValue="___" />
+														        </p:selectOneMenu>
+															<p:tooltip for="especieT" value="Espécie (Ex.: DMI=???)" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:outputLabel value="Aceite: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="aceiteT" style="text-transform: uppercase"
+																required="#{mpCadastroTituloBean.indEditavel}" maxlength="1"
+																validatorMessage="Informar Aceite" placeholder="Aceite"
+																readonly="#{mpCadastroTituloBean.indEditavel}" value=
+																"#{mpCadastroTituloBean.mpTitulo.aceite}" />
+															<p:tooltip for="aceiteT" value="Aceite (Ex.: N=???)" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:outputLabel value="Alinea: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:outputLabel id="alineaT" value="#{mpCadastroTituloBean.mpTitulo.codigoAlinea}" />
+														</h:panelGroup>													
+													</p:panelGrid>
+												</p:panel>
+
+												<p:panel header="Custas">
+													<p:panelGrid columns="10" layout="grid"
+														style="border:0px !important; background:none;"
+														styleClass="ui-panelgrid-blank">
+														<h:panelGroup>
+															<p:outputLabel value="Emolumento: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="emolumentoC" maxlength="10" styleClass="moeda"
+																value="#{mpCadastroTituloBean.mpTitulo.mpValorAto.valorAtoEmolumento}"
+																readonly="#{mpCadastroTituloBean.indEditavel}">
+																<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+															</p:inputText>
+															<p:tooltip for="emolumentoC" value="Emolumento (Ex.: 307,76)" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:outputLabel value="Lei.489: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="lei489C" maxlength="10" styleClass="moeda"
+																value="#{mpCadastroTituloBean.mpTitulo.mpValorAto.valorAtoLei489}"
+																readonly="#{mpCadastroTituloBean.indEditavel}">
+																<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+															</p:inputText>
+															<p:tooltip for="lei489C" value="Lei.489 (Ex.: 0,28)" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:outputLabel value="Lei.3761: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="lei3761C" maxlength="10" styleClass="moeda"
+																value="#{mpCadastroTituloBean.mpTitulo.mpValorAto.valorAtoLei3761}"
+																readonly="#{mpCadastroTituloBean.indEditavel}">
+																<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+															</p:inputText>
+															<p:tooltip for="lei3761C" value="Lei.3761 (Ex.: 14,16)" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:outputLabel value="Lei.3217: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="lei3217C" maxlength="10" styleClass="moeda"
+																value="#{mpCadastroTituloBean.mpTitulo.mpValorAto.valorAtoLei3217}"
+																readonly="#{mpCadastroTituloBean.indEditavel}">
+																<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+															</p:inputText>
+															<p:tooltip for="lei3217C" value="Lei.3761 (Ex.: 61,55)" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:outputLabel value="Lei.4664: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="lei4664C" maxlength="10" styleClass="moeda"
+																value="#{mpCadastroTituloBean.mpTitulo.mpValorAto.valorAtoLei4664}"
+																readonly="#{mpCadastroTituloBean.indEditavel}">
+																<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+															</p:inputText>
+															<p:tooltip for="lei4664C" value="Lei.3761 (Ex.: 15,38)" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:outputLabel value="Lei.111: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="lei111C" maxlength="10" styleClass="moeda"
+																value="#{mpCadastroTituloBean.mpTitulo.mpValorAto.valorAtoLei111}"
+																readonly="#{mpCadastroTituloBean.indEditavel}">
+																<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+															</p:inputText>
+															<p:tooltip for="lei111C" value="Lei.3761 (Ex.: 15,38)" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:outputLabel value="Lei.6281: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="lei6281C" maxlength="10" styleClass="moeda"
+																value="#{mpCadastroTituloBean.mpTitulo.mpValorAto.valorAtoLei6281}"
+																readonly="#{mpCadastroTituloBean.indEditavel}">
+																<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+															</p:inputText>
+															<p:tooltip for="lei6281C" value="Lei.3761 (Ex.: 12,31)" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:spacer width="90" height="10" />
+															<p:spacer width="90" height="10" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:spacer width="90" height="10" />
+															<p:outputLabel value="Total Depósito : " 
+																styleClass="Container40 Fnone MarAuto Fs18 red" />
+														</h:panelGroup>													
+														<h:panelGroup>
+															<p:spacer />
+															<p:outputLabel styleClass="Container40 Fnone MarAuto Fs18 red"
+																value="#{mpCadastroTituloBean.mpTitulo.mpValorAto.calcularValorCustas()}" />
+														</h:panelGroup>													
+													</p:panelGrid>
+													<p:panelGrid columns="13" layout="grid"
+														style="border:0px !important; background:none;"
+														styleClass="ui-panelgrid-blank">
+														<p:outputLabel value="Intim.: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<h:panelGroup>
+															<p:inputText id="intimacaoC" maxlength="10" styleClass="moeda"
+																value="#{mpCadastroTituloBean.mpTitulo.intimacao}"
+																readonly="#{mpCadastroTituloBean.indEditavel}">
+																<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+															</p:inputText>
+															<p:tooltip for="intimacaoC" value="Intimação (Ex.:0,00)" />
+														</h:panelGroup>													
+														<p:outputLabel value="Coobr.: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<h:panelGroup>
+															<p:inputText id="coobrigadoC" maxlength="10" styleClass="moeda"
+																value="#{mpCadastroTituloBean.mpTitulo.coobrigado}"
+																readonly="#{mpCadastroTituloBean.indEditavel}">
+																<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+															</p:inputText>
+															<p:tooltip for="coobrigadoC" value="Coobrigado (Ex.: 0,00)" />
+														</h:panelGroup>													
+														<p:outputLabel value="Arquiv.: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<h:panelGroup>
+															<p:inputText id="arquivamentoC" maxlength="10" styleClass="moeda"
+																value="#{mpCadastroTituloBean.mpTitulo.arquivamento}"
+																readonly="#{mpCadastroTituloBean.indEditavel}">
+																<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+															</p:inputText>
+															<p:tooltip for="arquivamentoC" value="Arquivamento (Ex.: 0,00)" />
+														</h:panelGroup>													
+														<p:spacer width="70" height="10" />
+														<p:outputLabel value="Outros: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<h:panelGroup>
+															<p:inputText id="outrosC" maxlength="10" styleClass="moeda"
+																value="#{mpCadastroTituloBean.mpTitulo.outros}"
+																readonly="#{mpCadastroTituloBean.indEditavel}">
+																<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+															</p:inputText>
+															<p:tooltip for="outrosC" value="Nome Sacador (Ex.: 0,00)" />
+														</h:panelGroup>													
+														<p:spacer width="90" height="10" />
+														<p:spacer width="90" height="10" />
+														<p:outputLabel value="Distribuição: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<h:panelGroup>
+															<p:inputText id="distribuicaoC" style="text-transform: uppercase"
+																required="#{mpCadastroTituloBean.indEditavel}"
+																validatorMessage="Informar Distribuição????" placeholder="Distribuição???"
+																readonly="#{mpCadastroTituloBean.indEditavel}" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloSacador.nome}" />
+															<p:tooltip for="distribuicaoC" value="Distribuição??? (Ex.: Pegar da ONDE???)" />
+														</h:panelGroup>													
+													</p:panelGrid>
+													<p:panelGrid columns="10" layout="grid"
+														style="border:0px !important; background:none;"
+														styleClass="ui-panelgrid-blank">
+														<p:spacer width="120" height="10" />
+														<p:spacer width="120" height="10" />
+														<p:spacer width="120" height="10" />
+														<p:spacer width="120" height="10" />
+														<p:spacer width="120" height="10" />
+														<p:spacer width="120" height="10" />
+														<p:spacer width="120" height="10" />
+														<p:spacer width="130" height="10" />
+														<p:outputLabel value="Total Pagar : " 
+																styleClass="Container40 Fnone MarAuto Fs18 red" />
+														<p:inputText id="totalPagarC" style="text-transform: uppercase"
+																readonly="true" value=
+																"#{mpCadastroTituloBean.mpTitulo.mpPessoaTituloSacador.nome}" />
+													</p:panelGrid>
+												</p:panel>
+
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+
+							</div>
+						</p:tab>
+
+					</p:tabView>
+										
+				</p:panel>
+			</h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpTituloDialog" id="helpTituloDialogId" modal="true"
+					header="HELP - Titulo" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpTituloPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCadastroTituloBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroTituloBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCadastroTituloBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroTituloBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCadastroTituloBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCadastroTituloBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

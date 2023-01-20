@@ -1,0 +1,336 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+	
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpAtividade" value="#{mpCadastroAtividadeBean.mpAtividade}" />
+			<f:viewAction action="#{mpCadastroAtividadeBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Atividade #{mpCadastroAtividadeBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesAtividade.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup id="pgDataMovimento">
+														<p:outputLabel value="Data: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataMovimento"
+															style="background-color:black; color:yellow;"
+															pattern="dd/MM/yyyy HH:mm" mask="true"
+															placeholder="Data/Hora"
+															required="#{mpCadastroAtividadeBean.indEditavel}"
+															validatorMessage="Informar Data Atividade"
+															disabled="#{mpCadastroAtividadeBean.indEditavel}"
+															value="#{mpCadastroAtividadeBean.mpAtividade.dtHrAtividade}" />
+														<p:tooltip for="dataMovimento" value="Data/Hora (Ex.: 01/07/20xx 16:00 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgDataFimMovimento">
+														<p:outputLabel value="Data Fim: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataFimMovimento"
+															style="background-color:black; color:yellow;"
+															pattern="dd/MM/yyyy HH:mm" mask="true"
+															placeholder="Data/Hora Fim"
+															required="#{mpCadastroAtividadeBean.indEditavel}"
+															validatorMessage="Informar Data Fim Atividade"
+															disabled="#{mpCadastroAtividadeBean.indEditavel}"
+															value="#{mpCadastroAtividadeBean.mpAtividade.dtHrFimAtividade}" />
+														<p:tooltip for="dataFimMovimento" value="Data/Hora Fim (Ex.: 10/07/20xx 16:00 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgDuracao">
+														<p:outputLabel value="Duração: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="duracao" placeholder="Duração" maxlength="10"
+															required="#{mpCadastroAtividadeBean.indEditavel}"
+															validatorMessage="Informar Duração" styleClass="moeda"
+															readonly="#{mpCadastroAtividadeBean.indEditavel}"
+															value="#{mpCadastroAtividadeBean.mpAtividade.duracao}">
+															<f:convertNumber maxFractionDigits="0"
+																minFractionDigits="0" />
+														</p:inputText>
+														<p:tooltip for="duracao" value="Duração (em minutos) (Ex.: 60 )" />
+													</h:panelGroup>
+													
+													<h:panelGroup id="pgPeriodicidade">
+														<p:outputLabel value="Periodicidade: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpPeriodicidade"
+															disabled="#{mpCadastroAtividadeBean.indEditavel}"
+															value="#{mpCadastroAtividadeBean.mpAtividade.mpPeriodicidade}">
+															<f:selectItem itemLabel="Selecione a Periodicidade" />
+															<f:selectItems
+																value="#{mpCadastroAtividadeBean.mpPeriodicidadeList}"
+																var="mpPeriodicidade" itemValue="#{mpPeriodicidade}"
+																itemLabel="#{mpPeriodicidade.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpPeriodicidade" value="Periodicidade (Ex.: Semanal )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgDescricao">
+														<p:outputLabel value="Descrição: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputTextarea id="descricao" placeholder="Descrição"
+															required="#{mpCadastroAtividadeBean.indEditavel}" rows="4"
+															validatorMessage="Informar Descrição" maxlength="255"
+															readonly="#{mpCadastroAtividadeBean.indEditavel}"
+															value="#{mpCadastroAtividadeBean.mpAtividade.descricao}">
+															<f:validateLength maximum="255" />
+															<p:clientValidator event="keyup" />
+														</p:inputTextarea>
+														<p:tooltip for="descricao" value="Descrição (Ex.: Tomar remédio )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgAtividade">
+														<p:outputLabel value="Atividade: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpAtividadeTipo"
+															disabled="#{mpCadastroAtividadeBean.indEditavel}"
+															value="#{mpCadastroAtividadeBean.mpAtividade.mpAtividadeTipo}">
+															<f:selectItem itemLabel="Selecione o Tipo" />
+															<f:selectItems
+																value="#{mpCadastroAtividadeBean.mpAtividadeTipoList}"
+																var="mpAtividadeTipo" itemValue="#{mpAtividadeTipo}"
+																itemLabel="#{mpAtividadeTipo}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpAtividadeTipo" value="Tipo Atividade (Ex.: Fisica )" />
+													</h:panelGroup>
+													
+													<h:panelGroup id="pgProduto">
+														<p:outputLabel value="Produto: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="produto"
+															disabled="#{mpCadastroAtividadeBean.indEditavel}"
+															value="#{mpCadastroAtividadeBean.mpAtividade.mpProduto}">
+															<f:selectItem itemLabel="Selecione o Produto" />
+															<f:selectItems
+																value="#{mpCadastroAtividadeBean.mpProdutoList}"
+																var="mpProduto" itemValue="#{mpProduto}"
+																itemLabel="#{mpProduto.nome}" />
+														</p:selectOneMenu>
+														<p:tooltip for="produto" value="Produto (Ex.: Dorflex )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgQuantidade">
+														<p:outputLabel value="Quantidade: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="quantidade" placeholder="Quantidade" maxlength="8"
+															styleClass="moeda"
+															required="#{mpCadastroAtividadeBean.indEditavel}"
+															validatorMessage="Informar Quantidade"
+															readonly="#{mpCadastroAtividadeBean.indEditavel}"
+															value="#{mpCadastroAtividadeBean.mpAtividade.quantidade}">
+															<f:convertNumber maxFractionDigits="2"
+																minFractionDigits="2" />
+														</p:inputText>
+														<p:tooltip for="quantidade" value="Quantidade (Ex.: 1,00 )" />
+													</h:panelGroup>
+													<h:panelGroup>
+														<p:selectBooleanCheckbox itemLabel="Ativo"
+															disabled="#{mpCadastroAtividadeBean.indEditavel}"
+															value="#{mpCadastroAtividadeBean.mpAtividade.indAtivo}" />
+														<p:spacer width="20" />
+														<p:selectBooleanCheckbox itemLabel="Ind.Inicio-Fim"
+															disabled="#{mpCadastroAtividadeBean.indEditavel}"
+															value="#{mpCadastroAtividadeBean.mpAtividade.indInicioFim}" />
+													</h:panelGroup>
+													
+													<h:panelGroup id="pgPaciente">
+														<p:outputLabel value="Paciente: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="paciente"
+															disabled="#{mpCadastroAtividadeBean.indEditavel}"
+															value="#{mpCadastroAtividadeBean.mpAtividade.mpPaciente}">
+															<f:selectItem itemLabel="Selecione o Paciente" />
+															<f:selectItems
+																value="#{mpCadastroAtividadeBean.mpPacienteList}"
+																var="mpPaciente" itemValue="#{mpPaciente}"
+																itemLabel="#{mpPaciente.nome}" />
+														</p:selectOneMenu>
+														<p:tooltip for="paciente" value="Paciente (Ex.: Paciente Fulano )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgObs">
+														<p:outputLabel value="Observação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="obs" placeholder="Observação"
+															readonly="#{mpCadastroAtividadeBean.indEditavel}"
+															value="#{mpCadastroAtividadeBean.mpAtividade.observacao}" />
+														<p:tooltip for="obs" value="Observação" />
+													</h:panelGroup>
+													<h:panelGroup />
+													
+												</p:panelGrid>
+												
+												<p:panel header="Alertas" toggleable="true" toggleSpeed="500"
+													closeSpeed="500" collapsed="true">
+													<p:panelGrid columns="7" layout="grid"
+														style="border:0px none;background:none"
+														styleClass="ui-fluid">
+
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaEmail}">
+															<p:outputLabel value="Alerta Email : " for="indEmail" />
+															<p:selectBooleanButton id="indEmail" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroAtividadeBean.indEditavel}"
+																disabled="#{mpCadastroAtividadeBean.indEditavel}"
+																value="#{mpCadastroAtividadeBean.mpAtividade.mpAlerta.indEmail}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaSMS}">
+															<p:outputLabel value="Alerta SMS : " for="indSMS" />
+															<p:selectBooleanButton id="indSMS" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroAtividadeBean.indEditavel}"
+																disabled="#{mpCadastroAtividadeBean.indEditavel}"
+																value="#{mpCadastroAtividadeBean.mpAtividade.mpAlerta.indSMS}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaPush}">
+															<p:outputLabel value="Alerta Push : " for="indPush" />
+															<p:selectBooleanButton id="indPush" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroAtividadeBean.indEditavel}"
+																disabled="#{mpCadastroAtividadeBean.indEditavel}"
+																value="#{mpCadastroAtividadeBean.mpAtividade.mpAlerta.indPush}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaTelegram}">
+															<p:outputLabel value="Alerta Telegram : "
+																for="indTelegram" />
+															<p:selectBooleanButton id="indTelegram" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroAtividadeBean.indEditavel}"
+																disabled="#{mpCadastroAtividadeBean.indEditavel}"
+																value="#{mpCadastroAtividadeBean.mpAtividade.mpAlerta.indTelegram}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaWhatsapp}">
+															<p:outputLabel value="Alerta Whatsapp : "
+																for="indWhatsapp" />
+															<p:selectBooleanButton id="indWhatsapp" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroAtividadeBean.indEditavel}"
+																disabled="#{mpCadastroAtividadeBean.indEditavel}"
+																value="#{mpCadastroAtividadeBean.mpAtividade.mpAlerta.indWhatsapp}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaMpComunicator}">
+															<p:outputLabel value="Alerta MpComunicator : "
+																for="indMpComunicator" />
+															<p:selectBooleanButton id="indMpComunicator"
+																onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroAtividadeBean.indEditavel}"
+																disabled="#{mpCadastroAtividadeBean.indEditavel}"
+																value="#{mpCadastroAtividadeBean.mpAtividade.mpAlerta.indMpComunicator}" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Resposta Usuário : "
+																for="indRespUser" />
+															<p:selectBooleanButton id="indRespUser"
+																onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroAtividadeBean.indEditavel}"
+																disabled="#{mpCadastroAtividadeBean.indEditavel}"
+																value="#{mpCadastroAtividadeBean.mpAtividade.mpAlerta.indRespostaUsuario}" />
+														</h:panelGroup>
+
+													</p:panelGrid>
+												</p:panel>
+												
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpAtividadeDialog" id="helpAtividadeDialogId" modal="true"
+					header="HELP - Atividade" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpAtividadePanel">
+				
+					<p:messages autoUpdate="false" />
+				
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCadastroAtividadeBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+					<p:panelGrid columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroAtividadeBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCadastroAtividadeBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroAtividadeBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCadastroAtividadeBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCadastroAtividadeBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

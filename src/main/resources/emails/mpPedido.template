@@ -1,0 +1,38 @@
+<html>
+    <body>
+        <table>
+            <tr>
+                <td style="width: 100px">Número:</td>
+                <td>$mpPedido.id</td>
+            </tr>
+            <tr>
+                <td>Cliente:</td>
+                <td>$mpPedido.mpContato.nomeRazaoSocial</td>
+            </tr>
+            <tr>
+                <td>Valor total:</td>
+                <td>$numberTool.format("¤ #0.00", $mpPedido.valorTotal, $locale)</td>
+            </tr>
+        </table>
+        
+        <br/>
+        <table border="1" cellspacing="0" cellpadding="3">
+            <tr>
+                <th>Produto</th>
+                <th>Valor unitário</th>
+                <th>Quantidade</th>
+                <th>Valor total</th>
+            </tr>
+            #foreach ($mpItem in $mpPedido.mpItens)
+            	#if ($mpItem.mpProduto.id)
+	            <tr>
+	                <td>$mpItem.mpProduto.nome</td>
+	                <td>$numberTool.format("¤ #0.00", $mpItem.mpProduto.valorUnitario, $locale)</td>
+	                <td>$mpItem.quantidade</td>
+	                <td>$numberTool.format("¤ #0.00", $mpItem.valorTotal, $locale)</td>
+	            </tr>
+	            #end
+            #end
+        </table>
+    </body>
+</html>

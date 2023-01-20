@@ -1,0 +1,169 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpDataProcesso" value="#{mpCadastroDataProcessoBean.mpDataProcesso}" />
+			<f:viewAction action="#{mpCadastroDataProcessoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Data Processo #{mpCadastroDataProcessoBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/cartorios/mpBotoesDataProcesso.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+					</div>
+					
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="6" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup id="pgData">
+														<p:outputLabel value="Data Protocolo: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataProtocolo"
+														style="background-color:black; color:yellow;"
+														pattern="dd/MM/yyyy" mask="true"
+														placeholder="Data Protocolo"
+														required="#{mpCadastroDataProcessoBean.indEditavel}"
+														validatorMessage="Informar Data Protocolo"
+														disabled="#{mpCadastroDataProcessoBean.indEditavel}"
+														value="#{mpCadastroDataProcessoBean.mpDataProcesso.dataProtocolo}" />
+														<p:tooltip for="dataProtocolo" value="Data Protocolo (Ex.: 31/03/2016)" />
+													</h:panelGroup>
+													<h:panelGroup id="pgDataAte">
+														<p:outputLabel value="Data Até: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataAte"
+														style="background-color:black; color:yellow;"
+														pattern="dd/MM/yyyy" mask="true"
+														placeholder="Data Até"
+														required="#{mpCadastroDataProcessoBean.indEditavel}"
+														validatorMessage="Informar Data Até"
+														disabled="#{mpCadastroDataProcessoBean.indEditavel}"
+														value="#{mpCadastroDataProcessoBean.mpDataProcesso.dataAte}" />
+														<p:tooltip for="dataAte" value="Data Até (Ex.: 31/03/2016)" />
+													</h:panelGroup>
+													<h:panelGroup id="pgProtocoloInicial">
+														<p:outputLabel value="Protocolo Inicial: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="protocoloInicial" maxlength="6"
+															style="text-transform: uppercase"
+															required="#{mpCadastroDataProcessoBean.indEditavel}"
+															validatorMessage="Informar Protocolo Inicial"
+															placeholder="Protocolo Inicial"
+															readonly="#{mpCadastroDataProcessoBean.indEditavel}"
+															value="#{mpCadastroDataProcessoBean.mpDataProcesso.protocoloInicial}" />
+														<p:tooltip id="toolTipProtocoloInicial" for="protocoloInicial"
+															value="Protocolo Inicial" />
+													</h:panelGroup>
+													<h:panelGroup id="pgProtocoloFinal">
+														<p:outputLabel value="Protocolo Final: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="protocoloFinal" maxlength="6"
+															style="text-transform: uppercase"
+															required="#{mpCadastroDataProcessoBean.indEditavel}"
+															validatorMessage="Informar Protocolo Final"
+															placeholder="Protocolo Final"
+															readonly="#{mpCadastroDataProcessoBean.indEditavel}"
+															value="#{mpCadastroDataProcessoBean.mpDataProcesso.protocoloFinal}" />
+														<p:tooltip id="toolTipProtocoloFinal" for="protocoloFinal"
+															value="Protocolo Final" />
+													</h:panelGroup>
+													<h:panelGroup />
+													<h:panelGroup />
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpDataProcessoDialog" id="helpDataProcessoDialogId" modal="true"
+					header="HELP - DataProcesso" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpDataProcessoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCadastroDataProcessoBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroDataProcessoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCadastroDataProcessoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroDataProcessoBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCadastroDataProcessoBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCadastroDataProcessoBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

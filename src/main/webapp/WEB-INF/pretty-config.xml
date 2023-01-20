@@ -1,0 +1,515 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+	<url-mapping id="logout">
+		<pattern value="/logout" />
+		<view-id value="/sentinel/mpLogout.xhtml" />
+	</url-mapping>
+	<url-mapping id="logoutRS">
+		<pattern value="/logoutRS" />
+		<view-id value="/sentinel/mpLogout.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="loginRS">
+		<pattern value="/loginRS" />
+		<view-id value="/sentinel/mpLogin.xhtml" />
+	</url-mapping>
+	<url-mapping id="termoPolitica">
+		<pattern value="/termoPolitica" />
+		<view-id value="/sentinel/mpPageTermoPolitica.xhtml" />
+	</url-mapping>
+	<url-mapping id="acessoNegado">
+		<pattern value="/acessoNegado" />
+		<view-id value="/sentinel/mpAccess-denied.xhtml" />
+	</url-mapping>
+	<url-mapping id="dashboardRS">
+		<pattern value="/dashboardRS" />
+		<view-id value="/sentinel/mpDashboard.xhtml" />
+	</url-mapping>
+	<url-mapping id="videoTourRS">
+		<pattern value="/videoTourRS" />
+		<view-id value="/sentinel/videos/mpProtestoTour.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="clienteRS">
+		<pattern value="/clienteRS" />
+		<view-id value="/sentinel/clientes/mpCadastroCliente.xhtml" />
+	</url-mapping>
+	<url-mapping id="clientesRS">
+		<pattern value="/clientesRS" />
+		<view-id value="/sentinel/clientes/mpPesquisaClientes.xhtml" />
+	</url-mapping>
+	<url-mapping id="clientesCatRS">
+		<pattern value="/clientesCatRS" />
+		<view-id value="/sentinel/clientes/mpCatalogoClientes.xhtml" />
+	</url-mapping>
+	<url-mapping id="usuarioRS">
+		<pattern value="/usuarioRS" />
+		<view-id value="/sentinel/usuarios/mpCadastroUsuario.xhtml" />
+	</url-mapping>
+	<url-mapping id="usuariosRS">
+		<pattern value="/usuariosRS" />
+		<view-id value="/sentinel/usuarios/mpPesquisaUsuarios.xhtml" />
+	</url-mapping>
+	<url-mapping id="usuariosOnlineRS">
+		<pattern value="/usuariosOnlineRS" />
+		<view-id value="/sentinel/usuarios/mpPesquisaUsuariosOnline.xhtml" />
+	</url-mapping>
+	<url-mapping id="usuarioConfigRS">
+		<pattern value="/usuarioConfigRS" />
+		<view-id value="/sentinel/usuarios/mpUsuarioConfig.xhtml" />
+	</url-mapping>
+	<url-mapping id="sistemaConfigRS">
+		<pattern value="/sistemaConfigRS" />
+		<view-id value="/sentinel/sistemaConfigs/mpCadastroSistemaConfig.xhtml" />
+	</url-mapping>
+	<url-mapping id="sistemaConfigsRS">
+		<pattern value="/sistemaConfigsRS" />
+		<view-id value="/sentinel/sistemaConfigs/mpPesquisaSistemaConfigs.xhtml" />
+	</url-mapping>
+	<url-mapping id="custasComposicaoRS">
+		<pattern value="/custasComposicaoRS" />
+		<view-id value="/sentinel/cartorios/custasComposicaos/mpCadastroCustasComposicao.xhtml" />
+	</url-mapping>
+	<url-mapping id="custasComposicaosRS">
+		<pattern value="/custasComposicaosRS" />
+		<view-id value="/sentinel/cartorios/custasComposicaos/mpPesquisaCustasComposicaos.xhtml" />
+	</url-mapping>
+	<url-mapping id="dolarRS">
+		<pattern value="/dolarRS" />
+		<view-id value="/sentinel/dolars/mpCadastroDolar.xhtml" />
+	</url-mapping>
+	<url-mapping id="dolarsRS">
+		<pattern value="/dolarsRS" />
+		<view-id value="/sentinel/dolars/mpPesquisaDolars.xhtml" />
+	</url-mapping>
+	<url-mapping id="atividadeRS">
+		<pattern value="/atividadeRS" />
+		<view-id value="/sentinel/atividades/mpCadastroAtividade.xhtml" />
+	</url-mapping>
+	<url-mapping id="atividadesRS">
+		<pattern value="/atividadesRS" />
+		<view-id value="/sentinel/atividades/mpPesquisaAtividades.xhtml" />
+	</url-mapping>
+	<url-mapping id="pacienteRS">
+		<pattern value="/pacienteRS" />
+		<view-id value="/sentinel/pacientes/mpCadastroPaciente.xhtml" />
+	</url-mapping>
+	<url-mapping id="pacientesRS">
+		<pattern value="/pacientesRS" />
+		<view-id value="/sentinel/pacientes/mpPesquisaPacientes.xhtml" />
+	</url-mapping>
+	<url-mapping id="pacienteWizardRS">
+		<pattern value="/pacienteWizardRS" />
+		<view-id value="/sentinel/pacientes/mpWizardPaciente.xhtml" />
+	</url-mapping>
+	<url-mapping id="calendarioRS">
+		<pattern value="/calendarioRS" />
+		<view-id value="/sentinel/calendarios/mpCadastroCalendario.xhtml" />
+	</url-mapping>
+	<url-mapping id="calendariosRS">
+		<pattern value="/calendariosRS" />
+		<view-id value="/sentinel/calendarios/mpPesquisaCalendarios.xhtml" />
+	</url-mapping>
+	<url-mapping id="alarmeRS">
+		<pattern value="/alarmeRS" />
+		<view-id value="/sentinel/alarmes/mpCadastroAlarme.xhtml" />
+	</url-mapping>
+	<url-mapping id="alarmesRS">
+		<pattern value="/alarmesRS" />
+		<view-id value="/sentinel/alarmes/mpPesquisaAlarmes.xhtml" />
+	</url-mapping>
+	<url-mapping id="notificacaoRS">
+		<pattern value="/notificacaoRS" />
+		<view-id value="/sentinel/notificacaos/mpCadastroNotificacao.xhtml" />
+	</url-mapping>
+	<url-mapping id="notificacaosRS">
+		<pattern value="/notificacaosRS" />
+		<view-id value="/sentinel/notificacaos/mpPesquisaNotificacaos.xhtml" />
+	</url-mapping>
+	<url-mapping id="objetoRS">
+		<pattern value="/objetoRS" />
+		<view-id value="/sentinel/objetos/mpCadastroObjeto.xhtml" />
+	</url-mapping>
+	<url-mapping id="objetosRS">
+		<pattern value="/objetosRS" />
+		<view-id value="/sentinel/objetos/mpPesquisaObjetos.xhtml" />
+	</url-mapping>
+	<url-mapping id="grupoRS">
+		<pattern value="/grupoRS" />
+		<view-id value="/sentinel/grupos/mpCadastroGrupo.xhtml" />
+	</url-mapping>
+	<url-mapping id="gruposRS">
+		<pattern value="/gruposRS" />
+		<view-id value="/sentinel/grupos/mpPesquisaGrupos.xhtml" />
+	</url-mapping>
+	<url-mapping id="liberaUsuarioRS">
+		<pattern value="/liberaUsuarioRS" />
+		<view-id value="/sentinel/usuarios/mpLiberaUsuarios.xhtml" />
+	</url-mapping>
+	<url-mapping id="pesquisaTabelaBDsRS">
+		<pattern value="/pesquisaTabelaBDsRS" />
+		<view-id value="/sentinel/controles/mpPesquisaTabelaBDs.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="pesquisaAlertaLogRS">
+		<pattern value="/pesquisaAlertaLogRS" />
+		<view-id value="/sentinel/logs/mpPesquisaAlertaLogs.xhtml" />
+	</url-mapping>
+	<url-mapping id="pesquisaErrorLogRS">
+		<pattern value="/pesquisaErrorLogRS" />
+		<view-id value="/sentinel/logs/mpPesquisaErrorLogs.xhtml" />
+	</url-mapping>
+	<url-mapping id="pesquisaLoginLogRS">
+		<pattern value="/pesquisaLoginLogRS" />
+		<view-id value="/sentinel/logs/mpPesquisaLoginLogs.xhtml" />
+	</url-mapping>
+	<url-mapping id="pesquisaMovimentoLoginLogRS">
+		<pattern value="/pesquisaMovimentoLoginLogRS" />
+		<view-id value="/sentinel/logs/mpPesquisaMovimentoLoginLogs.xhtml" />
+	</url-mapping>
+	<url-mapping id="pesquisaSistemaLogRS">
+		<pattern value="/pesquisaSistemaLogRS" />
+		<view-id value="/sentinel/logs/mpPesquisaSistemaLogs.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="tabelaInternaRS">
+		<pattern value="/tabelaInternaRS" />
+		<view-id value="/sentinel/tabelaInternas/mpCadastroTabelaInterna.xhtml" />
+	</url-mapping>
+	<url-mapping id="tabelaInternasRS">
+		<pattern value="/tabelaInternasRS" />
+		<view-id value="/sentinel/tabelaInternas/mpPesquisaTabelaInternas.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="graficoClienteIdadeRS">
+		<pattern value="/graficoClienteIdadeRS" />
+		<view-id value="/sentinel/graficos/mpGraficoClienteIdade.xhtml" />
+	</url-mapping>
+	<url-mapping id="graficoDolarRS">
+		<pattern value="/graficoDolarRS" />
+		<view-id value="/sentinel/graficos/mpGraficoDolar.xhtml" />
+	</url-mapping>
+	<url-mapping id="graficoPedidoCriadoRS">
+		<pattern value="/graficoPedidoCriadoRS" />
+		<view-id value="/sentinel/graficos/mpGraficoPedidoCriado.xhtml" />
+	</url-mapping>
+	<url-mapping id="graficoUsuarioLoginRS">
+		<pattern value="/graficoUsuarioLoginRS" />
+		<view-id value="/sentinel/graficos/mpGraficoUsuarioLogin.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="albumFotoRS">
+		<pattern value="/albumFotoRS" />
+		<view-id value="/sentinel/albumFotos/mpCadastroAlbumFoto.xhtml" />
+	</url-mapping>
+	<url-mapping id="albumFotosRS">
+		<pattern value="/albumFotosRS" />
+		<view-id value="/sentinel/albumFotos/mpPesquisaAlbumFotos.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="relatorioPedidosEmitidosRS">
+		<pattern value="/relatorioPedidosEmitidosRS" />
+		<view-id value="/sentinel/relatorios/mpRelatorioPedidosEmitidos.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="pessoaRS">
+		<pattern value="/pessoaRS" />
+		<view-id value="/sentinel/pessoas/mpCadastroPessoa.xhtml" />
+	</url-mapping>
+	<url-mapping id="pessoasRS">
+		<pattern value="/pessoasRS" />
+		<view-id value="/sentinel/pessoas/mpPesquisaPessoas.xhtml" />
+	</url-mapping>
+	<url-mapping id="categoriaRS">
+		<pattern value="/categoriaRS" />
+		<view-id value="/sentinel/categorias/mpCadastroCategoria.xhtml" />
+	</url-mapping>
+	<url-mapping id="categoriasRS">
+		<pattern value="/categoriasRS" />
+		<view-id value="/sentinel/categorias/mpPesquisaCategorias.xhtml" />
+	</url-mapping>
+	<url-mapping id="produtoRS">
+		<pattern value="/produtoRS" />
+		<view-id value="/sentinel/produtos/mpCadastroProduto.xhtml" />
+	</url-mapping>
+	<url-mapping id="produtosRS">
+		<pattern value="/produtosRS" />
+		<view-id value="/sentinel/produtos/mpPesquisaProdutos.xhtml" />
+	</url-mapping>
+	<url-mapping id="receitaRS">
+		<pattern value="/receitaRS" />
+		<view-id value="/sentinel/receitas/mpCadastroReceita.xhtml" />
+	</url-mapping>
+	<url-mapping id="receitasRS">
+		<pattern value="/receitasRS" />
+		<view-id value="/sentinel/receitas/mpPesquisaReceitas.xhtml" />
+	</url-mapping>
+	<url-mapping id="tenantRS">
+		<pattern value="/tenantRS" />
+		<view-id value="/sentinel/tenants/mpCadastroTenant.xhtml" />
+	</url-mapping>
+	<url-mapping id="tenantsRS">
+		<pattern value="/tenantsRS" />
+		<view-id value="/sentinel/tenants/mpPesquisaTenants.xhtml" />
+	</url-mapping>
+	<url-mapping id="pedidoRS">
+		<pattern value="/pedidoRS" />
+		<view-id value="/sentinel/pedidos/mpCadastroPedido.xhtml" />
+	</url-mapping>
+	<url-mapping id="pedidosRS">
+		<pattern value="/pedidosRS" />
+		<view-id value="/sentinel/pedidos/mpPesquisaPedidos.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="compraRS">
+		<pattern value="/compraRS" />
+		<view-id value="/sentinel/compras/mpCadastroCompra.xhtml" />
+	</url-mapping>
+	<url-mapping id="comprasRS">
+		<pattern value="/comprasRS" />
+		<view-id value="/sentinel/compras/mpPesquisaCompras.xhtml" />
+	</url-mapping>
+	<url-mapping id="atoRS">
+		<pattern value="/atoRS" />
+		<view-id value="/sentinel/cartorios/atos/mpCadastroAto.xhtml" />
+	</url-mapping>
+	<url-mapping id="atosRS">
+		<pattern value="/atosRS" />
+		<view-id value="/sentinel/cartorios/atos/mpPesquisaAtos.xhtml" />
+	</url-mapping>
+	<url-mapping id="usuarioTenantRS">
+		<pattern value="/usuarioTenantRS" />
+		<view-id value="/sentinel/usuarios/mpCadastroUsuarioTenant.xhtml" />
+	</url-mapping>
+	<url-mapping id="usuarioTenantsRS">
+		<pattern value="/usuarioTenantsRS" />
+		<view-id value="/sentinel/usuarios/mpPesquisaUsuarioTenants.xhtml" />
+	</url-mapping>
+	<url-mapping id="usuarioTenantConfigRS">
+		<pattern value="/usuarioTenantConfigRS" />
+		<view-id value="/sentinel/usuarios/mpUsuarioTenantConfig.xhtml" />
+	</url-mapping>
+	<url-mapping id="calculaAtosRS">
+		<pattern value="/calculaAtosRS" />
+		<view-id value="/sentinel/cartorios/procedimentos/mpCalculaAtos.xhtml" />
+	</url-mapping>
+	<url-mapping id="cargaDadosRS">
+		<pattern value="/cargaDadosRS" />
+		<view-id value="/sentinel/cartorios/procedimentos/mpCargaDadosBD.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="turnoRS">
+		<pattern value="/turnoRS" />
+		<view-id value="/sentinel/turnos/mpCadastroTurno.xhtml" />
+	</url-mapping>
+	<url-mapping id="turnosRS">
+		<pattern value="/turnosRS" />
+		<view-id value="/sentinel/turnos/mpPesquisaTurnos.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="enviaSqlRS">
+		<pattern value="/enviaSqlRS" />
+		<view-id value="/sentinel/sistemaInternos/mpEnviaSql.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="recebeTitulosRS">
+		<pattern value="/receceTitulosRS" />
+		<view-id value="/sentinel/cartorios/importacaos/mpRecebeTitulos.xhtml" />
+	</url-mapping>
+	<url-mapping id="recebimentoRS">
+		<pattern value="/recebimentoRS" />
+		<view-id value="/sentinel/cartorios/importacaos/mpRecebimento.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="feriadoRs">
+		<pattern value="/feriadoRS" />
+		<view-id value="/sentinel/cartorios/feriados/mpCadastroFeriado.xhtml" />
+	</url-mapping>
+	<url-mapping id="feriadosRS">
+		<pattern value="/feriadosRS" />
+		<view-id value="/sentinel/cartorios/feriados/mpPesquisaFeriados.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="atualizaTitulosRS">
+		<pattern value="/atualizaTitulosRS" />
+		<view-id value="/sentinel/cartorios/atualizacaos/mpAtualizaTitulos.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="notificacaoUsuarioRS">
+		<pattern value="/notificacaoUsuarioRS" />
+		<view-id value="/sentinel/notificacaos/mpCadastroNotificacaoUsuario.xhtml" />
+	</url-mapping>
+	<url-mapping id="notificacaoUsuariosRS">
+		<pattern value="/notificacaoUsuariosRS" />
+		<view-id value="/sentinel/notificacaos/mpPesquisaNotificacaoUsuarios.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="dataProcessoRS">
+		<pattern value="/dataProcessoRS" />
+		<view-id value="/sentinel/cartorios/dataProcessos/mpCadastroDataProcesso.xhtml" />
+	</url-mapping>
+	<url-mapping id="dataProcessosRS">
+		<pattern value="/dataProcessosRS" />
+		<view-id value="/sentinel/cartorios/dataProcessos/mpPesquisaDataProcessos.xhtml" />
+	</url-mapping>
+	<url-mapping id="bancoRS">
+		<pattern value="/bancoRS" />
+		<view-id value="/sentinel/cartorios/bancos/mpCadastroBanco.xhtml" />
+	</url-mapping>
+	<url-mapping id="bancosRS">
+		<pattern value="/bancosRS" />
+		<view-id value="/sentinel/cartorios/bancos/mpPesquisaBancos.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="observacaoRS">
+		<pattern value="/observacaoRS" />
+		<view-id value="/sentinel/cartorios/observacaos/mpCadastroObservacao.xhtml" />
+	</url-mapping>
+	<url-mapping id="observacaosRS">
+		<pattern value="/observacaosRS" />
+		<view-id value="/sentinel/cartorios/observacaos/mpPesquisaObservacaos.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="tituloRS">
+		<pattern value="/tituloRS" />
+		<view-id value="/sentinel/cartorios/titulos/mpCadastroTitulo.xhtml" />
+	</url-mapping>
+	<url-mapping id="titulosRS">
+		<pattern value="/titulosRS" />
+		<view-id value="/sentinel/cartorios/titulos/mpPesquisaTitulos.xhtml" />
+	</url-mapping>
+	<url-mapping id="pessoaTituloRS">
+		<pattern value="/pessoaTituloRS" />
+		<view-id value="/sentinel/cartorios/pessoaTitulos/mpCadastroPessoaTitulo.xhtml" />
+	</url-mapping>
+	<url-mapping id="pessoaTitulosRS">
+		<pattern value="/pessoaTitulosRS" />
+		<view-id value="/sentinel/cartorios/pessoaTitulos/mpPesquisaPessoaTitulos.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="projetoRS">
+		<pattern value="/projetoRS" />
+		<view-id value="/sentinel/engReqs/projetos/mpCadastroProjeto.xhtml" />
+	</url-mapping>
+	<url-mapping id="projetosRS">
+		<pattern value="/projetosRS" />
+		<view-id value="/sentinel/engReqs/projetos/mpPesquisaProjetos.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="contatoRS">
+		<pattern value="/contatoRS" />
+		<view-id value="/sentinel/contatos/mpCadastroContato.xhtml" />
+	</url-mapping>
+	<url-mapping id="contatosRS">
+		<pattern value="/contatosRS" />
+		<view-id value="/sentinel/contatos/mpPesquisaContatos.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="eCartorioRjRS">
+		<pattern value="/eCartorioRjRS" />
+		<view-id value="/sentinel/cartorios/eCartorioRJ/mpServiceWS.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="certidaoQRCodeRS">
+		<pattern value="/certidaoQRCodeRS" />
+		<view-id value="/servicos/certidaoEletronica/mpGeraQRCode.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="pessoaFisicaRS">
+		<pattern value="/pessoaFisicaRS" />
+		<view-id value="/sentinel/sisJuri/pessoaFisicas/mpCadastroPessoaFisica.xhtml" />
+	</url-mapping>
+	<url-mapping id="pessoaFisicasRS">
+		<pattern value="/pessoaFisicasRS" />
+		<view-id value="/sentinel/sisJuri/pessoaFisicas/mpPesquisaPessoaFisicas.xhtml" />
+	</url-mapping>
+	<url-mapping id="pessoaJuridicaRS">
+		<pattern value="/pessoaJuridicaRS" />
+		<view-id value="/sentinel/sisJuri/pessoaJuridicas/mpCadastroPessoaJuridica.xhtml" />
+	</url-mapping>
+	<url-mapping id="pessoaJuridicasRS">
+		<pattern value="/pessoaJuridicasRS" />
+		<view-id value="/sentinel/sisJuri/pessoaJuridicas/mpPesquisaPessoaJuridicas.xhtml" />
+	</url-mapping>
+	<url-mapping id="clienteSJRS">
+		<pattern value="/clienteSJRS" />
+		<view-id value="/sentinel/sisJuri/clientes/mpCadastroCliente.xhtml" />
+	</url-mapping>
+	<url-mapping id="clienteSJsRS">
+		<pattern value="/clienteSJsRS" />
+		<view-id value="/sentinel/sisJuri/clientes/mpPesquisaClientes.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="processoRS">
+		<pattern value="/processoRS" />
+		<view-id value="/sentinel/sisJuri/processos/mpCadastroProcesso.xhtml" />
+	</url-mapping>
+	<url-mapping id="processosRS">
+		<pattern value="/processosRS" />
+		<view-id value="/sentinel/sisJuri/processos/mpPesquisaProcessos.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="cargaDadosSJRS">
+		<pattern value="/cargaDadosSJRS" />
+		<view-id value="/sentinel/sisJuri/procedimentos/mpCargaDadosSJ.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="relatorioProcessosRS">
+		<pattern value="/relatorioProcessosRS" />
+		<view-id value="/sentinel/sisJuri/relatorios/mpRelatorioProcessos.xhtml" />
+	</url-mapping>
+	<url-mapping id="graficoProcessosDiaRS">
+		<pattern value="/graficoProcessosDiaRS" />
+		<view-id value="/sentinel/sisJuri/graficos/mpGraficoProcessosDia.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="tabelaInternaSJRS">
+		<pattern value="/tabelaInternaSJRS" />
+		<view-id value="/sentinel/sisJuri/tabelaInternas/mpCadastroTabelaInterna.xhtml" />
+	</url-mapping>
+	<url-mapping id="tabelaInternaSJsRS">
+		<pattern value="/tabelaInternaSJsRS" />
+		<view-id value="/sentinel/sisJuri/tabelaInternas/mpPesquisaTabelaInternas.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="tabelaInternaSJRSX">
+		<pattern value="/tabelaInternaSJRSX" />
+		<view-id value="/sentinel/sisJuri/tabelaInternas/mpCadastroTabelaInternaX.xhtml" />
+	</url-mapping>
+	<url-mapping id="tabelaInternaSJsRSX">
+		<pattern value="/tabelaInternaSJsRSX" />
+		<view-id value="/sentinel/sisJuri/tabelaInternas/mpPesquisaTabelaInternasX.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="geraArtefatosRS">
+		<pattern value="/geraArtefatosRS" />
+		<view-id value="/sentinel/sistemaInternos/mpGeraArtefatos.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="sistemaHelpRS">
+		<pattern value="/sistemaHelpRS" />
+		<view-id value="/sentinel/sistemaHelp/mpSistemaHelp.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="pessoaERRS">
+		<pattern value="/pessoaERRS" />
+		<view-id value="/sentinel/engReqs/pessoas/mpCadastroPessoaER.xhtml" />
+	</url-mapping>
+	<url-mapping id="pessoaERsRS">
+		<pattern value="/pessoaERsRS" />
+		<view-id value="/sentinel/engReqs/pessoas/mpPesquisaPessoasER.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="clienteConsignadoRS">
+		<pattern value="/clienteConsignadoRS" />
+		<view-id value="/sentinel/clienteConsignados/mpCadastroClienteConsignado.xhtml" />
+	</url-mapping>
+	<url-mapping id="clienteConsignadosRS">
+		<pattern value="/clienteConsignadosRS" />
+		<view-id value="/sentinel/clienteConsignados/mpPesquisaClienteConsignados.xhtml" />
+	</url-mapping>
+	
+</pretty-config>

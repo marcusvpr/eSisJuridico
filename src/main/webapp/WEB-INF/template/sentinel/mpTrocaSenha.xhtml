@@ -1,0 +1,48 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+
+		<p:dialog header="Troca Senha" id="senhaTrocaDialog" modal="true"
+							widgetVar="envioSenhaTrocaDialog" showEffect="fade" hideEffect="fade"
+					 		resizable="false" responsive="true">
+			<h:form>
+				<h:panelGroup id="envioPanelSenhaTroca">
+
+					<p:messages id="message" autoUpdate="false" showDetail="true" />
+				  
+					<h:panelGrid columns="1">			
+						<p:password id="trocaSenhaAtual" placeholder="Senha Atual"
+						 					required="true" validatorMessage="Senha Atual"
+											value="#{mpSeguranca.trocaSenhaAtual}" />
+						<p:password id="trocaSenhaNova" placeholder="Senha Nova" feedback="true"
+						 					required="true" validatorMessage="Senha Nova"
+											value="#{mpSeguranca.trocaSenhaNova}" />
+						<p:password id="trocaSenhaNovaConfirma" placeholder="Senha Confirma"
+						 					required="true" validatorMessage="Senha Confirma"
+											value="#{mpSeguranca.trocaSenhaNovaConfirma}" />
+					</h:panelGrid>
+
+					<p:commandButton value="Enviar"
+							action="#{mpSeguranca.enviaSenhaTroca}" id="enviaSenhaTroca"
+							update="envioPanelSenhaTroca" process="@this envioPanelSenhaTroca"
+							oncomplete="tratarEnvioSenhaTroca(args)"
+							styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check fa fa-check Fs14 white" />
+				</h:panelGroup>					
+			</h:form>
+		</p:dialog>
+		
+<script>
+/*Função responsavel por fechar o dialog após a inclusão*/
+function tratarEnvioSenhaTroca(args) {
+	if(!args.validationFailed){
+		PF('envioSenhaTrocaDialog').hide();
+	}
+}
+</script>
+
+</ui:composition>

@@ -1,0 +1,163 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Produto</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaProdutosBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpProdutosTable"
+									fileName="produtos"
+									postProcessor="#{mpPesquisaProdutosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="5" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<h:panelGroup id="pgSKU">
+									<p:outputLabel value="SKU: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+	    							<p:inputText id="sku" placeholder="SKU" 
+	    								value="#{mpPesquisaProdutosBean.mpFiltro.sku}" />
+									<p:tooltip for="sku" value="SKU (Ex.: PR0001 )" />
+								</h:panelGroup>
+
+								<h:panelGroup id="pgNome">
+									<p:outputLabel value="Nome: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+				    				<p:inputText id="nome" placeholder="Nome"
+	    								value="#{mpPesquisaProdutosBean.mpFiltro.nome}" />
+									<p:tooltip for="nome" value="Nome (Ex.: Dorflex)" />
+								</h:panelGroup>
+
+								<h:panelGroup id="pgLocalizacao">
+									<p:outputLabel value="Localização: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+				    				<p:inputText id="localizacao" placeholder="Localização"
+	    								value="#{mpPesquisaProdutosBean.mpFiltro.localizacao}" />
+									<p:tooltip for="localizacao" value="Localização (Ex.: Armário no.9)" />
+								</h:panelGroup>
+
+								<h:panelGroup id="pgTipoProduto">
+									<p:outputLabel value="Tipo Produto: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+				    				<p:inputText id="tipoProduto" placeholder="Tipo Produto"
+	    								value="#{mpPesquisaProdutosBean.mpFiltro.tipoProduto}" />
+									<p:tooltip for="tipoProduto" value="Tipo Produto (Ex.: Medicamentos)" />
+								</h:panelGroup>
+
+	    						<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpProdutosTable"
+							value="#{mpPesquisaProdutosBean.mpProdutosFiltrados}"
+							var="mpProduto" selectionMode="single"
+							selection="#{mpPesquisaProdutosBean.mpProdutoSelecionado}"
+							rowKey="#{mpProduto.sku}" reflow="true" style="margin-top:20px"
+							emptyMessage="Nenhum Produto encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Tipo"
+								sortBy="#{mpProduto.mpTipoProduto.descricao}">
+								<h:outputText value="#{mpProduto.mpTipoProduto.descricao}" />
+							</p:column>
+							<p:column headerText="Categoria">
+								<h:outputText value=
+									"#{mpProduto.mpCategoria.mpCategoriaPai.descricao} - #{mpProduto.mpCategoria.descricao}" />
+							</p:column>
+							<p:column headerText="Nome" style="width:200px">
+								<h:outputText value="#{mpProduto.nome}" />
+							</p:column>
+							<p:column headerText="Unidades Embalagem" style="text-align:center;">
+								<h:outputText value="#{mpProduto.unidadesEmbalagem}" />
+							</p:column>
+							<p:column headerText="Qtde.Mínima" style="text-align:center;">
+								<h:outputText value="#{mpProduto.quantidadeMinima}" />
+							</p:column>
+							<p:column headerText="Estoque" style="text-align:center;">
+								<h:outputText value="#{mpProduto.quantidadeEstoque}" />
+							</p:column>
+							<p:column headerText="Status" style="text-align:center;"
+								sortBy="#{mpProduto.mpStatusProduto.descricao}">
+								<h:outputText value="#{mpProduto.mpStatusProduto.descricao}" />
+							</p:column>
+							<p:column headerText="Unidade" style="text-align:center;"
+								sortBy="#{mpProduto.mpUnidade.descricao}">
+								<h:outputText value="#{mpProduto.mpUnidade.descricao}" />
+							</p:column>
+							<p:column headerText="SKU" style="text-align:center;"
+								sortBy="#{mpProduto.sku}">
+								<h:outputText value="#{mpProduto.sku}" />
+							</p:column>
+							<p:column headerText="Localização" style="text-align:center;"
+								sortBy="#{mpProduto.mpLocalizacao.descricao}">
+								<h:outputText value="#{mpProduto.mpLocalizacao.descricao}" />
+							</p:column>
+							<p:column headerText="I.Estoque" style="text-align:center;"
+								sortBy="#{mpProduto.indControleEstoque}">
+								<h:outputText value="#{mpProduto.indControleEstoque ? 'S' : 'N'}" />
+							</p:column>
+							<p:column headerText="Valor" style="text-align:center;">
+								<h:outputText value="#{mpProduto.valorUnitario}">
+									<f:convertNumber type="currency" pattern="##,##0.00" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Preço Venda" style="text-align:center;">
+								<h:outputText value="#{mpProduto.precoVenda}">
+									<f:convertNumber type="currency" pattern="##,##0.00" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Preço Venda Especial" style="text-align:center;">
+								<h:outputText value="#{mpProduto.precoVendaEspecial}">
+									<f:convertNumber type="currency" pattern="##,##0.00" />
+								</h:outputText>
+							</p:column>
+
+							<p:column style="text-align:center; width:50px;" exportable="false">
+								<p:button icon="ui-icon-check" title="Selecionar"
+									outcome="/sentinel/produtos/mpCadastroProduto">
+									<f:param name="mpProduto" value="#{mpProduto.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

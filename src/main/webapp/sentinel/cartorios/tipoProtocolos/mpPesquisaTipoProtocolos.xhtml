@@ -1,0 +1,103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Tipo Protocolo</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaTipoProtocolosBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpTipoProtocolosTable"
+								fileName="tipoProtocolos"
+								postProcessor="#{mpPesquisaTipoProtocolosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="/dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="4" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:inputText placeholder="Código"
+									value="#{mpPesquisaTipoProtocolosBean.mpFiltro.codigo}" />
+								<p:inputText placeholder="Descrição"
+									value="#{mpPesquisaTipoProtocolosBean.mpFiltro.descricao}" />
+								<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpTipoProtocolosTable"
+						value="#{mpPesquisaTipoProtocolosBean.mpTipoProtocolosFiltrados}"
+						var="mpTipoProtocolo" selectionMode="single"
+						selection="#{mpPesquisaTipoProtocolosBean.mpTipoProtocoloSelecionado}"
+						rowKey="#{mpTipoProtocolo.codigo}" reflow="true" style="margin-top:20px"
+						emptyMessage="Nenhum TipoProtocolo encontrado." rows="20"
+						paginator="true" paginatorAlwaysVisible="false"
+						paginatorPosition="bottom">
+
+							<p:column headerText="Código" sortBy="#{mpTipoProtocolo.codigo}">
+								<h:outputText value="#{mpTipoProtocolo.codigo}" />
+							</p:column>
+							
+							<p:column headerText="Descrição" sortBy="#{mpTipoProtocolo.descricao}">
+								<h:outputText value="#{mpTipoProtocolo.descricao}" />
+							</p:column>
+							
+							<p:column headerText="Codigo Ato" sortBy="#{mpTipoProtocolo.codigoAto}">
+								<h:outputText value="#{mpTipoProtocolo.codigoAto}" />
+							</p:column>
+							
+							<p:column headerText="Ato Sequência." sortBy="#{mpTipoProtocolo.atoSequenciacia}">
+								<h:outputText value="#{mpTipoProtocolo.atoSequencia}" />
+							</p:column>
+							
+							<p:column headerText="Prazo Entrega" 
+													sortBy="#{mpTipoProtocolo.prazoEntrega}">
+								<h:outputText value="#{mpTipoProtocolo.prazoEntrega}" />
+							
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome=
+								"/sentinel/cartorios/tipoProtocolos/mpCadastroTipoProtocolo"
+															icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpTipoProtocolo" value=
+									                                 "#{mpTipoProtocolo.id}" />
+								</p:button>
+							</p:column>
+							
+						</p:dataTable>
+					</div>
+				</div>
+				
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,52 @@
+<html>
+    <body>
+        <table>
+            <tr>
+                <td style="width: 100px">Calendário:</td>
+                <td>$mpCalendario.id</td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="width: 300px">
+					<a href="http://$scSistemaURL/mpProtesto/alertaLogs/MpAlertaLogCalendario.xhtml?idAl=$mpCalendario.id&idAlP=Co&idAlT=CA">
+						. Calendario CONFIRMAR ... 
+					</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="width: 300px">
+					<a href="http://$scSistemaURL/mpProtesto/alertaLogs/MpAlertaLogCalendario.xhtml?idAl=$mpCalendario.id&idAlP=Ad05&idAlT=CA">
+						. Calendario ADIAR (5 minutos)... 
+					</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="width: 300px">
+					<a href="http://$scSistemaURL/mpProtesto/alertaLogs/MpAlertaLogCalendario.xhtml?idAl=$mpCalendario.id&idAlP=Ad15&idAlT=CA">
+						. Calendario ADIAR (15 minutos)... 
+					</a>
+                </td>
+            </tr>
+           	<tr>
+                <td>
+                </td>
+                <td style="width: 300px">
+					<a href="http://$scSistemaURL/mpProtesto/alertaLogs/MpAlertaLogCalendario.xhtml?idAl=$mpCalendario.id&idAlP=Ca&idAlT=CA">
+						. Calendario CANCELAR ... 
+					</a>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

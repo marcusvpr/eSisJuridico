@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Grupos</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaGruposBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpGruposTable"
+									fileName="grupos"
+									postProcessor="#{mpPesquisaGruposBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="4" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+				    			<p:inputText placeholder="Nome"
+	    							value="#{mpPesquisaGruposBean.mpFiltro.nome}" />
+	    						<p:inputText placeholder="Descrição" 
+	    							value="#{mpPesquisaGruposBean.mpFiltro.descricao}" />	    		
+	    						<p:inputText placeholder="Status" 
+	    							value="#{mpPesquisaGruposBean.mpFiltro.status}" />
+	    						<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpGruposTable"
+							value="#{mpPesquisaGruposBean.mpGruposFiltrados}"
+							var="mpGrupo" selectionMode="single"
+							selection="#{mpPesquisaGruposBean.mpGrupoSelecionado}"
+							rowKey="#{mpGrupo.nome}" reflow="true" style="margin-top:20px"
+							emptyMessage="Nenhum Grupo encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Nome" sortBy="#{mpGrupo.nome}">
+								<h:outputText value="#{mpGrupo.nome}" />
+							</p:column>
+							<p:column headerText="Descrição" sortBy="#{mpGrupo.descricao}">
+								<h:outputText value="#{mpGrupo.descricao}" />
+							</p:column>
+							<p:column headerText="Status" style="text-align: center;"
+								sortBy="#{mpGrupo.mpStatus}">
+								<h:outputText value="#{mpGrupo.mpStatus.descricao}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/grupos/mpCadastroGrupo"
+														icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpGrupo" value="#{mpGrupo.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

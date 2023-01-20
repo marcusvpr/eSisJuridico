@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpCompra" value="#{mpCadastroCompraBean.mpCompra}" />
+			<f:viewAction action="#{mpCadastroCompraBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frmCadastro">
+				<p:panel header="Compra #{mpCadastroCompraBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/compras/mpBotoesCompra.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+
+						<p:tabView id="tabViewP">
+							<p:tab title="Dados">
+								<ui:include src=
+									"/WEB-INF/template/sentinel/compras/mpCapaCompra.xhtml" />
+							</p:tab>
+							<p:tab title="Observação">
+								<div class="ContainerIndent">
+									<ui:include	src=
+									"/WEB-INF/template/sentinel/compras/mpObservacaoCompra.xhtml" />
+								</div>
+							</p:tab>
+						</p:tabView>
+
+					</div>
+
+					<div class="ContainerIndent">
+						<ui:include src="/WEB-INF/template/sentinel/compras/mpItensCompra.xhtml" />
+					</div>
+
+				</p:panel>
+			</h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

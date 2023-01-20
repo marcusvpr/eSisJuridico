@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>MPXDS | Sistema Protesto</title>
+	<meta name="viewport" 
+				content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        
+    <h:outputScript name="js/login.js" library="sentinel-layout" />
+    <h:outputStylesheet name="css/font-icon-layout.css" library="sentinel-layout" />
+    <h:outputStylesheet name="css/sentinel-layout.css" library="sentinel-layout" />
+    <h:outputStylesheet name="css/core-layout.css" library="sentinel-layout" />
+</h:head>
+
+<f:metadata>
+   	<f:viewParam name="dummy" />
+   	<f:viewParam name="idI" value="#{mpLoginBean.idI}" />
+   	<f:viewParam name="idU" value="#{mpLoginBean.idU}" />
+   	<f:event listener="#{mpLoginBean.preRender}" type="preRenderView" />
+</f:metadata>
+
+<h:body class="fontRegular login-back white-back">
+    
+    <div class="Container">
+        <div class="Container80 MaxWid500 Fnone MarAuto TexAlCenter PaddingTopPercent5">
+            <a href="" id="login-logo">
+                <h:graphicImage name="mpxds_logo5_menor.png" styleClass="Fleft" library="images"/>
+                <span class="Fs30 FontTitilliumSemiBoldItalic Fleft"><span class="softblue"> 
+                						Sistema</span><span class="hardblue"> PROTESTO</span></span>
+            </a>
+        </div>
+
+        <!-- LOGIN BOX COVER START -->
+        <div class="Container80 MaxWid500 white-back Fnone MarAuto BordRad10" id="login-box">
+            <div class="Container">
+                <div role="1" class=
+               		"Container50 TexAlCenter Animated05 BoxSizeBorder TabBtn left TabBtnActiveLeft">
+                    <div class="Container80 Fnone MarAuto FontBold"><i class="icon-lock"></i> 
+                    																Login</div>
+                </div>
+                <div role="2" class="Container50 TexAlCenter Animated05 BoxSizeBorder TabBtn right">
+                    <div class="Container80 Fnone MarAuto FontBold"><i class="icon-key-1"></i>
+                    																 Permissões</div>
+                </div>
+
+                <div class="Container90 Fnone MarAuto TexAlCenter TabContent OvHidden" id="TAB1">
+    			  <h:form id="frmLogin" prependId="false">
+    			
+					<p:growl id="messages" showDetail="true" sticky="true" autoUpdate="true"
+				 																		life="300" />
+                    <div class="EmptyBox20"></div>
+                    <p:inputText placeholder="Usuário ou E-mail" id="j_username" required="true"
+                    								requiredMessage="Favor entre o Usuário/E-mail."
+                    								value="#{mpLoginBean.loginEmail}"
+                    								styleClass="Container80 Fnone MarAuto Fs18"/>
+                    <div class="EmptyBox10"></div>
+                    <p:password placeholder="Senha" id="j_password" required="true"
+                    					requiredMessage="Favor entre a Senha."
+                     					styleClass="Container80 Fnone MarAuto Fs18" feedback="false"/>
+                    <div class="EmptyBox20"></div>
+                    <p:inputText placeholder="Ambiente" id="ambiente"
+                    									rendered="#{mpLoginBean.scIndMultiTenancy}"
+                    									value="#{mpLoginBean.loginAmbiente}"
+                    									styleClass="Container80 Fnone MarAuto Fs18"/>
+                    <div class="EmptyBox10"></div>
+					<p:commandButton value="Log In" ajax="false" styleClass="Fs16"
+						 											action="#{mpLoginBean.login}" />
+                    <div class="EmptyBox10"></div>
+                   	<p:button value="Fale Conosco" styleClass="Fs16" 
+                    					href="https://mpxds.freshdesk.com/support/home"></p:button>
+                    <div class="EmptyBox10"></div>
+					<p:outputLabel value="#{mpLoginBean.mensagemSistema}"
+					 						style="font-size:18px; color:black; font-weight:bold;" />
+                    <div class="EmptyBox10"></div>
+                   </h:form>
+                </div>
+
+                <div class="Container90 Fnone MarAuto DispNone TexAlCenter TabContent OvHidden" 
+                																			id="TAB2">
+    			  <h:form id="frmRegistro" prependId="false">
+
+                    <div class="EmptyBox10"></div>
+                    <p:inputText id="usuarioRegistro" placeholder="Usuário" required="true"
+                    									requiredMessage="Favor entre o Usuário."
+                    									value="#{mpLoginBean.usuarioRegistro}"
+                    									rendered="#{mpLoginBean.indVisivelRegistro}"
+                    									styleClass="Container80 Fnone MarAuto Fs18"/>
+                    <div class="EmptyBox10"></div>
+                    <p:inputText id="nomeRegistro" placeholder="Nome" required="true"
+                    									requiredMessage="Favor entre o Nome."
+                    									value="#{mpLoginBean.nomeRegistro}"
+                    									rendered="#{mpLoginBean.indVisivelRegistro}"
+                    									styleClass="Container80 Fnone MarAuto Fs18"/>
+                    <div class="EmptyBox10"></div>
+                    <p:inputText id="emailRegistro" placeholder="Seu Endereço de Email" 
+                    							required="true" value="#{mpLoginBean.emailRegistro}"
+                    							requiredMessage="Favor entre o E-mail."
+												validatorMessage="E-mail formato Inválido!"
+                    							styleClass="Container80 Fnone MarAuto Fs18">
+						<f:validateRegex
+	pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					</p:inputText>
+                    <div class="EmptyBox10"></div>
+                    <p:password id="senhaRegistro" placeholder="Senha" match="senhaConfirmaRegistro"
+                    					required="true" value="#{mpLoginBean.senhaRegistro}"
+                    					requiredMessage="Favor entre a Senha."
+                    					rendered="#{mpLoginBean.indVisivelRegistro}"
+                     					styleClass="Container80 Fnone MarAuto Fs18" feedback="true"/>
+                    <div class="EmptyBox10"></div>
+                    <p:password id="senhaConfirmaRegistro" placeholder="Confirma Senha"
+                					required="true" value="#{mpLoginBean.senhaConfirmaRegistro}" 
+                    				requiredMessage="Favor entre a Senha Confirma."
+                    				rendered="#{mpLoginBean.indVisivelRegistro}"
+                					styleClass="Container80 Fnone MarAuto Fs18" feedback="false"/>
+                    <div class="EmptyBox10"></div>
+                    <div class="Container85 Fnone MarAuto softgray">
+                       	<p:selectBooleanCheckbox id="indAceiteTermo"
+                       				value="#{mpLoginBean.indAceiteTermo}" 
+                    				rendered="#{mpLoginBean.indVisivelRegistro}"
+                       				styleClass="Fleft" itemLabel="Eu Aceito os Termos e Políticas"/>
+                        <p:selectBooleanCheckbox id="indEsqueciSenha"
+                       							value="#{mpLoginBean.indEsqueciSenha}" 
+                         						styleClass="Fleft" itemLabel="Esqueci a senha !">
+    	    				<p:ajax event="change" process="@this" update=":frmRegistro"
+        		   								listener="#{mpLoginBean.trataEsqueciSenha}"
+        		   								ignoreAutoUpdate="true" />
+                        </p:selectBooleanCheckbox>
+                    </div>
+                    <div class="EmptyBox10"></div>
+					<p:commandButton value="Envia Requisição de Acesso" ajax="false" 
+											styleClass="Fs16" action="#{mpLoginBean.enviaRegistro}" />
+                    <div class="EmptyBox10"></div>
+                  </h:form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- LOGIN BOX COVER END -->
+    
+</h:body>
+
+</html>

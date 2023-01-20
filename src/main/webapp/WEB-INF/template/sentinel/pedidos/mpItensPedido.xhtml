@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+	<p:dataTable value="#{mpCadastroPedidoBean.mpPedido.mpItens}" var="mpItem" rowIndexVar="linha"
+																					 id="tabelaItens">
+		<p:column headerText="SKU" style="text-align: center; width: 100px">
+			<h:outputText value="#{mpItem.mpProduto.sku}" rendered="#{mpItem.produtoAssociado}"/>
+			
+			<p:inputText size="8" value="#{mpCadastroPedidoBean.sku}" label="SKU" id="sku"
+														rendered="#{not mpItem.produtoAssociado}">
+				<p:ajax event="change" process="@this" update=
+					"tabelaItens :frmCadastro:tabViewP:totalPedido :frmCadastro:tabViewP:subtotal" 
+					listener="#{mpCadastroPedidoBean.carregarMpProdutoPorSku}" />
+			</p:inputText>
+		</p:column>
+		<p:column headerText="Produto">
+			<h:outputText value="#{mpItem.mpProduto.nome}" rendered="#{mpItem.produtoAssociado}" />
+		
+			<p:autoComplete styleClass="produto-tabela" 
+				value="#{mpCadastroPedidoBean.mpProdutoLinhaEditavel}"
+				completeMethod="#{mpCadastroPedidoBean.completarMpProduto}"
+				var="mpProduto" mpItemLabel="#{mpProduto.nome}" mpItemValue="#{mpProduto}" 
+				forceSelection="true" rendered="#{not mpItem.produtoAssociado}">
+				<p:ajax event="itemSelect" update=
+						"tabelaItens :frmCadastro:tabViewP:totalPedido :frmCadastro:tabViewP:subtotal" 
+								listener="#{mpCadastroPedidoBean.carregarMpProdutoLinhaEditavel}"/>
+			</p:autoComplete>
+		</p:column>
+		<p:column headerText="Valor unitário" style="text-align: right; width: 120px">
+			<h:outputText value="#{mpItem.valorUnitario}">
+				<f:convertNumber type="currency"/>
+			</h:outputText>
+		</p:column>
+		<p:column headerText="Quantidade" style="text-align: center; width: 100px">
+			<p:inputText size="8" value="#{mpItem.quantidade}" 
+											disabled="#{mpCadastroPedidoBean.mpPedido.naoAlteravel}">
+				<p:ajax event="change" process="@this" update=
+					"tabelaItens :frmCadastro:tabViewP:totalPedido :frmCadastro:tabViewP:subtotal"
+					listener="#{mpCadastroPedidoBean.atualizarQuantidade(mpItem, linha)}" />
+			</p:inputText>
+		</p:column>
+		
+		<p:column headerText="Estoque" style="text-align: center; width: 100px">
+			<h:outputText value="#{mpItem.mpProduto.quantidadeEstoque}" 
+				style="#{mpItem.estoqueInsuficiente ? 'color: red' : ''}"/>
+			
+			<h:graphicImage library="images" name="alerta.png" id="semEstoque"
+				style="vertical-align: bottom; margin-left: 5px" 
+				rendered="#{mpItem.estoqueInsuficiente}" />
+				
+			<p:tooltip for="semEstoque" value="Estoque insuficiente"
+				rendered="#{mpItem.estoqueInsuficiente}" />
+		</p:column>
+		
+		<p:column headerText="Valor total" style="text-align: right; width: 100px">
+			<h:outputText value="#{mpItem.valorTotal}">
+				<f:convertNumber type="currency"/>
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Cortesia?" style="text-align: center; width: 90px">
+			<p:selectBooleanButton id="indMenuTop" onLabel="Sim" offLabel="Não"
+				onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:90px"
+				disabled="#{mpCadastroPedidoBean.mpPedido.naoAlteravel}"
+				value="#{mpItem.indCortesia}">
+				<p:ajax event="change" process="@this" update=
+					"tabelaItens :frmCadastro:tabViewP:totalPedido :frmCadastro:tabViewP:subtotal"
+					listener="#{mpCadastroPedidoBean.atualizarQuantidadeCortesia(mpItem, linha)}" />
+			</p:selectBooleanButton>
+		</p:column>
+
+		<p:columnGroup type="footer">
+			<p:row>
+				<p:column colspan="5" footerText="Subtotal" style="text-align: right" />
+				<p:column style="text-align: right">
+					<f:facet name="footer">
+						<h:outputText value="#{mpCadastroPedidoBean.mpPedido.valorSubtotal}">
+							<f:convertNumber type="currency"/>
+						</h:outputText>
+					</f:facet>
+				</p:column>
+			</p:row>
+		</p:columnGroup>
+	</p:dataTable>
+  	
+</ui:composition>

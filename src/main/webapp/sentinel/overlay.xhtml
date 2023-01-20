@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/sentinel/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ContainerIndent">
+            <p:panel header="Overlay Samples">
+                <div class="ContainerIndent">
+                    
+                    <p:panel>
+                        <h3 class="hardblue">Overlay Panel</h3>
+                        <h:form id="form">
+                            <p:commandButton id="imageBtn" value="Basic" type="button" style="margin-right: 10px;"/>
+                            <p:overlayPanel id="imagePanel" for="imageBtn" hideEffect="fade">
+                                <p:graphicImage name="images/transformers.jpg" width="250" library="demo"/>
+                            </p:overlayPanel>
+
+                            <p:commandButton id="carBtn" value="Dynamic" type="button" style="margin-right: 10px;"/>
+                            <p:overlayPanel id="carPanel" for="carBtn" hideEffect="clip" dynamic="true" style="width: 300px">
+                                <p:dataTable var="car" value="#{overlayView.cars}" rows="5" paginator="true" reflow="true">
+                                    <p:column headerText="Id">
+                                        <h:outputText value="#{car.id}" />
+                                    </p:column>
+                                    <p:column headerText="Brand">
+                                        <h:outputText value="#{car.brand}" />
+                                    </p:column>
+                                    <p:column headerText="Color">
+                                        <h:outputText value="#{car.color}" />
+                                    </p:column>
+                                </p:dataTable>
+                            </p:overlayPanel>
+                        </h:form>
+                    </p:panel>
+
+                    <div class="EmptyBox20"></div>
+                    
+                    <p:panel>
+                        <h3 class="hardblue">Dialog</h3>
+                        <p:panelGrid columns="3" layout="grid" style="border:0px none">
+                            <p:commandButton value="Basic" type="button" onclick="PF('dlg1').show();" />
+                            <p:commandButton value="Modal" type="button" onclick="PF('dlg2').show();" />
+                            <p:commandButton value="Effects" type="button" onclick="PF('dlg3').show();" /> 
+                        </p:panelGrid>
+
+                        <p:dialog header="Basic Dialog" widgetVar="dlg1" minHeight="40" responsive="true">
+                            <h:outputText value="Resistance to PrimeFaces is futile!" />
+                        </p:dialog>
+
+                        <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="50" responsive="true">
+                            <h:outputText value="This is a Modal Dialog." />
+                        </p:dialog>   
+
+                        <p:dialog header="Effects" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="100" minimizable="true" maximizable="true" responsive="true">
+                            <h:outputText value="This dialog has nice effects." />
+                        </p:dialog>
+                    </p:panel>
+                    
+                    <div class="EmptyBox20"></div>
+                    
+                    <p:panel>
+                        <h3 class="hardblue">Confirm Dialog</h3>
+                        <h:form>           
+                            <p:growl id="message" showDetail="true" />
+
+                            <p:commandButton value="Destroy the World" actionListener="#{overlayView.destroyWorld}" update="message">
+                                <p:confirm header="Confirmation" message="Are you sure, destroy The World?" icon="ui-icon-alert" />
+                            </p:commandButton>
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check fa fa-check Fs14 white" />
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close fa fa-close Fs14 white" />
+                            </p:confirmDialog>
+                        </h:form>
+                    </p:panel>
+
+                    <div class="EmptyBox20"></div>
+
+                    <p:panel>
+
+                        <h3 class="hardblue">LightBox</h3>
+                        <p:lightBox styleClass="imagebox" id="lighbox1">  
+                            <h:outputLink value="resources/demo/images/megatron.jpg" title="Megatron">  
+                                <p:graphicImage name="images/megatron.jpg" library="demo" style="height: 77px; width: auto; margin-right: 10px;" />  
+                            </h:outputLink>
+
+                            <h:outputLink value="resources/demo/images/optimus.jpg" title="Optimus Prime">  
+                                <p:graphicImage name="images/optimus.jpg" library="demo" style="height: 77px; width: auto; margin-right: 10px;" />  
+                            </h:outputLink>
+
+                            <h:outputLink value="resources/demo/images/transformers.jpg" title="Transformers Age Of Extinction">  
+                                <p:graphicImage name="images/transformers.jpg" library="demo" style="height: 77px; width: auto; margin-right: 10px;" />  
+                            </h:outputLink>
+
+                            <h:outputLink value="resources/demo/images/bee.jpeg" title="Bumblebee">  
+                                <p:graphicImage name="images/bee.jpeg" library="demo" style="height: 77px; width: auto;" />  
+                            </h:outputLink>
+                        </p:lightBox>
+
+                        <h3 class="hardblue">Inline</h3>
+                        <p:lightBox id="lighbox2">
+                            <h:outputLink value="#">
+                                <h:outputText value="Video Content" style="color: #9FADB5;"/>
+                            </h:outputLink>
+
+                            <f:facet name="inline">
+                                <p:media value="http://vimeo.com/moogaloop.swf?clip_id=87780794"  width="400" height="225" player="flash"/>
+                            </f:facet>
+                        </p:lightBox>
+
+                        <h3 class="hardblue">IFrame</h3>
+                        <p:lightBox iframe="true" id="lighbox3" style="color: #9FADB5;">
+                            <h:outputLink value="http://www.primefaces.org" title="PrimeFaces HomePage">
+                                <h:outputText value="PrimeFaces HomePage" style="color: #9FADB5;"/>
+                            </h:outputLink>
+                        </p:lightBox>
+                    </p:panel>
+
+                </div>
+            </p:panel>
+        </div>
+    </ui:define>
+
+</ui:composition>

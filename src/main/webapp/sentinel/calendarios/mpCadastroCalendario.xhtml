@@ -1,0 +1,225 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpCalendario"
+				value="#{mpCadastroCalendarioBean.mpCalendario}" />
+			<f:viewAction action="#{mpCadastroCalendarioBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Calendário #{mpCadastroCalendarioBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesCalendario.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<h:panelGroup id="pgDataDe">
+														<p:outputLabel value="Data/Hora: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataDe" pattern="dd/MM/yyyy HH:mm" mask="true"
+															rendered="#{mpCadastroCalendarioBean.indShowDatas}"
+															placeholder="Data/Hora"
+															required="#{mpCadastroCalendarioBean.indEditavel}"
+															validatorMessage="Informar Data"
+															style="background-color:black; color:yellow;"
+															disabled="#{mpCadastroCalendarioBean.indEditavel}"
+															value="#{mpCadastroCalendarioBean.mpCalendario.dataMovimento}" />
+														<p:tooltip for="dataDe" value="Data/Hora (Ex.: 01/07/20xx 16:00 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgDataAte">
+														<p:outputLabel value="Data/Hora Até: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataAte" pattern="dd/MM/yyyy HH:mm" mask="true"
+															rendered="#{mpCadastroCalendarioBean.indShowDatas}"
+															placeholder="Data/Hora Até"
+															required="#{mpCadastroCalendarioBean.indEditavel}"
+															validatorMessage="Informar Data Até"
+															style="background-color:black; color:yellow;"
+															disabled="#{mpCadastroCalendarioBean.indEditavel}"
+															value="#{mpCadastroCalendarioBean.mpCalendario.dataFimMovimento}" />
+														<p:tooltip for="dataAte" value="Data/Hora Até (Ex.: 01/07/20xx 16:00 )" />
+													</h:panelGroup>
+													<p:calendar pattern="dd/MM/yyyy" disabled="true"
+														rendered="#{!mpCadastroCalendarioBean.indShowDatas}"
+														style="background-color:black; color:yellow;"
+														value="#{mpCadastroCalendarioBean.mpCalendario.dataMovimento}" />
+													<p:calendar pattern="dd/MM/yyyy" disabled="true"
+														rendered="#{!mpCadastroCalendarioBean.indShowDatas}"
+														style="background-color:black; color:yellow;"
+														value="#{mpCadastroCalendarioBean.mpCalendario.dataFimMovimento}" />
+													<p:selectBooleanCheckbox itemLabel="Dia todo:"
+														style="background-color:black; color:yellow;"
+														disabled="#{mpCadastroCalendarioBean.indEditavel}"
+														value="#{mpCadastroCalendarioBean.mpCalendario.indDiaTodo}">
+														<p:ajax	listener="#{mpCadastroCalendarioBean.trataShowDatas}"
+															update="frm" />
+													</p:selectBooleanCheckbox>
+												</p:panelGrid>
+
+												<p:panelGrid columns="1" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<h:panelGroup id="pgDescricao">
+														<p:outputLabel value="Descrição: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="descricao" maxlength="150" placeholder="Descrição"
+															required="#{mpCadastroCalendarioBean.indEditavel}"
+															validatorMessage="Informar Descrição"
+															readonly="#{mpCadastroCalendarioBean.indEditavel}"
+															value="#{mpCadastroCalendarioBean.mpCalendario.descricao}" />
+														<p:tooltip for="descricao" value="Descrição (Ex.: Aniversário Fulano )" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Feriado " for="feriado" />
+														<p:inputSwitch id="feriado"
+															style="background-color:black; color:yellow;"
+															disabled="#{mpCadastroCalendarioBean.indEditavel}"
+															value="#{mpCadastroCalendarioBean.mpCalendario.indFeriado}" />
+													</h:panelGroup>
+												</p:panelGrid>
+
+												<p:panelGrid columns="1" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<p:selectOneRadio id="mpCalendarioRepetir"
+														style="background-color:black; color:yellow;"
+														disabled="#{mpCadastroCalendarioBean.indEditavel}"
+														value="#{mpCadastroCalendarioBean.mpCalendario.mpCalendarioRepetir}">
+														<f:selectItems
+															value="#{mpCadastroCalendarioBean.mpCalendarioRepetirList}"
+															var="mpCalendarioRepetir"
+															itemValue="#{mpCalendarioRepetir}"
+															itemLabel="#{mpCalendarioRepetir.descricao}" />
+													</p:selectOneRadio>
+												</p:panelGrid>
+
+												<p:panelGrid columns="2" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgObs">
+														<p:outputLabel value="Observação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="observacao" maxlength="150" placeholder="Observação"
+															readonly="#{mpCadastroCalendarioBean.indEditavel}"
+															value="#{mpCadastroCalendarioBean.mpCalendario.observacao}" />
+														<p:tooltip for="observacao" value="Observação" />
+													</h:panelGroup>
+													<p:selectBooleanCheckbox itemLabel="Ativo"
+														style="background-color:black; color:yellow;"
+														disabled="#{mpCadastroCalendarioBean.indEditavel}"
+														value="#{mpCadastroCalendarioBean.mpCalendario.indAtivo}" />
+												</p:panelGrid>
+												
+												<p:panel header="Alertas" toggleable="true" toggleSpeed="500"
+													closeSpeed="500" collapsed="true">
+													<p:panelGrid columns="7" layout="grid"
+														style="border:0px none;background:none"
+														styleClass="ui-fluid">
+
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaEmail}">
+															<p:outputLabel value="Alerta Email : " for="indEmail" />
+															<p:selectBooleanButton id="indEmail" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroCalendarioBean.indEditavel}"
+																disabled="#{mpCadastroCalendarioBean.indEditavel}"
+																value="#{mpCadastroCalendarioBean.mpCalendario.mpAlerta.indEmail}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaSMS}">
+															<p:outputLabel value="Alerta SMS : " for="indSMS" />
+															<p:selectBooleanButton id="indSMS" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroCalendarioBean.indEditavel}"
+																disabled="#{mpCadastroCalendarioBean.indEditavel}"
+																value="#{mpCadastroCalendarioBean.mpCalendario.mpAlerta.indSMS}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaPush}">
+															<p:outputLabel value="Alerta Push : " for="indPush" />
+															<p:selectBooleanButton id="indPush" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroCalendarioBean.indEditavel}"
+																disabled="#{mpCadastroCalendarioBean.indEditavel}"
+																value="#{mpCadastroCalendarioBean.mpCalendario.mpAlerta.indPush}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaTelegram}">
+															<p:outputLabel value="Alerta Telegram : "
+																for="indTelegram" />
+															<p:selectBooleanButton id="indTelegram" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroCalendarioBean.indEditavel}"
+																disabled="#{mpCadastroCalendarioBean.indEditavel}"
+																value="#{mpCadastroCalendarioBean.mpCalendario.mpAlerta.indTelegram}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaWhatsapp}">
+															<p:outputLabel value="Alerta Whatsapp : "
+																for="indWhatsapp" />
+															<p:selectBooleanButton id="indWhatsapp" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroCalendarioBean.indEditavel}"
+																disabled="#{mpCadastroCalendarioBean.indEditavel}"
+																value="#{mpCadastroCalendarioBean.mpCalendario.mpAlerta.indWhatsapp}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaMpComunicator}">
+															<p:outputLabel value="Alerta MpComunicator : "
+																for="indMpComunicator" />
+															<p:selectBooleanButton id="indMpComunicator"
+																onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroCalendarioBean.indEditavel}"
+																disabled="#{mpCadastroCalendarioBean.indEditavel}"
+																value="#{mpCadastroCalendarioBean.mpCalendario.mpAlerta.indMpComunicator}" />
+														</h:panelGroup>
+														<h:panelGroup />
+
+													</p:panelGrid>
+												</p:panel>												
+
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

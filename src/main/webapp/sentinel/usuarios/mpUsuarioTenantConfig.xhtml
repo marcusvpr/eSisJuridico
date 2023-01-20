@@ -1,0 +1,193 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpUsuarioTenant" value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant}" />
+			<f:viewAction action="#{mpCadastroUsuarioTenantBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Usuário Preferência">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include	src="/WEB-INF/template/sentinel/mpBotoesUsuarioTenantConfig.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+					</div>
+					
+					<p:tabView id="tabViewSC">
+
+						<p:tab title="Configuração">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="7" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<h:panelGroup>
+														<p:outputLabel value="Menu Superior : " for="indMenuTop" />
+														<p:selectBooleanButton id="indMenuTop" onLabel="Sim"
+															offLabel="Não" onIcon="ui-icon-check"
+															offIcon="ui-icon-close" style="width:90px"
+															required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.indMenuTop}" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Menu Lateral : " for="indMenuLeft" />
+														<p:selectBooleanButton id="indMenuLeft" onLabel="Sim"
+															offLabel="Não" onIcon="ui-icon-check"
+															offIcon="ui-icon-close" style="width:90px"
+															required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.indMenuLeft}" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Barra Navegacão : "
+															for="indBarraNavegacao" />
+														<p:selectBooleanButton id="indBarraNavegacao" onLabel="Sim"
+															offLabel="Não" onIcon="ui-icon-check"
+															offIcon="ui-icon-close" style="width:90px"
+															required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.indBarraNavegacao}" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Rodapé Sistema : "
+															for="indRodapeSistema" />
+														<p:selectBooleanButton id="indRodapeSistema" onLabel="Sim"
+															offLabel="Não" onIcon="ui-icon-check"
+															offIcon="ui-icon-close" style="width:90px"
+															required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.indRodapeSistema}" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Captura Foto : "
+															for="indCapturaFoto" />
+														<p:selectBooleanButton id="indCapturaFoto" onLabel="Sim"
+															offLabel="Não" onIcon="ui-icon-check"
+															offIcon="ui-icon-close" style="width:90px"
+															required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+															value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.indCapturaFoto}" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+
+												<p:panel header="Alertas" toggleable="true" toggleSpeed="500"
+													closeSpeed="500" collapsed="false">
+
+													<p:panelGrid columns="7" layout="grid"
+														style="border:0px none;background:none"
+														styleClass="ui-fluid">
+
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaEmail}">
+															<p:outputLabel value="Alerta Email : " for="indEmail" />
+															<p:selectBooleanButton id="indEmail" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.mpAlerta.indEmail}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaSMS}">
+															<p:outputLabel value="Alerta SMS : " for="indSMS" />
+															<p:selectBooleanButton id="indSMS" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.mpAlerta.indSMS}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaPush}">
+															<p:outputLabel value="Alerta Push : " for="indPush" />
+															<p:selectBooleanButton id="indPush" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.mpAlerta.indPush}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaTelegram}">
+															<p:outputLabel value="Alerta Telegram : "
+																for="indTelegram" />
+															<p:selectBooleanButton id="indTelegram" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.mpAlerta.indTelegram}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaWhatsapp}">
+															<p:outputLabel value="Alerta Whatsapp : "
+																for="indWhatsapp" />
+															<p:selectBooleanButton id="indWhatsapp" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.mpAlerta.indWhatsapp}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaMpComunicator}">
+															<p:outputLabel value="Alerta MpComunicator : "
+																for="indMpComunicator" />
+															<p:selectBooleanButton id="indMpComunicator"
+																onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.mpAlerta.indMpComunicator}" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Resposta Usuário : "
+																for="indRespUser" />
+															<p:selectBooleanButton id="indRespUser"
+																onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																disabled="#{mpCadastroUsuarioTenantBean.indEditavel}"
+																value="#{mpCadastroUsuarioTenantBean.mpUsuarioTenant.mpAlerta.indRespostaUsuario}" />
+														</h:panelGroup>
+
+													</p:panelGrid>
+												</p:panel>
+
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+
+			</h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

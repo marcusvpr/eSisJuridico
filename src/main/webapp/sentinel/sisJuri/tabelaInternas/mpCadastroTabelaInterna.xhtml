@@ -1,0 +1,120 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpTabelaInternaSJ"
+				value="#{mpCadastroTabelaInternaSJBeanX.mpTabelaInternaSJ}" />
+			<f:viewAction action="#{mpCadastroTabelaInternaSJBeanX.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel
+					header="Tabela Interna SJ #{mpCadastroTabelaInternaSJBeanX.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include
+						src="/WEB-INF/template/sentinel/sisJuri/mpBotoesTabelaInterna.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgTipoTabela">
+														<p:outputLabel value="Tipo Tabela: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpTipoTabelaInternaSJ"
+															disabled="#{mpCadastroTabelaInternaSJBeanX.indEditavel}"
+															value="#{mpCadastroTabelaInternaSJBeanX.mpTabelaInternaSJ.mpTipoTabelaInternaSJ}">
+															<f:selectItem itemLabel="Selecione o Tipo de Tabela" />
+															<f:selectItems
+																value="#{mpCadastroTabelaInternaSJBeanX.mpTipoTabelaInternaSJList}"
+																var="mpTipoTabelaInternaSJ"
+																itemValue="#{mpTipoTabelaInternaSJ}"
+																itemLabel="#{mpTipoTabelaInternaSJ.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpTipoTabelaInternaSJ"
+															value="Tipo Tabela ( Ex.: Tabela Cidade )" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgCodigo">
+														<p:outputLabel value="Código: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="codigo" maxlength="30"
+															placeholder="Código"
+															readonly="#{mpCadastroTabelaInternaSJBeanX.indEditavel}"
+															value="#{mpCadastroTabelaInternaSJBeanX.mpTabelaInternaSJ.codigo}" />
+														<p:tooltip for="codigo"
+															value="Código ( Ex.: 0001 )" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgDescricao">
+														<p:outputLabel value="Descrição: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="descricao" maxlength="80"
+															placeholder="Descrição"
+															readonly="#{mpCadastroTabelaInternaSJBeanX.indEditavel}"
+															value="#{mpCadastroTabelaInternaSJBeanX.mpTabelaInternaSJ.descricao}" />
+														<p:tooltip for="descricao"
+															value="Descrição ( Ex.: Rio de Janeiro )" />
+													</h:panelGroup>
+
+													<p:toolbarGroup align="right">
+													</p:toolbarGroup>
+
+													<h:panelGroup id="pgPai">
+														<p:outputLabel value="Tabela Pai: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpTabelaInternaSJPai"
+															disabled="#{mpCadastroTabelaInternaSJBeanX.indEditavel}"
+															value="#{mpCadastroTabelaInternaSJBeanX.mpTabelaInternaSJ.mpPai}">
+															<f:selectItem itemLabel="Selecione o Pai" />
+															<f:selectItems
+																value="#{mpCadastroTabelaInternaSJBeanX.mpPais}"
+																var="mpTabelaInternaSJPai"
+																itemValue="#{mpTabelaInternaSJPai}"
+																itemLabel="#{mpTabelaInternaSJPai.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpTabelaInternaSJPai"
+															value="Tabela Pai ( Ex.: Estado RJ )" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

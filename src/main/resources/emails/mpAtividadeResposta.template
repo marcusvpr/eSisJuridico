@@ -1,0 +1,18 @@
+<html>
+    <body>
+        <table>
+            <tr>
+                <td style="width: 100px"></td>
+                <td>MpProtesto - MpAtividade</td>
+            </tr>
+            <tr>
+                <td style="width: 100px">Confirmacao:</td>
+                <td>$urlUsuarioResposta</td>
+            </tr>
+            <tr>
+                <td style="width: 100px">Descrição:</td>
+                <td>$mpAtividade.descricaoCompleta</td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,207 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<div class="ContainerIndent">
+			<h:form id="frmCalend">
+
+				<h3>Calendário Dashboard</h3>
+
+				<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> 
+							<p:commandButton value="Gerar Eventos" icon="fa fa-calendar Fs14 yellow"
+										update=":frmCalend"
+										action="#{mpCalendarioViewBean.filtrar}" />
+						</span>
+						<span class="DispInlBlock Fright FloatNoneOnMobile">
+						 	<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="/dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+      				<div class="EmptyBox10"></div>
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+
+							<p:panelGrid columns="5" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:calendar pattern="dd/MM/yyyy" placeholder="Data De ..." mask="true"
+									value="#{mpCalendarioViewBean.mpFiltro.dataCriacaoDe}" />
+								<p:calendar pattern="dd/MM/yyyy" placeholder="Data Até ..." mask="true"
+									value="#{mpCalendarioViewBean.mpFiltro.dataCriacaoAte}" />
+								<p:inputText placeholder="Descrição"
+									value="#{mpCalendarioViewBean.mpFiltro.descricao}" />
+								<h:panelGroup>
+               						<p:spinner id="diaExpande" min="60" max="365"
+										value="#{mpCalendarioViewBean.mpFiltro.numDiaExpande}" />
+									<p:tooltip for="diaExpande" value=
+									"Números em Dias de Expansão dos Eventos no Calendário (Ex.: 60 )" />
+								</h:panelGroup>
+								<h:panelGroup />
+
+								<h:panelGroup>
+									<p:outputLabel value="Alarme : " for="indShowAlarme" />
+        							<p:selectBooleanButton id="indShowAlarme"
+        									value="#{mpCalendarioViewBean.mpFiltro.indShowAlarme}" 
+        									onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+        					 				offIcon="ui-icon-close" style="width:90px" />
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel value="Calendário : " for="indShowCalendario" />
+        							<p:selectBooleanButton id="indShowCalendario"
+											value="#{mpCalendarioViewBean.mpFiltro.indShowCalendario}"
+        									onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+        					 				offIcon="ui-icon-close" style="width:90px" />
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel value="Feriado : " for="indShowFeriado" />
+        							<p:selectBooleanButton id="indShowFeriado"
+											value="#{mpCalendarioViewBean.mpFiltro.indShowFeriado}"
+        									onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+        					 				offIcon="ui-icon-close" style="width:90px" />
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel value="Atividade : " for="indShowAtividade" />
+        							<p:selectBooleanButton id="indShowAtividade"
+											value="#{mpCalendarioViewBean.mpFiltro.indShowAtividade}"
+        									onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+        					 				offIcon="ui-icon-close" style="width:90px" />
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel value="Turno : " for="indShowTurno" />
+        							<p:selectBooleanButton id="indShowTurno"
+											value="#{mpCalendarioViewBean.mpFiltro.indShowTurno}"
+        									onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+        					 				offIcon="ui-icon-close" style="width:90px" />
+								</h:panelGroup>
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<h:panelGroup id="scheduleId"
+					rendered="#{mpCalendarioViewBean.indVisivel}">
+					<div class="Container">
+						<div class="Container95 Responsive100">
+							<div class="Container100">
+								<p:schedule locale="pt" timeZone="America/Sao_Paulo"
+									value="#{mpCalendarioViewBean.eventModel}" navigator="true"
+									pattern="dd/MM/yyyy HH:mm">
+
+									<p:ajax event="dateSelect"
+											listener="#{mpCalendarioViewBean.onDateSelect}"
+											update="eventDetails" oncomplete="PF('eventDialog').show();">
+										<f:setPropertyActionListener value="#{event}"
+													target="#{mpCalendarioViewBean.event}" />
+									</p:ajax>
+									<p:ajax event="eventSelect"
+											listener="#{mpCalendarioViewBean.onEventSelect}"
+											update="eventDetails" oncomplete="PF('eventDialog').show();">
+											<f:setPropertyActionListener value="#{event}"
+													target="#{mpCalendarioViewBean.event}" />
+									</p:ajax>
+								</p:schedule>
+
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+
+				<p:dialog widgetVar="eventDialog" header="Evento Detalhes"
+												showEffect="clip" hideEffect="clip">
+					<h:panelGrid id="eventDetails" columns="2">
+						<p:outputLabel for="title" value="Título:" />
+						<p:inputTextarea id="title" readonly="true" rows="1"
+							value="#{mpCalendarioViewBean.event.title}" />
+
+						<p:outputLabel value="De:" />
+						<h:outputText value="#{mpCalendarioViewBean.event.startDate}">
+	    					<f:convertDateTime pattern="dd/MM/yyyy HH:mm" 
+	    													timeZone="America/Sao_Paulo" />
+	    				</h:outputText>
+
+						<p:outputLabel value="Até:" />
+						<h:outputText value="#{mpCalendarioViewBean.event.endDate}">
+	    					<f:convertDateTime pattern="dd/MM/yyyy HH:mm" 
+	    													timeZone="America/Sao_Paulo" />
+	    				</h:outputText>
+
+	    				<h:outputText />
+          				<p:commandButton id="closeButton" value="Fechar" 
+          											oncomplete="PF('eventDialog').hide();" />
+					</h:panelGrid>
+				</p:dialog>
+
+				<p:separator style="margin-top: 1px" />
+
+			</h:form>
+		</div>
+
+<script type="text/javascript">
+PrimeFaces.locales['pt'] = {
+            closeText: 'Fechar',
+            prevText: 'Anterior',
+            nextText: 'Próximo',
+            currentText: 'Começo',
+            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun', 'Jul','Ago','Set','Out','Nov','Des'],
+            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+            dayNamesMin: ['D','S','T','Q','Q','S','S'],
+            weekHeader: 'Semana',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            timeOnlyTitle: 'Só Horas',
+            timeText: 'Tempo',
+            hourText: 'Hora',
+            minuteText: 'Minuto',
+            secondText: 'Segundo',
+            currentText: 'Data Atual',
+            ampm: false,
+            month: 'Mês',
+            week: 'Semana',
+            day: 'Dia',
+            allDayText : 'Todo Dia'
+        };
+</script>		
+
+<style type="text/css">
+	a.emp1 {
+ 	  background: #D0525D !important;
+	  border-color: #932c39!important;
+	}
+	a.emp2 {
+ 	  background: #D9D3C5 !important;
+	  border-color: #932c39!important;
+	}
+	a.emp3 {
+ 	  background: #B8C6CC !important;
+	  border-color: #932c39!important;
+	}
+	a.emp4 {
+ 	  background: #BAA9AF !important;
+	  border-color: #932c39!important;
+	}
+	a.emp5 {
+ 	  background: #E3E1CC !important;
+	  border-color: #932c39!important;
+	}
+</style>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,67 @@
+<html>
+    <body>
+        <table>
+            <tr>
+                <td style="width: 300px">Alarme Hora: </td>
+                <td>$mpAlarme.horaMovimento</td>
+            </tr>
+            <tr>
+                <td style="width: 300px"> Nome : </td>
+                <td>$mpAlarme.nome</td>
+            </tr>
+            <tr>
+                <td style="width: 300px">Ind.Sem. (D/S/T/Q/Q/S/S) : </td>
+                <td>$mpAlarme.indDomingo / $mpAlarme.indSegunda / $mpAlarme.indTerca /
+                	$mpAlarme.indQuarta / $mpAlarme.indQuinta / $mpAlarme.indSexta /
+                	$mpAlarme.indSabado
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 300px"> Ind.Semanalmente : </td>
+                <td>$mpAlarme.indSemanalmente</td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="width: 300px">
+					<a href="http://$scSistemaURL/mpProtesto/alertaLogs/MpAlertaLogAlarme.xhtml?idAl=$mpAlarme.id&idAlP=Co&idAlT=AL">
+						. Alarme CONFIRMAR ... 
+					</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="width: 300px">
+					<a href="http://$scSistemaURL/mpProtesto/alertaLogs/MpAlertaLogAlarme.xhtml?idAl=$mpAlarme.id&idAlP=Ad05&idAlT=AL">
+						. Alarme ADIAR (5 minutos)... 
+					</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="width: 300px">
+					<a href="http://$scSistemaURL/mpProtesto/alertaLogs/MpAlertaLogAlarme.xhtml?idAl=$mpAlarme.id&idAlP=Ad15&idAlT=AL">
+						. Alarme ADIAR (15 minutos)... 
+					</a>
+                </td>
+            </tr>
+           	<tr>
+                <td>
+                </td>
+                <td style="width: 300px">
+					<a href="http://$scSistemaURL/mpProtesto/alertaLogs/MpAlertaLogAlarme.xhtml?idAl=$mpAlarme.id&idAlP=Ca&idAlT=AL">
+						. Alarme CANCELAR ... 
+					</a>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

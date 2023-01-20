@@ -1,0 +1,114 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Turnos</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaTurnosBean.pesquisar}" />
+						</span>
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpTurnosTable"
+									fileName="turnos"
+									postProcessor="#{mpPesquisaTurnosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 											href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="2" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+	    						<p:inputText placeholder="Descrição" 
+	    								value="#{mpPesquisaTurnosBean.mpFiltro.descricao}" />	    				
+	    						<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpTurnosTable"
+							value="#{mpPesquisaTurnosBean.mpTurnosFiltrados}"
+							var="mpTurno" selectionMode="single" style="margin-top:20px"
+							selection="#{mpPesquisaTurnosBean.mpTurnoSelecionado}"
+							rowKey="#{mpTurno.descricao}" reflow="true" 
+							emptyMessage="Nenhum Turno encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Tipo Jornada"
+								style="text-align:center; width:150px" 
+														sortBy="#{mpTurno.mpTipoJornada.descricao}">
+								<h:outputText value="#{mpTurno.mpTipoJornada.descricao}" />
+							</p:column>
+							<p:column headerText="Descrição"
+								style="text-align:center; width:250px" sortBy="#{mpTurno.descricao}">
+								<h:outputText value="#{mpTurno.descricao}" />
+							</p:column>
+							<p:column headerText="Entrada" sortBy="#{mpTurno.horaEntrada}">
+								<h:outputText value="#{mpTurno.horaEntrada}">
+									<f:convertDateTime pattern="HH:mm" timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column headerText="Seg" sortBy="#{mpTurno.horaSegunda}">
+								<h:outputText value="#{mpTurno.horaSegunda}" />
+							</p:column>
+							<p:column headerText="Ter" sortBy="#{mpTurno.horaTerca}">
+								<h:outputText value="#{mpTurno.horaTerca}" />
+							</p:column>
+							<p:column headerText="Qua" sortBy="#{mpTurno.horaQuarta}">
+								<h:outputText value="#{mpTurno.horaQuarta}" />
+							</p:column>
+							<p:column headerText="Qui" sortBy="#{mpTurno.horaQuinta}">
+								<h:outputText value="#{mpTurno.horaQuinta}" />
+							</p:column>
+							<p:column headerText="Sex" sortBy="#{mpTurno.horaSexta}">
+								<h:outputText value="#{mpTurno.horaSexta}" />
+							</p:column>
+							<p:column headerText="Sab" sortBy="#{mpTurno.horaSabado}">
+								<h:outputText value="#{mpTurno.horaSabado}" />
+							</p:column>
+							<p:column headerText="Dom" sortBy="#{mpTurno.horaDomingo}">
+								<h:outputText value="#{mpTurno.horaDomingo}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/turnos/mpCadastroTurno"
+									icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpTurno" value="#{mpTurno.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

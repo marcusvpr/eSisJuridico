@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+	
+	<f:metadata>
+		<f:viewParam name="dummy"/>
+		<f:event listener="#{mpGraficoDolarsCotacaoBean.preRender}" type="preRenderView"/>
+	</f:metadata>
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+		
+			<div class="ContainerIndent">
+				<div class="Container100">
+					<span class="DispInlBlock Fright FloatNoneOnMobile"> <p:button
+							title="Sair" icon="fa fa-close Fs14 yellow" href="./dashboardRS" />
+					</span>
+				</div>
+			</div>
+
+			<div class="ContainerIndent">
+				<h:form id="frm">
+					<h2 class="aw-page-title">Gráfico Dólar</h2>
+
+					<p:messages autoUpdate="true" closable="true" />
+
+					<p:panelGrid columns="1" layout="grid"
+						style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+						<h:panelGroup>
+							<p:calendar id="dataInicial" placeholder="Data Inicial" size="10"
+								pattern="dd/MM/yyyy" mask="true"
+								value="#{mpGraficoDolarsCotacaoBean.dataInicial}" />
+							<p:spacer width="15" />
+							<p:calendar id="dataFinal" placeholder="Data Final" size="10"
+								pattern="dd/MM/yyyy" mask="true"
+								value="#{mpGraficoDolarsCotacaoBean.dataFinal}" />
+							<p:spacer width="15" />
+							<p:commandButton value="Gera Gráfico" icon="ui-icon-search"
+								update="myChart"
+								action="#{mpGraficoDolarsCotacaoBean.geraGrafico}" />
+						</h:panelGroup>
+					</p:panelGrid>
+
+					<div class="ContainerIndent">
+						<div class="Container100">
+							<p:chart id="myChart" type="line" model="#{mpGraficoDolarsCotacaoBean.model}" />
+						</div>
+					</div>
+
+				</h:form>
+			</div>
+
+		</div>
+	</ui:define>
+
+</ui:composition>

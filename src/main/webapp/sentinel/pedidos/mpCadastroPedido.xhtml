@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpPedido" value="#{mpCadastroPedidoBean.mpPedido}" />
+			<f:viewAction action="#{mpCadastroPedidoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frmCadastro">
+				<p:panel header="Pedido #{mpCadastroPedidoBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/pedidos/mpBotoesPedido.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+
+						<p:tabView id="tabViewP">
+							<p:tab title="Dados">
+								<ui:include src=
+									"/WEB-INF/template/sentinel/pedidos/mpCapaPedido.xhtml" />
+							</p:tab>
+							<p:tab title="Dados de entrega">
+								<div class="ContainerIndent">
+									<ui:include src=
+									"/WEB-INF/template/sentinel/pedidos/mpDadosEntregaPedido.xhtml" />
+								</div>
+							</p:tab>
+							<p:tab title="Observação">
+								<div class="ContainerIndent">
+									<ui:include	src=
+									"/WEB-INF/template/sentinel/pedidos/mpObservacaoPedido.xhtml" />
+								</div>
+							</p:tab>
+						</p:tabView>
+
+					</div>
+
+					<div class="ContainerIndent">
+						<ui:include src="/WEB-INF/template/sentinel/pedidos/mpItensPedido.xhtml" />
+					</div>
+
+				</p:panel>
+			</h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,269 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpBanco"
+				value="#{mpCadastroBancoBean.mpBanco}" />
+			<f:viewAction action="#{mpCadastroBancoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Banco #{mpCadastroBancoBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include
+						src="/WEB-INF/template/sentinel/cartorios/mpBotoesBanco.xhtml" /> 
+
+					<div class="ContainerIndent" style="margin-top:60px;">
+					</div>
+					
+					<p:tabView id="tabViewA">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+											
+												<p:panelGrid columns="5" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgCodigo">
+														<p:outputLabel value="Código: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="codigo" maxlength="7"
+															required="#{mpCadastroBancoBean.indEditavel}"
+															validatorMessage="Informar Código" placeholder="Código"
+															readonly="#{mpCadastroBancoBean.indEditavel}"
+															value="#{mpCadastroBancoBean.mpBanco.codigo}">
+														</p:inputMask>
+														<p:tooltip id="toolTipCodigo" for="codigo" value="Código" />
+													</h:panelGroup>
+													<h:panelGroup id="pgAgencia">
+														<p:outputLabel value="Agência: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="agencia" maxlength="5"
+															required="#{mpCadastroBancoBean.indEditavel}"
+															validatorMessage="Informar Agência" placeholder="Agência"
+															readonly="#{mpCadastroBancoBean.indEditavel}"
+															value="#{mpCadastroBancoBean.mpBanco.agencia}">
+														</p:inputMask>
+														<p:tooltip id="toolTipAgencia" for="agencia" value="Agência" />
+													</h:panelGroup>
+													<h:panelGroup id="pgNome">
+														<p:outputLabel value="Nome: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="nome" maxlength="135"
+															required="#{mpCadastroBancoBean.indEditavel}"
+															validatorMessage="Informar Nome" placeholder="Nome"
+															readonly="#{mpCadastroBancoBean.indEditavel}"
+															value="#{mpCadastroBancoBean.mpBanco.nome}">
+														</p:inputMask>
+														<p:tooltip id="toolTipNome" for="nome" value="Nome" />
+													</h:panelGroup>
+
+													<h:panelGroup />
+													<h:panelGroup />
+													
+													<h:panelGroup id="pgTipoDocumento">
+														<p:outputLabel value="Tipo Documento: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="tipoDocumento" maxlength="3"
+															required="#{mpCadastroBancoBean.indEditavel}"
+															validatorMessage="Informar Tipo Documento" placeholder="Tipo Documento"
+															readonly="#{mpCadastroBancoBean.indEditavel}"
+															value="#{mpCadastroBancoBean.mpBanco.tipoDocumento}">
+														</p:inputText>
+														<p:tooltip id="toolTipTipoDocumento" for="tipoDocumento" value="Tipo Documento" />
+													</h:panelGroup>
+													<h:panelGroup id="pgNumeroDocumento">
+														<p:outputLabel value="Número Documento: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="numeroDocumento" maxlength="14"
+															required="#{mpCadastroBancoBean.indEditavel}"
+															validatorMessage="Informar Número Documento" placeholder="Número Documento"
+															readonly="#{mpCadastroBancoBean.indEditavel}"
+															value="#{mpCadastroBancoBean.mpBanco.numeroDocumento}">
+														</p:inputText>
+														<p:tooltip id="toolTipNumeroDocumento" for="numeroDocumento" value="Número Documento" />
+													</h:panelGroup>
+													
+													<h:panelGroup />
+													<h:panelGroup />
+													<h:panelGroup />
+													
+													<h:panelGroup id="pgCEP">
+														<p:outputLabel value="CEP: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="cep" maxlength="9" mask="99999-999" 
+															required="#{mpCadastroBancoBean.indEditavel}"
+															validatorMessage="Informar CEP" placeholder="CEP"
+															readonly="#{mpCadastroBancoBean.indEditavel}"
+															value="#{mpCadastroBancoBean.mpBanco.mpEnderecoLocal.cep}" />
+														<p:tooltip id="toolTipCEP" for="cep" value="CEP" />
+            											<p:commandButton icon="fa fa-globe Fs14 white"
+															disabled="#{mpCadastroBancoBean.indEditavel}"
+	        												title="Pesquisar Cep WEB" process="@this cep" 
+	        												update="logradouro cidade bairro mpEstadoUF"
+	        												action="#{mpCadastroBancoBean.onCepWebService}" />
+													</h:panelGroup>
+													<h:panelGroup id="pgLogradouro">
+														<p:outputLabel value="Logradouro: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="logradouro" maxlength="50"
+															required="#{mpCadastroBancoBean.indEditavel}"
+															validatorMessage="Informar Logradouro" placeholder="Logradouro"
+															readonly="#{mpCadastroBancoBean.indEditavel}"
+															value="#{mpCadastroBancoBean.mpBanco.mpEnderecoLocal.logradouro}">
+														</p:inputText>
+														<p:tooltip id="toolTipLogradouro" for="logradouro" value="Logradouro" />
+													</h:panelGroup>
+													<h:panelGroup id="pgNumero">
+														<p:outputLabel value="Número: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="numero" maxlength="10"
+															required="#{mpCadastroBancoBean.indEditavel}"
+															validatorMessage="Informar Número" placeholder="Número"
+															readonly="#{mpCadastroBancoBean.indEditavel}"
+															value="#{mpCadastroBancoBean.mpBanco.mpEnderecoLocal.numero}">
+														</p:inputText>
+														<p:tooltip id="toolTipNumero" for="numero" value="Número" />
+													</h:panelGroup>
+													<h:panelGroup id="pgComplemento">
+														<p:outputLabel value="Complemento: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="complemento" maxlength="20"
+															required="#{mpCadastroBancoBean.indEditavel}"
+															validatorMessage="Informar Complemento" placeholder="Complemento"
+															readonly="#{mpCadastroBancoBean.indEditavel}"
+															value="#{mpCadastroBancoBean.mpBanco.mpEnderecoLocal.complemento}">
+														</p:inputText>
+														<p:tooltip id="toolTipComplemento" for="complemento" value="Complemento" />
+													</h:panelGroup>
+													<h:panelGroup id="pgCidade">
+														<p:outputLabel value="Cidade: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="cidade" maxlength="30"
+															required="#{mpCadastroBancoBean.indEditavel}"
+															validatorMessage="Informar Cidade" placeholder="Cidade"
+															readonly="#{mpCadastroBancoBean.indEditavel}"
+															value="#{mpCadastroBancoBean.mpBanco.mpEnderecoLocal.cidade}">
+														</p:inputText>
+														<p:tooltip id="toolTipCidade" for="cidade" value="Cidade" />
+													</h:panelGroup>
+													<h:panelGroup id="pgBairro">
+														<p:outputLabel value="Bairro: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="bairro" maxlength="30"
+															required="#{mpCadastroBancoBean.indEditavel}"
+															validatorMessage="Informar Bairro" placeholder="Bairro"
+															readonly="#{mpCadastroBancoBean.indEditavel}"
+															value="#{mpCadastroBancoBean.mpBanco.mpEnderecoLocal.bairro}">
+														</p:inputText>
+														<p:tooltip id="toolTipBairro" for="bairro" value="Bairro" />
+													</h:panelGroup>
+													<h:panelGroup id="pgEstadoUF">
+														<p:outputLabel value="Estado: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpEstadoUF" 
+															disabled="#{mpCadastroBancoBean.indEditavel}"
+															value="#{mpCadastroBancoBean.mpBanco.mpEnderecoLocal.mpEstadoUF}">
+															<f:selectItem itemLabel="Selecione o Estado" />
+															<f:selectItems value="#{mpCadastroBancoBean.mpEstadoUFList}"
+																var="mpEstadoUF" itemValue="#{mpEstadoUF}" 
+																itemLabel="#{mpEstadoUF.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip id="toolTipEstadoUF" for="mpEstadoUF" value="Estado" />
+													</h:panelGroup>
+													
+													<h:panelGroup />
+
+												</p:panelGrid>
+
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+
+							</div>
+						</p:tab>
+
+					</p:tabView>
+										
+				</p:panel>
+			</h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpBancoDialog" id="helpBancoDialogId" modal="true"
+					header="HELP - Banco" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpBancoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCadastroBancoBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroBancoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCadastroBancoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroBancoBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCadastroBancoBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCadastroBancoBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

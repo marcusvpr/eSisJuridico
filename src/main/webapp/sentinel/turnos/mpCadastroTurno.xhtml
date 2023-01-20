@@ -1,0 +1,205 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpTurno"
+				value="#{mpCadastroTurnoBean.mpTurno}" />
+			<f:viewAction action="#{mpCadastroTurnoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Turno #{mpCadastroTurnoBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesTurno.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="4" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<h:panelGroup id="pgDescricao">
+														<p:outputLabel value="Descrição: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="descricao" maxlength="150"
+													 		placeholder="Descrição"
+															readonly="#{mpCadastroTurnoBean.indEditavel}"
+															required="#{mpCadastroTurnoBean.indEditavel}"
+															validatorMessage="Informar Descrição"
+															value="#{mpCadastroTurnoBean.mpTurno.descricao}" />
+														<p:tooltip for="descricao" value="Descrição (Ex.: Jornada trabalho diurna )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgTipoJornada">
+														<p:outputLabel value="Tipo Jornada: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpTipoJornada"
+															disabled="#{mpCadastroTurnoBean.indEditavel}"
+															value="#{mpCadastroTurnoBean.mpTurno.mpTipoJornada}">
+															<f:selectItem itemLabel="Selecione o Tipo Jornada" />
+															<f:selectItems
+																value="#{mpCadastroTurnoBean.mpTipoJornadaList}"
+																var="mpTipoJornada" itemValue="#{mpTipoJornada}"
+																itemLabel="#{mpTipoJornada.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpTipoJornada" value="Tipo Jornada (Ex.: Normal )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgHoraEntrada">
+														<p:outputLabel value="Horário Entrada: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="horaEntrada" pattern="HH:mm" mask="true"
+															placeholder="Horário Entrada" timeOnly="true"
+															required="#{mpCadastroTurnoBean.indEditavel}"
+															validatorMessage="Informar Horário Entrada"
+															style="background-color:black; color:yellow;"
+															disabled="#{mpCadastroTurnoBean.indEditavel}"
+															value="#{mpCadastroTurnoBean.mpTurno.horaEntrada}" />
+														<p:tooltip for="horaEntrada" value="Hora Entrada (Ex.: 07:00 )" />
+													</h:panelGroup>
+													<p:outputLabel />
+												</p:panelGrid>
+												
+												<p:panelGrid columns="8" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup id="pgHoraSegunda">
+														<p:outputLabel value="Seg.: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+                        								<p:spinner id="horaSegunda" min="0" max="24"
+															disabled="#{mpCadastroTurnoBean.indEditavel}"
+															value="#{mpCadastroTurnoBean.mpTurno.horaSegunda}" />
+														<p:tooltip for="horaSegunda" value="Hora Segunda (Ex.: 12 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgHoraTerca">
+														<p:outputLabel value="Ter.: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+                        								<p:spinner id="horaTerca" min="0" max="24"
+															disabled="#{mpCadastroTurnoBean.indEditavel}"
+															value="#{mpCadastroTurnoBean.mpTurno.horaTerca}" />
+														<p:tooltip for="horaTerca" value="Hora Terça(Ex.: 12 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgHoraQuarta">
+														<p:outputLabel value="Qua.: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+                        								<p:spinner id="horaQuarta" min="0" max="24"
+															disabled="#{mpCadastroTurnoBean.indEditavel}"
+															value="#{mpCadastroTurnoBean.mpTurno.horaQuarta}" />
+														<p:tooltip for="horaQuarta" value="Hora Quarta(Ex.: 12 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgHoraQuinta">
+														<p:outputLabel value="Qui.: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+                        								<p:spinner id="horaQuinta" min="0" max="24"
+															disabled="#{mpCadastroTurnoBean.indEditavel}"
+															value="#{mpCadastroTurnoBean.mpTurno.horaQuinta}" />
+														<p:tooltip for="horaQuinta" value="Hora Quinta (Ex.: 12 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgHoraSexta">
+														<p:outputLabel value="Sex.: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+                        								<p:spinner id="horaSexta" min="0" max="24"
+															disabled="#{mpCadastroTurnoBean.indEditavel}"
+															value="#{mpCadastroTurnoBean.mpTurno.horaSexta}" />
+														<p:tooltip for="horaSexta" value="Hora Sexta (Ex.: 12 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgHoraSabado">
+														<p:outputLabel value="Sab.: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+                        								<p:spinner id="horaSabado" min="0" max="24"
+															disabled="#{mpCadastroTurnoBean.indEditavel}"
+															value="#{mpCadastroTurnoBean.mpTurno.horaSabado}" />
+														<p:tooltip for="horaSabado" value="Hora Sábado (Ex.: 12 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgHoraDomingo">
+														<p:outputLabel value="Dom.: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+                        								<p:spinner id="horaDomingo" min="0" max="24"
+															disabled="#{mpCadastroTurnoBean.indEditavel}"
+															value="#{mpCadastroTurnoBean.mpTurno.horaDomingo}" />
+														<p:tooltip for="horaDomingo" value="Hora Domingo (Ex.: 12 )" />
+													</h:panelGroup>
+
+													<p:outputLabel 
+														class="DispBlock Wid100 FontSourceSansLight gray Fs16"
+														value="#{mpCadastroTurnoBean.mpTurno.calcularValorTotal()}">
+	    												<f:convertNumber type="currency" pattern="000"/>
+	    											</p:outputLabel>
+												</p:panelGrid>
+
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpTurnoDialog" id="helpTurnoDialogId" modal="true"
+					header="HELP - Turno" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpTurnoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpCodigoTurno">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoTurno" readonly="true"
+							 	value="#{mpCadastroTurnoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpDescricao" readonly="true"
+							 	value="#{mpCadastroTurnoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroTurnoBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

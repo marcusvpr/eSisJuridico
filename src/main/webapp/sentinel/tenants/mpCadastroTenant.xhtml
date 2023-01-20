@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpTenant" value="#{mpCadastroTenantBean.mpTenant}" />
+			<f:viewAction action="#{mpCadastroTenantBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Tenant #{mpCadastroTenantBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesTenant.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<p:inputText id="codigo" maxlength="50"
+														placeholder="Código"
+														readonly="#{mpCadastroTenantBean.indEditavel}"
+														value="#{mpCadastroTenantBean.mpTenant.codigo}" />
+
+													<p:inputText id="descricao" maxlength="150"
+														placeholder="Descrição"
+														readonly="#{mpCadastroTenantBean.indEditavel}"
+														value="#{mpCadastroTenantBean.mpTenant.descricao}" />
+
+													<p:selectOneMenu id="mpStatus"
+														disabled="#{mpCadastroTenantBean.indEditavel}"
+														value="#{mpCadastroTenantBean.mpTenant.mpStatusObjeto}">
+														<f:selectItem itemLabel="Selecione o Status" />
+														<f:selectItems
+															value="#{mpCadastroTenantBean.mpStatusObjetoList}"
+															var="mpStatusObjeto" itemValue="#{mpStatusObjeto}"
+															itemLabel="#{mpStatusObjeto}" />
+													</p:selectOneMenu>
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+			</h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

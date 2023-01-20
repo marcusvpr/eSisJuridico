@@ -1,0 +1,108 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Pacientes</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaPacientesBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpPacientesTable"
+									fileName="pacientes"
+									postProcessor="#{mpPesquisaPacientesBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="4" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:inputText placeholder="Nome"
+									value="#{mpPesquisaPacientesBean.mpFiltro.nome}" />
+								<p:inputText placeholder="E-mail"
+									value="#{mpPesquisaPacientesBean.mpFiltro.email}" />
+								<p:outputLabel />
+								<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpPacientesTable"
+							value="#{mpPesquisaPacientesBean.mpPacientesFiltrados}"
+							var="mpPaciente" selectionMode="single"
+							selection="#{mpPesquisaPacientesBean.mpPacienteSelecionado}"
+							rowKey="#{mpPaciente.nome}" reflow="true" style="margin-top:20px"
+							emptyMessage="Nenhum Paciente encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Nome" sortBy="#{mpPaciente.nome}">
+								<h:outputText value="#{mpPaciente.nome}" />
+							</p:column>
+							<p:column headerText="Telefone" sortBy="#{mpPaciente.telefone}">
+								<h:outputText value="#{mpPaciente.telefone}" />
+							</p:column>
+							<p:column headerText="E-mail" sortBy="#{mpPaciente.email}">
+								<h:outputText value="#{mpPaciente.email}" />
+							</p:column>
+							<p:column headerText="Sexo" sortBy="#{mpPaciente.mpSexo}">
+								<h:outputText value="#{mpPaciente.mpSexo.descricao}" />
+							</p:column>
+							<p:column headerText="Data Nasc." sortBy="#{mpPaciente.dataNascimento}">
+								<h:outputText value="#{mpPaciente.dataNascimento}">
+	    							<f:convertDateTime pattern="dd/MM/yyyy" 
+	    															timeZone="America/Sao_Paulo" />
+	    						</h:outputText>
+							</p:column>
+							<p:column headerText="Status" sortBy="#{mpPaciente.mpStatus}">
+								<h:outputText value="#{mpPaciente.mpStatus.descricao}" />
+							</p:column>
+							<p:column headerText="Cor" sortBy="#{mpPaciente.mpCor}">
+								<h:outputText value="#{mpPaciente.mpCor.descricao}" />
+							</p:column>
+							<p:column headerText="Observação" sortBy="#{mpPaciente.observacao}">
+								<h:outputText value="#{mpPaciente.observacao}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/pacientes/mpCadastroPaciente"
+														icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpPaciente" value="#{mpPaciente.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

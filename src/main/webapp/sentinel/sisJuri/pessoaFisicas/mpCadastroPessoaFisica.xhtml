@@ -1,0 +1,442 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpPessoaFisica" value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica}" />
+			<f:viewAction action="#{mpCadastroPessoaFisicaBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Pessoa Física #{mpCadastroPessoaFisicaBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/sisJuri/mpBotoesPessoaFisica.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+						<p:outputLabel value="Nome: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+						
+						<p:commandButton id="cbNome" icon="fa fa-fw fa-search-plus"
+							process="@this" title="Pesquisa Pessoa Física por nome"
+            				action="#{mpCadastroPessoaFisicaBean.findByNome}" update="frmFind"
+							oncomplete="PF('findPessoaFisicaDialog').show()" />
+        				
+						<p:inputText id="itNome" placeholder="Nome" styleClass="Container40 Fnone MarAuto Fs18"
+							required="#{mpCadastroPessoaFisicaBean.indEditavel}"
+							validatorMessage="Informar Nome"
+							readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+							value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.nome}" />
+					</div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container90 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="4" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup id="pgCPF">
+														<p:outputLabel value="CPF: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="cpf" placeholder="CPF" mask="999.999.999-99"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.cpf}" />
+														<p:tooltip id="toolTipCPF" for="cpf" value="CPF" />
+													</h:panelGroup>													
+													<h:panelGroup>
+														<p:outputLabel value="Ind.Parte Contraria : " for="indParteContraria" />
+        												<p:selectBooleanButton id="indParteContraria"
+        													onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+        					 								offIcon="ui-icon-close" style="width:90px"
+															disabled="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.indParteContraria}" />
+													</h:panelGroup>
+													<h:panelGroup id="pgOab">
+														<p:outputLabel value="OAB: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="oab" placeholder="OAB"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.oab}" />
+														<p:tooltip id="toolTipOab" for="oab" value="OAB" />
+													</h:panelGroup>
+													<h:panelGroup>
+														<p:outputLabel value="OAB UF: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpOabUF" effect="fold"
+															disabled="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.mpOabUF}">
+															<f:selectItem itemLabel="Selecione OAB UF" />
+															<f:selectItems value="#{mpCadastroPessoaFisicaBean.mpOabUFList}"
+																var="mpOabUF" itemLabel="#{mpOabUF.descricao}"
+																itemValue="#{mpOabUF}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpOabUF" value="OAB UF (Ex.: Rio de Janeiro(RJ) )" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Banco: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpBanco" effect="fold"
+															disabled="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.mpBanco}">
+															<f:selectItem itemLabel="Selecione Banco" />
+															<f:selectItems value="#{mpCadastroPessoaFisicaBean.mpBancoList}"
+																var="mpBanco" itemLabel="#{mpBanco.descricao}"
+																itemValue="#{mpBanco}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpBanco" value="Banco (Ex.: Itau )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgAgencia">
+														<p:outputLabel value="Agência: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="agencia" placeholder="Agência"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.bancoAgencia}" />
+														<p:tooltip id="toolTipAgencia" for="agencia" value="Agência" />
+													</h:panelGroup>
+													<h:panelGroup id="pgConta">
+														<p:outputLabel value="Conta: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="conta" placeholder="Conta"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.bancoConta}" />
+														<p:tooltip id="toolTipConta" for="conta" value="Conta" />
+													</h:panelGroup>
+													<p:spacer />
+
+													<h:panelGroup id="pgEmail">
+														<p:outputLabel value="Email: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="email" placeholder="E-mail" type="email"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.email}">
+															<f:validateRegex pattern=
+																"[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+														</p:inputText>
+														<p:tooltip id="toolTipEmail" for="email" value="Email" />
+													</h:panelGroup>
+													<h:panelGroup id="pgTelefone">
+														<p:outputLabel value="Telefone: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="telefone" placeholder="Telefone"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.telefone}" />
+														<p:tooltip id="toolTipTelefone" for="telefone" value="Telefone" />
+													</h:panelGroup>
+													<h:panelGroup id="pgWebPage">
+														<p:outputLabel value="Web Page: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="webPage" placeholder="Web Page"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.webPage}" />
+														<p:tooltip id="toolTipWebPage" for="webPage" value="WebPage" />
+													</h:panelGroup>
+													<h:panelGroup id="pgObservacao">
+														<p:outputLabel value="Observação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="observacao" placeholder="Observação"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.observacao}" />
+														<p:tooltip id="toolTipObservacao" for="observacao" value="Observação" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container10 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+
+							</div>
+						</p:tab>
+						
+						<p:tab title="Endereço" closable="false">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container90 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="4" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup>
+														<p:outputLabel value="Cep: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="cep" maxlength="9" mask="99999-999"
+															placeholder="CEP"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.mpEnderecoLocal.cep}" />
+														<p:tooltip for="cep" value="Cep" />
+														<p:commandButton icon="ui-icon-transferthick-e-w"
+															title="Pesquisar Cep WEB" process="@this cep"
+															disabled="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															update="logradouro cidade bairro mpEstadoUF"
+															action="#{mpCadastroPessoaFisicaBean.onCepWebService}">
+														</p:commandButton>
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Logradouro(Rua): "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="logradouro" maxlength="150"
+															placeholder="Logradouro(Rua)"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.mpEnderecoLocal.logradouro}" />
+														<p:tooltip for="logradouro" value="Logradouro(Rua)" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Número: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="numero" maxlength="20"
+															placeholder="Número"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.mpEnderecoLocal.numero}" />
+														<p:tooltip for="numero" value="Número" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Complemento: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="complemento" maxlength="150"
+															placeholder="Complemento"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.mpEnderecoLocal.complemento}" />
+														<p:tooltip for="complemento" value="Complemento" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Cidade: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="cidade" maxlength="60"
+															placeholder="Cidade"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.mpEnderecoLocal.cidade}" />
+														<p:tooltip for="cidade" value="Cidade" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Bairro: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="bairro" maxlength="60"
+															placeholder="Bairro"
+															readonly="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.mpEnderecoLocal.bairro}" />
+														<p:tooltip for="bairro" value="Bairro" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Estado(UF): "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpEstadoUF"
+															disabled="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.mpEnderecoLocal.mpEstadoUF}">
+															<f:selectItem itemLabel="Selecione o Estado" />
+															<f:selectItems
+																value="#{mpCadastroPessoaFisicaBean.mpEstadoUFList}"
+																var="mpEstadoUF" itemValue="#{mpEstadoUF}"
+																itemLabel="#{mpEstadoUF.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpEstadoUF" value="Estado(UF)" />
+													</h:panelGroup>
+
+													<p:outputLabel />
+													
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container10 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>													
+						</p:tab>
+
+						<p:tab title="Foto">
+							<p:messages id="messageFoto" autoUpdate="false"
+								showDetail="false" />
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+
+												<h:panelGroup id="arquivoBD">
+													<p:outputLabel style="font-size:16px; color:blue;"
+														value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.mpArquivoAcao.resultado}" />
+													<p:spacer width="5" />
+													<o:graphicImage dataURI="true" cache="false" width="200"
+														rendered="#{mpCadastroPessoaFisicaBean.arquivoBytes == null ? false : true}"
+														value="#{mpCadastroPessoaFisicaBean.arquivoBytes}" />
+												</h:panelGroup>
+
+											</div>
+										</div>
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent">
+													<p:panelGrid id="pGridFoto" columns="2"
+														styleClass="panelgrid-noborder" layout="grid"
+														columnClasses="ui-grid-col-2, ui-grid-col-10">
+
+														<p:outputLabel value="Ação" for="arquivoAcao"
+															style="font-size:14px; color:black;" />
+														<p:selectOneRadio id="arquivoAcao"
+															disabled="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpArquivoAcao}"
+															valueChangeListener="#{mpCadastroPessoaFisicaBean.arquivoAcaoSelecionado}">
+															<f:selectItems
+																value="#{mpCadastroPessoaFisicaBean.mpArquivoAcaoList}"
+																var="mpArquivoAcao" itemValue="#{mpArquivoAcao}"
+																itemLabel="#{mpArquivoAcao.descricao}" />
+															<f:ajax execute="@all" render="@all" />
+														</p:selectOneRadio>
+
+														<p:outputLabel value="Associar" for="associaFoto"
+															rendered="#{mpCadastroPessoaFisicaBean.arquivoAcaoSelecao == 'Associar'}" />
+														<p:selectOneMenu id="associaFoto"
+															disabled="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															value="#{mpCadastroPessoaFisicaBean.mpPessoaFisica.mpArquivoBD}"
+															rendered="#{mpCadastroPessoaFisicaBean.arquivoAcaoSelecao == 'Associar'}">
+															<f:selectItem itemLabel="Selecione a Arquivo" />
+															<f:selectItems
+																value="#{mpCadastroPessoaFisicaBean.mpArquivoBDList}"
+																var="mpArquivoBD" itemValue="#{mpArquivoBD}"
+																itemLabel="#{mpArquivoBD.descricao}" />
+															<p:ajax event="change" process="@this"
+																update="frm:tabViewC:arquivoBD"
+																listener="#{mpCadastroPessoaFisicaBean.associaMpArquivoBD}"
+																ignoreAutoUpdate="true" />
+														</p:selectOneMenu>
+
+													</p:panelGrid>
+
+													<h:panelGroup id="carregaImagem"
+														rendered="#{mpCadastroPessoaFisicaBean.arquivoAcaoSelecao == 'Carregar'}">
+														<p:fileUpload label="Selecionar..."
+															disabled="#{mpCadastroPessoaFisicaBean.indEditavel}"
+															update="frm:tabViewC:messageFoto frm:tabViewC:arquivoBD"
+															fileUploadListener="#{mpCadastroPessoaFisicaBean.handleFileUpload}"
+															auto="true" mode="advanced" dragDropSupport="true"
+															sizeLimit="5000000"
+															allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+													</h:panelGroup>
+
+													<p:commandButton value="Proceder Captura"
+														icon="fa fa-camera Fs14 white"
+														rendered="#{mpCadastroPessoaFisicaBean.arquivoAcaoSelecao == 'Capturar'}"
+														oncomplete="PF('capturaDialog').show()" process="@this">
+													</p:commandButton>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+		<div class="ContainerIndent">
+			<p:dialog widgetVar="capturaDialog" id="capturaDialogId" modal="true"
+				header="Captura Foto" showEffect="fade" hideEffect="fade"
+				resizable="false" responsive="true"
+				rendered="#{mpCadastroPessoaFisicaBean.arquivoAcaoSelecao == 'Capturar'}">
+				<h:form id="frmCapturaDialog">
+					<h:panelGrid columns="3" cellpadding="5">
+						<p:photoCam widgetVar="pc" width="250"
+							listener="#{mpCadastroPessoaFisicaBean.aoCapturarArquivo}"
+							update="photoDialog frm:tabViewC:arquivoBD" />
+						<p:commandButton type="button" value="Capturar" icon="fa fa-camera Fs14 white"
+							onclick="PF('pc').capture()" />
+						<p:outputPanel id="photoDialog">
+							<o:graphicImage dataURI="true" cache="false" width="250"
+								rendered="#{mpCadastroPessoaFisicaBean.arquivoBytesC == null ? false : true}"
+								value="#{mpCadastroPessoaFisicaBean.arquivoBytesC}" />
+						</p:outputPanel>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpPessoaFisicaDialog" id="helpPessoaFisicaDialogId" modal="true"
+					header="HELP - PessoaFisica" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpPessoaFisicaPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+													
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpDescricao" readonly="true"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmFind">
+			<p:dialog widgetVar="findPessoaFisicaDialog" id="findPessoaFisicaDialogId"
+					header="Localiza - PessoaFisica" modal="true"
+        			width="300" height="50" contentWidth="100%"  contentHeight="100%"
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+			 			 		
+				<h:panelGroup id="findPessoaFisicaPanel">
+					<p:panelGrid id="pGridFind" columns="3" styleClass="panelgrid-noborder" layout="grid"
+						columnClasses="ui-grid-col-3, ui-grid-col-10">
+       					<p:autoComplete id="acNome" minQueryLength="2" effect="fade"
+      					 	value="#{mpCadastroPessoaFisicaBean.nomeFind}" scrollHeight="350"
+       					 	completeMethod="#{mpCadastroPessoaFisicaBean.completaFindByNome}">
+            				<p:ajax event="itemSelect" update=":frm"
+            					listener="#{mpCadastroPessoaFisicaBean.onNomeSelecionado}"
+								oncomplete="PF('findPessoaFisicaDialog').hide()" />
+        				</p:autoComplete>
+        				<h:panelGroup />																		
+        				<h:panelGroup />																		
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+		
+	</ui:define>
+
+</ui:composition>

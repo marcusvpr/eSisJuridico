@@ -1,0 +1,164 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpSistemaConfig" 
+										value="#{mpCadastroSistemaConfigBean.mpSistemaConfig}" />
+			<f:viewAction action="#{mpCadastroSistemaConfigBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Sistema Configuração #{mpCadastroSistemaConfigBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include
+						src="/WEB-INF/template/sentinel/mpBotoesSistemaConfig.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+
+					<p:tabView id="tabViewSC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="4" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<p:inputText placeholder="Parâmetro"
+														required="#{mpCadastroSistemaConfigBean.indEditavel}"
+														validatorMessage="Informar Parâmetro" readonly="true"
+														value="#{mpCadastroSistemaConfigBean.mpSistemaConfig.parametro}" />
+													<p:inputText placeholder="Descrição"
+														required="#{mpCadastroSistemaConfigBean.indEditavel}"
+														validatorMessage="Informar Descrição"
+														readonly="#{mpCadastroSistemaConfigBean.indEditavel}"
+														value="#{mpCadastroSistemaConfigBean.mpSistemaConfig.descricao}" />
+													<p:selectOneMenu effect="fold"
+														style="background-color:black; color:yellow;"
+														required="#{mpCadastroClienteBean.indEditavel}"
+														validatorMessage="Informar Tipo Campo" disabled="true"
+														value="#{mpCadastroSistemaConfigBean.mpSistemaConfig.mpTipoCampo}">
+														<f:selectItem itemLabel="Selecione o TipoCampo" />
+														<f:selectItems
+															value="#{mpCadastroSistemaConfigBean.mpTipoCampoList}"
+															var="mpTipoCampo" itemLabel="#{mpTipoCampo.descricao}"
+															itemValue="#{mpTipoCampo}" />
+														<p:ajax event="change" process="@this"
+															update="valorT valorN indValor" />
+													</p:selectOneMenu>
+													<p:inputText id="valorT"
+														required="#{mpCadastroSistemaConfigBean.indEditavel}"
+														rendered="#{mpCadastroSistemaConfigBean.mpSistemaConfig.mpTipoCampo eq 'TEXTO'}"
+														validatorMessage="Informar Valor"
+														readonly="#{mpCadastroSistemaConfigBean.indEditavel}"
+														value="#{mpCadastroSistemaConfigBean.mpSistemaConfig.valorT}" />
+
+													<p:inputText id="valorN" styleClass="moeda"
+														required="#{mpCadastroSistemaConfigBean.indEditavel}"
+														rendered="#{mpCadastroSistemaConfigBean.mpSistemaConfig.mpTipoCampo eq 'NUMERO'}"
+														validatorMessage="Informar Valor"
+														readonly="#{mpCadastroSistemaConfigBean.indEditavel}"
+														value="#{mpCadastroSistemaConfigBean.mpSistemaConfig.valorN}">
+														<f:convertNumber maxFractionDigits="2"
+															minFractionDigits="0" />
+													</p:inputText>
+
+        											<p:selectBooleanButton id="indValor"
+        												onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+        					 							offIcon="ui-icon-close" style="width:90px"
+														required="#{mpCadastroSistemaConfigBean.indEditavel}"
+														rendered="#{mpCadastroSistemaConfigBean.mpSistemaConfig.mpTipoCampo eq 'BOOLEAN'}"
+														disabled="#{mpCadastroSistemaConfigBean.indEditavel}"
+														value="#{mpCadastroSistemaConfigBean.mpSistemaConfig.indValor}" />
+
+													<h:panelGroup>
+														<p:button icon="ui-icon-transferthick-e-w"
+															rendered="#{mpCadastroSistemaConfigBean.indAlertaTipo}"
+															disabled="#{mpCadastroSistemaConfigBean.indEditavel}"
+															onclick="PF('listaObjetoDialog').show(); return false" />
+														<p:button icon="ui-icon-transferthick-e-w"
+															rendered="#{mpCadastroSistemaConfigBean.indAlertaTempo}"
+															disabled="#{mpCadastroSistemaConfigBean.indEditavel}"
+															onclick="PF('listaObjetoDialog').show(); return false" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+
+				<p:dialog header="Lista" id="objetoDialog"
+					widgetVar="listaObjetoDialog" modal="true" resizable="false">
+					<h:panelGroup id="inclusaoPanel">
+
+						<p:messages autoUpdate="false" closable="true" id="msgDialog" />
+
+						<h:panelGrid columns="2">
+
+							<p:outputLabel value="Alerta Tipo" for="mpAlertaTipo"
+								rendered="#{mpCadastroSistemaConfigBean.indAlertaTipo}" />
+							<p:selectOneMenu id="mpAlertaTipo"
+								rendered="#{mpCadastroSistemaConfigBean.indAlertaTipo}"
+								value="#{mpCadastroSistemaConfigBean.mpSistemaConfig.valorT}">
+								<f:selectItem itemLabel="Selecione o Alerta Tipo" />
+								<f:selectItems var="mpAlertaTipo" itemValue="#{mpAlertaTipo}"
+									value="#{mpCadastroSistemaConfigBean.mpAlertaTipoList}"
+									itemLabel="#{mpAlertaTipo.descricao}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Alerta Tempo" for="mpAlertaTempo"
+								rendered="#{mpCadastroSistemaConfigBean.indAlertaTempo}" />
+							<p:selectOneMenu id="mpAlertaTempo"
+								rendered="#{mpCadastroSistemaConfigBean.indAlertaTempo}"
+								value="#{mpCadastroSistemaConfigBean.mpSistemaConfig.valorN}">
+								<f:selectItem itemLabel="Selecione o Alerta Tempo" />
+								<f:selectItems var="mpAlertaTempo"
+									itemValue="#{mpAlertaTempo.tempo}"
+									value="#{mpCadastroSistemaConfigBean.mpAlertaTempoList}"
+									itemLabel="#{mpAlertaTempo.descricaoTempo}" />
+							</p:selectOneMenu>
+
+						</h:panelGrid>
+
+						<p:separator />
+						<p:commandButton value="Selecione e Fecha"
+							action="#{mpCadastroSistemaConfigBean.atualizaValor}"
+							process="@this inclusaoPanel"
+							update=":frm:tabViewSC:valorT :frm:tabViewSC:valorN"
+							oncomplete="PF('listaObjetoDialog').hide();" />
+
+					</h:panelGroup>
+
+				</p:dialog>
+
+			</h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

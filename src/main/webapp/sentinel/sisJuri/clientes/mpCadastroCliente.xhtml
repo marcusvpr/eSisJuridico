@@ -1,0 +1,376 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpClienteSJ" value="#{mpCadastroClienteSJBean.mpClienteSJ}" />
+			<f:viewAction action="#{mpCadastroClienteSJBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Cliente #{mpCadastroClienteSJBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/sisJuri/mpBotoesCliente.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+						<p:outputLabel value="Nome: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+
+						<p:commandButton id="cbNome" icon="fa fa-fw fa-search-plus"
+							process="@this" title="Pesquisa Cliente por nome"
+            				action="#{mpCadastroClienteSJBean.findByNome}" update="frmFind"
+							oncomplete="PF('findClienteSJDialog').show()" />
+        				
+						<p:inputText id="itNome" placeholder="Nome"
+							styleClass="Container40 Fnone MarAuto Fs18"
+							required="#{mpCadastroClienteSJBean.indEditavel}"
+							validatorMessage="Informar Nome"
+							readonly="#{mpCadastroClienteSJBean.indEditavel}"
+							value="#{mpCadastroClienteSJBean.mpClienteSJ.nome}" />
+					</div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container90 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="2" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup id="pgCpfCnpj">
+														<p:outputLabel value="CPF / CNPJ: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="cpfCnpj" placeholder="CPF / CNPJ"
+															readonly="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpClienteSJ.cpfCnpj}" />
+														<p:tooltip id="toolTipCpfCnpj" for="cpfCnpj" value="CPF / CNPJ" />
+													</h:panelGroup>													
+													<h:panelGroup>
+														<p:outputLabel value="Ind.Parte Contraria : " for="indParteContraria" />
+        												<p:selectBooleanButton id="indParteContraria"
+        													onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+        					 								offIcon="ui-icon-close" style="width:90px"
+															disabled="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpClienteSJ.indParteContraria}" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgEmail">
+														<p:outputLabel value="Email: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="email" placeholder="E-mail" type="email"
+															readonly="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpClienteSJ.email}">
+															<!-- f:validateRegex pattern=
+																"[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" -->
+														</p:inputText>
+														<p:tooltip id="toolTipEmail" for="email" value="Email" />
+													</h:panelGroup>
+													<h:panelGroup id="pgTelefone">
+														<p:outputLabel value="Telefone: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="telefone" placeholder="Telefone"
+															readonly="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpClienteSJ.telefone}" />
+														<p:tooltip id="toolTipTelefone" for="telefone" value="Telefone" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgObservacao">
+														<p:outputLabel value="Observação: " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="observacao" placeholder="Observação"
+															readonly="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpClienteSJ.observacao}" />
+														<p:tooltip id="toolTipObservacao" for="observacao" value="Observação" />
+													</h:panelGroup>
+													<p:spacer />
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container10 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+
+							</div>
+						</p:tab>
+						
+						<p:tab title="Endereço" closable="false">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container90 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="4" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup>
+														<p:outputLabel value="CEP: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="cep" maxlength="9" mask="99999-999" placeholder="CEP"
+															readonly="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpClienteSJ.mpEnderecoLocal.cep}" />
+														<p:tooltip for="cep" value="CEP" />
+														<p:commandButton icon="ui-icon-transferthick-e-w"
+															title="Pesquisar Cep WEB" process="@this cep"
+															disabled="#{mpCadastroClienteSJBean.indEditavel}"
+															update="logradouro cidade bairro mpEstadoUF"
+															action="#{mpCadastroClienteSJBean.onCepWebService}" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Logradouro(Rua): "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="logradouro" maxlength="150" placeholder="Logradouro(Rua)"
+															readonly="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpClienteSJ.mpEnderecoLocal.logradouro}" />
+														<p:tooltip for="logradouro" value="Logradouro(Rua)" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Número: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="numero" maxlength="20" placeholder="Número"
+															readonly="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpClienteSJ.mpEnderecoLocal.numero}" />
+														<p:tooltip for="numero" value="Número" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Complemento: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="complemento" maxlength="150" placeholder="Complemento"
+															readonly="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpClienteSJ.mpEnderecoLocal.complemento}" />
+														<p:tooltip for="complemento" value="Complemento" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Cidade: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="cidade" maxlength="60" placeholder="Cidade"
+															readonly="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpClienteSJ.mpEnderecoLocal.cidade}" />
+														<p:tooltip for="cidade" value="Cidade" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Bairro: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="bairro" maxlength="60" placeholder="Bairro"
+															readonly="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpClienteSJ.mpEnderecoLocal.bairro}" />
+														<p:tooltip for="bairro" value="Bairro" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Estado(UF): " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpEstadoUF"
+															disabled="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpClienteSJ.mpEnderecoLocal.mpEstadoUF}">
+															<f:selectItem itemLabel="Selecione o Estado" />
+															<f:selectItems value="#{mpCadastroClienteSJBean.mpEstadoUFList}"
+																var="mpEstadoUF" itemValue="#{mpEstadoUF}"
+																itemLabel="#{mpEstadoUF.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpEstadoUF" value="Estado(UF)" />
+													</h:panelGroup>
+
+													<p:outputLabel />
+													
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container10 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>													
+						</p:tab>
+
+						<p:tab title="Foto">
+							<p:messages id="messageFoto" autoUpdate="false"
+								showDetail="false" />
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+
+												<h:panelGroup id="arquivoBD">
+													<p:outputLabel style="font-size:16px; color:blue;"
+														value="#{mpCadastroClienteSJBean.mpClienteSJ.mpArquivoAcao.resultado}" />
+													<p:spacer width="5" />
+													<o:graphicImage dataURI="true" cache="false" width="200"
+														rendered="#{mpCadastroClienteSJBean.arquivoBytes == null ? false : true}"
+														value="#{mpCadastroClienteSJBean.arquivoBytes}" />
+												</h:panelGroup>
+
+											</div>
+										</div>
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent">
+													<p:panelGrid id="pGridFoto" columns="2"
+														styleClass="panelgrid-noborder" layout="grid"
+														columnClasses="ui-grid-col-2, ui-grid-col-10">
+
+														<p:outputLabel value="Ação" for="arquivoAcao"
+															style="font-size:14px; color:black;" />
+														<p:selectOneRadio id="arquivoAcao"
+															disabled="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpArquivoAcao}"
+															valueChangeListener="#{mpCadastroClienteSJBean.arquivoAcaoSelecionado}">
+															<f:selectItems
+																value="#{mpCadastroClienteSJBean.mpArquivoAcaoList}"
+																var="mpArquivoAcao" itemValue="#{mpArquivoAcao}"
+																itemLabel="#{mpArquivoAcao.descricao}" />
+															<f:ajax execute="@all" render="@all" />
+														</p:selectOneRadio>
+
+														<p:outputLabel value="Associar" for="associaFoto"
+															rendered="#{mpCadastroClienteSJBean.arquivoAcaoSelecao == 'Associar'}" />
+														<p:selectOneMenu id="associaFoto"
+															disabled="#{mpCadastroClienteSJBean.indEditavel}"
+															value="#{mpCadastroClienteSJBean.mpClienteSJ.mpArquivoBD}"
+															rendered="#{mpCadastroClienteSJBean.arquivoAcaoSelecao == 'Associar'}">
+															<f:selectItem itemLabel="Selecione a Arquivo" />
+															<f:selectItems
+																value="#{mpCadastroClienteSJBean.mpArquivoBDList}"
+																var="mpArquivoBD" itemValue="#{mpArquivoBD}"
+																itemLabel="#{mpArquivoBD.descricao}" />
+															<p:ajax event="change" process="@this"
+																update="frm:tabViewC:arquivoBD"
+																listener="#{mpCadastroClienteSJBean.associaMpArquivoBD}"
+																ignoreAutoUpdate="true" />
+														</p:selectOneMenu>
+
+													</p:panelGrid>
+
+													<h:panelGroup id="carregaImagem"
+														rendered="#{mpCadastroClienteSJBean.arquivoAcaoSelecao == 'Carregar'}">
+														<p:fileUpload label="Selecionar..."
+															disabled="#{mpCadastroClienteSJBean.indEditavel}"
+															update="frm:tabViewC:messageFoto frm:tabViewC:arquivoBD"
+															fileUploadListener="#{mpCadastroClienteSJBean.handleFileUpload}"
+															auto="true" mode="advanced" dragDropSupport="true"
+															sizeLimit="5000000"
+															allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+													</h:panelGroup>
+
+													<p:commandButton value="Proceder Captura"
+														icon="fa fa-camera Fs14 white"
+														rendered="#{mpCadastroClienteSJBean.arquivoAcaoSelecao == 'Capturar'}"
+														oncomplete="PF('capturaDialog').show()" process="@this">
+													</p:commandButton>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+		<div class="ContainerIndent">
+			<p:dialog widgetVar="capturaDialog" id="capturaDialogId" modal="true"
+				header="Captura Foto" showEffect="fade" hideEffect="fade"
+				resizable="false" responsive="true"
+				rendered="#{mpCadastroClienteSJBean.arquivoAcaoSelecao == 'Capturar'}">
+				<h:form id="frmCapturaDialog">
+					<h:panelGrid columns="3" cellpadding="5">
+						<p:photoCam widgetVar="pc" width="250"
+							listener="#{mpCadastroClienteSJBean.aoCapturarArquivo}"
+							update="photoDialog frm:tabViewC:arquivoBD" />
+						<p:commandButton type="button" value="Capturar" icon="fa fa-camera Fs14 white"
+							onclick="PF('pc').capture()" />
+						<p:outputPanel id="photoDialog">
+							<o:graphicImage dataURI="true" cache="false" width="250"
+								rendered="#{mpCadastroClienteSJBean.arquivoBytesC == null ? false : true}"
+								value="#{mpCadastroClienteSJBean.arquivoBytesC}" />
+						</p:outputPanel>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpClienteSJDialog" id="helpClienteSJDialogId" modal="true"
+					header="HELP - ClienteSJ" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpClienteSJPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+													
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpDescricao" readonly="true"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmFind">
+			<p:dialog widgetVar="findClienteSJDialog" id="findClienteSJDialogId"
+					header="Localiza - ClienteSJ" modal="true"
+        			width="300" height="50" contentWidth="100%"  contentHeight="100%"
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+			 			 		
+				<h:panelGroup id="findClienteSJPanel">
+					<p:panelGrid id="pGridFind" columns="3" styleClass="panelgrid-noborder" layout="grid"
+						columnClasses="ui-grid-col-3, ui-grid-col-10">
+       					<p:autoComplete id="acNome" minQueryLength="2" effect="fade"
+      					 	value="#{mpCadastroClienteSJBean.nomeFind}" scrollHeight="350"
+       					 	completeMethod="#{mpCadastroClienteSJBean.completaFindByNome}">
+            				<p:ajax event="itemSelect" update=":frm"
+            					listener="#{mpCadastroClienteSJBean.onNomeSelecionado}"
+								oncomplete="PF('findClienteSJDialog').hide()" />
+        				</p:autoComplete>
+        				<h:panelGroup />																		
+        				<h:panelGroup />																		
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+		
+	</ui:define>
+
+</ui:composition>

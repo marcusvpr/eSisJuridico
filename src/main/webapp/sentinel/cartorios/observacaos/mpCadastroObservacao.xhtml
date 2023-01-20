@@ -1,0 +1,141 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpObservacao"
+				value="#{mpCadastroObservacaoBean.mpObservacao}" />
+			<f:viewAction action="#{mpCadastroObservacaoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Observacão #{mpCadastroObservacaoBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include
+						src="/WEB-INF/template/sentinel/cartorios/mpBotoesObservacao.xhtml" /> 
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+					</div>
+					
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													
+													<h:panelGroup id="pgTipoObservacao">
+														<p:outputLabel value="Tipo Observação:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="tipoObservacao"
+															required="#{mpCadastroObservacaoBean.indEditavel}"
+															validatorMessage="Informar TipoObservacao" 
+															placeholder="Tipo Observacão"
+															readonly="#{mpCadastroObservacaoBean.indEditavel}"
+															value="#{mpCadastroObservacaoBean.mpObservacao.tipoObservacao}" />
+														<p:tooltip for="tipoObservacao" value="Tipo Observação" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgDescricaoObservacao">
+														<p:outputLabel value="Descricao Observacão:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="descricaoObservacao"
+															required="#{mpCadastroObservacaoBean.indEditavel}"
+															validatorMessage="Informar DescricaoObservacao" 
+															placeholder="Descricao Observacão"
+															readonly="#{mpCadastroObservacaoBean.indEditavel}"
+															value="#{mpCadastroObservacaoBean.mpObservacao.descricaoObservacao}" />
+														<p:tooltip for="descricaoObservacao" value="Descricao Observacão" />
+													</h:panelGroup>
+												</p:panelGrid>
+
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+					                       </div>
+									  </div>
+								    </div>	  
+								</p:panel>
+
+							</div>
+						</p:tab>
+
+					</p:tabView>
+				</p:panel>
+			</h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpObservacaoDialog" id="helpObservacaoDialogId" modal="true"
+					header="HELP - Observacao" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpObservacaoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCadastroObservacaoBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroObservacaoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCadastroObservacaoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroObservacaoBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCadastroObservacaoBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCadastroObservacaoBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

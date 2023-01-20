@@ -1,0 +1,196 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+    	<f:metadata>
+    		<o:viewParam name="mpPaciente" value="#{mpWizardPacienteBean.mpPaciente}" />
+    		<f:viewAction action="#{mpWizardPacienteBean.inicializar}" />
+    	</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Inclusão de Paciente Wizard">
+
+					<div class="ContainerIndent" style="margin-top:45px;">
+					  <div class="Container100">
+						<p:tabView id="tabViewC">
+						
+							<p:tab title="Assistente">
+								<div class="ContainerIndent ui-fluid">
+									<p:panel>
+										<div class="Container">
+											<div class="Container95 Responsive100">
+												<div class="Container100">
+													<p:panelGrid columns="1" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+			<p:growl id="growl" sticky="true" showDetail="true" />
+
+			<p:wizard flowListener="#{mpWizardPacienteBean.onFlowProcess}">
+				<p:tab id="paciente" title="(1) - Paciente">
+					<p:panel header="Paciente Detalhes">
+						<p:messages />
+						<h:panelGrid columns="2" columnClasses="label, value">
+						
+							<h:outputText value="Nome: *" />
+							<p:inputText value="#{mpWizardPacienteBean.mpPaciente.nome}"
+														 			required="true" label="Nome:" />
+
+							<h:outputText value="Data Nascimento: *" />
+							<p:calendar id="dataNascimento" size="10" pattern="dd/MM/yyyy"
+										value="#{mpWizardPacienteBean.mpPaciente.dataNascimento}"
+										mask="true" required="true" label="Data Nascimento:" />
+										
+							<h:outputText value="Sexo: *" />
+							<p:selectOneRadio id="mpSexo" required="true" label="Sexo:"
+												value="#{mpWizardPacienteBean.mpPaciente.mpSexo}">
+	    						<f:selectItems value="#{mpWizardPacienteBean.mpSexoList}"
+	    						 var="mpSexo" itemValue="#{mpSexo}"	itemLabel="#{mpSexo.descricao}" />
+							</p:selectOneRadio>
+										
+							<h:outputText value="Pule para o próximo: " />
+							<h:selectBooleanCheckbox value="#{mpWizardPacienteBean.skip}" />
+
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="contato" title="(2) - Contato">
+					<p:panel header="Contato Detalhes">
+						<p:messages />
+						<h:panelGrid columns="2" columnClasses="label, value">
+						
+							<h:outputText value="Email: " />
+							<p:inputText value="#{mpWizardPacienteBean.mpPaciente.email}" />
+
+							<h:outputText value="Telefone: " />
+							<p:inputText value="#{mpWizardPacienteBean.mpPaciente.telefone}" />
+
+							<h:outputText value="Pule para o próximo: " />
+							<h:selectBooleanCheckbox value="#{mpWizardPacienteBean.skip}" />
+							
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="complemento" title="(3) - Complemento">
+					<p:panel header="Complemento Informação">
+						<p:messages />
+						<h:panelGrid columns="2" columnClasses="label, value">
+						
+							<h:outputText value="Cor:" />
+							<p:selectOneRadio id="mpCor" 
+											value="#{mpWizardPacienteBean.mpPaciente.mpCor}">
+	    						<f:selectItems value="#{mpWizardPacienteBean.mpCorList}"
+	 							var="mpCor" itemValue="#{mpCor}" itemLabel="#{mpCor.descricao}" />
+							</p:selectOneRadio>
+
+							<h:outputText value="Status: *" />
+							<p:selectOneMenu id="mpStatus" required="true" label="Status:"
+												value="#{mpWizardPacienteBean.mpPaciente.mpStatus}">
+								<f:selectItem itemLabel="Selecione o Status" />
+								<f:selectItems value="#{mpWizardPacienteBean.mpStatusList}"
+									var="mpStatus" itemValue="#{mpStatus}" itemLabel="#{mpStatus}" />
+							</p:selectOneMenu>
+
+							<h:outputText value="Observação: " />
+							<p:inputText value="#{mpWizardPacienteBean.mpPaciente.observacao}" />
+							
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="confirm" title="(Finaliza) - Confirmação">
+					<p:panel header="Confirmação">
+						<h:panelGrid id="confirmation" columns="3"
+															columnClasses="grid,grid,grid">
+															
+							<h:panelGrid columns="2" columnClasses="label, value">
+							
+								<h:outputText value="Nome: " style="color:blue;" />
+								<h:outputText value="#{mpWizardPacienteBean.mpPaciente.nome}"
+																		styleClass="outputLabel" />
+
+								<h:outputText value="Data Nascimento: " style="color:blue;" />
+								<h:outputText styleClass="outputLabel"
+										value="#{mpWizardPacienteBean.mpPaciente.dataNascimento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" 
+																	timeZone="America/Sao_Paulo" />
+								</h:outputText>
+								
+								<h:outputText value="Sexo: " style="color:blue;" />
+								<h:outputText styleClass="outputLabel" 
+										value="#{mpWizardPacienteBean.mpPaciente.mpSexo.descricao}" />
+									
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" columnClasses="label, value">
+							
+								<h:outputText value="Email: " style="color:blue;" />
+								<h:outputText value="#{mpWizardPacienteBean.mpPaciente.email}"
+																		styleClass="outputLabel" />
+
+								<h:outputText value="Telefone: " style="color:blue;" />
+								<h:outputText value="#{mpWizardPacienteBean.mpPaciente.telefone}"
+									styleClass="outputLabel" />
+
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" columnClasses="label, value">
+							
+								<h:outputText value="Cor: " style="color:blue;" />
+								<h:outputText styleClass="outputLabel" 
+									value="#{mpWizardPacienteBean.mpPaciente.mpCor.descricao}" />
+
+								<h:outputText value="Status: " style="color:blue;" />
+								<h:outputText styleClass="outputLabel" 
+									value="#{mpWizardPacienteBean.mpPaciente.mpStatus}" />
+
+								<h:outputText value="Observação: " style="color:blue;" />
+								<h:outputText value="#{mpWizardPacienteBean.mpPaciente.observacao}"
+																		styleClass="outputLabel" />
+
+								<h:outputText />
+								<h:outputText />
+								
+							</h:panelGrid>
+							
+						</h:panelGrid>
+
+						<p:commandButton value="Inclui Paciente" process="@this" update="growl" 
+												actionListener="#{mpWizardPacienteBean.save}" />
+					</p:panel>
+				</p:tab>
+			</p:wizard>
+			
+													</p:panelGrid>
+												</div>
+											</div>
+											<div class="Container5 Responsive100">
+												<div class="Container100">
+													<div class="ContainerIndent">
+													</div>
+												</div>
+											</div>
+										</div>
+									</p:panel>
+								</div>								
+							</p:tab>
+
+						</p:tabView>
+					  </div>
+					</div>
+				</p:panel>
+			</h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

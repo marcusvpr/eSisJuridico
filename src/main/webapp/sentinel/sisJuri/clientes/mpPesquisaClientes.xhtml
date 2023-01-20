@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Clientes</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile">
+							<p:commandButton value="Pesquisar" update="@form"
+												action="#{mpPesquisaClienteSJsBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpClienteSJsTable"
+									fileName="clienteSJs"
+									postProcessor="#{mpPesquisaClienteSJsBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 											href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="4" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<h:panelGroup id="pgNome">
+									<p:outputLabel value="Nome: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText placeholder="Nome"
+										value="#{mpPesquisaClienteSJsBean.mpFiltro.nome}" />
+								</h:panelGroup>
+								<h:panelGroup id="pgEmail">
+									<p:outputLabel value="E-mail: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText placeholder="E-mail"
+										value="#{mpPesquisaClienteSJsBean.mpFiltro.email}" />
+								</h:panelGroup>
+								<p:outputLabel />
+								<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpClienteSJsTable"
+							value="#{mpPesquisaClienteSJsBean.mpClienteSJsFiltrados}"
+							var="mpClienteSJ" selectionMode="single"
+							selection="#{mpPesquisaClienteSJsBean.mpClienteSJSelecionado}"
+							rowKey="#{mpClienteSJ.nome}" reflow="true" style="margin-top:20px"
+							emptyMessage="Nenhum Cliente encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Nome" sortBy="#{mpClienteSJ.nome}">
+								<h:outputText value="#{mpClienteSJ.nome}" />
+							</p:column>
+							<p:column headerText="Email" sortBy="#{mpClienteSJ.email}">
+								<h:outputText value="#{mpClienteSJ.email}" />
+							</p:column>
+							<p:column headerText="Telefone" priority="6">
+								<h:outputText value="#{mpClienteSJ.telefone}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/sisJuri/clientes/mpCadastroCliente"
+															icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpClienteSJ" value="#{mpClienteSJ.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

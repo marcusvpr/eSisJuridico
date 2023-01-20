@@ -1,0 +1,485 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpContato" value="#{mpCadastroContatoBean.mpContato}" />
+			<f:viewAction action="#{mpCadastroContatoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Contato #{mpCadastroContatoBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesContato.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+						<p:outputLabel value="Nome / Razão Social: "
+							rendered="#{mpLoginBean.scIndLabelCampo}" />
+						<p:inputText placeholder="Nome / Razão Social:"
+							styleClass="Container40 Fnone MarAuto Fs18"
+							required="#{mpCadastroContatoBean.indEditavel}"
+							validatorMessage="Informar Nome / Razão Social"
+							readonly="#{mpCadastroContatoBean.indEditavel}"
+							value="#{mpCadastroContatoBean.mpContato.nomeRazaoSocial}" />
+					</div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container90 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="2" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgTipoContato">
+														<div class="FontTitilliumRegular blue Fs20">Tipo Contato : </div>
+														<p:selectBooleanCheckbox id="chkTipoContato1" itemLabel="Cliente"
+															disabled="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.indCliente}" />
+														<p:selectBooleanCheckbox id="chkTipoContato2" itemLabel="Fornecedor"
+															disabled="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.indFornecedor}" />
+														<p:selectBooleanCheckbox id="chkTipoContato3" itemLabel="Transportador"
+															disabled="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.indTransportador}" />
+													</h:panelGroup>
+													<p:spacer />
+
+													<h:panelGroup id="pgCpfCnpj">
+														<p:outputLabel value="CPF / CNPJ: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="cpfCnpj" placeholder="CPF / CNPJ"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.cpfCnpj}" />
+														<p:tooltip id="toolTipCpfCnpj" for="cpfCnpj" value="CPF / CNPJ" />
+													</h:panelGroup>
+													<h:panelGroup id="pgNomeFantasia">
+														<p:outputLabel value="Nome Fantasia: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="nomeFantasia" placeholder="Nome Fantasia"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.nomeFantasia}" />
+														<p:tooltip id="toolTipNomeFantasia" for="nomeFantasia"
+															value="Nome Fantasia" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgNomeContato">
+														<p:outputLabel value="Nome Contato: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="nomeContato" placeholder="NomeContato"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.nomeContato}" />
+														<p:tooltip id="toolTipNomeContato" for="nomeContato" 
+															value="Nome Contato" />
+													</h:panelGroup>
+													<h:panelGroup id="pgTelefone">
+														<p:outputLabel value="Telefone: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="telefone" placeholder="Telefone"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.telefone}" />
+														<p:tooltip id="toolTipTelefone" for="telefone" value="Telefone" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgEmail">
+														<p:outputLabel value="E-mail(s): "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="email" placeholder="E-mail(s)"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.email}" />
+														<p:tooltip id="toolTipEmail" for="email" value="E-mail(s)" />
+													</h:panelGroup>
+													<p:spacer />
+													
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container10 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+						<p:tab title="Endereço" closable="false">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container90 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="4" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup>
+														<p:outputLabel value="Cep: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="cep" maxlength="9" mask="99999-999"
+															placeholder="CEP"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.mpEnderecoLocal.cep}" />
+														<p:tooltip for="cep" value="Cep" />
+														<p:commandButton icon="ui-icon-transferthick-e-w"
+															title="Pesquisar Cep WEB" process="@this cep"
+															disabled="#{mpCadastroContatoBean.indEditavel}"
+															update="logradouro cidade bairro mpEstadoUF"
+															action="#{mpCadastroContatoBean.onCepWebService}">
+														</p:commandButton>
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Logradouro(Rua): "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="logradouro" maxlength="150"
+															placeholder="Logradouro(Rua)"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.mpEnderecoLocal.logradouro}" />
+														<p:tooltip for="logradouro" value="Logradouro(Rua)" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Número: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="numero" maxlength="20"
+															placeholder="Número"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.mpEnderecoLocal.numero}" />
+														<p:tooltip for="numero" value="Número" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Complemento: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="complemento" maxlength="150"
+															placeholder="Complemento"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.mpEnderecoLocal.complemento}" />
+														<p:tooltip for="complemento" value="Complemento" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Cidade: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="cidade" maxlength="60"
+															placeholder="Cidade"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.mpEnderecoLocal.cidade}" />
+														<p:tooltip for="cidade" value="Cidade" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Bairro: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="bairro" maxlength="60"
+															placeholder="Bairro"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.mpEnderecoLocal.bairro}" />
+														<p:tooltip for="bairro" value="Bairro" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="Estado(UF): "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpEstadoUF"
+															disabled="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.mpEnderecoLocal.mpEstadoUF}">
+															<f:selectItem itemLabel="Selecione o Estado" />
+															<f:selectItems
+																value="#{mpCadastroContatoBean.mpEstadoUFList}"
+																var="mpEstadoUF" itemValue="#{mpEstadoUF}"
+																itemLabel="#{mpEstadoUF.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpEstadoUF" value="Estado(UF)" />
+													</h:panelGroup>
+
+													<p:outputLabel />
+													
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container10 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>													
+						</p:tab>
+
+						<p:tab title="Informações Adicionais">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container90 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgClienteFinal">
+														<p:outputLabel value="Cliente Final? " for="indClienteFinal" />
+        												<p:selectBooleanButton id="indClienteFinal"
+        													onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+        					 								offIcon="ui-icon-close" style="width:90px"
+															required="#{mpCadastroContatoBean.indEditavel}"
+															disabled="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.indClienteFinal}" />
+													</h:panelGroup>
+													<h:panelGroup id="pgMpIndicadorIE">
+														<p:outputLabel value="Indicador IE: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneRadio id="mpIndicadorIE" required="true"
+															styleClass="sem-bordas"
+															disabled="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.mpIndicadorIE}">
+															<f:selectItems value="#{mpCadastroContatoBean.mpIndicadorIEList}"
+																var="mpIndicadorIE" itemValue="#{mpIndicadorIE}"
+																itemLabel="#{mpIndicadorIE.descricao}" />
+														</p:selectOneRadio>
+														<p:tooltip for="mpIndicadorIE" value="IndicadorIE (Ex.: Contribuinte )" />
+													</h:panelGroup>
+													<h:panelGroup>
+														<p:outputLabel value="Inscrição Estadual: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="inscricaoEstadual" maxlength="60"
+															placeholder="Inscrição Estadual"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.inscricaoEstadual}" />
+														<p:tooltip for="inscricaoEstadual" value="Inscrição Estadual" />
+													</h:panelGroup>
+
+													<h:panelGroup>
+														<p:outputLabel value="IE Subst. Trib.: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="inscricaoEstadualSubstTrib" maxlength="60"
+															placeholder="IE Subst. Trib."
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.inscricaoEstadualSubstTrib}" />
+														<p:tooltip for="inscricaoEstadualSubstTrib" value="IE Subst. Trib." />
+													</h:panelGroup>
+													<h:panelGroup>
+														<p:outputLabel value="Inscrição Municipal: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="inscricaoMunicipal" maxlength="60"
+															placeholder="Inscrição Municipal"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.inscricaoMunicipal}" />
+														<p:tooltip for="inscricaoMunicipal" value="Inscrição Municipal" />
+													</h:panelGroup>
+													<h:panelGroup>
+														<p:outputLabel value="Suframa: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="suframa" maxlength="60"
+															placeholder="Suframa"
+															readonly="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.suframa}" />
+														<p:tooltip for="suframa" value="Suframa" />
+													</h:panelGroup>
+													
+													<h:panelGroup id="pgDataNascimento">
+														<p:outputLabel value="Dt.Nascimento: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataNascimento" placeholder="Dt.Nascim."
+															pattern="dd/MM/yyyy" mask="true"
+															disabled="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.dataNascimento}" />
+														<p:tooltip for="dataNascimento"
+															value="Data Nascimento (Ex.: 31/03/1971 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgMpSexo">
+														<p:outputLabel value="Sexo: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneRadio id="mpSexo" required="true"
+															styleClass="sem-bordas"
+															disabled="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.mpSexo}">
+															<f:selectItems value="#{mpCadastroContatoBean.mpSexoList}"
+																var="mpSexo" itemValue="#{mpSexo}"
+																itemLabel="#{mpSexo.descricao}" />
+														</p:selectOneRadio>
+														<p:tooltip for="mpSexo" value="Sexo (Ex.: Masculino )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgObservacao">
+														<p:outputLabel value="Observação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputTextarea id="observacao" placeholder="Observação"
+															readonly="#{mpCadastroContatoBean.indEditavel}" rows="2"
+															value="#{mpCadastroContatoBean.mpContato.observacao}" />
+														<p:tooltip id="toolTipObservacao" for="observacao" value="Observação" />
+													</h:panelGroup>
+													
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container10 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+						<p:tab title="Foto">
+							<p:messages id="messageFoto" autoUpdate="false"
+								showDetail="false" />
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+
+												<h:panelGroup id="arquivoBD">
+													<p:outputLabel style="font-size:16px; color:blue;"
+														value="#{mpCadastroContatoBean.mpContato.mpArquivoAcao.resultado}" />
+													<p:spacer width="5" />
+													<o:graphicImage dataURI="true" cache="false" width="200"
+														rendered="#{mpCadastroContatoBean.arquivoBytes == null ? false : true}"
+														value="#{mpCadastroContatoBean.arquivoBytes}" />
+												</h:panelGroup>
+
+											</div>
+										</div>
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent">
+													<p:panelGrid id="pGridFoto" columns="2"
+														styleClass="panelgrid-noborder" layout="grid"
+														columnClasses="ui-grid-col-2, ui-grid-col-10">
+
+														<p:outputLabel value="Ação" for="arquivoAcao"
+															style="font-size:14px; color:black;" />
+														<p:selectOneRadio id="arquivoAcao"
+															disabled="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpArquivoAcao}"
+															valueChangeListener="#{mpCadastroContatoBean.arquivoAcaoSelecionado}">
+															<f:selectItems
+																value="#{mpCadastroContatoBean.mpArquivoAcaoList}"
+																var="mpArquivoAcao" itemValue="#{mpArquivoAcao}"
+																itemLabel="#{mpArquivoAcao.descricao}" />
+															<f:ajax execute="@all" render="@all" />
+														</p:selectOneRadio>
+
+														<p:outputLabel value="Associar" for="associaFoto"
+															rendered="#{mpCadastroContatoBean.arquivoAcaoSelecao == 'Associar'}" />
+														<p:selectOneMenu id="associaFoto"
+															disabled="#{mpCadastroContatoBean.indEditavel}"
+															value="#{mpCadastroContatoBean.mpContato.mpArquivoBD}"
+															rendered="#{mpCadastroContatoBean.arquivoAcaoSelecao == 'Associar'}">
+															<f:selectItem itemLabel="Selecione a Arquivo" />
+															<f:selectItems
+																value="#{mpCadastroContatoBean.mpArquivoBDList}"
+																var="mpArquivoBD" itemValue="#{mpArquivoBD}"
+																itemLabel="#{mpArquivoBD.descricao}" />
+															<p:ajax event="change" process="@this"
+																update="frm:tabViewC:arquivoBD"
+																listener="#{mpCadastroContatoBean.associaMpArquivoBD}"
+																ignoreAutoUpdate="true" />
+														</p:selectOneMenu>
+
+													</p:panelGrid>
+
+													<h:panelGroup id="carregaImagem"
+														rendered="#{mpCadastroContatoBean.arquivoAcaoSelecao == 'Carregar'}">
+														<p:fileUpload label="Selecionar..."
+															disabled="#{mpCadastroContatoBean.indEditavel}"
+															update="frm:tabViewC:messageFoto frm:tabViewC:arquivoBD"
+															fileUploadListener="#{mpCadastroContatoBean.handleFileUpload}"
+															auto="true" mode="advanced" dragDropSupport="true"
+															sizeLimit="5000000"
+															allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+													</h:panelGroup>
+
+													<p:commandButton value="Proceder Captura"
+														icon="fa fa-camera Fs14 white"
+														rendered="#{mpCadastroContatoBean.arquivoAcaoSelecao == 'Capturar'}"
+														oncomplete="PF('capturaDialog').show()" process="@this">
+													</p:commandButton>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+				</p:panel>
+			</h:form>
+		</div>
+	
+		<div class="ContainerIndent">
+			<p:dialog widgetVar="capturaDialog" id="capturaDialogId" modal="true"
+				header="Captura Foto" showEffect="fade" hideEffect="fade"
+				resizable="false" responsive="true"
+				rendered="#{mpCadastroContatoBean.arquivoAcaoSelecao == 'Capturar'}">
+				<h:form id="frmCapturaDialog">
+					<h:panelGrid columns="3" cellpadding="5">
+						<p:photoCam widgetVar="pc" width="250"
+							listener="#{mpCadastroContatoBean.aoCapturarArquivo}"
+							update="photoDialog frm:tabViewC:arquivoBD" />
+						<p:commandButton type="button" value="Capturar" icon="fa fa-camera Fs14 white"
+							onclick="PF('pc').capture()" />
+						<p:outputPanel id="photoDialog">
+							<o:graphicImage dataURI="true" cache="false" width="250"
+								rendered="#{mpCadastroContatoBean.arquivoBytesC == null ? false : true}"
+								value="#{mpCadastroContatoBean.arquivoBytesC}" />
+						</p:outputPanel>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpContatoDialog" id="helpContatoDialogId" modal="true"
+					header="HELP - Contato" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpContatoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+													
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpDescircao" readonly="true"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+		
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div class="ContainerIndent">
+		<div class="Container100">
+			<span class="DispInlBlock Fleft FloatNoneOnMobile"> 
+				<p:toolbar>
+					<p:toolbarGroup>
+
+						<p:commandButton title="Novo registro"
+							icon="fa fa-plus Fs14 white"
+							action="#{mpCadastroPessoaERBean.mpNew}" process="@this"
+							update="@form" rendered="#{mpCadastroPessoaERBean.indEditavel}" />
+						<p:commandButton title="Edita registro"
+							icon="fa fa-edit Fs14 white"
+							action="#{mpCadastroPessoaERBean.mpEdit}" process="@this"
+							update="@form" rendered="#{mpCadastroPessoaERBean.indEditavel}" />
+						<p:commandButton title="Exclui registro"
+							icon="fa fa-trash Fs14 white"
+							oncomplete="PF('confirmacaoExclusaoR').show()"
+							rendered="#{mpCadastroPessoaERBean.indEditavel}" process="@this"
+							update=":frm:confirmacaoExclusaoDialogR" />
+
+						<h:panelGroup rendered="#{mpCadastroPessoaERBean.indEditavelNav}">
+							<span class="ui-separator">
+								<span class="fa fa-ellipsis-v leaden" />
+							</span>
+							<p:commandButton title="Registro Inicial" update="@form"
+								icon="fa fa-fast-backward Fs10 black"
+								action="#{mpCadastroPessoaERBean.mpFirst}" process="@this" />
+							<p:commandButton title="Registro Anterior" update="@form"
+								icon="fa fa-backward Fs10 black"
+								action="#{mpCadastroPessoaERBean.mpPrev}" process="@this" />
+						</h:panelGroup>
+
+						<p:commandButton title="Gravar registro"
+							icon="fa fa-save Fs14 yellow"
+							action="#{mpCadastroPessoaERBean.mpGrava}" process="@form"
+							update="@form" rendered="#{mpCadastroPessoaERBean.indNaoEditavel}" />
+						<p:commandButton title="Desfaz registro"
+							icon="fa fa-undo Fs14 yellow"
+							action="#{mpCadastroPessoaERBean.mpDesfaz}" process="@this"
+							update="@form" rendered="#{mpCadastroPessoaERBean.indNaoEditavel}" />
+
+						<h:panelGroup rendered="#{mpCadastroPessoaERBean.indEditavelNav}">
+							<p:commandButton title="Registro Próximo" update="@form"
+								icon="fa fa-forward Fs10 black"
+								action="#{mpCadastroPessoaERBean.mpNext}" process="@this" />
+							<p:commandButton title="Registro Final" update="@form"
+								icon="fa fa-fast-forward Fs10 black"
+								action="#{mpCadastroPessoaERBean.mpEnd}" process="@this" />
+							<span class="ui-separator"> 
+								<span class="fa fa-ellipsis-v leaden" />
+							</span>
+						</h:panelGroup>
+
+						<p:commandButton title="Registro Clona"
+							icon="fa fa-copy Fs14 white"
+							action="#{mpCadastroPessoaERBean.mpClone}" process="@this"
+							update="@form" rendered="#{mpCadastroPessoaERBean.indEditavel}" />
+
+						<p:button title="Registro Pesquisa..."
+							icon="fa fa-search Fs14 white"
+							rendered="#{mpCadastroPessoaERBean.indEditavel}"
+							outcome="/sentinel/engReqs/pessoas/mpPesquisaPessoas" />
+
+						<p:confirmDialog header="Exclusão da Pessoa" responsive="true"
+						global="true" showEffect="fade" hideEffect="fade" message=
+						"Deseja excluir a Pessoa #{mpCadastroPessoaERBean.mpPessoaER.nome}?"
+						widgetVar="confirmacaoExclusaoR" id="confirmacaoExclusaoDialogR">
+							<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+							 			icon="ui-icon-close fa fa-close Fs14 white"
+										onclick="PF('confirmacaoExclusaoR').hide(); return false;" />
+							<p:commandButton value="Sim" update=":frm" id="yesButtonR"
+								oncomplete="PF('confirmacaoExclusaoR').hide();"
+								action="#{mpCadastroPessoaERBean.mpDelete}" process="@this"
+								styleClass="ui-confirmdialog-yes"
+								icon="ui-icon-check fa fa-check Fs14 white" />
+						</p:confirmDialog>
+
+					</p:toolbarGroup>
+				</p:toolbar>
+
+			</span> 
+			<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="/dashboardRS" />
+					</p:toolbarGroup>
+				</p:toolbar>
+			</span>
+		</div>
+	</div>
+
+</ui:composition>

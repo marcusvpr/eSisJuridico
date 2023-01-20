@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Categoria</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile">
+						 	<p:commandButton value="Pesquisar" update="@form"
+								action="#{mpPesquisaCategoriasBeanX.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpCategoriasTable"
+									fileName="categorias"
+									postProcessor="#{mpPesquisaCategoriasBeanX.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="5" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<h:panelGroup id="pgTipo">
+									<p:outputLabel value="Tipo: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+	    							<p:inputText id="tipo" placeholder="Tipo" 
+	    								value="#{mpPesquisaCategoriasBeanX.mpFiltro.tipo}" />
+									<p:tooltip for="tipo" value="Tipo (Ex.: Higiene )" />
+								</h:panelGroup>
+								<h:panelGroup id="pgDescricao">
+									<p:outputLabel value="Descrição: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+	    							<p:inputText id="descricao" placeholder="Descrição" 
+	    								value="#{mpPesquisaCategoriasBeanX.mpFiltro.descricao}" />
+									<p:tooltip for="descricao" 
+														value="Descrição (Ex.: Higiene Corporal )" />
+								</h:panelGroup>
+	    						<p:outputLabel />
+	    						<p:outputLabel />
+	    						<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpCategoriasTable"
+							value="#{mpPesquisaCategoriasBeanX.mpCategoriasFiltrados}"
+							var="mpCategoria" selectionMode="single"
+							selection="#{mpPesquisaCategoriasBeanX.mpCategoriaSelecionado}"
+							rowKey="#{mpCategoria.id}" reflow="true"
+							style="margin-top:20px"
+							emptyMessage="Nenhum Categoria encontrada." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Tipo Produto" 
+													sortBy="#{mpCategoria.mpTipoProduto.descricao}">
+								<h:outputText value="#{mpCategoria.mpTipoProduto.descricao}" />
+							</p:column>
+							<p:column headerText="Descrição" sortBy="#{mpCategoria.descricao}">
+								<h:outputText value="#{mpCategoria.descricao}" />
+							</p:column>
+							<p:column headerText="Categoria Pai" 
+													sortBy="#{mpCategoria.mpCategoriaPai.descricao}">
+								<h:outputText value="#{mpCategoria.mpCategoriaPai.descricao}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/categorias/mpCadastroCategoria"
+									rendered="#{mpCategoria.mpCategoriaPai == null ? false : true}"
+									icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpCategoria"
+											 			value="#{mpCategoria.mpCategoriaPai.id}" />
+								</p:button>
+								<p:button outcome="/sentinel/categorias/mpCadastroCategoria"
+									rendered="#{mpCategoria.mpCategoriaPai == null ? true : false}"
+									icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpCategoria"
+											 			value="#{mpCategoria.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+	
+	<ui:define name="content">
+		<div class="ContainerIndent">
+		
+			<div class="ContainerIndent">
+				<div class="Container100">
+					<span class="DispInlBlock Fright FloatNoneOnMobile"> <p:button
+							title="Sair" icon="fa fa-close Fs14 yellow" href="./dashboardRS" />
+					</span>
+				</div>
+			</div>
+
+			<div class="ContainerIndent">
+				<h:form id="frm">
+					<h2 class="aw-page-title">Relatório Processos</h2>
+
+					<p:messages autoUpdate="true" closable="true" />
+
+					<p:panelGrid columns="8" layout="grid"
+						style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+						
+						<p:outputLabel value="Data Inicial: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+						<p:calendar id="dataInicial" placeholder="Data Inicial" mask="true" size="10"
+												pattern="dd/MM/yyyy" showOn="button"
+												value="#{mpRelatorioProcessosBean.dataInicio}" />
+						<p:outputLabel value="Data Final: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+						<p:calendar id="dataFinal" placeholder="Data Final" mask="true" size="10"
+												pattern="dd/MM/yyyy" showOn="button"
+												value="#{mpRelatorioProcessosBean.dataFim}" />
+						<p:outputLabel value="Responsavel: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+						<p:inputText id="responsavel" placeholder="Responsável"
+												value="#{mpRelatorioProcessosBean.responsavel}" />
+						<p:outputLabel value="Ind.Andamento : " for="indAndamento" />
+        				<p:selectBooleanButton id="indAndamento"
+   												onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+        										offIcon="ui-icon-close" style="width:90px"
+												value="#{mpRelatorioProcessosBean.indAndamento}" />
+
+						<p:outputLabel />
+						<p:selectOneRadio id="tipoArquivo" value="#{mpRelatorioProcessosBean.tipoArquivo}">
+            				<f:selectItem itemLabel="XLS" itemValue="XLS" />
+            				<f:selectItem itemLabel="PDF" itemValue="PDF" />
+        				</p:selectOneRadio>
+						<p:outputLabel />
+						<p:outputLabel />
+						<p:commandButton value="Emitir Relatório" icon="ui-icon-search" ajax="false"
+								 				action="#{mpRelatorioProcessosBean.emitir}" />								 
+						<p:outputLabel />
+						<p:outputLabel />
+						<p:outputLabel />
+						
+					</p:panelGrid>
+
+				</h:form>
+			</div>
+
+		</div>
+	</ui:define>
+
+</ui:composition>

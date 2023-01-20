@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Observação</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaObservacaosBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpObservacaosTable"
+								fileName="Observacaos"
+								postProcessor="#{mpPesquisaObservacaosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="4" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<h:panelGroup>
+									<p:outputLabel value="Tipo Observação: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText placeholder="Tipo Observação"
+										value="#{mpPesquisaObservacaosBean.mpFiltro.tipoObservacao}" />
+								</h:panelGroup>
+
+								<h:panelGroup>
+									<p:outputLabel value="Descrição Observação: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText placeholder="Descrição Observação"
+										value="#{mpPesquisaObservacaosBean.mpFiltro.descricaoObservacao}" />							
+								</h:panelGroup>
+									
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpObservacaosTable"
+							value="#{mpPesquisaObservacaosBean.mpObservacaosFiltrados}"
+							var="mpObservacao" selectionMode="single"
+							selection="#{mpPesquisaObservacaosBean.mpObservacaoSelecionado}"
+							rowKey="#{mpObservacao.tipoObservacao}" 
+							reflow="true" style="margin-top:20px"
+							emptyMessage="Nenhuma Observação encontrada." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Tipo Observação" sortBy="#{mpObservacao.tipoObservacao}">
+								<h:outputText value="#{mpObservacao.tipoObservacao}" />
+							</p:column>
+							
+							<p:column headerText="Descrição Observação" sortBy="#{mpObservacao.descricaoObservacao}">
+								<h:outputText value="#{mpObservacao.descricaoObservacao}" />
+							</p:column>
+							
+							<p:column style="text-align:center">
+								<p:button outcome=
+								"/sentinel/cartorios/observacaos/mpCadastroObservacao"
+														icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpObservacao" value="#{mpObservacao.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

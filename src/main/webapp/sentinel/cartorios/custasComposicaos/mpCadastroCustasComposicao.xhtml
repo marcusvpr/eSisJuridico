@@ -1,0 +1,250 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpCustasComposicao"
+				value="#{mpCadastroCustasComposicaoBean.mpCustasComposicao}" />
+			<f:viewAction action="#{mpCadastroCustasComposicaoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Custas Composição #{mpCadastroCustasComposicaoBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include
+						src="/WEB-INF/template/sentinel/cartorios/mpBotoesCustasComposicao.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+					</div>
+					
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgTabela">
+														<p:outputLabel value="Tabela:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="tabela" maxlength="4"
+															required="#{mpCadastroCustasComposicaoBean.indEditavel}"
+															validatorMessage="Informar Tabela" placeholder="Tabela"
+															readonly="#{mpCadastroCustasComposicaoBean.indEditavel}"
+															value="#{mpCadastroCustasComposicaoBean.mpCustasComposicao.tabela}">
+															<p:ajax event="change" process="@this" update=":frm"
+																ignoreAutoUpdate="true"
+																listener="#{mpCadastroCustasComposicaoBean.trataVisivel}" />
+														</p:inputMask>
+														<p:tooltip for="tabela" value="Tabela" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgItem">
+														<p:outputLabel value="Item:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="item" maxlength="4"
+															required="#{mpCadastroCustasComposicaoBean.indEditavel}"
+															validatorMessage="Informar Item" placeholder="Item"
+															readonly="#{mpCadastroCustasComposicaoBean.indEditavel}"
+															value="#{mpCadastroCustasComposicaoBean.mpCustasComposicao.item}" />
+														<p:tooltip for="item" value="Item" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgSubItem">
+														<p:outputLabel value="SubItem:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="subItem" maxlength="4"
+															required="#{mpCadastroCustasComposicaoBean.indEditavel}"
+															validatorMessage="Informar SubItem" placeholder="SubItem"
+															readonly="#{mpCadastroCustasComposicaoBean.indEditavel}"
+															value="#{mpCadastroCustasComposicaoBean.mpCustasComposicao.subItem}" />
+														<p:tooltip for="subItem" value="Sub.Item" />
+													</h:panelGroup>
+												</p:panelGrid>
+
+												<p:panelGrid columns="2" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgDescricao">
+														<p:outputLabel value="Descrição:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputTextarea id="descricao" maxlength="35"
+															style="text-transform: uppercase" rows="3"
+															validatorMessage="Informar Descrição" placeholder="Descrição"
+															readonly="#{mpCadastroCustasComposicaoBean.indEditavel}"
+															value="#{mpCadastroCustasComposicaoBean.mpCustasComposicao.descricaoTabela}" />
+														<p:tooltip for="descricao" value="Descrição" />
+													</h:panelGroup>
+
+													<p:outputLabel />
+												</p:panelGrid>
+
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgVCusta">
+														<p:outputLabel value="Valor Custa:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="valorCusta" maxlength="10" styleClass="moeda"
+															validatorMessage="Informar Valor Custa" placeholder="Valor Custa"
+															readonly="#{mpCadastroCustasComposicaoBean.indEditavel}"
+															value="#{mpCadastroCustasComposicaoBean.mpCustasComposicao.valorCusta}">
+															<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+														</p:inputText>
+														<p:tooltip for="valorCusta" value="Valor Custa" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgDe"
+														rendered="#{mpCadastroCustasComposicaoBean.indVisivel}">
+														<p:outputLabel value="Valor De:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="de" maxlength="10" styleClass="moeda"
+															value="#{mpCadastroCustasComposicaoBean.mpCustasComposicao.valorDe}"
+															readonly="#{mpCadastroCustasComposicaoBean.indEditavel}">
+															<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+														</p:inputText>
+														<p:tooltip for="de" value="Valor De" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgAte"
+														rendered="#{mpCadastroCustasComposicaoBean.indVisivel}">
+														<p:outputLabel value="Valor Até:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="ate" maxlength="10" styleClass="moeda"
+															value="#{mpCadastroCustasComposicaoBean.mpCustasComposicao.valorAte}"
+															readonly="#{mpCadastroCustasComposicaoBean.indEditavel}">
+															<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+														</p:inputText>
+														<p:tooltip for="ate" value="Valor Até" />
+													</h:panelGroup>
+
+													<h:panelGroup
+														rendered="#{!mpCadastroCustasComposicaoBean.indVisivel}">
+														<p:outputLabel />
+													</h:panelGroup>
+													<h:panelGroup
+														rendered="#{!mpCadastroCustasComposicaoBean.indVisivel}">
+														<p:outputLabel />
+													</h:panelGroup>
+												</p:panelGrid>
+
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgCodAto"
+														rendered="#{mpCadastroCustasComposicaoBean.indVisivel}">
+														<p:outputLabel value="Código Ato:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="codigoAto" mask="9999" placeholder="Ato"
+															readonly="#{mpCadastroCustasComposicaoBean.indEditavel}"
+															value="#{mpCadastroCustasComposicaoBean.mpCustasComposicao.codigoAto}" />
+														<p:tooltip for="codigoAto" value="Código Ato" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgCodAtoConv"
+														rendered="#{mpCadastroCustasComposicaoBean.indVisivel}">
+														<p:outputLabel value="Código Ato Convênio:"
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="codigoAtoConvenio" mask="9999"
+															placeholder="Ato Convênio"
+															readonly="#{mpCadastroCustasComposicaoBean.indEditavel}"
+															value="#{mpCadastroCustasComposicaoBean.mpCustasComposicao.codigoAtoConvenio}" />
+														<p:tooltip for="codigoAtoConvenio" value="Código Ato Convênio" />
+													</h:panelGroup>
+
+													<p:outputLabel
+														rendered="#{mpCadastroCustasComposicaoBean.indVisivel}" />
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+
+							</div>
+						</p:tab>
+
+					</p:tabView>
+				</p:panel>
+			</h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpCustasComposicaoDialog" id="helpCustasComposicaoDialogId" modal="true"
+					header="HELP - CustasComposicao" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpCustasComposicaoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCadastroCustasComposicaoBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroCustasComposicaoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCadastroCustasComposicaoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroCustasComposicaoBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCadastroCustasComposicaoBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCadastroCustasComposicaoBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,437 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpReceita" value="#{mpCadastroReceitaBeanX.mpReceita}" />
+			<f:viewAction action="#{mpCadastroReceitaBeanX.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Receita #{mpCadastroReceitaBeanX.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesReceita.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+						<h:panelGroup id="pgPaciente">
+							<p:outputLabel value="Nome: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:selectOneMenu id="paciente"
+								styleClass="Container40 Fnone MarAuto Fs16"
+								required="#{mpCadastroReceitaBeanX.indEditavel}"
+								validatorMessage="Informar Paciente"
+								disabled="#{mpCadastroReceitaBeanX.indEditavel}"
+								value="#{mpCadastroReceitaBeanX.mpReceita.mpPaciente}">
+								<f:selectItem itemLabel="Selecione o Paciente" />
+								<f:selectItems value="#{mpCadastroReceitaBeanX.mpPacienteList}"
+									var="mpPaciente" itemLabel="#{mpPaciente.nome}"
+									itemValue="#{mpPaciente}" />
+							</p:selectOneMenu>
+							<p:tooltip for="paciente" value="Nome Paciente (Ex.: Fulano da Silva)" />
+						</h:panelGroup>
+					</div>
+
+					<p:tabView id="tabViewR">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container90 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="2" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgData">
+														<p:outputLabel value="Data: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="data" pattern="dd/MM/yyyy"
+															placeholder="Data"
+															readonly="#{mpCadastroReceitaBeanX.indEditavel}"
+															value="#{mpCadastroReceitaBeanX.mpReceita.dataReceita}" />
+														<p:tooltip for="data" value="Data (Ex.: 31/12/1961)" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgDescricao">
+														<p:outputLabel value="Descrição: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="descricao" placeholder="Descrição"
+															readonly="#{mpCadastroReceitaBeanX.indEditavel}"
+															value="#{mpCadastroReceitaBeanX.mpReceita.descricao}" />
+														<p:tooltip for="descricao" value="Descrição (Ex;: Tratamento Pressão Alta)" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgProfissional">
+														<p:outputLabel value="Profissional: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="profissional"
+															disabled="#{mpCadastroReceitaBeanX.indEditavel}"
+															value="#{mpCadastroReceitaBeanX.mpReceita.mpPessoa}">
+															<f:selectItem itemLabel="Selecione o profissional" />
+															<f:selectItems
+																value="#{mpCadastroReceitaBeanX.mpPessoaList}"
+																var="mpPessoa" itemLabel="#{mpPessoa.nome}"
+																itemValue="#{mpPessoa}" />
+														</p:selectOneMenu>
+														<p:tooltip for="profissional" value="Profissional (Ex;: Dr.Fulano da Silva)" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgObs">
+														<p:outputLabel value="Observação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="obs" placeholder="Observação"
+															disabled="#{mpCadastroReceitaBeanX.indEditavel}"
+															value="#{mpCadastroReceitaBeanX.mpReceita.obs}" />	
+														<p:tooltip for="obs" value="Observação" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container10 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+
+							</div>
+						</p:tab>
+
+						<p:tab title="Item Receita" closable="false">
+							<p:commandButton value="Novo Item Receita"
+								icon="fa fa-plus Fs14 white"
+								action="#{mpCadastroReceitaBeanX.adicionarMpItemReceitaX}"
+								disabled="#{mpCadastroReceitaBeanX.indEditavel}"
+								oncomplete="PF('novoItemReceitaDialog').show()" process="@this"
+								update="frmProd:novoItemReceitaDialogId">
+								<p:resetInput target="frmProd:novoItemReceitaDialogId" />
+							</p:commandButton>
+
+							<p:dataTable id="itemReceitasTable"
+								value="#{mpCadastroReceitaBeanX.mpReceita.mpItemReceitas}"
+								emptyMessage="Nenhum item da receita adicionado."
+								var="itemReceita" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Produto">
+									<h:outputText value="#{itemReceita.mpProduto.nome}">
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Quantidade">
+									<h:outputText value="#{itemReceita.quantidade}">
+	    								<f:convertNumber type="currency" pattern="#,##0.000"/>
+	    							</h:outputText>
+								</p:column>
+								<p:column headerText="Dosagem">
+									<h:outputText value="#{itemReceita.dosagem}" />
+								</p:column>
+								<p:column headerText="Valor">
+									<h:outputText value="#{itemReceita.valorUnitario}">
+	    								<f:convertNumber type="currency" pattern="###,##0.00"/>
+	    							</h:outputText>
+								</p:column>
+								<p:column headerText="Observação">
+									<h:outputText value="#{itemReceita.observacao}" />
+								</p:column>
+
+								<p:column style="text-align:center">
+									<p:commandButton title="Alterar" icon="fa fa-edit Fs14 white"
+										oncomplete="PF('novoItemReceitaDialog').show()"
+										action="#{mpCadastroReceitaBeanX.alterarMpItemReceita}"
+										disabled="#{mpCadastroReceitaBeanX.indEditavel}"
+										process="@this" update="frmProd:novoItemReceitaDialogId">
+										<f:setPropertyActionListener value="#{itemReceita}"
+											target="#{mpCadastroReceitaBeanX.mpItemReceita}" />
+									</p:commandButton>
+
+									<p:commandButton title="Excluir" icon="fa fa-trash Fs14 white"
+										oncomplete="PF('confirmacaoExclusaoProdDialog').show()"
+										disabled="#{mpCadastroReceitaBeanX.indEditavel}"
+										process="@this" update=":frm:confirmacaoExclusaoProdDialog">
+										<f:setPropertyActionListener value="#{itemReceita}"
+											target="#{mpCadastroReceitaBeanX.mpItemReceita}" />
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="Foto/Arquivo">
+							<p:messages id="messageFoto" autoUpdate="false"
+								showDetail="false" />
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+
+												<h:panelGroup id="arquivoBD">
+													<p:outputLabel style="font-size:16px; color:blue;"
+														value="#{mpCadastroReceitaBeanX.mpReceita.mpArquivoAcao.resultado}" />
+													<p:spacer width="5" />
+													<o:graphicImage dataURI="true" cache="false" width="200"
+														rendered="#{mpCadastroReceitaBeanX.arquivoBytes == null ? false : true}"
+														value="#{mpCadastroReceitaBeanX.arquivoBytes}" />
+												</h:panelGroup>
+
+											</div>
+										</div>
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent">
+													<p:panelGrid id="pGridFoto" columns="2"
+														styleClass="panelgrid-noborder" layout="grid"
+														columnClasses="ui-grid-col-2, ui-grid-col-10">
+
+														<p:outputLabel value="Ação" for="arquivoAcao"
+															style="font-size:14px; color:black;" />
+														<p:selectOneRadio id="arquivoAcao"
+															disabled="#{mpCadastroReceitaBeanX.indEditavel}"
+															value="#{mpCadastroReceitaBeanX.mpArquivoAcao}"
+															valueChangeListener="#{mpCadastroReceitaBeanX.arquivoAcaoSelecionado}">
+															<f:selectItems
+																value="#{mpCadastroReceitaBeanX.mpArquivoAcaoList}"
+																var="mpArquivoAcao" itemValue="#{mpArquivoAcao}"
+																itemLabel="#{mpArquivoAcao.descricao}" />
+															<f:ajax execute="@all" render="@all" />
+														</p:selectOneRadio>
+
+														<p:outputLabel value="Associar" for="associaFoto"
+															rendered="#{mpCadastroReceitaBeanX.arquivoAcaoSelecao == 'Associar'}" />
+														<p:selectOneMenu id="associaFoto"
+															disabled="#{mpCadastroReceitaBeanX.indEditavel}"
+															value="#{mpCadastroReceitaBeanX.mpReceita.mpArquivoBD}"
+															rendered="#{mpCadastroReceitaBeanX.arquivoAcaoSelecao == 'Associar'}">
+															<f:selectItem itemLabel="Selecione a Arquivo" />
+															<f:selectItems
+																value="#{mpCadastroReceitaBeanX.mpArquivoBDList}"
+																var="mpArquivoBD" itemValue="#{mpArquivoBD}"
+																itemLabel="#{mpArquivoBD.descricao}" />
+															<p:ajax event="change" process="@this"
+																update="frm:tabViewR:arquivoBD"
+																listener="#{mpCadastroReceitaBeanX.associaMpArquivoBD}"
+																ignoreAutoUpdate="true" />
+														</p:selectOneMenu>
+
+													</p:panelGrid>
+
+													<h:panelGroup id="carregaImagem"
+														rendered="#{mpCadastroReceitaBeanX.arquivoAcaoSelecao == 'Carregar'}">
+														<p:fileUpload label="Selecionar..."
+															disabled="#{mpCadastroReceitaBeanX.indEditavel}"
+															update="frm:tabViewR:messageFoto frm:tabViewR:arquivoBD"
+															fileUploadListener="#{mpCadastroReceitaBeanX.handleFileUpload}"
+															auto="true" mode="advanced" dragDropSupport="true"
+															sizeLimit="5000000"
+															allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+													</h:panelGroup>
+
+													<p:commandButton value="Proceder Captura"
+														icon="fa fa-camera Fs14 white"
+														rendered="#{mpCadastroReceitaBeanX.arquivoAcaoSelecao == 'Capturar'}"
+														oncomplete="PF('capturaDialog').show()" process="@this">
+													</p:commandButton>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+					<p:confirmDialog header="Exclusão Item Receita" message=
+	"Tem certeza que deseja excluir o ItemReceita = ( #{mpCadastroReceitaBeanX.mpItemReceita.mpProduto.nome} )?"
+						widgetVar="confirmacaoExclusaoProdDialog"
+						id="confirmacaoExclusaoProdDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoProdDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoDepDialog').hide();"
+							action="#{mpCadastroReceitaBeanX.removerMpItemReceitaX}"
+							process="@this" update=":frm:tabViewR:itemReceitasTable" />
+					</p:confirmDialog>
+
+				</p:panel>
+			</h:form>
+		</div>
+		
+        <div class="ContainerIndent">
+		  <h:form id="frmProd">
+			<p:dialog widgetVar="novoItemReceitaDialog" id="novoItemReceitaDialogId" closable="false"
+				header="#{mpCadastroReceitaBeanX.txtModoItemReceitaDialog} ItemReceita" 
+			 	showEffect="fade" hideEffect="fade" resizable="false" responsive="true" modal="true">
+
+				<h:panelGroup id="novoItemReceitaPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+													
+						<h:panelGroup id="pgItProd">
+							<p:outputLabel value="Produto: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:selectOneMenu id="itProduto"
+								required="true" validatorMessage="Informar Produto"
+						 		value="#{mpCadastroReceitaBeanX.mpItemReceita.mpProduto}">
+								<f:selectItem itemLabel="Selecione o produto" />
+								<f:selectItems value="#{mpCadastroReceitaBeanX.mpProdutoList}" 
+										var="mpProduto" itemLabel="#{mpProduto.nome}"
+										itemValue="#{mpProduto}" />
+							</p:selectOneMenu>
+							<p:tooltip for="itProduto" value="Produto (Ex.: Dorflex )" />
+						</h:panelGroup>
+
+						<h:panelGroup id="pgItQtd">
+							<p:outputLabel value="Quantidade: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="itQuantidade" placeholder="Quantidade"
+								required="true" validatorMessage="Informar Quantidade"
+								value="#{mpCadastroReceitaBeanX.mpItemReceita.quantidade}">
+								<f:convertNumber  maxFractionDigits="2" minFractionDigits="2" />
+							</p:inputText>
+							<p:tooltip for="itQuantidade" value="Quantidade (Ex.: 1,5 )" />
+						</h:panelGroup>
+										
+						<h:panelGroup id="pgItDosagem">
+							<p:outputLabel value="Dosagem: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="itDosagem" placeholder="Dosagem" 
+								required="true" validatorMessage="Informar Dosagem"
+								value="#{mpCadastroReceitaBeanX.mpItemReceita.dosagem}" />
+							<p:tooltip for="itDosagem" value="Dosagem" />
+						</h:panelGroup>
+
+						<h:panelGroup id="pgItValor">
+							<p:outputLabel value="Valor: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="itValor" placeholder="Valor"
+								required="true" validatorMessage="Informar Valor"
+								value="#{mpCadastroReceitaBeanX.mpItemReceita.valorUnitario}">
+								<f:convertNumber  maxFractionDigits="10" minFractionDigits="2" />
+							</p:inputText>
+							<p:tooltip for="itValor" value="Valor (Ex.: R$ 31,03 )" />
+						</h:panelGroup>
+										
+						<h:panelGroup id="pgItObs">
+							<p:outputLabel value="Observação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="itObs" placeholder="Observação" 
+								value="#{mpCadastroReceitaBeanX.mpItemReceita.observacao}" />
+							<p:tooltip for="itObs" value="Observação" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:commandButton value="Salvar" process="novoItemReceitaDialogId"
+								update=":frm:tabViewR:itemReceitasTable novoItemReceitaPanel"
+								action="#{mpCadastroReceitaBeanX.salvarMpItemReceita}"
+								oncomplete="if (!args.validationFailed) PF('novoItemReceitaDialog').hide()">
+								<p:collector value="#{mpCadastroReceitaBeanX.mpItemReceita}"
+										addTo="#{mpCadastroReceitaBeanX.mpReceita.mpItemReceitas}" />
+							</p:commandButton>
+							<p:commandButton value="Fechar" process="@this"
+									update=":frm:tabViewR:itemReceitasTable"
+									action="#{mpCadastroReceitaBeanX.fecharMpItemReceita}"
+									oncomplete="if (!args.validationFailed) PF('novoItemReceitaDialog').hide()">
+							</p:commandButton>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+		<div class="ContainerIndent">
+			<p:dialog widgetVar="capturaDialog" id="capturaDialogId" modal="true"
+				header="Captura Foto" showEffect="fade" hideEffect="fade"
+				resizable="false" responsive="true"
+				rendered="#{mpCadastroReceitaBeanX.arquivoAcaoSelecao == 'Capturar'}">
+				<h:form id="frmCapturaDialog">
+					<h:panelGrid columns="3" cellpadding="5">
+						<p:photoCam widgetVar="pc" width="250"
+							listener="#{mpCadastroReceitaBeanX.aoCapturarArquivo}"
+							update="photoDialog frm:tabViewR:arquivoBD" />
+						<p:commandButton type="button" value="Capturar" icon="fa fa-camera Fs14 white"
+							onclick="PF('pc').capture()" />
+						<p:outputPanel id="photoDialog">
+							<o:graphicImage dataURI="true" cache="false" width="250"
+								rendered="#{mpCadastroReceitaBeanX.arquivoBytesC == null ? false : true}"
+								value="#{mpCadastroReceitaBeanX.arquivoBytesC}" />
+						</p:outputPanel>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpReceitaDialog" id="helpReceitaDialogId" modal="true"
+					header="HELP - Receita" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpReceitaPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCadastroReceitaBeanX.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroReceitaBeanX.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCadastroReceitaBeanX.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroReceitaBeanX.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCadastroReceitaBeanX.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCadastroReceitaBeanX.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+					
+	</ui:define>
+
+</ui:composition>

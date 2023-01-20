@@ -1,0 +1,118 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces" target="head" />
+
+			<h:form id="frmCargaBD">
+				<p:messages autoUpdate="false" />
+				
+				<h2 class="aw-page-title">Carga Dados</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> 
+							<p:commandButton id="loadButton" value="Carregar" onclick="loadButton.disable()"
+								update="@form" action="#{mpCargaDadosBDBean.carregar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="/dashboardRS" />
+							<p:commandButton title="Ajuda - Informação (alt+h)" accesskey="h" 
+								icon="fa fa-question-circle Fs14 red" process="@this" 
+								action="#{mpCargaDadosBDBean.mpHelp}" update="frmHelp"
+								oncomplete="PF('helpCargaDadosBDDialog').show()" />			
+						</span>
+
+						<p:panelGrid columns="7" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+							<h:panelGroup>
+								<p:outputLabel value="Custas Composição : " for="indCustasComposicao" />
+								<p:inputSwitch id="indCustasComposicao" onLabel="Sim" offLabel="Não"
+									value="#{mpCargaDadosBDBean.indCargaCustasComposicao}" />
+							</h:panelGroup>
+							<h:panelGroup />
+							<h:panelGroup>
+								<p:outputLabel value="Tipo Protocolo : " for="indTipoProtocolo" />
+								<p:inputSwitch id="indTipoProtocolo" onLabel="Sim" offLabel="Não"
+									value="#{mpCargaDadosBDBean.indCargaTipoProtocolo}" />
+							</h:panelGroup>
+							<h:panelGroup />
+							<h:panelGroup>
+								<p:outputLabel value="Sistema Configuração : " for="indSistemaConfig" />
+								<p:inputSwitch id="indSistemaConfig" onLabel="Sim" offLabel="Não"
+									value="#{mpCargaDadosBDBean.indCargaSistemaConfig}" />
+							</h:panelGroup>
+							<h:panelGroup />
+							<h:panelGroup />
+						</p:panelGrid>
+						
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+		
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpCargaDadosBDDialog" id="helpCargaDadosBDDialogId" modal="true"
+					header="HELP - CargaDadosBD" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpCargaDadosBDPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCargaDadosBDBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCargaDadosBDBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCargaDadosBDBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCargaDadosBDBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCargaDadosBDBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCargaDadosBDBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+		
+	</ui:define>
+
+</ui:composition>

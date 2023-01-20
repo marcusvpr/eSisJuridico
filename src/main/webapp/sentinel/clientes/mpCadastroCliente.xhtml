@@ -1,0 +1,696 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpCliente" value="#{mpCadastroClienteBean.mpCliente}" />
+			<f:viewAction action="#{mpCadastroClienteBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Cliente #{mpCadastroClienteBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesCliente.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+						<p:outputLabel value="Nome: "
+							rendered="#{mpLoginBean.scIndLabelCampo}" />
+						<p:inputText placeholder="Nome"
+							styleClass="Container40 Fnone MarAuto Fs18"
+							required="#{mpCadastroClienteBean.indEditavel}"
+							validatorMessage="Informar Nome"
+							readonly="#{mpCadastroClienteBean.indEditavel}"
+							value="#{mpCadastroClienteBean.mpCliente.nome}" />
+					</div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container90 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup id="pgCodigo">
+														<p:outputLabel value="Código: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="codigo" placeholder="Código" mask="9999"
+															required="#{mpCadastroClienteBean.indEditavel}"
+															validatorMessage="Informar Código"
+															readonly="#{mpCadastroClienteBean.indEditavel}"
+															value="#{mpCadastroClienteBean.mpCliente.codigo}" />
+															<p:tooltip id="toolTipCodigo" for="codigo" value="Código" />
+													</h:panelGroup>
+													<h:panelGroup id="pgCPF">
+														<p:outputLabel value="CPF: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="cpf" placeholder="CPF"
+															mask="999.999.999-99"
+															required="#{mpCadastroClienteBean.indEditavel}"
+															validatorMessage="Informar CPF"
+															readonly="#{mpCadastroClienteBean.indEditavel}"
+															value="#{mpCadastroClienteBean.mpCliente.cpf}" />
+														<p:tooltip id="toolTipCPF" for="cpf" value="CPF" />
+													</h:panelGroup>
+													<h:panelGroup id="pgTelefone">
+														<p:outputLabel value="Telefone: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="telefone" placeholder="Telefone"
+															required="#{mpCadastroClienteBean.indEditavel}"
+															validatorMessage="Informar Telefone"
+															readonly="#{mpCadastroClienteBean.indEditavel}"
+															value="#{mpCadastroClienteBean.mpCliente.telefone}" />
+														<p:tooltip id="toolTipTelefone" for="telefone" value="Telefone" />
+													</h:panelGroup>
+													<h:panelGroup id="pgCelular">
+														<p:outputLabel value="Celular: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="celular" placeholder="Celular"
+															required="#{mpCadastroClienteBean.indEditavel}"
+															validatorMessage="Informar Celular"
+															readonly="#{mpCadastroClienteBean.indEditavel}"
+															value="#{mpCadastroClienteBean.mpCliente.celular}" />
+														<p:tooltip id="toolTipCelular" for="celular" value="Celular" />
+													</h:panelGroup>
+													<h:panelGroup id="pgEmail">
+														<p:outputLabel value="Email: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="email" placeholder="E-mail"
+															required="#{mpCadastroClienteBean.indEditavel}"
+															validatorMessage="Informar E-mail" type="email"
+															readonly="#{mpCadastroClienteBean.indEditavel}"
+															value="#{mpCadastroClienteBean.mpCliente.email}">
+															<f:validateRegex pattern=
+																"[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+														</p:inputText>
+														<p:tooltip id="toolTipEmail" for="email" value="Email" />
+													</h:panelGroup>
+													<h:panelGroup id="pgDataNascimento">
+														<p:outputLabel value="Data Nascimento: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataNascimento" pattern="dd/MM/yyyy" mask="true"
+															placeholder="Data Nascimento" effect="fold"
+															readonly="#{mpCadastroClienteBean.indEditavel}"
+															value="#{mpCadastroClienteBean.mpCliente.dataNascimento}" />
+														<p:tooltip id="toolTipDataNascimento" for="dataNascimento" value="Data Nascimento" />
+													</h:panelGroup>
+													<h:panelGroup id="pgMpTipo">
+														<p:outputLabel value="Tipo: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneRadio id="mpTipo" 
+															layout="responsive" columns="2"
+															required="#{mpCadastroClienteBean.indEditavel}"
+															validatorMessage="Informar Tipo"
+															disabled="#{mpCadastroClienteBean.indEditavel}"
+															value="#{mpCadastroClienteBean.mpCliente.mpTipo}">
+															<f:selectItems
+																value="#{mpCadastroClienteBean.mpTipoPessoaList}"
+																var="mpTipoPessoa" itemLabel="#{mpTipoPessoa.descricao}"
+																itemValue="#{mpTipoPessoa}" />
+														</p:selectOneRadio>
+														<p:tooltip id="toolTipMpTipo" for="mpTipo" value="Tipo" />
+													</h:panelGroup>
+													<h:panelGroup id="pgMpSexo">
+														<p:outputLabel value="Sexo: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneRadio id="mpSexo"
+															layout="responsive" columns="2"
+															required="#{mpCadastroClienteBean.indEditavel}"
+															validatorMessage="Informar Sexo"
+															disabled="#{mpCadastroClienteBean.indEditavel}"
+															value="#{mpCadastroClienteBean.mpCliente.mpSexo}">
+															<f:selectItems layout="responsive" columns="2"
+																value="#{mpCadastroClienteBean.mpSexoList}" var="mpSexo"
+																itemLabel="#{mpSexo.descricao}" itemValue="#{mpSexo}" />
+														</p:selectOneRadio>
+														<p:tooltip id="toolTipMpSexo" for="mpSexo" value="Sexo" />
+													</h:panelGroup>
+													<h:panelGroup id="pgMpStatus">
+														<p:outputLabel value="Status: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpStatus" effect="fold"
+															required="#{mpCadastroClienteBean.indEditavel}"
+															validatorMessage="Informar Status"
+															disabled="#{mpCadastroClienteBean.indEditavel}"
+															value="#{mpCadastroClienteBean.mpCliente.mpStatus}">
+															<f:selectItem itemLabel="Selecione o Status" />
+															<f:selectItems
+																value="#{mpCadastroClienteBean.mpStatusList}"
+																var="mpStatus" itemLabel="#{mpStatus.descricao}"
+																itemValue="#{mpStatus}" />
+														</p:selectOneMenu>
+														<p:tooltip id="toolTipMpStatus" for="mpStatus" value="Status" />
+													</h:panelGroup>
+													<h:panelGroup id="pgMpEstadoCivil">
+														<p:outputLabel value="Estado Civil: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpEstadoCivil" effect="fold"
+															style="background-color:black; color:yellow;"
+															required="#{mpCadastroClienteBean.indEditavel}"
+															validatorMessage="Informar Estado Civil"
+															disabled="#{mpCadastroClienteBean.indEditavel}"
+															value="#{mpCadastroClienteBean.mpCliente.mpEstadoCivil}">
+															<f:selectItem itemLabel="Selecione o Estado Civil" />
+															<f:selectItems
+																value="#{mpCadastroClienteBean.mpEstadoCivilList}"
+																var="mpEstadoCivil" itemValue="#{mpEstadoCivil}"
+																itemLabel="#{mpEstadoCivil.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip id="toolTipMpEstadoCivil" for="mpEstadoCivil" value="Estado Civil" />
+													</h:panelGroup>
+													<h:panelGroup id="pgObservacao">
+														<p:outputLabel value="Observação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputTextarea id="observacao" placeholder="Observação"
+															readonly="#{mpCadastroClienteBean.indEditavel}" rows="2"
+															value="#{mpCadastroClienteBean.mpCliente.observacao}" />
+														<p:tooltip id="toolTipObservacao" for="observacao" value="Observação" />
+													</h:panelGroup>
+													<p:spacer />
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container10 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+
+							</div>
+						</p:tab>
+
+						<p:tab title="Dependentes" closable="false">
+							<p:commandButton value="Novo Dependente"
+								icon="fa fa-plus Fs14 white"
+								action="#{mpCadastroClienteBean.adicionarMpDependenteX}"
+								disabled="#{mpCadastroClienteBean.indEditavel}"
+								oncomplete="PF('novoDependenteDialog').show()" process="@this"
+								update="frmDep:novoDependenteDialogId">
+								<p:resetInput target="frmDep:novoDependenteDialogId" />
+							</p:commandButton>
+
+							<p:dataTable id="dependentesTable"
+								value="#{mpCadastroClienteBean.mpCliente.mpDependentes}"
+								emptyMessage="O Cliente ainda não possui dependentes"
+								var="dependente" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Número">
+									<h:outputText value="#{dependente.numero}" />
+								</p:column>
+								<p:column headerText="Nome">
+									<h:outputText value="#{dependente.nome}" />
+								</p:column>
+								<p:column headerText="Dt.Nascimento">
+									<h:outputText value="#{dependente.dataNascimento}">
+										<f:convertDateTime pattern="dd/MM/yyyy"
+											timeZone="America/Sao_Paulo" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Email" priority="4">
+									<h:outputText value="#{dependente.email}" />
+								</p:column>
+								<p:column headerText="Status" priority="5">
+									<h:outputText value="#{dependente.mpStatus}" />
+								</p:column>
+								<p:column headerText="Sexo">
+									<h:outputText value="#{dependente.mpSexo.descricao}" />
+								</p:column>
+								<p:column headerText="Observação" priority="6">
+									<h:outputText value="#{dependente.observacao}" />
+								</p:column>
+
+								<p:column style="text-align:center">
+									<p:commandButton title="Alterar" icon="fa fa-edit Fs14 white"
+										oncomplete="PF('novoDependenteDialog').show()"
+										action="#{mpCadastroClienteBean.alterarMpDependente}"
+										disabled="#{mpCadastroClienteBean.indEditavel}"
+										process="@this" update="frmDep:novoDependenteDialogId">
+										<f:setPropertyActionListener value="#{dependente}"
+											target="#{mpCadastroClienteBean.mpDependente}" />
+									</p:commandButton>
+
+									<p:commandButton title="Excluir" icon="fa fa-trash Fs14 white"
+										oncomplete="PF('confirmacaoExclusaoDepDialog').show()"
+										disabled="#{mpCadastroClienteBean.indEditavel}"
+										process="@this" update=":frm:confirmacaoExclusaoDepDialog">
+										<f:setPropertyActionListener value="#{dependente}"
+											target="#{mpCadastroClienteBean.mpDependente}" />
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="Endereços" closable="false">
+							<p:commandButton value="Novo Endereço"
+								icon="fa fa-plus Fs14 white"
+								oncomplete="PF('novoEnderecoDialog').show()"
+								action="#{mpCadastroClienteBean.adicionarMpEndereco}"
+								disabled="#{mpCadastroClienteBean.indEditavel}" process="@this"
+								update="frmEnd:novoEnderecoDialogId">
+								<p:resetInput target="frmEnd:novoEnderecoDialogId" />
+							</p:commandButton>
+
+							<p:dataTable id="enderecosTable"
+								value="#{mpCadastroClienteBean.mpCliente.mpEnderecos}"
+								emptyMessage="O Cliente ainda não possui endereços"
+								var="endereco" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Logradouro">
+									<h:outputText value="#{endereco.logradouro}" />
+								</p:column>
+								<p:column headerText="Número">
+									<h:outputText value="#{endereco.numero}" />
+								</p:column>
+								<p:column headerText="Complemento">
+									<h:outputText value="#{endereco.complemento}" />
+								</p:column>
+								<p:column headerText="Bairro" priority="4">
+									<h:outputText value="#{endereco.bairro}" />
+								</p:column>
+								<p:column headerText="Cidade" priority="6">
+									<h:outputText value="#{endereco.cidade}" />
+								</p:column>
+								<p:column headerText="Cep">
+									<h:outputText value="#{endereco.cep}" />
+								</p:column>
+								<p:column headerText="Estado UF">
+									<h:outputText value="#{endereco.mpEstadoUF.descricao}" />
+								</p:column>
+
+								<p:column style="text-align:center">
+									<p:commandButton title="Alterar" icon="fa fa-edit Fs14 white"
+										oncomplete="PF('novoEnderecoDialog').show()"
+										action="#{mpCadastroClienteBean.alterarMpEndereco}"
+										disabled="#{mpCadastroClienteBean.indEditavel}"
+										process="@this" update="frmEnd:novoEnderecoDialogId">
+										<f:setPropertyActionListener value="#{endereco}"
+											target="#{mpCadastroClienteBean.mpEndereco}" />
+									</p:commandButton>
+
+									<p:commandButton title="Excluir" icon="fa fa-trash Fs14 white"
+										oncomplete="PF('confirmacaoExclusaoDialog').show()"
+										disabled="#{mpCadastroClienteBean.indEditavel}"
+										process="@this" update=":frm:confirmacaoExclusaoDialog">
+										<f:setPropertyActionListener value="#{endereco}"
+											target="#{mpCadastroClienteBean.mpEndereco}" />
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="Foto">
+							<p:messages id="messageFoto" autoUpdate="false"
+								showDetail="false" />
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+
+												<h:panelGroup id="arquivoBD">
+													<p:outputLabel style="font-size:16px; color:blue;"
+														value="#{mpCadastroClienteBean.mpCliente.mpArquivoAcao.resultado}" />
+													<p:spacer width="5" />
+													<o:graphicImage dataURI="true" cache="false" width="200"
+														rendered="#{mpCadastroClienteBean.arquivoBytes == null ? false : true}"
+														value="#{mpCadastroClienteBean.arquivoBytes}" />
+												</h:panelGroup>
+
+											</div>
+										</div>
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent">
+													<p:panelGrid id="pGridFoto" columns="2"
+														styleClass="panelgrid-noborder" layout="grid"
+														columnClasses="ui-grid-col-2, ui-grid-col-10">
+
+														<p:outputLabel value="Ação" for="arquivoAcao"
+															style="font-size:14px; color:black;" />
+														<p:selectOneRadio id="arquivoAcao"
+															disabled="#{mpCadastroClienteBean.indEditavel}"
+															value="#{mpCadastroClienteBean.mpArquivoAcao}"
+															valueChangeListener="#{mpCadastroClienteBean.arquivoAcaoSelecionado}">
+															<f:selectItems
+																value="#{mpCadastroClienteBean.mpArquivoAcaoList}"
+																var="mpArquivoAcao" itemValue="#{mpArquivoAcao}"
+																itemLabel="#{mpArquivoAcao.descricao}" />
+															<f:ajax execute="@all" render="@all" />
+														</p:selectOneRadio>
+
+														<p:outputLabel value="Associar" for="associaFoto"
+															rendered="#{mpCadastroClienteBean.arquivoAcaoSelecao == 'Associar'}" />
+														<p:selectOneMenu id="associaFoto"
+															disabled="#{mpCadastroClienteBean.indEditavel}"
+															value="#{mpCadastroClienteBean.mpCliente.mpArquivoBD}"
+															rendered="#{mpCadastroClienteBean.arquivoAcaoSelecao == 'Associar'}">
+															<f:selectItem itemLabel="Selecione a Arquivo" />
+															<f:selectItems
+																value="#{mpCadastroClienteBean.mpArquivoBDList}"
+																var="mpArquivoBD" itemValue="#{mpArquivoBD}"
+																itemLabel="#{mpArquivoBD.descricao}" />
+															<p:ajax event="change" process="@this"
+																update="frm:tabViewC:arquivoBD"
+																listener="#{mpCadastroClienteBean.associaMpArquivoBD}"
+																ignoreAutoUpdate="true" />
+														</p:selectOneMenu>
+
+													</p:panelGrid>
+
+													<h:panelGroup id="carregaImagem"
+														rendered="#{mpCadastroClienteBean.arquivoAcaoSelecao == 'Carregar'}">
+														<p:fileUpload label="Selecionar..."
+															disabled="#{mpCadastroClienteBean.indEditavel}"
+															update="frm:tabViewC:messageFoto frm:tabViewC:arquivoBD"
+															fileUploadListener="#{mpCadastroClienteBean.handleFileUpload}"
+															auto="true" mode="advanced" dragDropSupport="true"
+															sizeLimit="5000000"
+															allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+													</h:panelGroup>
+
+													<p:commandButton value="Proceder Captura"
+														icon="fa fa-camera Fs14 white"
+														rendered="#{mpCadastroClienteBean.arquivoAcaoSelecao == 'Capturar'}"
+														oncomplete="PF('capturaDialog').show()" process="@this">
+													</p:commandButton>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+					<p:confirmDialog header="Exclusão Dependente" message=
+	"Tem certeza que deseja excluir o Dependente = ( #{mpCadastroClienteBean.mpDependente.nome} )?"
+						widgetVar="confirmacaoExclusaoDepDialog"
+						id="confirmacaoExclusaoDepDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoDepDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoDepDialog').hide();"
+							action="#{mpCadastroClienteBean.removerMpDependenteX}"
+							process="@this" update=":frm:tabViewC:dependentesTable" />
+					</p:confirmDialog>
+
+					<p:confirmDialog header="Exclusão Endereço" message=
+	"Tem certeza que deseja excluir o Endereço = ( #{mpCadastroClienteBean.mpEndereco.logradouro} )?"
+						widgetVar="confirmacaoExclusaoDialog"
+						id="confirmacaoExclusaoDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoDialog').hide();"
+							action="#{mpCadastroClienteBean.removerMpEndereco}"
+							process="@this" update=":frm:tabViewC:enderecosTable" />
+					</p:confirmDialog>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmDep">
+			<p:dialog widgetVar="novoDependenteDialog" id="novoDependenteDialogId" closable="false"
+				header="#{mpCadastroClienteBean.txtModoDependenteDialog} Dependente" 
+			 	showEffect="fade" hideEffect="fade" resizable="false" responsive="true" modal="true">
+
+				<h:panelGroup id="novoDependentePanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+													
+						<h:panelGroup id="pgNumeroDep">
+							<p:outputLabel value="Número: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputMask id="numeroDep" placeholder="Número" maxlength="1" mask="9"
+										required="#{mpCadastroClienteBean.indEditavelDep}"
+ 										validatorMessage="Informar Número"											          
+										value="#{mpCadastroClienteBean.mpDependente.numero}" />
+							<p:tooltip for="numeroDep" value="Número (Ex.: 1)" />
+						</h:panelGroup>
+
+						<h:panelGroup id="pgNomeDep">
+							<p:outputLabel value="Nome: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="nomeDep" required="#{mpCadastroClienteBean.indEditavelDep}"
+ 										validatorMessage="Informar Nome" placeholder="Nome" 
+						 				value="#{mpCadastroClienteBean.mpDependente.nome}" />
+							<p:tooltip for="nomeDep" value="Nome (Ex.: Fulano da Silva)" />
+						</h:panelGroup>
+						
+						<h:panelGroup id="pgEmailDep">
+							<p:outputLabel value="Email: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="emailDep" placeholder="E-mail"
+											value="#{mpCadastroClienteBean.mpDependente.email}" />
+							<p:tooltip for="emailDep" value="Email (Ex.: fulano@mail.com)" />
+						</h:panelGroup>
+
+						<h:panelGroup id="pgDataNascimentoDep">
+							<p:outputLabel value="Dt.Nasc.: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:calendar id="dataNascimentoDep" pattern="dd/MM/yyyy" style="width:60%;"
+									placeholder="Dt.Nasc."
+									value="#{mpCadastroClienteBean.mpDependente.dataNascimento}" />
+							<p:tooltip for="dataNascimentoDep" value="Data Nascimento (Ex.: 31/03/1971)" />
+						</h:panelGroup>
+						
+						<h:panelGroup id="pgStatusDep">
+							<p:outputLabel value="Status: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:selectOneMenu id="statusDep" validatorMessage="Informar Status"
+										required="#{mpCadastroClienteBean.indEditavelDep}" 											            
+										value="#{mpCadastroClienteBean.mpDependente.mpStatus}">
+								<f:selectItem itemLabel="Selecione o Status" />
+								<f:selectItems value="#{mpCadastroClienteBean.mpStatusList}"
+										var="mpStatusDep" itemValue="#{mpStatusDep}"
+									 	itemLabel="#{mpStatusDep}" />
+							</p:selectOneMenu>
+							<p:tooltip for="statusDep" value="Status (Ex.: Ativo)" />
+						</h:panelGroup>
+
+						<h:panelGroup id="pgSexoDep">
+							<p:outputLabel value="Sexo: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:selectOneRadio id="sexoDep" validatorMessage="Informar Sexo" 
+											required="#{mpCadastroClienteBean.indEditavelDep}"
+											value="#{mpCadastroClienteBean.mpDependente.mpSexo}">
+								<f:selectItems value="#{mpCadastroClienteBean.mpSexoList}"
+									var="mpSexoDep" itemValue="#{mpSexoDep}"
+								 	itemLabel="#{mpSexoDep.descricao}" />
+							</p:selectOneRadio>
+							<p:tooltip for="sexoDep" value="Sexo (Ex.: Masculino)" />
+						</h:panelGroup>
+										
+						<h:panelGroup id="pgObsDep">
+							<p:outputLabel value="Observação: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="obsDep" placeholder="Observação" 
+										value="#{mpCadastroClienteBean.mpDependente.observacao}" />
+							<p:tooltip for="obsDep" value="Observação" />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:commandButton value="Salvar" process="novoDependenteDialogId"
+								update=":frm:tabViewC:dependentesTable novoDependentePanel"
+								action="#{mpCadastroClienteBean.salvarMpDependente}"
+								oncomplete="if (!args.validationFailed) PF('novoDependenteDialog').hide()">
+								<p:collector value="#{mpCadastroClienteBean.mpDependente}"
+										addTo="#{mpCadastroClienteBean.mpCliente.mpDependentes}" />
+							</p:commandButton>
+							<p:commandButton value="Fechar" process="@this"
+								update=":frm:tabViewC:dependentesTable"
+								action="#{mpCadastroClienteBean.fecharMpDependente}"
+								oncomplete="if (!args.validationFailed) PF('novoDependenteDialog').hide()">
+							</p:commandButton>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+			
+        <div class="ContainerIndent">
+		  <h:form id="frmEnd">
+			<p:dialog widgetVar="novoEnderecoDialog" id="novoEnderecoDialogId" closable="false"
+				header="#{mpCadastroClienteBean.txtModoEnderecoDialog} Endereço" 
+			 	showEffect="fade" hideEffect="fade" resizable="false" responsive="true" modal="true">
+
+				<h:panelGroup id="novoEnderecoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+													
+						<h:panelGroup id="pgCep">
+							<p:outputLabel value="Cep: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputMask id="cep" size="9" maxlength="9" mask="99999-999"
+							 		placeholder="CEP" value="#{mpCadastroClienteBean.mpEndereco.cep}" />
+							<p:tooltip for="cep" value="Cep ( Ex.: 24030-220)" />
+            				<p:commandButton icon="fa fa-globe Fs14 white"
+	        										title="Pesquisar Cep WEB" process="@this cep" 
+	        										update="logradouro cidade bairro mpEstadoUF"
+	        										action="#{mpCadastroClienteBean.onCepWebService}" />
+						</h:panelGroup>
+
+						<h:panelGroup id="pgLogradouro">
+							<p:outputLabel value="Logradouro: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="logradouro" placeholder="Logradouro" 
+										required="#{mpCadastroClienteBean.indEditavelEnd}"				 
+ 										validatorMessage="Informar Logradouro"
+										value="#{mpCadastroClienteBean.mpEndereco.logradouro}" />
+							<p:tooltip for="logradouro" value="Logradouro ( Ex.: Rua 7 de setembro)" />
+						</h:panelGroup>
+						
+						<h:panelGroup id="pgNumero">
+							<p:outputLabel value="Número: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="numero" placeholder="Número" 
+										required="#{mpCadastroClienteBean.indEditavelEnd}" 
+ 										validatorMessage="Informar Número"
+										value="#{mpCadastroClienteBean.mpEndereco.numero}" />
+							<p:tooltip for="numero" value="Número ( Ex.: 206)" />
+						</h:panelGroup>
+
+						<h:panelGroup id="pgComplemento">
+							<p:outputLabel value="Complemento: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="complemento" placeholder="Complemento"
+									value="#{mpCadastroClienteBean.mpEndereco.complemento}" />
+							<p:tooltip for="complemento" value="Complemento ( Ex.: Casa 300)" />
+						</h:panelGroup>
+						
+						<h:panelGroup id="pgBairro">
+							<p:outputLabel value="Bairro: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="bairro" placeholder="Bairro" 
+											value="#{mpCadastroClienteBean.mpEndereco.bairro}" />
+							<p:tooltip for="bairro" value="Bairro ( Ex.: Vila Isabel)" />
+						</h:panelGroup>
+						
+						<h:panelGroup id="pgCidade">
+							<p:outputLabel value="Cidade: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="cidade" placeholder="Cidade" 
+											required="#{mpCadastroClienteBean.indEditavelEnd}"		
+ 											validatorMessage="Informar Cidade"
+											value="#{mpCadastroClienteBean.mpEndereco.cidade}" />
+							<p:tooltip for="cidade" value="Cidade ( Ex.: Rio de Janeiro)" />
+						</h:panelGroup>
+						
+						<h:panelGroup id="pgEstado">
+							<p:outputLabel value="Estado: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:selectOneMenu id="mpEstadoUF" 
+												value="#{mpCadastroClienteBean.mpEndereco.mpEstadoUF}">
+								<f:selectItem itemLabel="Selecione o Estado" />
+								<f:selectItems value="#{mpCadastroClienteBean.mpEstadoUFList}"
+														var="mpEstadoUF" itemValue="#{mpEstadoUF}" 
+														itemLabel="#{mpEstadoUF.descricao}" />
+							</p:selectOneMenu>
+							<p:tooltip for="mpEstadoUF" value="Estado ( Ex.: RJ)" />
+						</h:panelGroup>
+										
+						<h:panelGroup>
+							<p:commandButton value="Salvar" process="novoEnderecoDialogId"
+								update=":frm:tabViewC:enderecosTable novoEnderecoPanel"
+								action="#{mpCadastroClienteBean.salvarMpEndereco}"
+								oncomplete="if (!args.validationFailed) PF('novoEnderecoDialog').hide()">
+								<p:collector value="#{mpCadastroClienteBean.mpEndereco}"
+										addTo="#{mpCadastroClienteBean.mpCliente.mpEnderecos}" />
+							</p:commandButton>
+							<p:commandButton value="Fechar" process="@this"
+								update=":frm:tabViewC:enderecosTable"
+								action="#{mpCadastroClienteBean.fecharMpEndereco}"
+								oncomplete="if (!args.validationFailed) PF('novoEnderecoDialog').hide()">
+							</p:commandButton>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>					
+		</div>
+
+		<div class="ContainerIndent">
+			<p:dialog widgetVar="capturaDialog" id="capturaDialogId" modal="true"
+				header="Captura Foto" showEffect="fade" hideEffect="fade"
+				resizable="false" responsive="true"
+				rendered="#{mpCadastroClienteBean.arquivoAcaoSelecao == 'Capturar'}">
+				<h:form id="frmCapturaDialog">
+					<h:panelGrid columns="3" cellpadding="5">
+						<p:photoCam widgetVar="pc" width="250"
+							listener="#{mpCadastroClienteBean.aoCapturarArquivo}"
+							update="photoDialog frm:tabViewC:arquivoBD" />
+						<p:commandButton type="button" value="Capturar" icon="fa fa-camera Fs14 white"
+							onclick="PF('pc').capture()" />
+						<p:outputPanel id="photoDialog">
+							<o:graphicImage dataURI="true" cache="false" width="250"
+								rendered="#{mpCadastroClienteBean.arquivoBytesC == null ? false : true}"
+								value="#{mpCadastroClienteBean.arquivoBytesC}" />
+						</p:outputPanel>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpClienteDialog" id="helpClienteDialogId" modal="true"
+					header="HELP - Cliente" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpClientePanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+													
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpDescircao" readonly="true"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+		
+	</ui:define>
+
+</ui:composition>

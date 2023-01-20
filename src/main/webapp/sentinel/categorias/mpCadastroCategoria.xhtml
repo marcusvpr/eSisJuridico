@@ -1,0 +1,199 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpCategoria" value="#{mpCadastroCategoriaBeanX.mpCategoria}" />
+			<f:viewAction action="#{mpCadastroCategoriaBeanX.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Categoria #{mpCadastroCategoriaBeanX.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesCategoria.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgTipoProduto">
+														<p:outputLabel value="Tipo Produto: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="tipoProduto"
+															disabled="#{mpCadastroCategoriaBeanX.indEditavel}"
+															value="#{mpCadastroCategoriaBeanX.mpCategoria.mpTipoProduto}">
+															<f:selectItem itemLabel="Selecione o Tipo" />
+															<f:selectItems
+																value="#{mpCadastroCategoriaBeanX.mpTipoProdutoList}"
+																var="mpTipoProduto"
+																itemLabel="#{mpTipoProduto.descricao}"
+																itemValue="#{mpTipoProduto}" />
+														</p:selectOneMenu>
+														<p:tooltip for="tipoProduto" value="Tipo Produto (Ex.: Medicamentos )" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgDescricao">
+														<p:outputLabel value="Descrição: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="descricao" maxlength="150"
+															placeholder="Descrição"
+															readonly="#{mpCadastroCategoriaBeanX.indEditavel}"
+															value="#{mpCadastroCategoriaBeanX.mpCategoria.descricao}" />
+														<p:tooltip for="descricao" value="Descrição (Ex.: Alergias e Infecções )" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+
+												<p:panelGrid columns="5" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<p:spacer />
+													<p:commandButton value="Nova Subcategoria"
+														icon="fa fa-plus Fs14 white"
+														action="#{mpCadastroCategoriaBeanX.adicionarMpSubcategoriaX}"
+														disabled="#{mpCadastroCategoriaBeanX.indEditavel}"
+														oncomplete="PF('novaSubcategoriaDialog').show()"
+														process="@this" update="frmSubcat:novaSubcategoriaDialogId">
+														<p:resetInput target="frmSubcat:novaSubcategoriaDialogId" />
+													</p:commandButton>
+													<p:spacer />
+													<p:spacer />
+													<p:spacer />
+
+												</p:panelGrid>
+
+												<p:panelGrid columns="1" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<p:dataTable id="subcategoriasTable"
+														value="#{mpCadastroCategoriaBeanX.mpCategoria.mpSubcategorias}"
+														emptyMessage="A Categoria ainda não possui Subcategorias"
+														var="subcategoria" style="margin-top:10px" reflow="true">
+
+														<p:column headerText="Descrição"
+																	sortBy="#{subcategoria.descricao}">
+															<h:outputText value="#{subcategoria.descricao}" />
+														</p:column>
+
+														<p:column style="text-align:center">
+															<p:commandButton title="Alterar"
+																icon="fa fa-edit Fs14 white"
+																oncomplete="PF('novaSubcategoriaDialog').show()"
+																action="#{mpCadastroCategoriaBeanX.alterarMpSubcategoria}"
+																disabled="#{mpCadastroCategoriaBeanX.indEditavel}"
+																process="@this" update="frmSubcat:novaSubcategoriaDialogId">
+																<f:setPropertyActionListener value="#{subcategoria}"
+																	target="#{mpCadastroCategoriaBeanX.mpSubcategoria}" />
+															</p:commandButton>
+
+															<p:commandButton title="Excluir"
+																icon="fa fa-trash Fs14 white"
+																oncomplete="PF('confirmacaoExclusaoSubcatDialog').show()"
+																disabled="#{mpCadastroCategoriaBeanX.indEditavel}"
+																process="@this"
+																update=":frm:confirmacaoExclusaoSubcatDialog">
+																<f:setPropertyActionListener value="#{subcategoria}"
+																	target="#{mpCadastroCategoriaBeanX.mpSubcategoria}" />
+															</p:commandButton>
+														</p:column>
+
+													</p:dataTable>
+
+												</p:panelGrid>
+
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+					<p:confirmDialog header="Exclusão Subcategoria" message=
+	"Tem certeza que deseja excluir a Subcategoria = ( #{mpCadastroCategoriaBeanX.mpSubcategoria.descricao} )?"
+						widgetVar="confirmacaoExclusaoSubcatDialog"
+						id="confirmacaoExclusaoSubcatDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoSubcatDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoSubcatDialog').hide();"
+							action="#{mpCadastroCategoriaBeanX.removerMpSubcategoriaX}"
+							process="@this" update=":frm:tabViewC:subcategoriasTable" />
+					</p:confirmDialog>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmSubcat">
+			<p:dialog widgetVar="novaSubcategoriaDialog" id="novaSubcategoriaDialogId" closable="false"
+				header="#{mpCadastroCategoriaBeanX.txtModoSubcategoriaDialog} Subcategoria" 
+			 	showEffect="fade" hideEffect="fade" resizable="false" responsive="true" modal="true">
+
+				<h:panelGroup id="novaSubcategoriaPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+													
+						<h:panelGroup id="pgDescricaoSubcat">
+							<p:outputLabel value="Descrição: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="descricaoSubcat" required="#{mpCadastroCategoriaBeanX.indEditavelSubcat}"
+ 										validatorMessage="Informar Descrição" placeholder="Descrição" rows="2" 
+						 				value="#{mpCadastroCategoriaBeanX.mpSubcategoria.descricao}" />
+							<p:tooltip for="descricaoSubcat" value="Descrição (Ex.: Higiene)" />
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<p:commandButton value="Salvar" process="novaSubcategoriaDialogId"
+								update=":frm:tabViewC:subcategoriasTable novaSubcategoriaPanel"
+								action="#{mpCadastroCategoriaBeanX.salvarMpSubcategoria}"
+								oncomplete="if (!args.validationFailed) PF('novaSubcategoriaDialog').hide()">
+								<p:collector value="#{mpCadastroCategoriaBeanX.mpSubcategoria}"
+										addTo="#{mpCadastroCategoriaBeanX.mpCategoria.mpSubcategorias}" />
+							</p:commandButton>
+							<p:commandButton value="Fechar" process="@this"
+								update=":frm:tabViewC:subcategoriasTable"
+								action="#{mpCadastroCategoriaBeanX.fecharMpSubcategoria}"
+								oncomplete="if (!args.validationFailed) PF('novaSubcategoriaDialog').hide()">
+							</p:commandButton>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

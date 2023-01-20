@@ -1,0 +1,155 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpPessoaER" value="#{mpCadastroPessoaERBean.mpPessoaER}" />
+			<f:viewAction action="#{mpCadastroPessoaERBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Pessoa #{mpCadastroPessoaERBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesPessoaER.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+						<h:panelGroup>
+							<p:outputLabel value="Nome: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="nome" maxlength="150" placeholder="Nome"
+								styleClass="Container40 Fnone MarAuto Fs18"
+								required="#{mpCadastroPessoaERBean.indEditavel}"
+								validatorMessage="Informar Nome"
+								readonly="#{mpCadastroPessoaERBean.indEditavel}"
+								value="#{mpCadastroPessoaERBean.mpPessoaER.nome}" />
+							<p:tooltip for="nome" value="Nome (Ex.: Fulano da Silva )" />
+						</h:panelGroup>
+					</div>
+
+					<p:tabView id="tabViewP">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup>
+														<p:outputLabel value="Cargo: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="cargo" maxlength="100" placeholder="Cargo"
+															styleClass="Container40 Fnone MarAuto Fs18"
+															required="#{mpCadastroPessoaERBean.indEditavel}"
+															validatorMessage="Informar Cargo"
+															readonly="#{mpCadastroPessoaERBean.indEditavel}"
+															value="#{mpCadastroPessoaERBean.mpPessoaER.cargo}" />
+															<p:tooltip for="cargo" value="Cargo (Ex.: Gerente Projetos )" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgEmail">
+														<p:outputLabel value="Email: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="email" placeholder="E-mail"
+															required="#{mpCadastroPessoaERBean.indEditavel}"
+															validatorMessage="Informar E-mail" type="email"
+															readonly="#{mpCadastroPessoaERBean.indEditavel}"
+															value="#{mpCadastroPessoaERBean.mpPessoaER.email}">
+															<f:validateRegex
+																pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+														</p:inputText>
+														<p:tooltip for="email"
+															value="E-mail (Ex.: fulano@provedor.com )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgTelefone">
+														<p:outputLabel value="Telefone: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="telefone" maxlength="100"
+															placeholder="Telefone"
+															readonly="#{mpCadastroPessoaERBean.indEditavel}"
+															value="#{mpCadastroPessoaERBean.mpPessoaER.telefone}" />
+														<p:tooltip for="telefone"
+															value="Telefone (Ex.: (21) 2345-7890 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgCelular">
+														<p:outputLabel value="Celular: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="celular" maxlength="100"
+															placeholder="Celular"
+															readonly="#{mpCadastroPessoaERBean.indEditavel}"
+															value="#{mpCadastroPessoaERBean.mpPessoaER.celular}" />
+														<p:tooltip for="celular"
+															value="Celular (Ex.: (21) 98765-4321 )" />
+													</h:panelGroup>
+													
+													<h:panelGroup id="pgDataNascimento">
+														<p:outputLabel value="Dt.Nascimento: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataNascimento" placeholder="Dt.Nascim."
+															pattern="dd/MM/yyyy" mask="true"
+															disabled="#{mpCadastroPessoaERBean.indEditavel}"
+															value="#{mpCadastroPessoaERBean.mpPessoaER.dataNascimento}" />
+														<p:tooltip for="dataNascimento"
+															value="Data Nascimento (Ex.: 31/03/1971 )" />
+													</h:panelGroup>
+													
+													<h:panelGroup id="pgMpSexo">
+														<p:outputLabel value="Sexo: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneRadio id="mpSexo" required="true"
+															styleClass="sem-bordas"
+															disabled="#{mpCadastroPessoaERBean.indEditavel}"
+															value="#{mpCadastroPessoaERBean.mpPessoaER.mpSexo}">
+															<f:selectItems value="#{mpCadastroPessoaERBean.mpSexoList}"
+																var="mpSexo" itemValue="#{mpSexo}"
+																itemLabel="#{mpSexo.descricao}" />
+														</p:selectOneRadio>
+														<p:tooltip for="mpSexo" value="Sexo (Ex.: Masculino )" />
+													</h:panelGroup>
+													
+													<h:panelGroup id="pgObs">
+														<p:outputLabel value="Observação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputTextarea id="obs" maxlength="255" rows="3"
+															placeholder="Observação"
+															readonly="#{mpCadastroPessoaERBean.indEditavel}"
+															value="#{mpCadastroPessoaERBean.mpPessoaER.observacao}" />
+														<p:tooltip for="obs" value="Observação" />
+													</h:panelGroup>
+													
+													<p:spacer />
+													<p:spacer />
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+				</p:panel>
+			</h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

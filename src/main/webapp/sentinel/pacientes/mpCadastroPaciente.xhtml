@@ -1,0 +1,451 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpPaciente" value="#{mpCadastroPacienteBean.mpPaciente}" />
+			<f:viewAction action="#{mpCadastroPacienteBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frmPac">
+				<p:panel header="Paciente #{mpCadastroPacienteBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesPaciente.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top:60px;">
+						<h:panelGroup>
+							<p:outputLabel value="Nome: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="nome" maxlength="150" placeholder="Nome"
+								styleClass="Container40 Fnone MarAuto Fs18"
+								required="#{mpCadastroPacienteBean.indEditavel}"
+								validatorMessage="Informar Nome"
+								readonly="#{mpCadastroPacienteBean.indEditavel}"
+								value="#{mpCadastroPacienteBean.mpPaciente.nome}" />
+							<p:tooltip for="nome" value="Nome (Ex.: Fulano da Silva )" />
+						</h:panelGroup>
+					</div>
+
+					<p:tabView id="tabViewP">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="2" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgEmail">
+														<p:outputLabel value="Email: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="email" placeholder="E-mail"
+															readonly="#{mpCadastroPacienteBean.indEditavel}"
+															value="#{mpCadastroPacienteBean.mpPaciente.email}">
+															<f:validateRegex
+																pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+														</p:inputText>
+														<p:tooltip for="email" value="Email (Ex.: fulano@provedoremail.com )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgDataNascimento">
+														<p:outputLabel value="Dt.Nasc.: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataNascimento"
+															pattern="dd/MM/yyyy" mask="true"
+															placeholder="Data Nascimento"
+															disabled="#{mpCadastroPacienteBean.indEditavel}"
+															value="#{mpCadastroPacienteBean.mpPaciente.dataNascimento}" />
+														<p:tooltip for="dataNascimento" value="Data Nascimento (Ex.: 31/03/1961 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgTelefone">
+														<p:outputLabel value="Telefone: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="telefone" maxlength="50"
+															placeholder="Telefone/Celular"
+															readonly="#{mpCadastroPacienteBean.indEditavel}"
+															value="#{mpCadastroPacienteBean.mpPaciente.telefone}" />
+														<p:tooltip for="telefone" value="Telefone/Celular (Ex.: (xx) 9 9999-8888 )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgSexo">
+														<p:outputLabel value="Sexo: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneRadio id="mpSexo"
+															required="true" styleClass="sem-bordas"
+															disabled="#{mpCadastroPacienteBean.indEditavel}"
+															value="#{mpCadastroPacienteBean.mpPaciente.mpSexo}">
+															<f:selectItems
+																value="#{mpCadastroPacienteBean.mpSexoList}" var="mpSexo"
+																itemValue="#{mpSexo}" itemLabel="#{mpSexo.descricao}" />
+														</p:selectOneRadio>
+														<p:tooltip for="mpSexo" value="Sexo (Ex.: Masculino )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgStatus">
+														<p:outputLabel value="Status: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpStatus"
+															disabled="#{mpCadastroPacienteBean.indEditavel}"
+															value="#{mpCadastroPacienteBean.mpPaciente.mpStatus}">
+															<f:selectItem itemLabel="Selecione o Status" />
+															<f:selectItems
+																value="#{mpCadastroPacienteBean.mpStatusList}"
+																var="mpStatus" itemValue="#{mpStatus}"
+																itemLabel="#{mpStatus.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpStatus" value="Status (Ex.: Ativo )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgCor">
+														<p:outputLabel value="Cor: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneRadio id="mpCor"
+															required="true" styleClass="sem-bordas"
+															disabled="#{mpCadastroPacienteBean.indEditavel}"
+															value="#{mpCadastroPacienteBean.mpPaciente.mpCor}">
+															<f:selectItems value="#{mpCadastroPacienteBean.mpCorList}"
+																var="mpCor" itemValue="#{mpCor}"
+																itemLabel="#{mpCor.descricao}" />
+														</p:selectOneRadio>
+														<p:tooltip for="mpCor" value="Cor (Ex.: Azul )" />
+													</h:panelGroup>
+													<h:panelGroup id="pgObs">
+														<p:outputLabel value="Observação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputTextarea id="obs" placeholder="Observação" maxlength="155"
+															readonly="#{mpCadastroPacienteBean.indEditavel}" rows="2"
+															value="#{mpCadastroPacienteBean.mpPaciente.observacao}">
+															<f:validateLength maximum="150" />
+															<p:clientValidator event="keyup" />
+														</p:inputTextarea>
+														<p:tooltip for="obs" value="Observação" />
+													</h:panelGroup>
+													<h:panelGroup />
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+						<p:tab title="Informação">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="1" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<p:inputTextarea placeholder="Informação" maxlength="255"
+														readonly="#{mpCadastroPacienteBean.indEditavel}" rows="5"
+														value="#{mpCadastroPacienteBean.mpPaciente.informacao}">
+														<f:validateLength maximum="255" />
+														<p:clientValidator event="keyup" />
+													</p:inputTextarea>
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+
+						<p:tab title="Pessoa(s)" closable="false">
+							<p:commandButton value="Nova Pessoa"
+								icon="fa fa-plus Fs14 white"
+								action="#{mpCadastroPacienteBean.adicionarMpPessoaPacienteX}"
+								disabled="#{mpCadastroPacienteBean.indEditavel}"
+								oncomplete="PF('novoPessoaPacienteDialog').show()" process="@this"
+								update="frmPessoa:novoPessoaPacienteDialogId">
+								<p:resetInput target="frmPessoa:novoPessoaPacienteDialogId" />
+							</p:commandButton>
+
+							<p:dataTable id="pessoaPacientesTable"
+								value="#{mpCadastroPacienteBean.mpPaciente.mpPessoaPacientes}"
+								emptyMessage="O Paciente ainda não possui pessoas."
+								var="pessoaPaciente" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Nome">
+									<h:outputText value="#{pessoaPaciente.mpPessoa.nome}" />
+								</p:column>
+								<p:column headerText="Status" priority="5">
+									<h:outputText value="#{pessoaPaciente.mpStatus}" />
+								</p:column>
+
+								<p:column style="text-align:center">
+									<p:commandButton title="Alterar" icon="fa fa-edit Fs14 white"
+										oncomplete="PF('novoPessoaPacienteDialog').show()"
+										action="#{mpCadastroPacienteBean.alterarMpPessoaPaciente}"
+										disabled="#{mpCadastroPacienteBean.indEditavel}"
+										process="@this" update="frmPessoa:novoPessoaPacienteDialogId">
+										<f:setPropertyActionListener value="#{pessoaPaciente}"
+											target="#{mpCadastroPacienteBean.mpPessoaPaciente}" />
+									</p:commandButton>
+
+									<p:commandButton title="Excluir" icon="fa fa-trash Fs14 white"
+										oncomplete="PF('confirmacaoExclusaoPessoaDialog').show()"
+										disabled="#{mpCadastroPacienteBean.indEditavel}"
+										process="@this" update=":frmPac:confirmacaoExclusaoPessoaDialog">
+										<f:setPropertyActionListener value="#{pessoaPaciente}"
+											target="#{mpCadastroPacienteBean.mpPessoaPaciente}" />
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="Foto">
+							<p:messages id="messageFoto" autoUpdate="false" showDetail="false" />
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+
+												<h:panelGroup id="arquivoBD">
+													<p:outputLabel style="font-size:16px; color:blue;"
+														value="#{mpCadastroPacienteBean.mpPaciente.mpArquivoAcao.resultado}" />
+													<p:spacer width="5" />
+													<o:graphicImage dataURI="true" cache="false" width="200"
+														rendered="#{mpCadastroPacienteBean.arquivoBytes == null ? false : true}"
+														value="#{mpCadastroPacienteBean.arquivoBytes}" />
+												</h:panelGroup>
+
+											</div>
+										</div>
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent">
+													<p:panelGrid id="pGridFoto" columns="2"
+														styleClass="panelgrid-noborder" layout="grid"
+														columnClasses="ui-grid-col-2, ui-grid-col-10">
+
+														<p:outputLabel value="Ação" for="arquivoAcao"
+															style="font-size:14px; color:black;" />
+														<p:selectOneRadio id="arquivoAcao"
+															disabled="#{mpCadastroPacienteBean.indEditavel}"
+															value="#{mpCadastroPacienteBean.mpArquivoAcao}"
+															valueChangeListener="#{mpCadastroPacienteBean.arquivoAcaoSelecionado}">
+															<f:selectItems
+																value="#{mpCadastroPacienteBean.mpArquivoAcaoList}"
+																var="mpArquivoAcao" itemValue="#{mpArquivoAcao}"
+																itemLabel="#{mpArquivoAcao.descricao}" />
+															<f:ajax execute="@all" render="@all" />
+														</p:selectOneRadio>
+
+														<p:outputLabel value="Associar" for="associaFoto"
+															rendered="#{mpCadastroPacienteBean.arquivoAcaoSelecao == 'Associar'}" />
+														<p:selectOneMenu id="associaFoto"
+															disabled="#{mpCadastroPacienteBean.indEditavel}"
+															value="#{mpCadastroPacienteBean.mpPaciente.mpArquivoBD}"
+															rendered="#{mpCadastroPacienteBean.arquivoAcaoSelecao == 'Associar'}">
+															<f:selectItem itemLabel="Selecione a Arquivo" />
+															<f:selectItems
+																value="#{mpCadastroPacienteBean.mpArquivoBDList}"
+																var="mpArquivoBD" itemValue="#{mpArquivoBD}"
+																itemLabel="#{mpArquivoBD.descricao}" />
+															<p:ajax event="change" process="@this"
+																update="frmPac:tabViewP:arquivoBD"
+																listener="#{mpCadastroPacienteBean.associaMpArquivoBD}"
+																ignoreAutoUpdate="true" />
+														</p:selectOneMenu>
+
+													</p:panelGrid>
+
+													<h:panelGroup id="carregaImagem"
+														rendered="#{mpCadastroPacienteBean.arquivoAcaoSelecao == 'Carregar'}">
+														<p:fileUpload label="Selecionar..."
+															disabled="#{mpCadastroPacienteBean.indEditavel}"
+															update="frmPac:tabViewP:messageFoto frmPac:tabViewP:arquivoBD"
+															fileUploadListener="#{mpCadastroPacienteBean.handleFileUpload}"
+															auto="true" mode="advanced" dragDropSupport="true"
+															sizeLimit="5000000"
+															allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+													</h:panelGroup>
+
+													<p:commandButton value="Proceder Captura"
+														icon="fa fa-camera Fs14 white"
+														rendered="#{mpCadastroPacienteBean.arquivoAcaoSelecao == 'Capturar'}"
+														oncomplete="PF('capturaDialog').show()" process="@this">
+													</p:commandButton>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+					<p:confirmDialog header="Exclusão Pessoa Paciente" message=
+	"Tem certeza que deseja excluir a Pessoa = ( #{mpCadastroPacienteBean.mpPessoaPaciente.mpPessoa.nome} )?"
+						widgetVar="confirmacaoExclusaoPessoaDialog"
+						id="confirmacaoExclusaoPessoaDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoPessoaDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoPessoaDialog').hide();"
+							action="#{mpCadastroPacienteBean.removerMpPessoaPacienteX}"
+							process="@this" update=":frmPac:tabViewP:pessoaPacientesTable" />
+					</p:confirmDialog>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmPessoa">
+			<p:dialog widgetVar="novoPessoaPacienteDialog" id="novoPessoaPacienteDialogId" modal="true"
+							header="#{mpCadastroPacienteBean.txtModoPessoaPacienteDialog} Pessoa" 
+			 				showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="novoPessoaPacientePanel">
+				
+					<p:messages autoUpdate="false" />
+
+						<p:panelGrid columns="1">
+
+							<h:panelGroup id="pgNome">
+								<p:outputLabel value="Nome: "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:selectOneMenu id="pessoa" effect="fold"
+									required="#{mpCadastroPacienteBean.indEditavelPessoa}"
+									validatorMessage="Informar Pessoa"
+									value="#{mpCadastroPacienteBean.mpPessoaPaciente.mpPessoa}">
+									<f:selectItem itemLabel="Selecione a Pessoa" />
+									<f:selectItems
+										value="#{mpCadastroPacienteBean.mpPessoaList}"
+										var="mpPessoa" itemLabel="#{mpPessoa.nome}"
+										itemValue="#{mpPessoa}" />
+								</p:selectOneMenu>
+								<p:tooltip for="pessoa" value="Pessoa (Ex.: Fulano Silva )" />
+							</h:panelGroup>
+
+							<p:selectOneMenu id="statusPessoa"
+								validatorMessage="Informar Status"
+								required="#{mpCadastroPacienteBean.indEditavelPessoa}"
+								value="#{mpCadastroPacienteBean.mpPessoaPaciente.mpStatus}">
+								<f:selectItem itemLabel="Selecione o Status" />
+								<f:selectItems value="#{mpCadastroPacienteBean.mpStatusList}"
+									var="mpStatusPessoa" itemValue="#{mpStatusPessoa}"
+									itemLabel="#{mpStatusPessoa}" />
+							</p:selectOneMenu>
+
+							<p:commandButton value="Salvar"
+								process="novoPessoaPacienteDialogId"
+								update=":frmPac:tabViewP:pessoaPacientesTable novoPessoaPacientePanel"
+								action="#{mpCadastroPacienteBean.salvarMpPessoaPaciente}"
+								oncomplete="if (!args.validationFailed) PF('novoPessoaPacienteDialog').hide()">
+								<p:collector value="#{mpCadastroPacienteBean.mpPessoaPaciente}"
+									addTo="#{mpCadastroPacienteBean.mpPaciente.mpPessoaPacientes}" />
+							</p:commandButton>
+
+						</p:panelGrid>
+					</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+		<div class="ContainerIndent">
+			<p:dialog widgetVar="capturaDialog" id="capturaDialogId" modal="true"
+				header="Captura Foto" showEffect="fade" hideEffect="fade"
+				resizable="false" responsive="true"
+				rendered="#{mpCadastroPacienteBean.arquivoAcaoSelecao == 'Capturar'}">
+				<h:form id="frmCapturaDialog">
+					<h:panelGrid columns="3" cellpadding="5">
+						<p:photoCam widgetVar="pc" width="250"
+							listener="#{mpCadastroPacienteBean.aoCapturarArquivo}"
+							update="photoDialog frmPac:tabViewP:arquivoBD" />
+						<p:commandButton type="button" value="Capturar" icon="fa fa-camera Fs14 white"
+							onclick="PF('pc').capture()" />
+						<p:outputPanel id="photoDialog">
+							<o:graphicImage dataURI="true" cache="false" width="250"
+								rendered="#{mpCadastroPacienteBean.arquivoBytesC == null ? false : true}"
+								value="#{mpCadastroPacienteBean.arquivoBytesC}" />
+						</p:outputPanel>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</div>
+				
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpPacienteDialog" id="helpPacienteDialogId" modal="true"
+					header="HELP - Paciente" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpPacientePanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCadastroPacienteBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroPacienteBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCadastroPacienteBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroPacienteBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>		
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCadastroPacienteBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCadastroPacienteBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+    												
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

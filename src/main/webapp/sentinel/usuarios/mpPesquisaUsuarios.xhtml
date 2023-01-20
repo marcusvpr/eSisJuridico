@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Usuários</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaUsuariosBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpUsuariosTable"
+									fileName="usuarios"
+									postProcessor="#{mpPesquisaUsuariosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="4" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:inputText placeholder="Login"
+									value="#{mpPesquisaUsuariosBean.mpFiltro.login}" />
+								<p:inputText placeholder="Nome"
+									value="#{mpPesquisaUsuariosBean.mpFiltro.nome}" />
+								<p:inputText placeholder="E-mail"
+									value="#{mpPesquisaUsuariosBean.mpFiltro.email}" />
+								<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpUsuariosTable"
+							value="#{mpPesquisaUsuariosBean.mpUsuariosFiltrados}"
+							var="mpUsuario" selectionMode="single"
+							selection="#{mpPesquisaUsuariosBean.mpUsuarioSelecionado}"
+							rowKey="#{mpUsuario.login}" reflow="true" style="margin-top:20px"
+							emptyMessage="Nenhum Usuario encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Login" style="text-align:center;"
+																sortBy="#{mpUsuario.Login}">
+								<h:outputText value="#{mpUsuario.login}" />
+							</p:column>
+							<p:column headerText="Nome" sortBy="#{mpUsuario.nome}">
+								<h:outputText value="#{mpUsuario.nome}" />
+							</p:column>
+							<p:column headerText="Email" sortBy="#{mpUsuario.email}">
+								<h:outputText value="#{mpUsuario.email}" />
+							</p:column>
+							<p:column headerText="Sexo" style="text-align:center;"
+														sortBy="#{mpUsuario.mpSexo.descricao}">
+								<h:outputText value="#{mpUsuario.mpSexo.descricao}" />
+							</p:column>
+							<p:column headerText="Status" style="text-align:center;"
+															sortBy="#{mpUsuario.mpStatus}">
+								<h:outputText value="#{mpUsuario.mpStatus.descricao}" />
+							</p:column>
+							<p:column headerText="Id" style="text-align:center;"
+																sortBy="#{mpUsuario.id}">
+								<h:outputText value="#{mpUsuario.id}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/usuarios/mpCadastroUsuario"
+									icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpUsuario" value="#{mpUsuario.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

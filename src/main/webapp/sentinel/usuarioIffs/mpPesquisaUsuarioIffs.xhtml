@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces" target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Usuário Iff</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaUsuarioIffsBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpUsuarioIffsTable"
+								fileName="UsuarioIffs"
+								postProcessor="#{mpPesquisaUsuarioIffsBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 											href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="5" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<h:panelGroup id="pgNome">
+									<p:outputLabel value="Nome: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText placeholder="Nome"
+										value="#{mpPesquisaUsuarioIffsBean.mpFiltro.nome}" />
+								</h:panelGroup>
+								<h:panelGroup id="pgEmail">
+									<p:outputLabel value="Email: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText placeholder="Email"
+										value="#{mpPesquisaUsuarioIffsBean.mpFiltro.email}" />
+								</h:panelGroup>
+								<h:panelGroup id="pgSetor">
+									<p:outputLabel value="Setor: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:selectCheckboxMenu 
+									    filter="true" filterMatchMode="startsWith" panelStyle="width:250px" label="Setores"
+										value="#{mpPesquisaUsuarioIffsBean.mpFiltro.mpSetorIffs}">
+	    								<f:selectItems value="#{mpPesquisaUsuarioIffsBean.mpSetorIffs}" var="mpSetorIff"
+	    									itemValue="#{mpSetorIff}" itemLabel="#{mpSetorIff.descricao}" />
+	    							</p:selectCheckboxMenu>
+								</h:panelGroup>
+								<h:panelGroup id="pgRamal">
+									<p:outputLabel value="Ramal: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText placeholder="Ramal"
+										value="#{mpPesquisaUsuarioIffsBean.mpFiltro.ramal}" />
+								</h:panelGroup>
+								<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpUsuarioIffsTable"
+						value="#{mpPesquisaUsuarioIffsBean.mpUsuarioIffsFiltrados}"
+						var="mpUsuarioIff" selectionMode="single"
+						selection="#{mpPesquisaUsuarioIffsBean.mpUsuarioIffSelecionado}"
+						rowKey="#{mpUsuarioIff.nome}" reflow="true" style="margin-top:20px"
+						emptyMessage="Nenhum Usuário Iff encontrado." rows="10"
+						paginator="true" paginatorAlwaysVisible="false"
+						paginatorPosition="bottom">
+
+							<p:column headerText="Nome" style="text-align:center;"
+																	sortBy="#{mpUsuarioIff.nome}">
+								<h:outputText value="#{mpUsuarioIff.nome}" />
+							</p:column>
+							<p:column headerText="Email" style="text-align:center;"
+																sortBy="#{mpUsuarioIff.email}">
+								<h:outputText value="#{mpUsuarioIff.email}" />
+							</p:column>
+							<p:column headerText="Setor" style="text-align:center;"
+													sortBy="#{mpUsuarioIff.mpSetorIff.descricaoRamal}">
+								<h:outputText value="#{mpUsuarioIff.mpSetorIff.descricaoRamal}" />
+							</p:column>
+							<p:column headerText="Ramal" style="text-align:center;"
+																sortBy="#{mpUsuarioIff.ramal}">
+								<h:outputText value="#{mpUsuarioIff.ramal}" />
+							</p:column>
+							<p:column headerText="Status" style="text-align:center;"
+															sortBy="#{mpUsuarioIff.indAtivo}">
+								<h:outputText value=
+										"#{mpUsuarioIff.indAtivo ? 'Ativo' : 'Inativo'}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome=
+								"/sentinel/usuarioIffs/mpCadastroUsuarioIff"
+														icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpUsuarioIff" value="#{mpUsuarioIff.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

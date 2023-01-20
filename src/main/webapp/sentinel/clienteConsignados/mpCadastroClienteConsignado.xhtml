@@ -1,0 +1,360 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpClienteConsignado" value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado}" />
+			<f:viewAction action="#{mpCadastroClienteConsignadoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Cliente Consignado #{mpCadastroClienteConsignadoBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesClienteConsignado.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+						<p:outputLabel value="Nome: "
+							rendered="#{mpLoginBean.scIndLabelCampo}" />
+						<p:inputText placeholder="Nome"
+							styleClass="Container40 Fnone MarAuto Fs18"
+							required="#{mpCadastroClienteConsignadoBean.indEditavel}"
+							validatorMessage="Informar Nome"
+							readonly="#{mpCadastroClienteConsignadoBean.indEditavel}"
+							value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado.nome}" />
+					</div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container90 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													
+													<h:panelGroup id="pgCPF">
+														<p:outputLabel value="CPF: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="cpf" placeholder="CPF"
+															mask="999.999.999-99"
+															required="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															validatorMessage="Informar CPF"
+															readonly="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado.cpf}" />
+														<p:tooltip id="toolTipCPF" for="cpf" value="CPF" />
+													</h:panelGroup>
+													<h:panelGroup id="pgTelefone">
+														<p:outputLabel value="Telefone: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="telefone" placeholder="Telefone"
+															required="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															validatorMessage="Informar Telefone"
+															readonly="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado.telefone}" />
+														<p:tooltip id="toolTipTelefone" for="telefone" value="Telefone" />
+													</h:panelGroup>
+													<h:panelGroup id="pgCelular">
+														<p:outputLabel value="Celular: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="celular" placeholder="Celular"
+															required="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															validatorMessage="Informar Celular"
+															readonly="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado.celular}" />
+														<p:tooltip id="toolTipCelular" for="celular" value="Celular" />
+													</h:panelGroup>
+													<h:panelGroup id="pgEmail">
+														<p:outputLabel value="Email: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="email" placeholder="E-mail"
+															required="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															validatorMessage="Informar E-mail" type="email"
+															readonly="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado.email}">
+															<f:validateRegex pattern=
+																"[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+														</p:inputText>
+														<p:tooltip id="toolTipEmail" for="email" value="Email" />
+													</h:panelGroup>
+													<h:panelGroup id="pgDataNascimento">
+														<p:outputLabel value="Data Nascimento: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="dataNascimento" pattern="dd/MM/yyyy" mask="true"
+															placeholder="Data Nascimento" effect="fold"
+															readonly="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado.dataNascimento}" />
+														<p:tooltip id="toolTipDataNascimento" for="dataNascimento" value="Data Nascimento" />
+													</h:panelGroup>
+													<h:panelGroup id="pgMpTipo">
+														<p:outputLabel value="Tipo: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneRadio id="mpTipo" 
+															layout="responsive" columns="2"
+															required="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															validatorMessage="Informar Tipo"
+															disabled="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado.mpTipo}">
+															<f:selectItems
+																value="#{mpCadastroClienteConsignadoBean.mpTipoPessoaList}"
+																var="mpTipoPessoa" itemLabel="#{mpTipoPessoa.descricao}"
+																itemValue="#{mpTipoPessoa}" />
+														</p:selectOneRadio>
+														<p:tooltip id="toolTipMpTipo" for="mpTipo" value="Tipo" />
+													</h:panelGroup>
+													<h:panelGroup id="pgMpSexo">
+														<p:outputLabel value="Sexo: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneRadio id="mpSexo"
+															layout="responsive" columns="2"
+															required="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															validatorMessage="Informar Sexo"
+															disabled="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado.mpSexo}">
+															<f:selectItems layout="responsive" columns="2"
+																value="#{mpCadastroClienteConsignadoBean.mpSexoList}" var="mpSexo"
+																itemLabel="#{mpSexo.descricao}" itemValue="#{mpSexo}" />
+														</p:selectOneRadio>
+														<p:tooltip id="toolTipMpSexo" for="mpSexo" value="Sexo" />
+													</h:panelGroup>
+													<h:panelGroup id="pgMpStatus">
+														<p:outputLabel value="Status: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpStatus" effect="fold"
+															required="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															validatorMessage="Informar Status"
+															disabled="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado.mpStatus}">
+															<f:selectItem itemLabel="Selecione o Status" />
+															<f:selectItems
+																value="#{mpCadastroClienteConsignadoBean.mpStatusList}"
+																var="mpStatus" itemLabel="#{mpStatus.descricao}"
+																itemValue="#{mpStatus}" />
+														</p:selectOneMenu>
+														<p:tooltip id="toolTipMpStatus" for="mpStatus" value="Status" />
+													</h:panelGroup>
+													<h:panelGroup id="pgMpEstadoCivil">
+														<p:outputLabel value="Estado Civil: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpEstadoCivil" effect="fold"
+															style="background-color:black; color:yellow;"
+															required="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															validatorMessage="Informar Estado Civil"
+															disabled="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado.mpEstadoCivil}">
+															<f:selectItem itemLabel="Selecione o Estado Civil" />
+															<f:selectItems
+																value="#{mpCadastroClienteConsignadoBean.mpEstadoCivilList}"
+																var="mpEstadoCivil" itemValue="#{mpEstadoCivil}"
+																itemLabel="#{mpEstadoCivil.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip id="toolTipMpEstadoCivil" for="mpEstadoCivil" value="Estado Civil" />
+													</h:panelGroup>
+													<h:panelGroup id="pgObservacao">
+														<p:outputLabel value="Observação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputTextarea id="observacao" placeholder="Observação"
+															readonly="#{mpCadastroClienteConsignadoBean.indEditavel}" rows="2"
+															value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado.observacao}" />
+														<p:tooltip id="toolTipObservacao" for="observacao" value="Observação" />
+													</h:panelGroup>
+													<p:spacer />
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container10 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+
+							</div>
+						</p:tab>
+
+						<p:tab title="Foto">
+							<p:messages id="messageFoto" autoUpdate="false"
+								showDetail="false" />
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+
+												<h:panelGroup id="arquivoBD">
+													<p:outputLabel style="font-size:16px; color:blue;"
+														value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado.mpArquivoAcao.resultado}" />
+													<p:spacer width="5" />
+													<o:graphicImage dataURI="true" cache="false" width="200"
+														rendered="#{mpCadastroClienteConsignadoBean.arquivoBytes == null ? false : true}"
+														value="#{mpCadastroClienteConsignadoBean.arquivoBytes}" />
+												</h:panelGroup>
+
+											</div>
+										</div>
+										<div class="Container50 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent">
+													<p:panelGrid id="pGridFoto" columns="2"
+														styleClass="panelgrid-noborder" layout="grid"
+														columnClasses="ui-grid-col-2, ui-grid-col-10">
+
+														<p:outputLabel value="Ação" for="arquivoAcao"
+															style="font-size:14px; color:black;" />
+														<p:selectOneRadio id="arquivoAcao"
+															disabled="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															value="#{mpCadastroClienteConsignadoBean.mpArquivoAcao}"
+															valueChangeListener="#{mpCadastroClienteConsignadoBean.arquivoAcaoSelecionado}">
+															<f:selectItems
+																value="#{mpCadastroClienteConsignadoBean.mpArquivoAcaoList}"
+																var="mpArquivoAcao" itemValue="#{mpArquivoAcao}"
+																itemLabel="#{mpArquivoAcao.descricao}" />
+															<f:ajax execute="@all" render="@all" />
+														</p:selectOneRadio>
+
+														<p:outputLabel value="Associar" for="associaFoto"
+															rendered="#{mpCadastroClienteConsignadoBean.arquivoAcaoSelecao == 'Associar'}" />
+														<p:selectOneMenu id="associaFoto"
+															disabled="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															value="#{mpCadastroClienteConsignadoBean.mpClienteConsignado.mpArquivoBD}"
+															rendered="#{mpCadastroClienteConsignadoBean.arquivoAcaoSelecao == 'Associar'}">
+															<f:selectItem itemLabel="Selecione a Arquivo" />
+															<f:selectItems
+																value="#{mpCadastroClienteConsignadoBean.mpArquivoBDList}"
+																var="mpArquivoBD" itemValue="#{mpArquivoBD}"
+																itemLabel="#{mpArquivoBD.descricao}" />
+															<p:ajax event="change" process="@this"
+																update="frm:tabViewC:arquivoBD"
+																listener="#{mpCadastroClienteConsignadoBean.associaMpArquivoBD}"
+																ignoreAutoUpdate="true" />
+														</p:selectOneMenu>
+
+													</p:panelGrid>
+
+													<h:panelGroup id="carregaImagem"
+														rendered="#{mpCadastroClienteConsignadoBean.arquivoAcaoSelecao == 'Carregar'}">
+														<p:fileUpload label="Selecionar..."
+															disabled="#{mpCadastroClienteConsignadoBean.indEditavel}"
+															update="frm:tabViewC:messageFoto frm:tabViewC:arquivoBD"
+															fileUploadListener="#{mpCadastroClienteConsignadoBean.handleFileUpload}"
+															auto="true" mode="advanced" dragDropSupport="true"
+															sizeLimit="5000000"
+															allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+													</h:panelGroup>
+
+													<p:commandButton value="Proceder Captura"
+														icon="fa fa-camera Fs14 white"
+														rendered="#{mpCadastroClienteConsignadoBean.arquivoAcaoSelecao == 'Capturar'}"
+														oncomplete="PF('capturaDialog').show()" process="@this">
+													</p:commandButton>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+						<p:tab title="Dados Bancários">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container90 Responsive100">
+											<div class="Container100">
+
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+						<p:tab title="Digitalização Documentos">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container90 Responsive100">
+											<div class="Container100">
+
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+				</p:panel>
+			</h:form>
+		</div>
+
+
+		<div class="ContainerIndent">
+			<p:dialog widgetVar="capturaDialog" id="capturaDialogId" modal="true"
+				header="Captura Foto" showEffect="fade" hideEffect="fade"
+				resizable="false" responsive="true"
+				rendered="#{mpCadastroClienteConsignadoBean.arquivoAcaoSelecao == 'Capturar'}">
+				<h:form id="frmCapturaDialog">
+					<h:panelGrid columns="3" cellpadding="5">
+						<p:photoCam widgetVar="pc" width="250"
+							listener="#{mpCadastroClienteConsignadoBean.aoCapturarArquivo}"
+							update="photoDialog frm:tabViewC:arquivoBD" />
+						<p:commandButton type="button" value="Capturar" icon="fa fa-camera Fs14 white"
+							onclick="PF('pc').capture()" />
+						<p:outputPanel id="photoDialog">
+							<o:graphicImage dataURI="true" cache="false" width="250"
+								rendered="#{mpCadastroClienteConsignadoBean.arquivoBytesC == null ? false : true}"
+								value="#{mpCadastroClienteConsignadoBean.arquivoBytesC}" />
+						</p:outputPanel>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpClienteConsignadoDialog" id="helpClienteConsignadoDialogId" modal="true"
+					header="HELP - ClienteConsignado" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpClienteConsignadoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+													
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpDescircao" readonly="true"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+		
+	</ui:define>
+
+</ui:composition>

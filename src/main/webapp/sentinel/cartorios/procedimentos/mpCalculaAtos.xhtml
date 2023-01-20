@@ -1,0 +1,144 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmCalcula">
+				<p:growl id="growl" />
+				<p:messages autoUpdate="true" />
+
+				<h2 class="aw-page-title">Calcular Atos</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> 
+							<p:commandButton value="Calcular"
+								actionListener="#{mpCalculaAtosBean.calcular}"
+								widgetVar="startButton2" />
+							<p:commandButton value="Cancela"
+								actionListener="#{mpCalculaAtosBean.cancel}"
+								oncomplete="PF('pbAjax').cancel();PF('startButton2').enable();" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="/dashboardRS" />
+							<p:commandButton title="Ajuda - Informação (alt+h)" accesskey="h" 
+								icon="fa fa-question-circle Fs14 red" process="@this" 
+								action="#{mpCalculaAtosBean.mpHelp}" update="frmHelp"
+								oncomplete="PF('helpCalculaAtosDialog').show()" />			
+						</span>
+					</div>
+				</div>
+				<div class="ContainerIndent">
+					<div class="Container50">
+						<span class="DispInlBlock Fright FloatNoneOnMobile">
+							<p:progressBar widgetVar="pbAjax" ajax="true"
+								value="#{mpCalculaAtosBean.progresso}" labelTemplate="{value}%"
+								styleClass="animated" global="false">
+								<p:ajax event="complete"
+									listener="#{mpCalculaAtosBean.onComplete}" update="growl"
+									oncomplete="PF('startButton2').enable()" />
+							</p:progressBar>
+						</span>
+					</div>
+					<div class="Container50">
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> </span>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpCalculaAtosDialog" id="helpCalculaAtosDialogId" modal="true"
+					header="HELP - CalculaAtos" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpCalculaAtosPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCalculaAtosBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCalculaAtosBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCalculaAtosBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCalculaAtosBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCalculaAtosBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCalculaAtosBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+		<style type="text/css">
+    		.animated .ui-progressbar-value { 
+        		background-image: url("images/loading.gif"); 
+    		}
+		</style>
+		<script type="text/javascript">
+			function start() {
+    			PF('startButton1').disable();
+ 
+   				 window['progress'] = setInterval(function() {
+   				    var pbClient = PF('pbClient'),
+    			    oldValue = pbClient.getValue(),
+        			newValue = oldValue + 10;
+ 
+        			pbClient.setValue(pbClient.getValue() + 10);
+ 
+        			if(newValue === 100) {
+            			clearInterval(window['progress']);
+        			}
+    			}, 1000);
+			}
+ 
+			function cancel() {
+    			clearInterval(window['progress']);
+    			PF('pbClient').setValue(0);
+    			PF('startButton1').enable();
+			}
+		</script>
+
+	</ui:define>
+
+</ui:composition>

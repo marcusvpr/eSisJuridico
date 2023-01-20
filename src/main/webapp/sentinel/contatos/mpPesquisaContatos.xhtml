@@ -1,0 +1,120 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Contatos</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile">
+							<p:commandButton value="Pesquisar" update="@form"
+												action="#{mpPesquisaContatosBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpContatosTable"
+									fileName="contatos"
+									postProcessor="#{mpPesquisaContatosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 											href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="4" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<h:panelGroup id="pgNomeRazaoSocial">
+									<p:outputLabel value="Nome / Razão Social: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText placeholder="Nome / Razão Social"
+										value="#{mpPesquisaContatosBean.mpFiltro.nomeRazaoSocial}" />
+								</h:panelGroup>
+								<h:panelGroup id="pgEmail">
+									<p:outputLabel value="E-mail: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText placeholder="E-mail"
+										value="#{mpPesquisaContatosBean.mpFiltro.email}" />
+								</h:panelGroup>
+								<p:outputLabel />
+								<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpContatosTable"
+							value="#{mpPesquisaContatosBean.mpContatosFiltrados}"
+							var="mpContato" selectionMode="single"
+							selection="#{mpPesquisaContatosBean.mpContatoSelecionado}"
+							rowKey="#{mpContato.nomeRazaoSocial}" reflow="true" style="margin-top:20px"
+							emptyMessage="Nenhum Contato encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Nome" sortBy="#{mpContato.nomeRazaoSocial}">
+								<h:outputText value="#{mpContato.nomeRazaoSocial}" />
+							</p:column>
+							<p:column headerText="Email" sortBy="#{mpContato.email}">
+								<h:outputText value="#{mpContato.email}" />
+							</p:column>
+							<p:column headerText="CPF / CNPJ" priority="3" sortBy="#{mpContato.cpfCnpj}">
+								<h:outputText value="#{mpContato.cpfCnpj}" />
+							</p:column>
+							<p:column headerText="Telefone" priority="6" sortBy="#{mpContato.telefone}">
+								<h:outputText value="#{mpContato.telefone}" />
+							</p:column>
+							<p:column headerText="Sexo" sortBy="#{mpContato.mpSexo.descricao}">
+								<h:outputText value="#{mpContato.mpSexo.descricao}" />
+							</p:column>
+							<p:column headerText="I.Cli" style="text-align:center;"
+								sortBy="#{mpContato.indCliente}">
+								<h:outputText value="#{mpContato.indCliente ? 'S' : 'N'}" />
+							</p:column>
+							<p:column headerText="I.Forn" style="text-align:center;"
+								sortBy="#{mpContato.indFornecedor}">
+								<h:outputText value="#{mpContato.indFornecedor ? 'S' : 'N'}" />
+							</p:column>
+							<p:column headerText="I.Transp" style="text-align:center;"
+								sortBy="#{mpContato.indTransportador}">
+								<h:outputText value="#{mpContato.indTransportador ? 'S' : 'N'}" />
+							</p:column>
+							<p:column headerText="I.Final" style="text-align:center;"
+								sortBy="#{mpContato.indClienteFinal}">
+								<h:outputText value="#{mpContato.indClienteFinal ? 'S' : 'N'}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/contatos/mpCadastroContato"
+															icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpContato" value="#{mpContato.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

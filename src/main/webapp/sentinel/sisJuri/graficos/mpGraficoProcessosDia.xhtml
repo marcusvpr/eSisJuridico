@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="dummy"/>
+		<f:event listener="#{mpGraficoProcessosDiaBean.preRender}" type="preRenderView"/>
+	</f:metadata>
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+		
+			<div class="ContainerIndent">
+				<div class="Container100">
+					<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+						<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="./dashboardRS" />
+					</span>
+				</div>
+			</div>
+
+			<div class="ContainerIndent">
+				<h:form id="frmG">
+					<h2 class="aw-page-title">Gráfico Qtd.Processos por dia</h2>
+
+					<p:messages autoUpdate="true" closable="true" />
+
+					<p:panelGrid columns="1" layout="grid"
+						style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+						<h:panelGroup>
+							<p:calendar id="dataInicial" size="10" pattern="dd/MM/yyyy" mask="true" showOn="button"
+								value="#{mpGraficoProcessosDiaBean.dataInicial}" />
+							<p:spacer width="15" />
+							<p:calendar id="dataFinal" size="10" pattern="dd/MM/yyyy" mask="true" showOn="button"
+								value="#{mpGraficoProcessosDiaBean.dataFinal}" />
+							<p:spacer width="15" />
+
+							<p:commandButton value="Gera Gráfico" icon="ui-icon-search"
+								update="myChartP myMsg" action="#{mpGraficoProcessosDiaBean.geraGraficoProcesso}" />
+								
+							<p:spacer width="15" />	
+							<p:outputLabel id="myMsg" value="" /> <!-- Mensagem : #{mpGraficoProcessosDiaBean.mensagem}" -->
+						</h:panelGroup>
+					</p:panelGrid>
+
+					<div class="ContainerIndent">
+						<div class="Container100">
+							<p:chart id="myChartP" type="line" model="#{mpGraficoProcessosDiaBean.lineModel}" />
+						</div>
+					</div>
+
+				</h:form>
+			</div>
+
+		</div>
+	</ui:define>
+
+</ui:composition>

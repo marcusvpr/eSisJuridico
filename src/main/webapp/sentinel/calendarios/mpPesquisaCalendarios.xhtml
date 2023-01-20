@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces" target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Calendários</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile">
+							<p:commandButton value="Pesquisar" update="@form"
+								action="#{mpPesquisaCalendariosBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpCalendariosTable"
+									fileName="calendarios"
+									postProcessor="#{mpPesquisaCalendariosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="5" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+	    						<p:calendar pattern="dd/MM/yyyy" placeholder="Data De ..." mask="true"
+	    								value="#{mpPesquisaCalendariosBean.mpFiltro.dataCriacaoDe}" />
+	    						<p:outputLabel />
+	    						<p:calendar pattern="dd/MM/yyyy" placeholder="Data Até ..." mask="true"
+	    								value="#{mpPesquisaCalendariosBean.mpFiltro.dataCriacaoAte}" />
+	    						<p:outputLabel />
+	    						<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpCalendariosTable"
+							value="#{mpPesquisaCalendariosBean.mpCalendariosFiltrados}"
+							var="mpCalendario" selectionMode="single" style="margin-top:20px"
+							selection="#{mpPesquisaCalendariosBean.mpCalendarioSelecionado}"
+							rowKey="#{mpCalendario.dataMovimento}" reflow="true" 
+							emptyMessage="Nenhum Calendario encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Data" sortBy="#{mpCalendario.dataMovimento}">
+								<h:outputText value="#{mpCalendario.dataMovimento}">
+	    							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" 
+	    															timeZone="America/Sao_Paulo" />
+	    						</h:outputText>
+							</p:column>
+							<p:column headerText="Data Fim" sortBy="#{mpCalendario.dataFimMovimento}">
+								<h:outputText value="#{mpCalendario.dataFimMovimento}">
+	    							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" 
+	    															timeZone="America/Sao_Paulo" />
+	    						</h:outputText>
+							</p:column>
+							<p:column headerText="Ind.Feriado" sortBy="#{mpCalendario.indFeriado}">
+								<h:outputText value="#{mpCalendario.indFeriado}" />
+							</p:column>
+							<p:column headerText="Descrição" sortBy="#{mpCalendario.descricao}">
+								<h:outputText value="#{mpCalendario.descricao}" />
+							</p:column>
+							<p:column headerText="Ind.Ativo" sortBy="#{mpCalendario.indAtivo}">
+								<h:outputText value="#{mpCalendario.indAtivo}" />
+							</p:column>
+							<p:column headerText="Observação" sortBy="#{mpCalendario.observacao}">
+								<h:outputText value="#{mpCalendario.observacao}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/calendarios/mpCadastroCalendario"
+														icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpCalendario" value="#{mpCalendario.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

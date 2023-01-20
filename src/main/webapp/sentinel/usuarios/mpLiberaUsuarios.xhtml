@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces" target="head" />
+
+			<h:form id="frmLibera">
+			
+	    		<p:messages autoUpdate="true" closable="true" />
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile">
+							<p:outputLabel value="Libera Usuários Bloqueados" 
+														class="Fs25 DispBlock TexAlCenter" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpUsuariosTable"
+							value="#{mpLiberaUsuariosBean.model}" var="mpUsuario"
+							lazy="true" style="margin-top:20px"
+							selection="#{mpLiberaUsuariosBean.mpUsuarioSelecionado}"
+							selectionMode="single" rowKey="#{mpUsuario.nome}" reflow="true"
+							emptyMessage="Nenhum Usuário Bloqueado encontrado." rows="20"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Login" sortBy="#{mpUsuario.login}">
+								<h:outputText value="#{mpUsuario.login}" />
+							</p:column>
+							<p:column headerText="Nome" sortBy="#{mpUsuario.nome}">
+								<h:outputText value="#{mpUsuario.nome}" />
+							</p:column>
+							<p:column headerText="Email" sortBy="#{mpUsuario.email}">
+								<h:outputText value="#{mpUsuario.email}" />
+							</p:column>
+							<p:column style="text-align: center; width: 50px" exportable="false">
+								<p:commandButton icon="ui-icon-check" title="Liberar"
+									oncomplete="PF('confirmacaoLiberacao').show()" process="@this"
+									update=":frmLibera:confirmacaoLiberacaoDialog">
+									<f:setPropertyActionListener value="#{mpUsuario}"
+										target="#{mpLiberaUsuariosBean.mpUsuarioSelecionado}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+
+						<p:confirmDialog header="Liberação Usuário" responsive="true"
+								global="true" showEffect="fade" hideEffect="fade" message=
+	"Tem certeza que deseja LIBERAR o usuário ( #{mpLiberaUsuariosBean.mpUsuarioSelecionado.login} )?"
+	    						widgetVar="confirmacaoLiberacao" id="confirmacaoLiberacaoDialog">
+							<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+							 			icon="ui-icon-close fa fa-close Fs14 white"
+										onclick="PF('confirmacaoLiberacao').hide(); return false;" />
+							<p:commandButton value="Sim" 
+										update=":frmLibera:mpUsuariosTable" id="yesButton"
+										oncomplete="PF('confirmacaoLiberacao').hide();"
+	    								action="#{mpLiberaUsuariosBean.liberar}" process="@this"
+										styleClass="ui-confirmdialog-yes"
+										icon="ui-icon-check fa fa-check Fs14 white" />
+						</p:confirmDialog>
+	    	
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

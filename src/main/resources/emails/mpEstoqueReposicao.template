@@ -1,0 +1,41 @@
+<html>
+    <body>
+        <table>
+            <tr>
+                <td style="width: 200px"></td>
+                <td style="width: 200px">Relação Estoque Reposição :</td>
+                <td style="width: 200px"></td>
+            </tr>
+            <tr>
+                <td>Produto:</td>
+                <td>Quantidade:</td>
+                <td>Validade:</td>
+            </tr>
+            #foreach ($mpItem in $mpMovimentoProdutoListX)
+            	#if ($mpItem.mpProduto.id)
+	            <tr>
+	                <td>$mpItem.mpProduto.nome</td>
+	                <td>$mpItem.quantidade</td>
+	                <td>$mpItem.dataValidade</td>
+	            </tr>
+	            #end
+            #end
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="width: 300px">
+					<a href="http://$scSistemaURL/mpProtesto/alertaLogs/MpAlertaLogEstoqueReposicao.xhtml?idAl=$mpCalendario.id&idAlP=Co&idAlT=ER">
+						. Estoque Reposição CONFIRMAR ... 
+					</a>
+                </td>
+            </tr>
+        </table>
+        
+    </body>
+</html>

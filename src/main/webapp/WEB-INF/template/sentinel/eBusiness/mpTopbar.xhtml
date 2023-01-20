@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ps="http://primefaces.org/sentinel"
+    xmlns:p="http://primefaces.org/ui">
+        
+    <div id="layout-header" class="Unselectable fontRegular">
+        <a href="mpHome.xhtml" id="layout-logo">
+            <p:graphicImage name="eBusiness/efeitoBusinessLogo1.png" styleClass="Fleft" 
+            		library="images" style="height:30px; margin-top:0px; margin-left:5px;" />
+            <span class="Fs19 FontTitilliumSemiBoldItalic Fleft">
+            	<!-- span class="softblue">MPXDS</span>  -->
+       			<p:spacer width="10" />
+            	<span class="hardblue" style="height:30px;">Efeito Business Services LTDA.</span>
+       			<p:spacer width="20" />
+            </span>
+        </a>
+                  									
+    	<ul id="sm-topmenu" class="layout-header-widgets white Fs14">
+    		<li class="Fleft BordRadHalf TexAlCenter">
+    			<i class="icon-wrench-1"></i>
+    			<ul class="layout-header-widgets-submenu BordRad5 shadows white Animated05">
+    				<li class="Animated05">
+    					<a href="#" class="white Unselectable">
+    						<i class="icon-lifebuoy"></i>Ajuda - Help Desk
+    					</a>
+    				</li>
+    			</ul>
+    		</li>
+    	</ul>
+    	<!-- NEVER REMOVE FOLLOWING 'UL' TAG ! BECAUSE THIS CONTAINS RESPONSIVE MODE HEADER MENU OPEN-CLOSE BUTTON -->
+    	<ul id="sm-mobiletopmenu" class="layout-header-widgets white Fs14">
+    		<li class="Fleft BordRadHalf TexAlCenter Animated05 DisplayOnResponsive"><i class="icon-th-1"></i></li>
+    	</ul>
+    	<!-- ****** -->
+   	</div>
+    
+</ui:composition>

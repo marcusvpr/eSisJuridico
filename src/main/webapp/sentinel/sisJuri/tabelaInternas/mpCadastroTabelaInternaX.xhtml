@@ -1,0 +1,222 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpTabelaInternaSJ" value="#{mpCadastroTabelaInternaSJBeanY.mpTabelaInternaSJ}" />
+			<f:viewAction action="#{mpCadastroTabelaInternaSJBeanY.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Tabela Interna... #{mpCadastroTabelaInternaSJBeanY.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/sisJuri/mpBotoesTabelaInternaX.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgTipoTabela">
+														<p:outputLabel value="Tipo Tabela: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpTipoTabelaInternaSJ"
+															disabled="#{mpCadastroTabelaInternaSJBeanY.indEditavel}"
+															value="#{mpCadastroTabelaInternaSJBeanY.mpTabelaInternaSJ.mpTipoTabelaInternaSJ}">
+															<f:selectItem itemLabel="Selecione o Tipo de Tabela" />
+															<f:selectItems
+																value="#{mpCadastroTabelaInternaSJBeanY.mpTipoTabelaInternaSJList}"
+																var="mpTipoTabelaInternaSJ"
+																itemValue="#{mpTipoTabelaInternaSJ}"
+																itemLabel="#{mpTipoTabelaInternaSJ.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpTipoTabelaInternaSJ"
+															value="Tipo Tabela ( Ex.: Tabela Cidade )" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgCodigo">
+														<p:outputLabel value="Código: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="codigo" maxlength="50" placeholder="Código"
+															readonly="#{mpCadastroTabelaInternaSJBeanY.indEditavel}"
+															value="#{mpCadastroTabelaInternaSJBeanY.mpTabelaInternaSJ.codigo}" />
+														<p:tooltip for="codigo" value="Código (Ex.: RioJaneiro )" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgDescricao">
+														<p:outputLabel value="Descrição: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="descricao" maxlength="150" placeholder="Descrição"
+															readonly="#{mpCadastroTabelaInternaSJBeanY.indEditavel}"
+															value="#{mpCadastroTabelaInternaSJBeanY.mpTabelaInternaSJ.descricao}" />
+														<p:tooltip for="descricao" value="Descrição (Ex.: Rio de Janeiro )" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+
+												<p:panelGrid columns="5" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<p:spacer />
+													<p:commandButton value="Nova Filha"
+														icon="fa fa-plus Fs14 white"
+														action="#{mpCadastroTabelaInternaSJBeanY.adicionarMpSubtabelaInternaSJX}"
+														disabled="#{mpCadastroTabelaInternaSJBeanY.indEditavel}"
+														oncomplete="PF('novaSubtabelaInternaSJDialog').show()"
+														process="@this" update="frmSubcat:novaSubtabelaInternaSJDialogId">
+														<p:resetInput target="frmSubcat:novaSubtabelaInternaSJDialogId" />
+													</p:commandButton>
+													<p:spacer />
+													<p:spacer />
+													<p:spacer />
+
+												</p:panelGrid>
+
+												<p:panelGrid columns="1" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<p:dataTable id="subtabelaInternaSJsTable"
+														value="#{mpCadastroTabelaInternaSJBeanY.mpTabelaInternaSJ.mpFilhas}"
+														emptyMessage="A TabelaInterna ainda não possui Filhas"
+														var="subtabelaInternaSJ" style="margin-top:10px" reflow="true">
+
+														<p:column headerText="Código"
+																	sortBy="#{subtabelaInternaSJ.codigo}">
+															<h:outputText value="#{subtabelaInternaSJ.codigo}" />
+														</p:column>
+
+														<p:column headerText="Descrição"
+																	sortBy="#{subtabelaInternaSJ.descricao}">
+															<h:outputText value="#{subtabelaInternaSJ.descricao}" />
+														</p:column>
+
+														<p:column style="text-align:center">
+															<p:commandButton title="Alterar"
+																icon="fa fa-edit Fs14 white"
+																oncomplete="PF('novaSubtabelaInternaSJDialog').show()"
+																action="#{mpCadastroTabelaInternaSJBeanY.alterarMpSubtabelaInternaSJ}"
+																disabled="#{mpCadastroTabelaInternaSJBeanY.indEditavel}"
+																process="@this" update="frmSubcat:novaSubtabelaInternaSJDialogId">
+																<f:setPropertyActionListener value="#{subtabelaInternaSJ}"
+																	target="#{mpCadastroTabelaInternaSJBeanY.mpSubtabelaInternaSJ}" />
+															</p:commandButton>
+
+															<p:commandButton title="Excluir"
+																icon="fa fa-trash Fs14 white"
+																oncomplete="PF('confirmacaoExclusaoSubcatDialog').show()"
+																disabled="#{mpCadastroTabelaInternaSJBeanY.indEditavel}"
+																process="@this"
+																update=":frm:confirmacaoExclusaoSubcatDialog">
+																<f:setPropertyActionListener value="#{subtabelaInternaSJ}"
+																	target="#{mpCadastroTabelaInternaSJBeanY.mpSubtabelaInternaSJ}" />
+															</p:commandButton>
+														</p:column>
+
+													</p:dataTable>
+
+												</p:panelGrid>
+
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+					<p:confirmDialog header="Exclusão Filha" message=
+	"Tem certeza que deseja excluir a Filha = ( #{mpCadastroTabelaInternaSJBeanY.mpSubtabelaInternaSJ.descricao} )?"
+						widgetVar="confirmacaoExclusaoSubcatDialog"
+						id="confirmacaoExclusaoSubcatDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoSubcatDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoSubcatDialog').hide();"
+							action="#{mpCadastroTabelaInternaSJBeanY.removerMpSubtabelaInternaSJX}"
+							process="@this" update=":frm:tabViewC:subtabelaInternaSJsTable" />
+					</p:confirmDialog>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmSubcat">
+			<p:dialog widgetVar="novaSubtabelaInternaSJDialog" id="novaSubtabelaInternaSJDialogId" closable="false"
+				header="#{mpCadastroTabelaInternaSJBeanY.txtModoSubtabelaInternaSJDialog} Filha" 
+			 	showEffect="fade" hideEffect="fade" resizable="false" responsive="true" modal="true">
+
+				<h:panelGroup id="novaSubtabelaInternaSJPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1">
+													
+						<h:panelGroup id="pgCodigoSubcat">
+							<p:outputLabel value="Código: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="codigoSubcat" required="#{mpCadastroTabelaInternaSJBeanY.indEditavelSubcat}"
+ 										validatorMessage="Informar Código" placeholder="Codigo" 
+						 				value="#{mpCadastroTabelaInternaSJBeanY.mpSubtabelaInternaSJ.codigo}" />
+							<p:tooltip for="codigoSubcat" value="Código (Ex.: RJ)" />
+						</h:panelGroup>
+													
+						<h:panelGroup id="pgDescricaoSubcat">
+							<p:outputLabel value="Descrição: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="descricaoSubcat" required="#{mpCadastroTabelaInternaSJBeanY.indEditavelSubcat}"
+ 										validatorMessage="Informar Descrição" placeholder="Descrição" rows="2" 
+						 				value="#{mpCadastroTabelaInternaSJBeanY.mpSubtabelaInternaSJ.descricao}" />
+							<p:tooltip for="descricaoSubcat" value="Descrição (Ex.: Rio Janeiro)" />
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<p:commandButton value="Salvar" process="novaSubtabelaInternaSJDialogId"
+								update=":frm:tabViewC:subtabelaInternaSJsTable novaSubtabelaInternaSJPanel"
+								action="#{mpCadastroTabelaInternaSJBeanY.salvarMpSubtabelaInternaSJ}"
+								oncomplete="if (!args.validationFailed) PF('novaSubtabelaInternaSJDialog').hide()">
+								<p:collector value="#{mpCadastroTabelaInternaSJBeanY.mpSubtabelaInternaSJ}"
+										addTo="#{mpCadastroTabelaInternaSJBeanY.mpTabelaInternaSJ.mpFilhas}" />
+							</p:commandButton>
+							<p:commandButton value="Fechar" process="@this"
+								update=":frm:tabViewC:subtabelaInternaSJsTable"
+								action="#{mpCadastroTabelaInternaSJBeanY.fecharMpSubtabelaInternaSJ}"
+								oncomplete="if (!args.validationFailed) PF('novaSubtabelaInternaSJDialog').hide()">
+							</p:commandButton>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

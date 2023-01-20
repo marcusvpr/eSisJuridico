@@ -1,0 +1,499 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpProcesso" value="#{mpCadastroProcessoBean.mpProcesso}" />
+			<f:viewAction action="#{mpCadastroProcessoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frmProc" enctype="multipart/form-data">
+				<p:panel header="Processo #{mpCadastroProcessoBean.txtModoTela}">
+
+					<p:messages id="messages" autoUpdate="false" showDetail="false" />
+					<!-- p:growl id="messages" showDetail="false"  -->
+
+					<ui:include src="/WEB-INF/template/sentinel/sisJuri/mpBotoesProcesso.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top:60px;">
+						<h:panelGroup id="pgDataC">
+							<h:panelGroup id="pgDataC1" rendered="#{mpCadastroProcessoBean.indEditavel}">
+								<p:outputLabel value="Data Cadastro : " />
+								<h:outputText value="#{mpCadastroProcessoBean.mpProcesso.dataCadastro}"
+									styleClass="Container40 Fnone MarAuto Fs15 red">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</h:panelGroup>
+							<h:panelGroup id="pgDataC2" rendered="#{!mpCadastroProcessoBean.indEditavel}">
+								<p:outputLabel value="Data Cadastro : " />
+								<p:calendar id="dataCadastroD" showOn="button" locale="pt"
+									timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy HH:mm"
+									required="#{mpCadastroProcessoBean.indEditavel}"
+									validatorMessage="Informar Data Cadastro"
+									value="#{mpCadastroProcessoBean.mpProcesso.dataCadastro}" />
+								<p:tooltip for="dataCadastroD" value="Data (Ex.: 31/03/2061 13:45)" />
+							</h:panelGroup>
+							<p:spacer width="60" height="10" />
+							<p:outputLabel value="No.Controle : " />
+							<p:inputText readonly="true" style="width:10%;"
+								styleClass="Container40 Fnone MarAuto Fs18"
+								value="#{mpCadastroProcessoBean.mpProcesso.id}" />
+						</h:panelGroup>
+
+					</div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container40 Responsive100">
+											<div class="Container100">
+												<p:panel header="Orgão">
+													<p:panelGrid columns="1" layout="grid"
+														style="border:0px !important; background:none;"
+														styleClass="ui-panelgrid-blank">
+
+														<h:panelGroup id="pgNumProcesso">
+															<p:outputLabel value="No.Processo : "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:commandButton id="cbNumProcesso" icon="fa fa-fw fa-search-plus"
+																process="@this" title="Pesquisa Processo por número"
+            													action="#{mpCadastroProcessoBean.findByProcesso}"
+            													update="frmFind" oncomplete="PF('findProcessoDialog').show()" />
+															<p:inputText id="numProcesso" placeholder="Número Processo" maxlength="30" 
+																readonly="#{mpCadastroProcessoBean.indEditavel}"
+																value="#{mpCadastroProcessoBean.mpProcesso.processoCodigo}">
+															 	<p:ajax event="blur" update=":frmProc:mpNumProcessoDialogId" 
+															 		listener="#{mpCadastroProcessoBean.onChangeNumProcesso}" />
+															 </p:inputText>																
+															<p:tooltip id="toolTipNumProcesso" for="numProcesso" value="Número Processo" />
+														</h:panelGroup>
+														<h:panelGroup id="pgAutor">
+															<p:outputLabel value="Autor: "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="autor" placeholder="Autor"
+																counter="display" maxlength="150" 
+																readonly="#{mpCadastroProcessoBean.indEditavel}"
+																value="#{mpCadastroProcessoBean.mpProcesso.autor}" />
+															<p:tooltip id="toolTipAutor" for="autor" value="Autor" />
+														</h:panelGroup>
+														<h:panelGroup id="pgMpParteContraria">
+															<p:outputLabel value="Parte Contrária : "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<h:panelGroup>
+																<p:commandButton id="cbParteContrariaF" icon="fa fa-fw fa-external-link-square"
+																	disabled="#{mpCadastroProcessoBean.indEditavel}"
+																	action="#{mpCadastroProcessoBean.viewParteContrariaF}"
+															 		title="Acessa Cadastro Pessoa Física" update="mpParteContraria" />
+																<p:commandButton id="cbParteContrariaJ" icon="fa fa-fw fa-external-link-square"
+																	disabled="#{mpCadastroProcessoBean.indEditavel}"
+																	action="#{mpCadastroProcessoBean.viewParteContrariaJ}"
+															 		title="Acessa Cadastro Pessoa Jurídica" update="mpParteContraria" />
+																<p:selectOneMenu id="mpParteContraria" effect="fold"
+																	filter="true" filterMatchMode="contains"
+															 		required="#{mpCadastroProcessoBean.indEditavel}"
+														 			validatorMessage="Informar Parte Contrária"
+																	disabled="#{mpCadastroProcessoBean.indEditavel}"
+																	value="#{mpCadastroProcessoBean.mpProcesso.mpParteContraria}">
+																	<f:selectItem itemLabel="Selecione a Parte Contrária" />
+																	<f:selectItems value="#{mpCadastroProcessoBean.mpParteContrariaList}"
+																		var="mpParteContraria" itemLabel="#{mpParteContraria.nome}"
+																		itemValue="#{mpParteContraria}" />
+															 		<p:ajax event="change" update="mpParteContraria"
+															 		    listener="#{mpCadastroProcessoBean.returnParteContraria}" />
+																</p:selectOneMenu>
+																<p:tooltip id="toolTipMpParteContraria" for="mpParteContraria" value="Parte Contraria" />
+															</h:panelGroup>
+														</h:panelGroup>
+														<h:panelGroup id="pgMpClienteSJ">
+															<p:outputLabel value="Cliente : "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<h:panelGroup>
+																<p:commandButton id="cbClienteSJ" icon="fa fa-fw fa-external-link-square"
+																	disabled="#{mpCadastroProcessoBean.indEditavel}"
+																	action="#{mpCadastroProcessoBean.viewClienteSJ}"
+															 		title="Acessa Cadastro Cliente" update="mpClienteSJ" />
+																<p:selectOneMenu id="mpClienteSJ" effect="fold"
+																	filter="true" filterMatchMode="contains"
+																	required="#{mpCadastroProcessoBean.indEditavel}"
+																	validatorMessage="Informar Cliente"
+																	disabled="#{mpCadastroProcessoBean.indEditavel}"
+																	value="#{mpCadastroProcessoBean.mpProcesso.mpClienteSJ}">
+																	<f:selectItem itemLabel="Selecione o Cliente" />
+																	<f:selectItems value="#{mpCadastroProcessoBean.mpClienteSJList}"
+																		var="mpClienteSJ" itemLabel="#{mpClienteSJ.nome}"
+																		itemValue="#{mpClienteSJ}" />
+															 		<p:ajax event="change" update="mpClienteSJ"
+															 		    listener="#{mpCadastroProcessoBean.returnClienteSJ}" />
+																</p:selectOneMenu>
+																<p:tooltip id="toolTipMpClienteSJ" for="mpClienteSJ" value="Cliente" />
+															</h:panelGroup>
+														</h:panelGroup>
+
+													</p:panelGrid>
+												</p:panel>
+											</div>
+										</div>
+										<div class="Container60 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="2" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgComarca">
+														<p:outputLabel value="Comarca : " rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<h:panelGroup>
+															<p:commandButton id="cbComarca" icon="fa fa-fw fa-external-link-square"
+																disabled="#{mpCadastroProcessoBean.indEditavel}"
+																action="#{mpCadastroProcessoBean.viewComarca}"
+													 			title="Acessa Cadastro Tabela Interna (Comarca = Tab.1008)" update="mpComarca" />
+															<p:selectOneMenu id="mpComarca"
+																filter="true" filterMatchMode="contains"
+																disabled="#{mpCadastroProcessoBean.indEditavel}"
+																value="#{mpCadastroProcessoBean.mpProcesso.mpComarca}">
+																<f:selectItem itemLabel="Selecione a Comarca" />
+																<f:selectItems var="mpComarca" itemValue="#{mpComarca}"
+																	value="#{mpCadastroProcessoBean.mpComarcaList}"
+																	itemLabel="#{mpComarca.descricao}" />
+															 	<p:ajax event="change" update="mpComarcaCartorio" ignoreAutoUpdate="false"
+															 		    listener="#{mpCadastroProcessoBean.carregarMpComarcaCartorio}" />
+															</p:selectOneMenu>
+															<p:tooltip for="pgComarca" value="Comarca ( Ex.: Cabo Frio)" />
+														</h:panelGroup>
+													</h:panelGroup>
+													<h:panelGroup id="pgComarcaCartorio">
+														<p:outputLabel value="Cartório : "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpComarcaCartorio"
+															filter="true" filterMatchMode="contains"
+															disabled="#{mpCadastroProcessoBean.indEditavel}"
+															value="#{mpCadastroProcessoBean.mpProcesso.mpComarcaCartorio}">
+															<f:selectItem itemLabel="Selecione o Cartório" />
+															<f:selectItems itemLabel="#{mpComarcaCartorio.descricao}"
+																value="#{mpCadastroProcessoBean.mpComarcaCartorioList}"
+																var="mpComarcaCartorio" itemValue="#{mpComarcaCartorio}" />
+														</p:selectOneMenu>
+														<p:tooltip for="pgComarcaCartorio" value="ComarcaCartorio ( Ex.: 3o.Juizado Civil)" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgPastaCliente">
+														<p:outputLabel value="Pasta Cliente: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="pastaCliente" placeholder="Pasta Cliente"
+															readonly="#{mpCadastroProcessoBean.indEditavel}"
+															value="#{mpCadastroProcessoBean.mpProcesso.pastaCliente}" />
+														<p:tooltip id="toolTipPastaCliente" for="pastaCliente" value="Pasta Cliente" />
+													</h:panelGroup>
+													<h:panelGroup id="pgMpResponsavel">
+														<p:outputLabel value="Responsável : "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<h:panelGroup>
+															<p:commandButton id="cbResponsavel" icon="fa fa-fw fa-external-link-square"
+																disabled="#{mpCadastroProcessoBean.indEditavel}"
+																action="#{mpCadastroProcessoBean.viewResponsavel}"
+													 			title="Acessa Cadastro Pessoa Física" update="mpResponsavel" />
+															<p:selectOneMenu id="mpResponsavel" effect="fold"
+																filter="true" filterMatchMode="contains"
+																required="#{mpCadastroProcessoBean.indEditavel}"
+																validatorMessage="Informar Responsável"
+																disabled="#{mpCadastroProcessoBean.indEditavel}"
+																value="#{mpCadastroProcessoBean.mpProcesso.mpAdvogadoResponsavel}">
+																<f:selectItem itemLabel="Selecione o Responsável" />
+																<f:selectItems value="#{mpCadastroProcessoBean.mpResponsavelList}"
+																	var="mpResponsavel" itemLabel="#{mpResponsavel.nome}"
+																	itemValue="#{mpResponsavel}" />
+															 	<!-- p:ajax event="change" update="mpResponsavel"
+															 		    listener="#{mpCadastroProcessoBean.returnResponsavel}" -->
+															</p:selectOneMenu>
+															<p:tooltip id="toolTipMpResponsavel" for="mpResponsavel" value="Responsável" />
+														</h:panelGroup>
+													</h:panelGroup>
+
+													<h:panelGroup />
+													<h:panelGroup />
+
+												</p:panelGrid>
+												<p:spacer />
+												<p:panelGrid id="pGridAndamento" columns="4" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup>
+														<p:selectOneRadio disabled="#{mpCadastroProcessoBean.indEditavel}"
+															value="#{mpCadastroProcessoBean.mpProcessoAndamento.mpAtoPraticado}">
+															<f:selectItems itemLabel="#{mpAtoPraticado.descricao}"
+																value="#{mpCadastroProcessoBean.mpAtoPraticadoList}"
+																var="mpAtoPraticado" itemValue="#{mpAtoPraticado}" />
+															<p:ajax event="change" process="@this" ignoreAutoUpdate="false"
+																update="pGridAndamento pgAndamentoTipo" 
+																listener="#{mpCadastroProcessoBean.trataVisivelDet}" />
+														</p:selectOneRadio>
+													</h:panelGroup>
+													<h:panelGroup>
+														<p:calendar id="dataCadastroAD" locale="pt" timeZone="America/Sao_Paulo"
+															pattern="dd/MM/yyyy HH:mm" showOn="button"
+															disabled="#{mpCadastroProcessoBean.indEditavel}"
+															value="#{mpCadastroProcessoBean.mpProcessoAndamento.dataCadastro}">
+															<p:ajax event="change" process="@this" ignoreAutoUpdate="false" />
+														</p:calendar>
+														<p:tooltip for="dataCadastroAD" value="Data (Ex.: 31/03/2061 13:45)" />
+													</h:panelGroup>
+													<h:panelGroup id="pgAndamentoTipo"
+														rendered="#{mpCadastroProcessoBean.indVisivelDet}">
+														<p:selectOneMenu id="mpAndamentoTipo"
+															filter="true" filterMatchMode="contains"
+															disabled="#{mpCadastroProcessoBean.indEditavel}"
+															value="#{mpCadastroProcessoBean.mpProcessoAndamento.mpAndamentoTipo}">
+															<f:selectItem itemLabel="Selecione Andamento Tipo" />
+															<f:selectItems itemLabel="#{mpAndamentoTipo.descricao}"
+																value="#{mpCadastroProcessoBean.mpAndamentoTipoList}"
+																var="mpAndamentoTipo" itemValue="#{mpAndamentoTipo}" />
+															<p:ajax event="change" process="@this" ignoreAutoUpdate="false"
+																listener="#{mpCadastroProcessoBean.trataVisivelDet}" />
+														</p:selectOneMenu>
+													</h:panelGroup>
+													<h:panelGroup rendered="#{!mpCadastroProcessoBean.indVisivelDet}" />
+													<h:panelGroup />
+
+													<h:panelGroup />
+													<h:panelGroup id="pgDetalhamento">
+														<p:selectOneMenu id="mpDetalhamento"
+															filter="true" filterMatchMode="contains"
+															disabled="#{mpCadastroProcessoBean.indEditavel}"
+															value="#{mpCadastroProcessoBean.mpProcessoAndamento.detalhamento}">
+															<f:selectItem itemLabel="Selecione Detalhamento" />
+															<f:selectItems itemLabel="#{mpDetalhamento.descricao}"
+																value="#{mpCadastroProcessoBean.mpDetalhamentoList}"
+																var="mpDetalhamento" itemValue="#{mpDetalhamento.descricao}" />
+															<p:ajax event="change" process="@this" ignoreAutoUpdate="true" update="mpAndamentosTable" 
+																listener="#{mpCadastroProcessoBean.trataGravacaoDet}" />
+														</p:selectOneMenu>
+													</h:panelGroup>
+													<h:panelGroup id="pgAcao">
+														<p:commandButton disabled="#{mpCadastroProcessoBean.indEditavel}"
+															action="#{mpCadastroProcessoBean.trataGravacaoDet}" process="@this" 
+															update="mpAndamentosTable pGridAndamento"
+															icon="fa fa-fw fa-save" title="Salvar" />
+														<p:commandButton disabled="#{mpCadastroProcessoBean.indEditavel}"
+															action="#{mpCadastroProcessoBean.trataLimpezaDet}"
+															process="@this" update="pGridAndamento"
+															icon="fa fa-fw fa-eraser" title="Limpar" />
+													</h:panelGroup>
+													<h:panelGroup />
+
+												</p:panelGrid>
+
+												<p:dataTable id="mpAndamentosTable"
+													value="#{mpCadastroProcessoBean.mpProcesso.mpAndamentosDataModel}"
+													lazy="true" style="margin-top:10px" var="mpAndamento" reflow="true"	
+													selection="#{mpCadastroProcessoBean.mpProcessoAndamentoSelecionado}"
+													selectionMode="single" emptyMessage="O Processo ainda não possui Andamentos."
+													rows="20" paginator="true" paginatorAlwaysVisible="false"
+													paginatorPosition="bottom">
+													
+													<!--  rowKey="#{mpAndamento.dataCadastro}"  
+													value="#{mpCadastroProcessoBean.mpProcesso.mpAndamentos}" -->
+
+													<p:column headerText="Ação"
+														style="text-align:center;" exportable="false">
+														<p:commandButton disabled="#{mpCadastroProcessoBean.indEditavel}"
+															action="#{mpCadastroProcessoBean.trataAlteracaoDet}" process="@this" 
+															update=":frmProc:tabViewC:pGridAndamento"
+															icon="fa fa-fw fa-check-square-o" title="Selecionar">
+															<f:setPropertyActionListener value="#{mpAndamento}"
+																target="#{mpCadastroProcessoBean.mpProcessoAndamentoSelecionado}" />
+														</p:commandButton>
+
+														<p:commandButton icon="fa fa-fw fa-trash" title="Excluir"
+															disabled="#{mpCadastroProcessoBean.indEditavel}"
+															oncomplete="PF('confirmacaoExclusao').show()" process="@this"
+															update=":frmProc:confirmacaoExclusaoDialog">
+															<f:setPropertyActionListener value="#{mpAndamento}"
+																target="#{mpCadastroProcessoBean.mpProcessoAndamentoSelecionado}" />
+														</p:commandButton>
+													</p:column>
+
+													<p:column headerText="Ato Tipo">
+														<h:outputText value="#{mpAndamento.mpAtoPraticado.descricao}" />
+													</p:column>
+													<p:column headerText="Data">
+														<h:outputText value="#{mpAndamento.dataCadastro}">
+															<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+																timeZone="America/Sao_Paulo" />
+														</h:outputText>
+													</p:column>
+													<p:column headerText="Detalhamento">
+														<h:outputText value="#{mpAndamento.detalhamento}" />
+													</p:column>
+													<p:column headerText="Andamento Tipo">
+														<h:outputText value="#{mpAndamento.mpAndamentoTipo.descricao}" />
+													</p:column>
+													<p:column headerText="Upload" style="text-align:center">
+														<!-- p:fileUpload label="Sel." update=":frmProc:tabViewC:pGridAndamento"
+															disabled="#{mpCadastroProcessoBean.indEditavel}"
+															fileUploadListener="#{mpCadastroProcessoBean.trataFileUpload}"
+															auto="true" mode="simple" sizeLimit="5000000">
+														</p:fileUpload  -->
+														
+														<h:panelGroup>
+															<p:fileUpload label="Sel." sizeLimit="5000000"
+																mode="simple" skinSimple="true"
+																disabled="#{mpCadastroProcessoBean.indEditavel}"
+																value="#{mpCadastroProcessoBean.arquivoUpload}" />
+    														<p:commandButton title="Upload" icon="fa fa-fw fa-upload" ajax="false"
+    															update=":frmProc:tabViewC:pGridAndamento" 
+    															process="@this" disabled="#{mpCadastroProcessoBean.indEditavel}"
+    															action="#{mpCadastroProcessoBean.gravaFileUpload}">
+																<f:setPropertyActionListener value="#{mpAndamento}"
+																	target="#{mpCadastroProcessoBean.mpProcessoAndamentoSelecionado}" />
+    														</p:commandButton>
+    													</h:panelGroup>						
+													</p:column>
+													<p:column headerText="DownLoad" style="text-align:center">														
+    													<p:commandButton title="Download" icon="fa fa-fw fa-download"
+    														rendered="#{mpAndamento.checkFotoBD()}"
+															disabled="#{mpCadastroProcessoBean.indEditavel}" ajax="false"
+    														onclick="PrimeFaces.monitorDownload(mpStart, mpStop);"> 	
+        													<p:fileDownload value="#{mpCadastroProcessoBean.trataFileDownload()}" />
+															<f:setPropertyActionListener value="#{mpAndamento}"
+																target="#{mpCadastroProcessoBean.mpProcessoAndamentoSelecionado}" />
+    													</p:commandButton>							
+    												</p:column>
+    												
+												</p:dataTable>
+
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+
+				<p:confirmDialog header="Exclusão Andamento" responsive="true"
+					global="true" showEffect="fade" hideEffect="fade" message=
+	"Tem certeza que deseja EXCLUIR andamento ( #{mpCadastroProcessoBean.mpProcessoAndamentoSelecionado.dataCadastro} )?"
+					widgetVar="confirmacaoExclusao" id="confirmacaoExclusaoDialog">
+					<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+						icon="ui-icon-close fa fa-close Fs14 white"
+						onclick="PF('confirmacaoExclusao').hide(); return false;" />
+					<p:commandButton value="Sim" update=":frmProc:tabViewC:mpAndamentosTable"
+						id="yesButton" oncomplete="PF('confirmacaoExclusao').hide();"
+						action="#{mpCadastroProcessoBean.trataExclusaoDet}"
+						process="@this" styleClass="ui-confirmdialog-yes"
+						icon="ui-icon-check fa fa-check Fs14 white" />
+				</p:confirmDialog>
+				
+				<p:dialog modal="true" id="mpDownloadDialogId" widgetVar="mpDownloadDialog" header="Download"
+					draggable="false" closable="false" resizable="false">
+    				<!-- p:graphicImage name="#{mpCadastroProcessoBean.fileSC}" --> 
+    				
+    				<h:outputText rendered="#{mpCadastroProcessoBean.fileSC == null}"
+    					 value="Nenhuma imagem cadastrada." />
+      				<br />
+      				<p:commandButton process="@this" style="margin-top:20px;" value="OK"
+      																onclick="PF('mpDownloadDialog').hide();" />
+				</p:dialog>
+
+    			<p:confirmDialog header="Atenção !" responsive="true" 
+    				id="mpNumProcessoDialogId" widgetVar="mpNumProcessoDialog"
+    				draggable="false" closable="false" resizable="false"
+					message="#{mpCadastroProcessoBean.dialogMensagem}"
+					global="true" showEffect="fade" hideEffect="fade">
+        			<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+        			 		onclick="PF('mpNumProcessoDialog').hide(); return false;" />
+        			<p:commandButton value="Não" styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+							oncomplete="PF('mpNumProcessoDialog').hide();">
+							<!-- action="#{mpCadastroProcessoBean.trataChamaProcesso}" -->
+						<p:ajax event="click" update=":frmProc:mpNumProcessoDialogId" 
+							listener="#{mpCadastroProcessoBean.trataChamaProcesso}" />
+					</p:commandButton>
+    			</p:confirmDialog>
+								
+			</h:form>
+		</div>
+		
+        <div class="ContainerIndent">
+		  <h:form id="frmFind">
+			<p:dialog widgetVar="findProcessoDialog" id="findProcessoDialogId"
+					header="Localiza - Processo" modal="true"
+        			width="300" height="50" contentWidth="100%"  contentHeight="100%"
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+			 			 		
+				<h:panelGroup id="findProcessoPanel">
+					<p:panelGrid id="pGridFind" columns="3" styleClass="panelgrid-noborder" layout="grid"
+						columnClasses="ui-grid-col-3, ui-grid-col-10">
+       					<p:autoComplete id="acProcesso" minQueryLength="2" effect="fade"
+      					 	value="#{mpCadastroProcessoBean.processoFind}" scrollHeight="350"
+       					 	completeMethod="#{mpCadastroProcessoBean.completaFindByProcesso}">
+            				<p:ajax event="itemSelect" update=":frmProc"
+            					listener="#{mpCadastroProcessoBean.onProcessoSelecionado}"
+								oncomplete="PF('findProcessoDialog').hide()" />
+        				</p:autoComplete>
+        				<h:panelGroup />																		
+        				<h:panelGroup />																		
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+		
+		<script type="text/javascript">
+			PrimeFaces.locales['pt'] = {
+				closeText : 'Fechar',
+				prevText : 'Anterior',
+				nextText : 'Próximo',
+				currentText : 'Começo',
+				monthNames : [ 'Janeiro', 'Fevereiro', 'Março', 'Abril',
+						'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro',
+						'Outubro', 'Novembro', 'Dezembro' ],
+				monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+						'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Des' ],
+				dayNames : [ 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta',
+						'Sexta', 'Sábado' ],
+				dayNamesShort : [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex',
+						'Sáb' ],
+				dayNamesMin : [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+				weekHeader : 'Semana',
+				firstDay : 1,
+				isRTL : false,
+				showMonthAfterYear : false,
+				yearSuffix : '',
+				timeOnlyTitle : 'Só Horas',
+				timeText : 'Tempo',
+				hourText : 'Hora',
+				minuteText : 'Minuto',
+				secondText : 'Segundo',
+				currentText : 'Data Atual',
+				ampm : false,
+				month : 'Mês',
+				week : 'Semana',
+				day : 'Dia',
+				allDayText : 'Todo Dia'
+			};
+
+			function mpStart() {
+				PF('mpDownloadDialog').show();
+			}
+
+			function mpStop() {
+				PF('mpDownloadDialog').hide();
+			}
+		</script>
+
+	</ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<div class="ContainerIndent">
+			<h:form id="frmSql">
+
+				<h3>Envia Comando SQL</h3>
+
+				<p:growl id="messages" sticky="true" autoUpdate="true" life="300" />
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> 
+							<p:commandButton value="Executa SQL" icon="fa fa-blank Fs14 yellow">
+            					<p:ajax event="click" update="resultSqlId"
+            											 listener="#{mpEnviaSqlBean.executaSql}" />
+							</p:commandButton> 
+							<p:commandButton value="Exemplos SQL" icon="fa fa-blank Fs14 yellow"
+														action="#{mpEnviaSqlBean.onShowExemploSql}" />
+						</span>
+						<span class="DispInlBlock Fright FloatNoneOnMobile">
+						 	<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="/dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+      				<div class="EmptyBox10"></div>
+					<div class="Container100">
+						<p:panel header="Comando SQL" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="false">
+
+							<p:panelGrid columns="1" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:inputTextarea placeholder="Informar comando SQL" maxlength="255"
+										 			rows="3" value="#{mpEnviaSqlBean.comandoSQL}">
+										<f:validateLength maximum="255" />
+										<p:clientValidator event="keyup" />
+								</p:inputTextarea>
+
+							</p:panelGrid>
+
+						</p:panel>
+
+						<h:panelGroup id="resultSqlId" >
+							<p:panel header="Resultado SQL" toggleable="true" 
+													toggleSpeed="500" closeSpeed="500"
+													collapsed="#{mpEnviaSqlBean.indResultSQL}">
+													
+								<p:panelGrid columns="1" layout="grid"
+									style="border:0px none;background:none" styleClass="ui-fluid">
+									<p:inputTextarea readonly="true"
+										maxlength="255" rows="5" value="#{mpEnviaSqlBean.resultSQL}" />
+								</p:panelGrid>
+
+							</p:panel>
+						</h:panelGroup>
+
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

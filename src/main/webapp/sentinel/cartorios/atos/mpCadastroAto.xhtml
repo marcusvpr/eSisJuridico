@@ -1,0 +1,566 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpAto"
+				value="#{mpCadastroAtoBean.mpAto}" />
+			<f:viewAction action="#{mpCadastroAtoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Ato #{mpCadastroAtoBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include
+						src="/WEB-INF/template/sentinel/cartorios/mpBotoesAto.xhtml" /> 
+
+					<div class="ContainerIndent" style="margin-top:60px;">
+					</div>
+					
+					<p:tabView id="tabViewA">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+											
+												<p:panelGrid columns="4" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgCodigo">
+														<p:outputLabel value="Código : "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="codigo" mask="9999" maxlength="4"
+															required="#{mpCadastroAtoBean.indEditavel}"
+															validatorMessage="Informar Código" placeholder="Código"
+															readonly="#{mpCadastroAtoBean.indEditavel}"
+															value="#{mpCadastroAtoBean.mpAto.codigo}">
+														</p:inputMask>
+														<p:tooltip id="toolTipCodigo" for="codigo" value="Código" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgSequencia">
+														<p:outputLabel value="Sequência : "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputMask id="sequencia" mask="9" maxlength="1"
+															required="#{mpCadastroAtoBean.indEditavel}"
+															validatorMessage="Informar Sequência"
+															placeholder="Sequência"
+															readonly="#{mpCadastroAtoBean.indEditavel}"
+															value="#{mpCadastroAtoBean.mpAto.sequencia}" />
+														<p:tooltip id="toolTipSequencia" for="sequencia"
+															value="Sequência" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgDescricao">
+														<p:outputLabel value="Descrição : "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="descricao" maxlength="100"
+															style="text-transform: uppercase"
+															required="#{mpCadastroAtoBean.indEditavel}"
+															validatorMessage="Informar Descrição"
+															placeholder="Descrição"
+															readonly="#{mpCadastroAtoBean.indEditavel}"
+															value="#{mpCadastroAtoBean.mpAto.descricao}" />
+														<p:tooltip id="toolTipDescricao" for="descricao"
+															value="Descrição" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgTipoSelo">
+														<p:outputLabel value="Tipo Selo : "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="tipoSelo" maxlength="1"
+															style="text-transform: uppercase"
+															required="#{mpCadastroAtoBean.indEditavel}"
+															validatorMessage="Informar Tipo Selo"
+															placeholder="Tipo Selo"
+															readonly="#{mpCadastroAtoBean.indEditavel}"
+															value="#{mpCadastroAtoBean.mpAto.tipoSelo}" />
+														<p:tooltip id="toolTipTipoSelo" for="tipoSelo"
+															value="Tipo Selo" />
+													</h:panelGroup>
+												</p:panelGrid>
+
+												<h:panelGroup id="pgValorAto">
+													<p:panelGrid columns="10" layout="grid"
+														style="border:0px !important; background:none;"
+														styleClass="ui-panelgrid-blank">
+
+														<h:panelGroup>
+															<p:outputLabel value="Emolumento : "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="atEmolumento"
+																readonly="#{mpCadastroAtoBean.indEditavelValorAto}"
+																placeholder="Emolumento"
+																value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoEmolumento}">
+	    														<f:convertNumber type="currency" pattern="###,##0.00"/>
+        													</p:inputText>
+															<p:tooltip for="atEmolumento" value="Emolumento" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Valor Ato : "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="atVariavel"
+																readonly="#{mpCadastroAtoBean.indEditavelValorAto}"
+																placeholder="Variavel"
+																value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoVariavel}">
+	    														<f:convertNumber type="currency" pattern="###,##0.00"/>
+        													</p:inputText>
+															<p:tooltip for="atVariavel"	value="Variavel" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Lei 3217 : "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="atLei3217"
+																readonly="#{mpCadastroAtoBean.indEditavelValorAto}"
+																placeholder="Lei.3217"
+																value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoLei3217}">
+	    														<f:convertNumber type="currency" pattern="###,##0.00"/>
+        													</p:inputText>
+															<p:tooltip for="atLei3217" value="Lei.3217" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Lei 4664 : "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="atLei4664"
+																readonly="#{mpCadastroAtoBean.indEditavelValorAto}"
+																placeholder="Lei.4664"
+																value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoLei4664}">
+	    														<f:convertNumber type="currency" pattern="###,##0.00"/>
+        													</p:inputText>
+															<p:tooltip for="atLei4664" value="Lei.4664" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Lei 111 : "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="atLei111"
+																readonly="#{mpCadastroAtoBean.indEditavelValorAto}"
+																placeholder="Lei.111"
+																value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoLei111}">
+	    														<f:convertNumber type="currency" pattern="###,##0.00"/>
+        													</p:inputText>
+															<p:tooltip for="atLei111" value="Lei.111" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Lei 3761 : "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="atLei3761"
+																readonly="#{mpCadastroAtoBean.indEditavelValorAto}"
+																placeholder="Lei.3761"
+																value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoLei3761}">
+	    														<f:convertNumber type="currency" pattern="###,##0.00"/>
+        													</p:inputText>
+															<p:tooltip for="atLei3761" value="Lei.3761" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Lei 590 : "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="atLei590"
+																readonly="#{mpCadastroAtoBean.indEditavelValorAto}"
+																placeholder="Lei.590"
+																value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoLei590}">
+	    														<f:convertNumber type="currency" pattern="###,##0.00"/>
+        													</p:inputText>
+															<p:tooltip for="atLei590" value="Lei.590" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Lei 6281 : "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="atLei6281"
+																readonly="#{mpCadastroAtoBean.indEditavelValorAto}"
+																placeholder="Lei.6281"
+																value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoLei6281}">
+	    														<f:convertNumber type="currency" pattern="###,##0.00"/>
+        													</p:inputText>
+															<p:tooltip for="atLei6281" value="Lei.6281" />
+														</h:panelGroup>
+														<h:panelGroup>
+															<p:outputLabel value="Valor Distribuição : "
+																rendered="#{mpLoginBean.scIndLabelCampo}" />
+															<p:inputText id="atDistribuicao"
+																readonly="#{mpCadastroAtoBean.indEditavelValorAto}"
+																placeholder="Distribuição"
+																value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoDistribuicao}">
+	    														<f:convertNumber type="currency" pattern="###,##0.00"/>
+        													</p:inputText>
+															<p:tooltip for="atDistribuicao" value="Distribuição" />
+														</h:panelGroup>
+														<h:panelGroup id="pgAlteraMpAtotipos">
+															<p:commandButton title="Alterar" icon="fa fa-edit Fs14 white"
+																oncomplete="PF('alteraValorAtoDialog').show()"
+																action="#{mpCadastroAtoBean.alterarValorAto}"
+																disabled="#{mpCadastroAtoBean.indEditavel}" process="@this"
+																update="frmValorAto:alteraValorAtoDialogId">
+															</p:commandButton>
+														</h:panelGroup>
+													</p:panelGrid>
+												</h:panelGroup>
+
+												<p:panelGrid id="pgrValorAto" columns="6" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<p:outputLabel />
+													<p:outputLabel />
+                									<span class="DispBlock Wid100 FontSourceSansLight gray Fs16"> 
+														Valor Ato : 
+													</span>
+													<p:outputLabel 
+														class="DispBlock Wid100 FontSourceSansLight gray Fs16"
+														value="#{mpCadastroAtoBean.valorAto}">
+	    												<f:convertNumber type="currency" pattern="###,##0.00"/>
+	    											</p:outputLabel>
+													<p:outputLabel value=
+														"#{mpCadastroAtoBean.mpAto.indAlteraValorAto eq true ? '*' : '_'}"
+														class="DispBlock Wid100 FontSourceSansLight gray Fs16" />
+													<p:outputLabel />
+												</p:panelGrid>
+
+												<p:dataTable id="mpAtoComposicaosTable"
+													value="#{mpCadastroAtoBean.mpAto.mpAtoComposicaos}"
+													emptyMessage="O Ato ainda não possui Composição(s)"
+													var="mpAtoComposicao" style="margin-top:10px" reflow="true">
+											        <f:facet name="header">
+											            Atos Composição:
+											        </f:facet>
+													<p:column headerText="Custas Composição">
+														<h:outputText value=
+														"#{mpAtoComposicao.mpCustasComposicao.tabelaItemSub}" />
+													</p:column>
+													<p:column headerText="Quantidade" style="text-align:center">
+														<h:outputText value="#{mpAtoComposicao.valorCusta}" />
+													</p:column>
+													<p:column headerText="Complemento">
+														<h:outputText value="#{mpAtoComposicao.complemento}" />
+													</p:column>
+													<p:column headerText="Exceção">
+														<h:outputText value="#{mpAtoComposicao.excecao}" />
+													</p:column>
+
+													<p:column style="text-align:center">
+    													<f:facet name="header">
+															<p:commandButton title="Incluir"
+																icon="fa fa-plus Fs14 white"
+																action="#{mpCadastroAtoBean.adicionarMpAtoComposicao}"
+																disabled="#{mpCadastroAtoBean.indEditavel}"
+																oncomplete="PF('novoMpAtoComposicaoDialog').show()" process="@this"
+																update="frmMpAtoComposicao:novoMpAtoComposicaoDialogId">
+																<p:resetInput target=
+																	"frmMpAtoComposicao:novoMpAtoComposicaoDialogId" />
+															</p:commandButton>
+    													</f:facet>														
+														<p:commandButton title="Alterar" icon="fa fa-edit Fs14 white"
+															oncomplete="PF('novoMpAtoComposicaoDialog').show()"
+															action="#{mpCadastroAtoBean.alterarMpAtoComposicao}"
+															disabled="#{mpCadastroAtoBean.indEditavel}" process="@this"
+															update="frmMpAtoComposicao:novoMpAtoComposicaoDialogId">
+															<f:setPropertyActionListener value="#{mpAtoComposicao}"
+																target="#{mpCadastroAtoBean.mpAtoComposicao}" />
+														</p:commandButton>
+
+														<p:commandButton title="Excluir"
+															icon="fa fa-trash Fs14 white"
+															oncomplete="PF('confirmacaoExclusaoMpAtoComposicaoDialog').show()"
+															disabled="#{mpCadastroAtoBean.indEditavel}" process="@this"
+															update=":frm:confirmacaoExclusaoMpAtoComposicaoDialog">
+															<f:setPropertyActionListener value="#{mpAtoComposicao}"
+																target="#{mpCadastroAtoBean.mpAtoComposicao}" />
+														</p:commandButton>
+													</p:column>
+
+												</p:dataTable>
+
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+
+							</div>
+						</p:tab>
+
+					</p:tabView>
+					
+					<p:confirmDialog header="Exclusão Ato Composição" message=
+"Tem certeza que deseja excluir o Ato Composição = ( #{mpCadastroAtoBean.mpAtoComposicao.mpCustasComposicao.tabelaItemSub} )?"
+						widgetVar="confirmacaoExclusaoMpAtoComposicaoDialog"
+						id="confirmacaoExclusaoMpAtoComposicaoDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoMpAtoComposicaoDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoMpAtoComposicaoDialog').hide();"
+							action="#{mpCadastroAtoBean.removerMpAtoComposicao}"
+							process="@this" update=
+		":frm:tabViewA:mpAtoComposicaosTable :frm:tabViewA:pgValorAto :frm:tabViewA:pgrValorAto" />
+					</p:confirmDialog>
+					
+				</p:panel>
+			</h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmValorAto">
+			<p:dialog widgetVar="alteraValorAtoDialog" id="alteraValorAtoDialogId" modal="true"
+							header="Alteração Ato Tipos" 
+			 				showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="alteraValorAtoPanel">
+				
+					<p:messages autoUpdate="false" />
+
+						<p:panelGrid columns="1" layout="grid" style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank" id="alteraMpAtoTipoGrid">
+
+							<h:panelGroup>
+								<p:outputLabel value="Emolumento : "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="atEmolumento" maxlength="10" styleClass="moeda"
+									placeholder="Emolumento"
+									value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoEmolumento}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+								<p:tooltip for="atEmolumento" value="Emolumento" />
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel value="Variavel : "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="variavel" maxlength="10" styleClass="moeda"
+									placeholder="Variavel"
+									value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoVariavel}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+								<p:tooltip for="variavel" value="Variavel" />
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel value="Lei.3217 : "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="lei3217" maxlength="10" styleClass="moeda"
+									placeholder="Lei.3217"
+									value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoLei3217}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+								<p:tooltip for="lei3217" value="Lei.3217" />
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel value="lei4664 : "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="lei4664" maxlength="10" styleClass="moeda"
+									placeholder="Lei.4664"
+									value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoLei4664}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+								<p:tooltip for="lei4664" value="Lei.4664" />
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel value="Lei.111 : "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="lei111" maxlength="10" styleClass="moeda"
+									placeholder="Lei.111"
+									value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoLei111}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+								<p:tooltip for="lei111" value="Lei.111" />
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel value="Lei.3761 : "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="lei3761" maxlength="10" styleClass="moeda"
+									placeholder="Lei.3761"
+									value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoLei3761}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+								<p:tooltip for="lei3761" value="Lei.3761" />
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel value="Lei.590 : "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="lei590" maxlength="10" styleClass="moeda"
+									placeholder="Lei.590"
+									value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoLei590}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+								<p:tooltip for="lei590" value="Lei.590" />
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel value="Lei.6281 : "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="lei6281" maxlength="10" styleClass="moeda"
+									placeholder="Lei.6281"
+									value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoLei6281}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+								<p:tooltip for="lei6281" value="Lei.6281" />
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel value="Distribuição : "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="distribuicao" maxlength="10" styleClass="moeda"
+									placeholder="Distribuição"
+									value="#{mpCadastroAtoBean.mpAto.mpValorAto.valorAtoDistribuicao}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+								<p:tooltip for="distribuicao" value="Distribuição" />
+							</h:panelGroup>
+
+						</p:panelGrid>
+
+						<p:commandButton value="Alterar" process="alteraValorAtoDialogId"
+							action="#{mpCadastroAtoBean.salvarValorAto}"
+							update=":frm:tabViewA:pgValorAto :frm:tabViewA:pgrValorAto"
+							oncomplete="if (!args.validationFailed) PF('alteraValorAtoDialog').hide()">
+						</p:commandButton>
+
+					</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmMpAtoComposicao">
+			<p:dialog widgetVar="novoMpAtoComposicaoDialog" id="novoMpAtoComposicaoDialogId" modal="true"
+							header="#{mpCadastroAtoBean.txtModoMpAtoComposicaoDialog} Ato Composição" 
+			 				showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="novoMpAtoComposicaoPanel">
+				
+					<p:messages autoUpdate="false" />
+
+						<p:panelGrid columns="2" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<h:panelGroup>
+								<p:outputLabel value="Custas Composição : "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:selectOneMenu id="MpCustasCompAtoC"
+									validatorMessage="Informar Custas Composição"
+									required="#{mpCadastroAtoBean.indEditavelMpCustasComposicao}"
+									value="#{mpCadastroAtoBean.mpAtoComposicao.mpCustasComposicao}">
+									<f:selectItem itemLabel="Selecione o Custas Composição" />
+									<f:selectItems
+										value="#{mpCadastroAtoBean.mpCustasComposicaoList}"
+										var="mpCustasComposicao" itemValue="#{mpCustasComposicao}"
+										itemLabel="#{mpCustasComposicao.tabelaItemSub}" />
+								</p:selectOneMenu>
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel value="Quantidade : "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputMask id="quantidadeAtoC" placeholder="Quantidade"
+									maxlength="1" mask="9"
+									required="#{mpCadastroAtoBean.indEditavelMpAtoComposicao}"
+									validatorMessage="Informar Quantidade"
+									value="#{mpCadastroAtoBean.mpAtoComposicao.valorCusta}" />
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel value="Informar Complemento : "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="complemtentoAtoc"
+									placeholder="Complemento"
+									value="#{mpCadastroAtoBean.mpAtoComposicao.complemento}" />
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel value="Exceção : "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText placeholder="Exceção"
+									value="#{mpCadastroAtoBean.mpAtoComposicao.excecao}" />
+							</h:panelGroup>
+
+							<p:commandButton value="Salvar"
+								process="novoMpAtoComposicaoDialogId" update=
+":frm:tabViewA:mpAtoComposicaosTable :frm:tabViewA:pgValorAto :frm:tabViewA:pgrValorAto novoMpAtoComposicaoPanel"
+								action="#{mpCadastroAtoBean.salvarMpAtoComposicao}"
+								oncomplete="if (!args.validationFailed) PF('novoMpAtoComposicaoDialog').hide()">
+								<p:collector value="#{mpCadastroAtoBean.mpAtoComposicao}"
+									addTo="#{mpCadastroAtoBean.mpAto.mpAtoComposicaos}" />
+							</p:commandButton>
+
+						</p:panelGrid>
+					</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpAtoDialog" id="helpAtoDialogId" modal="true"
+					header="HELP - Ato" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpAtoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCadastroAtoBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroAtoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCadastroAtoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroAtoBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCadastroAtoBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCadastroAtoBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

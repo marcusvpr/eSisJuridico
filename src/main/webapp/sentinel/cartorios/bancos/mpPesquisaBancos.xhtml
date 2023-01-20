@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Banco</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaBancosBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpBancosTable"
+								fileName="Bancos"
+								postProcessor="#{mpPesquisaBancosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="4" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:inputText placeholder="Código"
+									value="#{mpPesquisaBancosBean.mpFiltro.codigo}" />
+								<p:inputText placeholder="Nome"
+									value="#{mpPesquisaBancosBean.mpFiltro.nome}" />
+								<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpBancosTable"
+						value="#{mpPesquisaBancosBean.mpBancosFiltrados}"
+						var="mpBanco" selectionMode="single"
+						selection="#{mpPesquisaBancosBean.mpBancoSelecionado}"
+						rowKey="#{mpBanco.codigo}" reflow="true" style="margin-top:20px"
+						emptyMessage="Nenhum Banco encontrado." rows="10"
+						paginBancor="true" paginBancorAlwaysVisible="false"
+						paginBancorPosition="bottom">
+
+							<p:column headerText="Código" style="text-align:center;"
+																	sortBy="#{mpBanco.codigo}">
+								<h:outputText value="#{mpBanco.codigo}" />
+							</p:column>
+							<p:column headerText="Agência" style="text-align:center;"
+																	sortBy="#{mpBanco.agencia}">
+								<h:outputText value="#{mpBanco.agencia}" />
+							</p:column>
+							<p:column headerText="Nome" style="text-align:center;"
+																	sortBy="#{mpBanco.nome}">
+								<h:outputText value="#{mpBanco.nome}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome=
+								"/sentinel/cartorios/bancos/mpCadastroBanco"
+														icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpBanco" value="#{mpBanco.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

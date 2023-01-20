@@ -1,0 +1,306 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1'];
+                this.cfg.grid = {
+                    background: '#f3f5f7',
+                    borderColor: '#e5ebf0',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#9fadb5'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    markerOptions: {
+                        shadow: false
+                    }
+                }
+            }
+
+            function skinPie() {
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#33ccff', '#9fadb5'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#eaeaea',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false,
+                    borderWidth: 0
+                };
+                this.cfg.seriesDefaults.shadow = false;
+            }
+        </script>
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #9fadb5;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="EmptyBox20"></div>
+
+                <div class="Container25 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height: 300px;">
+                            <i class="icon-user-2 Fs50 Fleft Wid25 hardblue TexAlCenter"></i>
+                            <div class="Fs24 Fright MarTop10 leaden Wid70"><span class="hardblue">Walter White</span>, Welcome</div>
+                            <div class="Fs12 Fright leaden Wid70">You have <span class="red">3 unread messages</span> and <span class="red"> 32 tasks</span> !</div>
+                            <div class="EmptyBox10"></div>
+                            <p:separator styleClass="Wid100"></p:separator>
+                            <div class="EmptyBox10"></div>
+                            <div class="Fs16 Fright">
+                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-briefcase hardblue"> Tasks (32)</i></a>
+                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-bell-alt hardblue"> Messages (3)</i></a>
+                                <a href="#" class="DispInlBlock Fleft Fs16 MarRight20"><i class="icon-cog-alt hardblue"> Settings</i></a>
+                            </div>
+                            <div class="EmptyBox10"></div>
+                            <p:separator styleClass="Wid100"></p:separator>
+                            <div class="EmptyBox10"></div>
+                            <i class="icon-key softgray MarRight10 Fs14 Fright"> Your Last Login - 18.08.2014, 18:30</i>
+                            <div class="EmptyBox10"></div>
+                            <p:separator styleClass="Wid100"></p:separator>
+
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="Container25 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height: 300px;">
+                            <div class="Container">
+                                <i class=" icon-data-science-inv Fs50 Fleft Wid25 orange TexAlCenter"></i>
+                                <div class="Fs24 Fright MarTop10 leaden Wid70">Visitors Report</div>
+                                <div class="Fs12 Fright leaden Wid70">Today <span class="red">2.280</span> visitors,<span class="red">15%</span> higher than last week</div>
+                                <div class="EmptyBox10"></div>
+                                <p:separator styleClass="Wid100"></p:separator>
+                                <div class="EmptyBox10"></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Overall Visits<br/><span class="Fs24 orange">13.760</span></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Today's Visits<br/><span class="Fs24 red">2.280</span></div>
+                                <div class="Fs12 Fright leaden Wid100 TexAlCenter">Online Visitors<br/><span class="Fs24 hardblue">134</span></div>
+                                <div class="EmptyBox10"></div>
+                                <p:separator styleClass="Wid100"></p:separator>
+                                <a href="#" class="DispInlBlock Fs14 Fright MarRight10"><i class="icon-doc-1 orange"> Get Full Report</i></a>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="Container25 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height: 300px;">
+                            <div class="Container">
+                                <i class="icon-rocket Fs50 Fleft Wid25 red TexAlCenter"></i>
+                                <div class="Fs24 Fright MarTop10 leaden Wid70">Sales Report</div>
+                                <div class="Fs18 Fright leaden Wid70">Totally <span class="red">$ 132.875,45</span></div>
+                                <div class="EmptyBox10"></div>
+                                <p:separator styleClass="Wid100"></p:separator>
+                                <div class="EmptyBox10"></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">4th Quarter<br/><span class="Fs20 orange">--</span></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">3rd Quarter<br/><span class="Fs20 orange">$13.760</span></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">2nd Quarter<br/><span class="Fs20 red">$23.567</span></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">1st Quarter<br/><span class="Fs20 hardblue">$2.370</span></div>
+                                <div class="EmptyBox10"></div>
+                                <p:separator styleClass="Wid100"></p:separator>
+                                <a href="#" class="DispInlBlock Fs14 Fright MarRight10"><i class="icon-doc-1 orange"> Get Full Report</i></a>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="Container25 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height:300px">
+                            <div class="Fs24 MarTop10 leaden Wid100 TexAlCenter">Customer Report</div>
+                            <p:chart type="pie" model="#{chartView.pieModel}" style="height:200px" responsive="true"/>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="EmptyBox10"></div>
+            </div>
+        </div>
+
+        <div class="Container100 BorBotLeaden ui-fluid">
+            <div class="ContainerIndent">
+                <div class="EmptyBox10"></div>
+
+                <div class="Container50 Responsive50">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height:400px;">
+                            <div class="Container100 Responsive Fs20">
+                                <i class="icon-chart-bar"></i> Visits Chart
+                            </div>
+                            <div class="Container100">
+                                <p:chart type="line" model="#{chartView.lineModel}" style="height:300px;margin-top:10px" responsive="true"/>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="Container50 Responsive50">
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height:400px;">
+                            <div class="Container">
+                                <div class="Container50 Responsive Fs20">
+                                    <i class="icon-doc-text"></i> Cars Sales Ranks
+                                </div>
+                                <div class="Container50 Responsive Fs12">
+                                    <p:selectCheckboxMenu label="Filter With Country" filter="true" filterMatchMode="startsWith" styleClass="Fright">
+                                        <f:selectItem itemLabel="Brazil" itemValue="1" />
+                                        <f:selectItem itemLabel="Germany" itemValue="2" />
+                                        <f:selectItem itemLabel="United States" itemValue="3" />
+                                        <f:selectItem itemLabel="India" itemValue="3" />
+                                        <f:selectItem itemLabel="Mexico" itemValue="3" />
+                                        <f:selectItem itemLabel="Italy" itemValue="3" />
+                                        <f:selectItem itemLabel="France" itemValue="3" />
+                                        <f:selectItem itemLabel="Spain" itemValue="3" />
+                                        <f:selectItem itemLabel="Colombia" itemValue="3" />
+                                        <f:selectItem itemLabel="Turkey" itemValue="3" />
+                                    </p:selectCheckboxMenu>
+                                </div>
+                                <div class="EmptyBox10"></div>
+                                <div class="Container100">
+                                    <h:form id="form">
+                                        <p:dataTable id="singleDT" var="car" value="#{carsView.cars}"
+                                                     rows="5" paginator="true" pageLinks="5" reflow="true">
+
+                                            <p:column headerText="Id" sortBy="#{car.id}">
+                                                <h:outputText value="#{car.id}" />
+                                            </p:column>
+                                            <p:column headerText="Year" sortBy="#{car.year}">
+                                                <h:outputText value="#{car.year}" />
+                                            </p:column>
+                                            <p:column headerText="Brand" sortBy="#{car.brand}">
+                                                <h:outputText value="#{car.brand}" />
+                                            </p:column>
+                                            <p:column headerText="Color" sortBy="#{car.color}">
+                                                <h:outputText value="#{car.color}" />
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="EmptyBox20"></div>
+            </div>
+        </div>
+
+        <div class="Container100 leaden-back BorBotLeaden">
+            <div class="ContainerIndent">
+                <div class="EmptyBox10"></div>
+
+                <div class="Container20 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel>
+                            <div class="Wid100 TexAlCenter">
+                                <div class="ContainerIndent">
+                                    <p:graphicImage name="images/audi.jpg" library="demo" styleClass="Wid100"/>
+                                    <div class="EmptyBox10"></div>
+                                    <span class="Fs20 DispBlock hardblue">Audi A8<br/><span class="Fs12 softgray">Sales Chart - Group At By Color</span></span>
+                                </div>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="Container20 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel>
+                            <div class="Wid100 TexAlCenter">
+                                <div class="ContainerIndent">
+                                    <p:graphicImage name="images/bmw.jpg" library="demo" styleClass="Wid100"/>
+                                    <div class="EmptyBox10"></div>
+                                    <span class="Fs20 DispBlock hardblue">BMW i8 <br/><span class="Fs12 softgray">Sales Chart - Group At By Color</span></span>
+                                </div>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="Container20 Responsive">
+                    <div class="ContainerIndent">
+                        <p:panel>
+                            <div class="Wid100 TexAlCenter">
+                                <div class="ContainerIndent">
+                                    <p:graphicImage name="images/aston.jpg" library="demo" styleClass="Wid100"/>
+                                    <div class="EmptyBox10"></div>
+                                    <span class="Fs20 DispBlock hardblue">Aston Martin DB9 <br/><span class="Fs12 softgray">Sales Chart - Group At By Color</span></span>
+                                </div>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="Container40 Responsive100 ui-fluid">
+                    <div class="ContainerIndent">
+                        <p:panel>
+                            <div class="Container100 Fs20">
+                                <i class="icon-chart-bar"></i> Bugatti Veyron Specs
+                            </div>
+                            <div class="EmptyBox10"></div>
+                            <p:accordionPanel multiple="false">
+                                <p:tab title="Engine Power ( HP )">
+                                    <h:outputText
+                                        value="Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
+                                        In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
+                                        killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
+                                </p:tab>
+                                <p:tab title="Transmission">
+                                    <h:outputText value="Francis Ford Coppola's legendary. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
+                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
+                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
+                                </p:tab>
+                                <p:tab title="0-100">
+                                    <h:outputText value="After a break of more than 15 years. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
+                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
+                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
+                                </p:tab>
+                                <p:tab title="Wheels">
+                                    <h:outputText value="After a break of more than 15 years. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
+                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
+                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
+                                </p:tab>
+                                <p:tab title="Cruise Control">
+                                    <h:outputText value="After a break of more than 15 years. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
+                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
+                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
+                                </p:tab>
+                                <p:tab title="Parking Sensors And Auto Parking System">
+                                    <h:outputText value="After a break of more than 15 years. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
+                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
+                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
+
+                                </p:tab>
+                                <p:tab title="Other Specs">
+                                    <h:outputText value="After a break of more than 15 years. Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.
+                                                  In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,
+                                                  killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows." />
+                                </p:tab>
+                            </p:accordionPanel>
+                        </p:panel>
+                    </div>
+                </div>
+
+                <div class="EmptyBox10"></div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

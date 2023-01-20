@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Ato</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaAtosBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpAtosTable"
+								fileName="atos"
+								postProcessor="#{mpPesquisaAtosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="4" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:inputText placeholder="Código"
+									value="#{mpPesquisaAtosBean.mpFiltro.codigo}" />
+								<p:inputText placeholder="Descrição"
+									value="#{mpPesquisaAtosBean.mpFiltro.descricao}" />
+								<p:outputLabel />
+								<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpAtosTable"
+						value="#{mpPesquisaAtosBean.mpAtosFiltrados}"
+						var="mpAto" selectionMode="single"
+						selection="#{mpPesquisaAtosBean.mpAtoSelecionado}"
+						rowKey="#{mpAto.codigo}" reflow="true" style="margin-top:20px"
+						emptyMessage="Nenhum Ato encontrado." rows="10"
+						paginator="true" paginatorAlwaysVisible="false"
+						paginatorPosition="bottom">
+
+							<p:column headerText="Código" style="text-align:center;"
+																	sortBy="#{mpAto.codigo}">
+								<h:outputText value="#{mpAto.codigo}" />
+							</p:column>
+							<p:column headerText="Sequência" style="text-align:center;"
+																	sortBy="#{mpAto.sequencia}">
+								<h:outputText value="#{mpAto.sequencia}" />
+							</p:column>
+							<p:column headerText="Descrição" 
+														sortBy="#{mpAto.descricao}">
+								<h:outputText value="#{mpAto.descricao}" />
+							</p:column>
+							<p:column headerText="Tipo Selo" style="text-align:center;" 
+																	sortBy="#{mpAto.tipoSelo}">
+								<h:outputText value="#{mpAto.tipoSelo}" />
+							</p:column>
+							<p:column headerText="Ind.Altera Atos" style="text-align:center;" 
+																sortBy="#{mpAto.indAlteraValorAto}">
+								<h:outputText value="#{mpAto.indAlteraValorAto}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome=
+								"/sentinel/cartorios/atos/mpCadastroAto"
+															icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpAto" value="#{mpAto.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

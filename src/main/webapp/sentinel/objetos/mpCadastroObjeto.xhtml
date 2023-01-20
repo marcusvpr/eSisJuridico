@@ -1,0 +1,495 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpObjeto" value="#{mpCadastroObjetoBean.mpObjeto}" />
+			<f:viewAction action="#{mpCadastroObjetoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Objeto #{mpCadastroObjetoBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesObjeto.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgTransacao">
+														<p:outputLabel value="Transação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="transacao" maxlength="20"
+															placeholder="Transação"
+															required="#{mpCadastroObjetoBean.indEditavel}"
+															validatorMessage="Informar Transação"
+															readonly="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.transacao}" />
+														<p:tooltip id="toolTipTransacao" for="transacao" value="Transação" />
+													</h:panelGroup>
+													<h:panelGroup id="pgCodigoId">
+														<p:outputLabel value="Código Identificação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="codigoId" maxlength="50"
+															placeholder="Código Identificação"
+															required="#{mpCadastroObjetoBean.indEditavel}"
+															validatorMessage="Informar Código Identificação"
+															readonly="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.codigoId}" />
+														<p:tooltip id="toolTipCodigoId" for="codigoId" value="Código Identificação" />
+													</h:panelGroup>
+													<h:panelGroup id="pgCodigo">
+														<p:outputLabel value="Código: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="codigo" maxlength="150"
+															placeholder="Código"
+															required="#{mpCadastroObjetoBean.indEditavel}"
+															validatorMessage="Informar Código"
+															readonly="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.codigo}" />
+														<p:tooltip id="toolTipCodigo" for="codigo" value="Código" />
+													</h:panelGroup>
+													<h:panelGroup id="pgNome">
+														<p:outputLabel value="Nome: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="nome" maxlength="150" placeholder="Nome"
+															required="#{mpCadastroObjetoBean.indEditavel}"
+															validatorMessage="Informar Nome"
+															readonly="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.nome}" />
+														<p:tooltip id="toolTipNome" for="nome" value="Nome" />
+													</h:panelGroup>
+													<h:panelGroup id="pgDescricao">
+														<p:outputLabel value="Descrição: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputTextarea id="descricao" maxlength="250"
+															placeholder="Descrição" rows="2"
+															required="#{mpCadastroObjetoBean.indEditavel}"
+															validatorMessage="Informar Descrição"
+															readonly="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.descricao}" />
+														<p:tooltip id="toolTipDescricao" for="descricao" value="Descrição" />
+													</h:panelGroup>
+													<h:panelGroup id="pgStatus">
+														<p:outputLabel value="Status: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpStatusObjeto"
+															disabled="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.mpStatusObjeto}">
+															<f:selectItem itemLabel="Selecione o Status" />
+															<f:selectItems
+																value="#{mpCadastroObjetoBean.mpStatusObjetoList}"
+																var="mpStatusObjeto" itemValue="#{mpStatusObjeto}"
+																itemLabel="#{mpStatusObjeto.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip id="toolTipStatus" for="mpStatusObjeto" value="Status" />
+													</h:panelGroup>
+													<h:panelGroup id="pgGrupoMenu">
+														<p:outputLabel value="Menu Grupo: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpGrupoMenu"
+															disabled="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.mpGrupoMenu}">
+															<f:selectItem itemLabel="Selecione o Menu Grupo" />
+															<f:selectItems
+																value="#{mpCadastroObjetoBean.mpGrupoMenuList}"
+																var="mpGrupoMenu" itemValue="#{mpGrupoMenu}"
+																itemLabel="#{mpGrupoMenu.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip id="toolTipGrupoMenu" for="mpGrupoMenu" value="Menu Grupo" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgMenuGrupamento">
+														<p:outputLabel value="Menu Grupamento: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpGrupamentoMenu"
+															disabled="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.mpGrupamentoMenu}">
+															<f:selectItem itemLabel="Selecione o Menu Grupamento" />
+															<f:selectItems
+																value="#{mpCadastroObjetoBean.mpGrupamentoMenuList}"
+																var="mpGrupamentoMenu" itemValue="#{mpGrupamentoMenu}"
+																itemLabel="#{mpGrupamentoMenu.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip id="toolTipMenuGrupamento" for="mpGrupamentoMenu" value="Menu Grupamento" />
+													</h:panelGroup>
+													<h:panelGroup id="pgTipoObjetoSistema">
+														<p:outputLabel value="Tipo Objeto Sistema: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpTipoObjetoSistema"
+															disabled="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.mpTipoObjetoSistema}">
+															<f:selectItem itemLabel="Selecione o Tipo Sistema" />
+															<f:selectItems
+																value="#{mpCadastroObjetoBean.mpTipoObjetoSistemaList}"
+																var="mpTipoObjeto" itemValue="#{mpTipoObjetoSistema}"
+																itemLabel="#{mpTipoObjetoSistema.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip id="toolTipTipoObjetoSistema" for="mpTipoObjetoSistema" value="Tipo Objeto Sistema" />
+													</h:panelGroup>
+													<h:panelGroup id="pgTipoObjeto">
+														<p:outputLabel value="Tipo Objeto: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpTipoObjeto"
+															disabled="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.mpTipoObjeto}">
+															<f:selectItem itemLabel="Selecione o Tipo" />
+															<f:selectItems
+																value="#{mpCadastroObjetoBean.mpTipoObjetoList}"
+																var="mpTipoObjeto" itemValue="#{mpTipoObjeto}"
+																itemLabel="#{mpTipoObjeto.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip id="toolTipTipoObjeto" for="mpTipoObjeto" value="Tipo Objeto" />
+													</h:panelGroup>
+													<h:panelGroup id="pgIcon">
+														<p:outputLabel value="Icon: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="icon" maxlength="50" placeholder="Icon"
+															readonly="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.icon}" />
+														<p:tooltip id="toolTipIcon" for="icon" value="Icon" />
+													</h:panelGroup>
+													<h:panelGroup id="pgClasseAssociada">
+														<p:outputLabel value="Classe Associada: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="classeAssociada" maxlength="250"
+															placeholder="Classe Associada"
+															readonly="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.classeAssociada}" />
+														<p:tooltip id="toolTipClasseAssociada" for="classeAssociada" value="Classe Associada" />
+													</h:panelGroup>
+													<h:panelGroup>
+														<p:outputLabel value="Separator " />
+														<p:inputSwitch id="separator"
+															disabled="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.indSeparator}" />
+														<p:outputLabel value="Responsivo " />
+														<p:inputSwitch id="responsivo"
+															disabled="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.indResponsive}" />
+													</h:panelGroup>
+													<h:panelGroup id="pgUrlHelp">
+														<p:outputLabel value="Url Help: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="urlHelp" maxlength="250"
+															placeholder="Url Help"
+															readonly="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.urlHelp}" />
+														<p:tooltip id="toolTipUrlHelp" for="urlHelp" value="Url Help" />
+													</h:panelGroup>
+													<h:panelGroup id="pgUrlHelpVideo">
+														<p:outputLabel value="Url Help Video: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="urlHelpVideo" maxlength="250"
+															placeholder="Url Help Video"
+															readonly="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.urlHelpVideo}" />
+														<p:tooltip id="toolTipUrlHelpVideo" for="urlHelpVideo" value="Url Help Video" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+						<p:tab title="Informação">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="1" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgInformacao">
+														<p:outputLabel value="Informação: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputTextarea id="informacao" maxlength="10000"
+															placeholder="Informação" rows="5"
+															readonly="#{mpCadastroObjetoBean.indEditavel}"
+															value="#{mpCadastroObjetoBean.mpObjeto.informacao}" />
+														<p:tooltip id="toolTipInformacao" for="informacao" value="Informação" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+						<p:tab title="Atributos" closable="false">
+							<p:commandButton value="Novo Atributo"
+								icon="fa fa-plus Fs14 white"
+								action="#{mpCadastroObjetoBean.adicionarMpItemObjetoX}"
+								disabled="#{mpCadastroObjetoBean.indEditavel}"
+								oncomplete="PF('novoItemObjetoDialog').show()" process="@this"
+								update="frmIte:novoItemObjetoDialogId">
+								<p:resetInput target="frmIte:novoItemObjetoDialogId" />
+							</p:commandButton>
+
+							<p:dataTable id="itemObjetosTable"
+								value="#{mpCadastroObjetoBean.mpObjeto.mpItemObjetos}"
+								emptyMessage="O Objeto ainda não possui atributos"
+								var="itemObjeto" style="margin-top:10px" reflow="true">
+
+								<p:column headerText="Nome">
+									<h:outputText value="#{itemObjeto.nome}" />
+								</p:column>
+								<p:column headerText="Descrição" priority="1">
+									<h:outputText value="#{itemObjeto.descricao}" />
+								</p:column>
+								<p:column headerText="Formato" priority="2">
+									<h:outputText value="#{itemObjeto.mpFormato.descricao}" />
+								</p:column>
+								<p:column headerText="Tamanho" priority="3">
+									<h:outputText value="#{itemObjeto.tamanho}" />
+								</p:column>
+								<p:column headerText="I.Key" priority="4">
+									<h:outputText value="#{itemObjeto.indKey}" />
+								</p:column>
+								<p:column headerText="Cardinal" priority="5">
+									<h:outputText value="#{itemObjeto.mpCardinalidade.descricao}" />
+								</p:column>
+
+								<p:column style="text-align:center">
+									<p:commandButton title="Alterar" icon="fa fa-edit Fs14 white"
+										oncomplete="PF('novoItemObjetoDialog').show()"
+										action="#{mpCadastroObjetoBean.alterarMpItemObjeto}"
+										disabled="#{mpCadastroObjetoBean.indEditavel}"
+										process="@this" update="frmIte:novoItemObjetoDialogId">
+										<f:setPropertyActionListener value="#{itemObjeto}"
+											target="#{mpCadastroObjetoBean.mpItemObjeto}" />
+									</p:commandButton>
+
+									<p:commandButton title="Excluir" icon="fa fa-trash Fs14 white"
+										oncomplete="PF('confirmacaoExclusaoIteDialog').show()"
+										disabled="#{mpCadastroObjetoBean.indEditavel}"
+										process="@this" update=":frm:confirmacaoExclusaoIteDialog">
+										<f:setPropertyActionListener value="#{itemObjeto}"
+											target="#{mpCadastroObjetoBean.mpItemObjeto}" />
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+					</p:tabView>
+
+					<p:confirmDialog header="Exclusão Atributo" message=
+	"Tem certeza que deseja excluir o Atributo = ( #{mpCadastroObjetoBean.mpItemObjeto.nome} )?"
+						widgetVar="confirmacaoExclusaoIteDialog"
+						id="confirmacaoExclusaoIteDialog">
+						<p:button value="Não"
+							onclick="PF('confirmacaoExclusaoIteDialog').hide(); return false;" />
+						<p:commandButton value="Sim"
+							oncomplete="PF('confirmacaoExclusaoIteDialog').hide();"
+							action="#{mpCadastroObjetoBean.removerMpItemObjetoX}"
+							process="@this" update=":frm:tabViewC:itemObjetosTable" />
+					</p:confirmDialog>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+		<div class="ContainerIndent">
+		  <h:form id="frmIte">
+			<p:dialog widgetVar="novoItemObjetoDialog" id="novoItemObjetoDialogId" closable="false"
+				header="#{mpCadastroObjetoBean.txtModoItemObjetoDialog} Atributo" 
+			 	showEffect="fade" hideEffect="fade" resizable="false" responsive="true" modal="true">
+
+				<h:panelGroup id="novoItemObjetoPanel">
+				
+					<p:messages autoUpdate="false" />
+
+						<p:panelGrid columns="1">
+
+							<h:panelGroup id="pgNomeIte">
+								<p:outputLabel value="Nome: "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="nomeIte"
+									required="#{mpCadastroObjetoBean.indEditavelIte}"
+									validatorMessage="Informar Nome" placeholder="Nome"
+									value="#{mpCadastroObjetoBean.mpItemObjeto.nome}" />
+								<p:tooltip for="nomeIte" value="Nome (Ex.: MpCliente)" />
+							</h:panelGroup>
+							<h:panelGroup id="pgDescricaoIte">
+								<p:outputLabel value="Descrição: "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="descricaoIte"
+									required="#{mpCadastroObjetoBean.indEditavelIte}"
+									validatorMessage="Informar Descrição" placeholder="Descrição"
+									value="#{mpCadastroObjetoBean.mpItemObjeto.descricao}" />
+								<p:tooltip for="descricaoIte"
+									value="Descrição (Ex.: Classe CLIENTE)" />
+							</h:panelGroup>
+
+							<h:panelGroup id="pgMpFormatoIte">
+								<p:outputLabel value="Formato: "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:selectOneMenu id="mpFormatoIte" effect="fold"
+									required="#{mpCadastroObjetoBean.indEditavelIte}"
+									validatorMessage="Informar Formato"
+									value="#{mpCadastroObjetoBean.mpItemObjeto.mpFormato}">
+									<f:selectItem itemLabel="Selecione o Formato" />
+									<f:selectItems value="#{mpCadastroObjetoBean.mpFormatoList}"
+										var="mpFormato" itemLabel="#{mpFormato.descricao}"
+										itemValue="#{mpFormato}" />
+								</p:selectOneMenu>
+								<p:tooltip id="toolTipMpFormatoIte" for="mpFormatoIte"
+									value="Formato" />
+							</h:panelGroup>
+
+							<h:panelGroup id="pgTamanhoIte">
+								<p:outputLabel value="Tamanho: "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="tamanhoIte" placeholder="Tamanho" maxlength="5"
+									styleClass="moeda"
+									required="#{mpCadastroObjetoBean.indEditavelIte}"
+									validatorMessage="Informar Tamanho"
+									value="#{mpCadastroObjetoBean.mpItemObjeto.tamanho}">
+									<f:convertNumber maxFractionDigits="5" minFractionDigits="1" />
+								</p:inputText>
+								<p:tooltip for="tamanhoIte" value="Tamanho (Ex.: 5,0)" />
+							</h:panelGroup>
+
+							<h:panelGroup id="pgMpCardinalidadeIte">
+								<p:outputLabel value="Cardinalidade: "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:selectOneMenu id="mpCardinalidadeIte" effect="fold"
+									required="#{mpCadastroObjetoBean.indEditavelIte}"
+									validatorMessage="Informar Cardinalidade"
+									value="#{mpCadastroObjetoBean.mpItemObjeto.mpCardinalidade}">
+									<f:selectItem itemLabel="Selecione Cardinalidade" />
+									<f:selectItems
+										value="#{mpCadastroObjetoBean.mpCardinalidadeList}"
+										var="mpCardinalidade" itemLabel="#{mpCardinalidade.descricao}"
+										itemValue="#{mpCardinalidade}" />
+								</p:selectOneMenu>
+								<p:tooltip id="toolTipMpCardinalidadeIte"
+									for="mpCardinalidadeIte" value="Cardinalidade" />
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel value="Ind.Key: "
+									rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:selectBooleanButton id="indKeyIte" onLabel="Sim"
+									offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close"
+									style="width:90px"
+									required="#{mpCadastroObjetoBean.indEditavelIte}"
+									value="#{mpCadastroObjetoBean.mpItemObjeto.indKey}" />
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:commandButton value="Salvar" process="novoItemObjetoDialogId"
+									update=":frm:tabViewC:itemObjetosTable novoItemObjetoPanel"
+									action="#{mpCadastroObjetoBean.salvarMpItemObjeto}"
+									oncomplete="if (!args.validationFailed) PF('novoItemObjetoDialog').hide()">
+									<p:collector value="#{mpCadastroObjetoBean.mpItemObjeto}"
+										addTo="#{mpCadastroObjetoBean.mpObjeto.mpItens}" />
+								</p:commandButton>
+								<p:commandButton value="Fechar" process="@this"
+									update=":frm:tabViewC:itemObjetosTable"
+									action="#{mpCadastroObjetoBean.fecharMpItemObjeto}"
+									oncomplete="if (!args.validationFailed) PF('novoItemObjetoDialog').hide()">
+								</p:commandButton>
+							</h:panelGroup>
+
+						</p:panelGrid>
+					</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpObjetoDialog" id="helpObjetoDialogId" modal="true"
+					header="HELP - Objeto" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpObjetoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpCadastroObjetoBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpCadastroObjetoBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpCadastroObjetoBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

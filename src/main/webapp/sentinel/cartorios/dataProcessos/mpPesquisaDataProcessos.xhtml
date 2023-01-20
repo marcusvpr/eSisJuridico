@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Data Processo</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaDataProcessosBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpDataProcessosTable"
+									fileName="dataProcessos"
+									postProcessor="#{mpPesquisaDataProcessosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="5" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+	    						<p:outputLabel />
+	    						<p:calendar pattern="dd/MM/yyyy" placeholder="Data " mask="true"
+	    						value="#{mpPesquisaDataProcessosBean.mpFiltro.dataProtocolo}" />
+	    						<p:outputLabel />
+	    						<p:outputLabel />
+	    						<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpDataProcessosTable"
+							value="#{mpPesquisaDataProcessosBean.mpDataProcessosFiltrados}"
+							var="mpDataProcesso" selectionMode="single"
+							selection="#{mpPesquisaDataProcessosBean.mpDataProcessoSelecionado}"
+							rowKey="#{mpDataProcesso.dataProtocolo}" reflow="true" 
+							style="margin-top:20px"
+							emptyMessage="Nenhuma Data Processo encontrada." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Data Protocolo" style="text-align:center;"
+														sortBy="#{mpDataProcesso.dataProtocolo}">
+								<h:outputText value="#{mpDataProcesso.dataProtocolo}">
+	    							<f:convertDateTime pattern="dd/MM/yyyy" 
+	    														timeZone="America/Sao_Paulo" />
+	    						</h:outputText>
+							</p:column>
+							<p:column headerText="Data Até" style="text-align:center;"
+															sortBy="#{mpDataProcesso.dataAte}">
+								<h:outputText value="#{mpDataProcesso.dataAte}">
+	    							<f:convertDateTime pattern="dd/MM/yyyy" 
+	    														timeZone="America/Sao_Paulo" />
+	    						</h:outputText>
+							</p:column>
+							<p:column headerText="Protocolo Inicial" style="text-align:center;"
+													sortBy="#{mpDataProcesso.protocoloInicial}">
+								<h:outputText value="#{mpDataProcesso.protocoloInicial}" />
+							</p:column>
+							<p:column headerText="Protocolo Final" style="text-align:center;"
+													sortBy="#{mpDataProcesso.protocoloFinal}">
+								<h:outputText value="#{mpDataProcesso.protocoloFinal}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome=
+									"/sentinel/cartorios/dataProcessos/mpCadastroDataProcesso"
+														icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpDataProcesso" value="#{mpDataProcesso.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

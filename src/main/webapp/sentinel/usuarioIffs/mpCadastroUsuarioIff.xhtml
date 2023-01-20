@@ -1,0 +1,141 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpUsuarioIff"
+				value="#{mpCadastroUsuarioIffBean.mpUsuarioIff}" />
+			<f:viewAction action="#{mpCadastroUsuarioIffBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Usuário Iff #{mpCadastroUsuarioIffBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include
+						src="/WEB-INF/template/sentinel/mpBotoesUsuarioIff.xhtml" /> 
+
+					<div class="ContainerIndent" style="margin-top:60px;">
+					</div>
+					
+					<p:tabView id="tabViewA">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+											
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgNome">
+														<p:outputLabel value="Nome: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="nome" maxlength="100"
+															required="#{mpCadastroUsuarioIffBean.indEditavel}"
+															validatorMessage="Informar Nome" placeholder="Nome"
+															readonly="#{mpCadastroUsuarioIffBean.indEditavel}"
+															value="#{mpCadastroUsuarioIffBean.mpUsuarioIff.nome}">
+														</p:inputText>
+														<p:tooltip id="toolTipNome" for="nome" value="Nome" />
+													</h:panelGroup>
+													<h:panelGroup id="pgEmail">
+														<p:outputLabel value="Email: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="email" maxlength="200"
+															required="#{mpCadastroUsuarioIffBean.indEditavel}"
+															validatorMessage="Informar Email" placeholder="Email"
+															readonly="#{mpCadastroUsuarioIffBean.indEditavel}"
+															value="#{mpCadastroUsuarioIffBean.mpUsuarioIff.email}">
+														</p:inputText>
+														<p:tooltip id="toolTipEmail" for="email" value="Email" />
+													</h:panelGroup>
+													<h:panelGroup id="pgSetor">
+														<p:outputLabel value="Setor: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpSetor" effect="fold"
+															style="background-color:black; color:yellow;"
+															required="#{mpCadastroUsuarioIffBean.indEditavel}"
+															validatorMessage="Informar Setor"
+															disabled="#{mpCadastroUsuarioIffBean.indEditavel}"
+															value="#{mpCadastroUsuarioIffBean.mpUsuarioIff.mpSetorIff}">
+															<f:selectItem itemLabel="Selecione o Setor" />
+															<f:selectItems value="#{mpCadastroUsuarioIffBean.mpSetorIffList}"
+																var="mpSetor" itemLabel="#{mpSetor.descricaoRamal}"
+																itemValue="#{mpSetor}" />
+														</p:selectOneMenu>
+														<p:tooltip id="toolTipSetor" for="mpSetor" value="Setor" />
+													</h:panelGroup>
+													<h:panelGroup id="pgRamal">
+														<p:outputLabel value="Ramal: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="ramal" maxlength="100"
+															required="#{mpCadastroUsuarioIffBean.indEditavel}"
+															validatorMessage="Informar Ramal" placeholder="Ramal"
+															readonly="#{mpCadastroUsuarioIffBean.indEditavel}"
+															value="#{mpCadastroUsuarioIffBean.mpUsuarioIff.ramal}">
+														</p:inputText>
+														<p:tooltip id="toolTipRamal" for="ramal" value="Ramal" />
+													</h:panelGroup>
+													<h:panelGroup id="pgSexo">
+														<p:outputLabel value="Sexo: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneRadio id="mpSexo"
+															layout="responsive" columns="2"
+															required="#{mpCadastroUsuarioIffBean.indEditavel}"
+															validatorMessage="Informar Sexo"
+															disabled="#{mpCadastroUsuarioIffBean.indEditavel}"
+															value="#{mpCadastroUsuarioIffBean.mpUsuarioIff.mpSexo}">
+															<f:selectItems layout="responsive" columns="2"
+																value="#{mpCadastroUsuarioIffBean.mpSexoList}" var="mpSexo"
+																itemLabel="#{mpSexo.descricao}" itemValue="#{mpSexo}" />
+														</p:selectOneRadio>
+														<p:tooltip id="toolTipSexo" for="mpSexo" value="Sexo" />
+													</h:panelGroup>
+													<h:panelGroup id="pgStatus">
+														<p:outputLabel value="Status: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectBooleanButton id="status" onLabel="Ativo"
+															offLabel="Inativo" onIcon="ui-icon-check"
+															offIcon="ui-icon-close" style="width:90px"
+															required="#{mpCadastroUsuarioIffBean.indEditavel}"
+															disabled="#{mpCadastroUsuarioIffBean.indEditavel}"
+															value="#{mpCadastroUsuarioIffBean.mpUsuarioIff.indAtivo}" />
+														<p:tooltip id="toolTipStatus" for="status" value="Status" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+
+							</div>
+						</p:tab>
+
+					</p:tabView>
+										
+				</p:panel>
+			</h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

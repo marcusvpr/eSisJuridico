@@ -1,0 +1,110 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces" target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Notificação</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaNotificacaosBean.pesquisar}" /> 
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpNotificacaosTable"
+									fileName="notificacaos"
+									postProcessor="#{mpPesquisaNotificacaosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="5" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:calendar pattern="dd/MM/yyyy" placeholder="Data De" mask="true"
+										value="#{mpPesquisaNotificacaosBean.mpFiltro.dataDe}" />
+	    						<p:calendar pattern="dd/MM/yyyy" placeholder="Data Até" mask="true"
+										value="#{mpPesquisaNotificacaosBean.mpFiltro.dataAte}" />
+
+								<p:inputText placeholder="Mensagem"
+									value="#{mpPesquisaNotificacaosBean.mpFiltro.mensagem}" />
+
+								<p:inputText placeholder="Prioridade"
+									value="#{mpPesquisaNotificacaosBean.mpFiltro.tipoPrioridade}" />
+
+								<p:inputText placeholder="Status"
+									value="#{mpPesquisaNotificacaosBean.mpFiltro.status}" />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpNotificacaosTable"
+							value="#{mpPesquisaNotificacaosBean.mpNotificacaosFiltrados}"
+							var="mpNotificacao" selectionMode="single"
+							style="margin-top:20px"
+							selection="#{mpPesquisaNotificacaosBean.mpNotificacaoSelecionado}"
+							rowKey="#{mpNotificacao.dataDe}" reflow="true"
+							emptyMessage="Nenhuma Notificacao encontrada." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Data De" style="text-align:center; width:180px"
+								sortBy="#{mpNotificacao.dataDe}">
+								<h:outputText value="#{mpNotificacao.dataDe}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Data Até" style="text-align:center; width:180px"
+								sortBy="#{mpNotificacao.dataAte}">
+								<h:outputText value="#{mpNotificacao.dataAte}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Mensagem"
+								sortBy="#{mpNotificacao.mensagem}">
+								<h:outputText value="#{mpNotificacao.mensagem}" />
+							</p:column>
+							<p:column headerText="Status"
+								sortBy="#{mpNotificacao.mpStatusNotificacao}">
+								<h:outputText value="#{mpNotificacao.mpStatusNotificacao}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/notificacaos/mpCadastroNotificacao"
+									icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpNotificacao" value="#{mpNotificacao.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

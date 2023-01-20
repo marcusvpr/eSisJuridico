@@ -1,0 +1,274 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmRecebe">
+				<p:growl id="messages" showDetail="false" />
+				
+				<h2 class="aw-page-title">Recebe Títulos</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> 
+							<p:commandButton value="Salvar/Receber"
+										actionListener="#{mpRecebeTitulosBean.salvarReceber}" />
+							<p:spacer width="50" height="10" />
+							<p:commandButton value="Estornar"
+										oncomplete="PF('estornoDialog').show()"
+										action="#{mpRecebeTitulosBean.estornarReceber}"
+										process="@this" update="estornoDialogId">
+										<f:setPropertyActionListener value="#{dependente}"
+											target="#{mpCadastroClienteBean.mpDependente}" />
+							</p:commandButton>
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="/dashboardRS" />
+							<p:commandButton title="Ajuda - Informação (alt+h)" accesskey="h" 
+								icon="fa fa-question-circle Fs14 red" process="@this" 
+								action="#{mpReceTitulosBean.mpHelp}" update="frmHelp"
+								oncomplete="PF('helpReceTitulosDialog').show()" />			
+						</span>
+					</div>
+				</div>
+				<div class="ContainerIndent">
+					<div class="Container40">
+						<span class="DispInlBlock Fright FloatNoneOnMobile">
+							<p:spacer width="50"  height="10" />
+							
+							<p:panelGrid columns="8" layout="grid"
+								style="border:0px !important; background:none;"
+								styleClass="ui-panelgrid-blank">
+								
+								<p:spacer width="50"  height="10" />
+								
+								<h:panelGroup>
+									<p:outputLabel value="Data Distribuição: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:calendar id="dataImportar"
+										locale="pt" timeZone="America/Sao_Paulo" 
+										style="background-color:black; color:yellow;"
+										pattern="dd/MM/yyyy" mask="true"
+										placeholder="Data Distribuição" required="true"
+										validatorMessage="Informar Data Distribuição"
+										value="#{mpRecebeTitulosBean.mpImportarControle.dataImportar}">
+										
+										<p:ajax event="dateSelect" process="@this" update=":frmRecebe"
+											ignoreAutoUpdate="true"
+											listener="#{mpRecebeTitulosBean.calculaData}" />
+										
+									</p:calendar>
+									<p:tooltip for="dataImportar" value="Data Distribuição" />
+								</h:panelGroup>
+								<h:panelGroup>
+									<h:outputText value="Data Protocolo: " />
+									<h:outputText class="hardblue"
+										value="#{mpRecebeTitulosBean.mpImportarControle.dataControle}">
+	    								<f:convertDateTime pattern="dd/MM/yyyy" 
+	    															timeZone="America/Sao_Paulo" />
+	    							</h:outputText>
+								</h:panelGroup>
+								<h:panelGroup>
+									<h:outputText value="Data Até: " />
+									<h:outputText class="hardblue"
+										value="#{mpRecebeTitulosBean.mpImportarControle.dataAte}">
+										<f:convertDateTime pattern="dd/MM/yyyy"
+											timeZone="America/Sao_Paulo" />
+									</h:outputText>
+								</h:panelGroup>
+								
+								<h:panelGroup />
+								<h:panelGroup />
+
+							</p:panelGrid>
+
+							<p:spacer width="50"  height="10" />
+
+							<p:panelGrid columns="1" layout="grid"
+								style="border:0px !important; background:none;"
+								styleClass="ui-panelgrid-blank">
+
+								<h:panelGroup />
+								<h:panelGroup />
+								<h:panelGroup id="carregaArquivos">
+									<!-- h:form enctype="multipart/form-data"  -->
+										<p:fileUpload label="Seleciona" 
+											uploadLabel="Carrega" cancelLabel="Cancela"
+											fileUploadListener="#{mpRecebeTitulosBean.handleFileUpload}"
+											mode="advanced" dragDropSupport="false" multiple="true"
+											update="messages" sizeLimit="150000" fileLimit="30"
+											allowTypes="/(\.|\/)(ATO|161|162)$/" />
+									<!--  /h:form  -->
+								</h:panelGroup>
+
+							</p:panelGrid>
+						</span>
+					</div>
+					<div class="Container60">
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> </span>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+		
+		<div class="ContainerIndent">
+			<p:dialog widgetVar="estornoDialog" id="estornoDialogId" modal="true" width="500px"
+				header="" showEffect="fade" hideEffect="fade"
+				resizable="false" responsive="true">
+				<h:form id="frmEstornoDialog">
+
+					<p:messages autoUpdate="false" />
+
+					<p:dataTable id="recebeTable" var="mpImportarControle"
+						value="#{mpRecebeTitulosBean.mpImportarControleList}"
+						emptyMessage="Não possui recebimentos"
+						selection="#{mpRecebeTitulosBean.selectedMpImportarControles}"
+						rowKey="#{mpImportarControle.id}" style="margin-bottom:0" rows="10"
+						paginator="true" paginatorAlwaysVisible="false"
+						paginatorPosition="bottom">
+						
+					    <p:ajax event="rowSelectCheckbox" 
+					    					listener="#{mpRecebeTitulosBean.rowSelect}" 
+					    											update="frmEstornoDialog"/>
+                		<p:ajax event="rowUnselectCheckbox" 
+                							listener="#{mpRecebeTitulosBean.rowUnSelect}" 
+                													update="frmEstornoDialog"/>
+                		<p:ajax event="toggleSelect" 
+										listener="#{mpRecebeTitulosBean.headerToggleSelect}" />						
+						
+						<f:facet name="header">
+           	 					Estorno Recebimentos
+        				</f:facet>
+						
+						<p:column selectionMode="multiple"
+													style="width:20px; text-align:center;" />
+						<p:column headerText="Id">
+							<h:outputText value="#{mpImportarControle.id}" />
+						</p:column>
+						<p:column headerText="Data Importar">
+							<h:outputText value="#{mpImportarControle.dataImportar}" />
+						</p:column>
+						<f:facet name="footer">
+							<h:panelGroup rendered="#{mpRecebeTitulosBean.indVisivel}">
+								<p:commandButton value="Estornar Selecionado(s)"
+									icon="fa fa-trash Fs14 white" process="@this"
+									oncomplete="PF('confirmacaoExclusaoR').show()"
+									update=":frmEstornoDialog:confirmacaoExclusaoDialogR" />
+							</h:panelGroup>
+						</f:facet>
+					</p:dataTable>
+					
+					<p:confirmDialog header="Confirma Estorno Recebimento" responsive="true"
+						global="true" showEffect="fade" hideEffect="fade" message=
+						"Deseja estornar o(s) Recebimento(s) selecionado(s)?"
+						widgetVar="confirmacaoExclusaoR" id="confirmacaoExclusaoDialogR">
+						<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+						 		icon="ui-icon-close fa fa-close Fs14 white"
+								onclick="PF('confirmacaoExclusaoR').hide(); return false;" />
+						<p:commandButton value="Sim" update=":frmRecebe :frmEstornoDialog"
+								oncomplete="PF('confirmacaoExclusaoR').hide();" id="yesButtonR"
+								action="#{mpRecebeTitulosBean.estornarReceberConfirma}" 
+								process="@this" styleClass="ui-confirmdialog-yes"
+								icon="ui-icon-check fa fa-check Fs14 white" />
+					</p:confirmDialog>
+
+				</h:form>
+			</p:dialog>
+		</div>
+
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpRecebeTitulosDialog" id="helpRecebeTitulosDialogId" modal="true"
+					header="HELP - RecebeTitulos" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpRecebeTitulosPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpRecebeTitulosBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpRecebeTitulosBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpRecebeTitulosBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpRecebeTitulosBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpRecebeTitulosBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpRecebeTitulosBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+<script type="text/javascript">
+PrimeFaces.locales['pt'] = {
+            closeText: 'Fechar',
+            prevText: 'Anterior',
+            nextText: 'Próximo',
+            currentText: 'Começo',
+            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun', 'Jul','Ago','Set','Out','Nov','Des'],
+            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+            dayNamesMin: ['D','S','T','Q','Q','S','S'],
+            weekHeader: 'Semana',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            timeOnlyTitle: 'Só Horas',
+            timeText: 'Tempo',
+            hourText: 'Hora',
+            minuteText: 'Minuto',
+            secondText: 'Segundo',
+            currentText: 'Data Atual',
+            ampm: false,
+            month: 'Mês',
+            week: 'Semana',
+            day: 'Dia',
+            allDayText : 'Todo Dia'
+        };
+</script>		
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,159 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces" target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Notificação Usuário</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaNotificacaoUsuariosBean.pesquisar}" /> 
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpNotificacaoUsuariosTable"
+									fileName="notificacaoUsuarios"
+									postProcessor="#{mpPesquisaNotificacaoUsuariosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="7" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<h:panelGroup id="pgDataDe">
+									<p:outputLabel value="Data:"
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:calendar id="dataDe" pattern="dd/MM/yyyy" 
+										placeholder="Data De" mask="true"
+										value="#{mpPesquisaNotificacaoUsuariosBean.mpFiltro.dataDe}" />
+									<p:tooltip for="dataDe" value="Data" />
+								</h:panelGroup>
+										
+								<h:panelGroup id="pgDataAte">
+									<p:outputLabel value="Data Até:"
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+	    							<p:calendar id="dataAte" pattern="dd/MM/yyyy" 
+	    								placeholder="Data Até" mask="true"
+										value="#{mpPesquisaNotificacaoUsuariosBean.mpFiltro.dataAte}" />
+									<p:tooltip for="dataAte" value="Data Até" />
+								</h:panelGroup>
+
+								<h:panelGroup id="pgUsuario">
+									<p:outputLabel value="Usuário:"
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText id="usuario" placeholder="Usuário"
+										value="#{mpPesquisaNotificacaoUsuariosBean.mpFiltro.usuario}" />
+									<p:tooltip for="usuario" value="Usuário" />
+								</h:panelGroup>
+
+								<h:panelGroup id="pgAssunto">
+									<p:outputLabel value="Assunto:"
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText id="assunto" placeholder="Assunto"
+										value="#{mpPesquisaNotificacaoUsuariosBean.mpFiltro.assunto}" />
+									<p:tooltip for="assunto" value="Assunto" />
+								</h:panelGroup>
+
+								<h:panelGroup id="pgMensagem">
+									<p:outputLabel value="Mensagem:"
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText id="mensagem" placeholder="Mensagem"
+										value="#{mpPesquisaNotificacaoUsuariosBean.mpFiltro.mensagem}" />
+									<p:tooltip for="mensagem" value="Mensagem" />
+								</h:panelGroup>
+
+								<h:panelGroup id="pgPrioridade">
+									<p:outputLabel value="Prioridade:"
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText id="prioridade" placeholder="Prioridade"
+										value="#{mpPesquisaNotificacaoUsuariosBean.mpFiltro.tipoPrioridade}" />
+									<p:tooltip for="prioridade" value="Prioridade" />
+								</h:panelGroup>
+
+								<h:panelGroup id="pgStatus">
+									<p:outputLabel value="Status:"
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+									<p:inputText id="status" placeholder="Status"
+										value="#{mpPesquisaNotificacaoUsuariosBean.mpFiltro.status}" />
+									<p:tooltip for="status" value="Status" />
+								</h:panelGroup>
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpNotificacaoUsuariosTable"
+							value="#{mpPesquisaNotificacaoUsuariosBean.mpNotificacaoUsuariosFiltrados}"
+							var="mpNotificacaoUsuario" selectionMode="single"
+							style="margin-top:20px"
+							selection="#{mpPesquisaNotificacaoUsuariosBean.mpNotificacaoUsuarioSelecionado}"
+							rowKey="#{mpNotificacaoUsuario.dataEnvio}" reflow="true"
+							emptyMessage="Nenhuma NotificacaoUsuario encontrada." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Data" style="text-align:center; width:180px"
+								sortBy="#{mpNotificacaoUsuario.dataEnvio}">
+								<h:outputText value="#{mpNotificacaoUsuario.dataEnvio}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+										timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Usuário (From)"
+								sortBy="#{mpNotificacaoUsuario.nomeUsuarioFrom}">
+								<h:outputText value="#{mpNotificacaoUsuario.nomeUsuarioFrom}" />
+							</p:column>
+							<p:column headerText="Usuário"
+								sortBy="#{mpNotificacaoUsuario.nomeUsuario}">
+								<h:outputText value="#{mpNotificacaoUsuario.nomeUsuario}" />
+							</p:column>
+							<p:column headerText="Assunto"
+								sortBy="#{mpNotificacaoUsuario.assunto}">
+								<h:outputText value="#{mpNotificacaoUsuario.assunto}" />
+							</p:column>
+							<p:column headerText="Mensagem"
+								sortBy="#{mpNotificacaoUsuario.mensagem}">
+								<h:outputText value="#{mpNotificacaoUsuario.mensagem}" />
+							</p:column>
+							<p:column headerText="Status" style="text-align:center;"
+								sortBy="#{mpNotificacaoUsuario.mpStatusNotificacao}">
+								<h:outputText value="#{mpNotificacaoUsuario.mpStatusNotificacao.descricao}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/notificacaos/mpCadastroNotificacaoUsuario"
+									icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpNotificacaoUsuario" value="#{mpNotificacaoUsuario.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

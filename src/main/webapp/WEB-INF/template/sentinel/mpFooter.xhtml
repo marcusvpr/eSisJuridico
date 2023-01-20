@@ -1,0 +1,95 @@
+<ui:composition 
+
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <!-- FOOTER  -->
+
+    <div class="Container100" style="margin-bottom:20px;">
+        <div class="ContainerIndent">
+            <div class="Container100">
+               	<a href="./termoPolitica" target="_blank"
+                 					class="DispInlBlock FontSourceSansLight hardblue Fs12 Fleft ">
+                 	TERMOS e POLÍTICAS</a>
+                <span class="Fleft gray Fs12" style="padding:0px 5px;">|</span>
+               	<a href="#" class="DispInlBlock FontSourceSansLight hardblue Fs12 Fleft ">
+               		MAPA do SITE</a>
+               	<span class="Fleft gray Fs12" style="padding:0px 5px;">|</span>
+               	<a href="#" class="DispInlBlock FontSourceSansLight hardblue Fs12 Fleft ">
+               		PRIVACIDADE</a>
+
+            	<h:panelGroup rendered="#{mpLoginBean.scIndRodapeSistema}">
+                	<div class="EmptyBox10 ShowOnMobile"></div>
+                	<span class=
+                		"DispInlBlock FontSourceSansLight Fright TexAlRight FloatNoneOnMobile"> 
+                	<span class=
+                		"DispInlBlock FontSourceSansLight gray Fs12 FloatNoneOnMobile"> 
+                		MPXDS.com  |  All rights reserved. | Ambiente:
+                	</span>
+                	<span class=
+                			"DispInlBlock FontSourceSansLight red Fs16 FloatNoneOnMobile"> 
+                		 	 #{mpSeguranca.capturaTenantId()}
+             				<h:panelGroup rendered="#{mpSeguranca.isUsuarioAmbiente ? false : true}">
+                		 	 	( #{mpSeguranca.mpUsuarioLogado.mpUsuario.login} )
+                		 	 </h:panelGroup>
+             				<h:panelGroup rendered="#{mpSeguranca.isUsuarioAmbiente}">
+                		 	 	( #{mpSeguranca.mpUsuarioLogado.mpUsuarioTenant.login} )
+                		 	 </h:panelGroup>
+                	</span>
+                	<span class=
+                		"DispInlBlock FontSourceSansLight gray Fs12 FloatNoneOnMobile"> 
+                		| Versão: 
+                	</span>
+                	<span class=
+                			"DispInlBlock FontSourceSansLight red Fs16 FloatNoneOnMobile"> 
+                			#{mpSeguranca.sistemaVersao}              	
+                	</span>
+                	<span class=
+                		"DispInlBlock FontSourceSansLight gray Fs12 FloatNoneOnMobile"> 
+                		| 
+                	</span>
+                	</span>
+				</h:panelGroup>
+            </div>
+
+            <div class="EmptyBox10"></div>
+
+            <div class="Container50 Responsive100">
+            	<h:panelGroup rendered="#{mpLoginBean.scIndRodapeSistema}">
+                	<span class=
+                		"DispInlBlock FontSourceSansLight gray Fs12 Fleft  TexAlRight FloatNoneOnMobile"> 
+            			<h:graphicImage name="mpxds_logo5_menor.png" styleClass="" library="images"
+                 															style="height:25px;"/>
+					</span>
+
+                	<div class="EmptyBox10"></div>
+                	<span class="DispBlock Wid100 FontSourceSansLight gray Fs12"> 
+                		<p:clock pattern="dd/MM/yyyy HH:mm:ss" mode="server" />
+                				| IP: #{mpSeguranca.numeroIP} | info@mpxds.com | +55 21 3549-9340  
+                	</span>
+				</h:panelGroup>
+            </div>
+
+            <div class="Container50 Responsive100">
+                <div class="DispInlBlock Fright">
+					<h:form>
+                    	<a href="https://www.facebook.com/mpxds/" class="hardblue Fs30">
+                    			<i class="fa fa-facebook-square"></i></a>
+                    	<a href="https://twitter.com/tmpxds/" class="hardblue Fs30">
+                    			<i class="fa fa-twitter-square"></i></a>
+						<h:outputText value=" Executar: " />
+		    			<p:inputText id="transacaoSistema" size="6" 
+		    											value="#{mpLoginBean.transacaoSistema}">
+    	    		   		<p:ajax event="blur" process="@this"
+        		   								listener="#{mpLoginBean.trataTransacaoSistema}" />
+        				</p:inputText>
+					</h:form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ui:composition>

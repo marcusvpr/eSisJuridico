@@ -1,0 +1,20 @@
+<html>
+    <body>
+        <table>
+            <tr>
+                <td style="width: 150px">Login Usuario Ambiente : </td>
+                <td>$mpUsuarioTenant.login</td>
+            </tr>
+            <tr>
+                <td style="width: 150px">Nome Usuario Ambiente: </td>
+                <td>$mpUsuarioTenant.nome</td>
+            </tr>
+            <tr>
+                <td style="width: 150px">Recuperacao Senha : </td>
+                <td><b>$mpUsuarioTenant.senha</b></td>
+            </tr>
+        </table>
+        
+        <br/>
+    </body>
+</html>

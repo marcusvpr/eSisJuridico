@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>SENTINEL BLUE | Prime Faces Layouts Header</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        
+    <h:outputScript name="js/login.js" library="sentinel-layout" />
+    <h:outputStylesheet name="css/font-icon-layout.css" library="sentinel-layout" />
+    <h:outputStylesheet name="css/sentinel-layout.css" library="sentinel-layout" />
+    <h:outputStylesheet name="css/core-layout.css" library="sentinel-layout" />
+</h:head>
+
+<h:body class="fontRegular login-back white-back">
+    
+    <div class="Container">
+        <div class="Container80 MaxWid500 Fnone MarAuto TexAlCenter PaddingTopPercent10">
+            <a href="" id="login-logo">
+                <h:graphicImage name="images/LOGO.svg" styleClass="Fleft" library="sentinel-layout"/>
+                <span class="Fs30 FontTitilliumSemiBoldItalic Fleft"><span class="softblue">SENTINEL</span><span class="hardblue">LAYOUT</span></span>
+            </a>
+            <div class="EmptyBox10"></div>
+        </div>
+
+        <!-- LOGIN BOX COVER START -->
+        <div class="Container80 MaxWid500 white-back Fnone MarAuto BordRad10" id="login-box">
+            <div class="Container">
+                <div class="Container50 TexAlCenter Animated05 BoxSizeBorder TabBtn left TabBtnActiveLeft" role="1">
+                    <div class="Container80 Fnone MarAuto FontBold"><i class="icon-lock"></i> Login</div>
+                </div>
+                <div class="Container50 TexAlCenter Animated05 BoxSizeBorder TabBtn right" role="2">
+                    <div class="Container80 Fnone MarAuto FontBold"><i class="icon-key-1"></i> Permissions</div>
+                </div>
+
+                <div class="Container90 Fnone MarAuto TexAlCenter TabContent OvHidden" id="TAB1">
+                    <div class="EmptyBox50"></div>
+                    <p:inputText value="" placeholder="Username" styleClass="Container80 Fnone MarAuto Fs18"/>
+                    <div class="EmptyBox10"></div>
+                    <p:password value="" placeholder="Password" styleClass="Container80 Fnone MarAuto Fs18" feedback="false"/>
+                    <div class="EmptyBox20"></div>
+                    <div class="Container85 Fnone MarAuto softgray">
+                        <p:selectBooleanCheckbox value="accept" styleClass="Fleft" itemLabel="I Accept Terms And Policies"/>
+                    </div>
+                    <div class="EmptyBox30"></div>
+                    <p:button  value="Log In" styleClass="Fs16" href="dashboard.xhtml"></p:button>
+                    <div class="EmptyBox50"></div>
+                </div>
+
+                <div class="Container90 Fnone MarAuto DispNone TexAlCenter TabContent OvHidden" id="TAB2">
+                    <div class="EmptyBox50"></div>
+                    <p:inputText value="" placeholder="Your Email Address" styleClass="Container80 Fnone MarAuto Fs18"/>
+                    <div class="EmptyBox20"></div>
+                    <p:button  value="Send Access Request" styleClass="Fs16"></p:button>
+                    <div class="EmptyBox50"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- LOGIN BOX COVER END -->
+    
+</h:body>
+
+</html>

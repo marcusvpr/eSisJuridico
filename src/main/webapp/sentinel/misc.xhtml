@@ -1,0 +1,99 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/sentinel/template.xhtml">
+
+    <ui:define name="content">
+        <script type="text/javascript">
+            function start() {
+                PF('startButton1').disable();
+
+                window['progress'] = setInterval(function() {
+                    var pbClient = PF('pbClient'),
+                            oldValue = pbClient.getValue(),
+                            newValue = oldValue + 10;
+
+                    pbClient.setValue(pbClient.getValue() + 10);
+
+                    if (newValue === 100) {
+                        clearInterval(window['progress']);
+                    }
+
+
+                }, 1000);
+            }
+
+            function cancel() {
+                clearInterval(window['progress']);
+                PF('pbClient').setValue(0);
+                PF('startButton1').enable();
+            }
+
+        </script>
+        <div class="ContainerIndent">
+            <p:panel header="Misc Components">
+                <div class="ContainerIndent">
+
+                    <p:panel>
+                        <div class="Container">
+                            <div class="Container30 Responsive100">
+                                <h3 class="hardblue">ProgressBar Sample</h3>
+                                <div class="ContainerIndent">
+                                    <h:form>   
+                                        <p:growl id="progressGrowl" />
+
+                                        <h3 style="margin-top:0">Client ProgressBar</h3>
+                                        <p:commandButton value="Start" id="start" type="button" onclick="start()" widgetVar="startButton1"/>
+                                        <p:commandButton value="Cancel" id="cancel" type="button" onclick="cancel()" />
+                                        <br /><br />
+                                        <p:progressBar id="progressBarClient" widgetVar="pbClient"/>
+
+                                        <h3>Ajax ProgressBar</h3>
+                                        <p:commandButton value="Start" type="button" onclick="PF('pbAjax').start();
+                                                PF('startButton2').disable();" widgetVar="startButton2" />
+                                        <p:commandButton value="Cancel" actionListener="#{progressBarView.cancel}" oncomplete="PF('pbAjax').cancel();PF('startButton2').enable();" />
+                                        <br /><br />
+                                        <p:progressBar widgetVar="pbAjax" ajax="true" value="#{progressBarView.progress}" labelTemplate="{value}%" styleClass="animated" global="false">
+                                            <p:ajax event="complete" listener="#{progressBarView.onComplete}" update="progressGrowl" oncomplete="PF('startButton2').enable()"/>
+                                        </p:progressBar>
+
+                                        <h3>Static Display</h3>
+                                        <p:progressBar value="50" labelTemplate="{value}%" displayOnly="true"/>
+                                    </h:form>
+                                </div>
+                            </div>
+                            <div class="Container70 Responsive100">
+                                <h3 class="hardblue">Galleria</h3>
+                                <p:galleria value="#{imagesView.images}" var="image" panelWidth="500" panelHeight="313" showCaption="true">
+                                    <p:graphicImage name="images/nature/#{image}" library="demo" alt="Image Description for #{image}" title="#{image}"/>
+                                </p:galleria>
+                            </div>
+                        </div>
+                    </p:panel>
+
+                    <div class="EmptyBox20"></div>
+
+                    <p:panel>
+                        <h3 class="hardblue">Clock Sample</h3>
+                        <h:form>
+                            <h3 style="margin-top:0">Client</h3>
+                            <p:clock />
+
+                            <h3>Server</h3>
+                            <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
+                        </h:form>
+                        <div class="EmptyBox20"></div>
+                    </p:panel>
+
+                    <div class="EmptyBox20"></div>
+
+                    <p:growl id="messages" showDetail="true" sticky="true" />
+                    
+                </div>
+            </p:panel>
+        </div>
+    </ui:define>
+
+</ui:composition>

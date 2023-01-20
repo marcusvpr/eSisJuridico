@@ -1,0 +1,155 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+    <ui:define name="content">
+            <div class="ContainerIndent">
+                <div class="ContainerIndent">
+                    <div class="ContainerIndent gray">
+                        <h1 class="TexAlCenter gray Fs30">
+                            <span class="red Fs40">Sistema Documentação</span>
+                        </h1>
+                    </div>
+
+                    <div class="EmptyBox30"></div>
+
+                    <p:panel class="leaden-back">
+                        <div class="Fs20 TexAlCenter red">Itens Documentados</div>
+                        <div class="EmptyBox10"></div>
+                        <p:panelGrid columns="3" class="Wid100">
+                            <h:outputText value="Grupo" class="orange Fs20 Wid30"/>
+                            <h:outputText value="Nome" class="orange Fs20 Wid30"/>
+                            <h:outputText value="Instrução" class="orange Fs20 Wid40"/>
+
+                            <h:outputText value="Processo (BPM)" class="Fs20" escape="false"/>
+                            <h:panelGroup>
+                            	<a href="./sentinel/sistemaHelp/Criar_CRUD_padrao_MPXDS.html" 
+    													target="_blank" class="white Unselectable">
+                            		<h:outputText value="CRUD Padrão MPXDS" class="hardblue" escape="false"/>
+                            	</a>
+							</h:panelGroup>
+                            <h:outputText value="Processo de criação do CRUD Padrão MPXDS." escape="false"/>
+
+                            <h:outputText value="" class="Fs20" escape="false"/>
+                            <h:panelGroup>
+                            	<a href="./sentinel/sistemaHelp/mpCriar_CRUD_padrao_MPXDS.html" 
+    													target="_blank" class="white Unselectable">
+                            		<h:outputText value="Rotina Importação" class="hardblue" escape="false"/>
+                            	</a>
+							</h:panelGroup>
+                            <h:outputText value="Processo de importação titutlos protestados...???" escape="false"/>
+
+                        </p:panelGrid>
+                    </p:panel>
+                    
+                    <div class="EmptyBox30"></div>
+                    
+                    <p:panel class="leaden-back">
+                        <div class="Fs20 TexAlCenter red">Guia de Atualizaões da Versão</div>
+
+                        <div class="EmptyBox10"></div>
+                        <div class="Fs15 red">1.0.11-5 para 1.0.11-7 (07/2017)</div>
+                        <ul>
+                            <li>- Cadastro Pessoa (Engenharia Requisito) e geração da documentação (Word / PDF).</li>
+                        </ul>
+
+                        <div class="EmptyBox10"></div>
+                        <div class="Fs15 red">1.0.11-0 para 1.0.11-3/5 (06/2017)</div>
+                        <ul>
+                            <li>- Implementacão ajustes Módulo Jurídico .</li>
+                        </ul>
+
+                        <div class="EmptyBox10"></div>
+                        <div class="Fs15 red">1.0.10-12 para 1.0.11-0 (04/2017)</div>
+                        <ul>
+                            <li>- Implementacão rotina de Importação Titulo (Vide Documentação Portal).</li>
+                            <li>- Retirada LOMBOK (problemas anotação COLUMN/Hibernate).</li>
+                        </ul>
+
+                        <div class="EmptyBox10"></div>
+                        <div class="Fs15 red">1.0.10-11 para 1.0.10-12 (03/2017)</div>
+                        <ul>
+                            <li>- Implementacão rotina de Help/Documentação/Processos(BPM).</li>
+                            <li>- Ajuste de alinhamento em todos botões fechar no modo esponsivo.</li>
+                            <li>- Formulário de Cadastro de Processo, separar data da hora para permitir CRTL+V.</li>
+                            <li>- Relatório de Processos, correção na seleção dos registro (tenancy).</li>
+                        </ul>
+
+                        <div class="EmptyBox10"></div>
+                        <div class="Fs15 red">1.0.10 para 1.0.10-11 (01/2017)</div>
+                        <ul>
+                            <li>- Implementação library+Eclipse.LOMBOK.</li>
+                            <li>- Implantação Conversão/Implantacão/Carga módulo sistema sisjuri.ZK (Desmenbrar).</li>
+                            <li>- Implantação da função geração de artefatos sistema VB/SQL.Server2000.</li>
+                        </ul>
+                        
+                        <div class="EmptyBox10"></div>
+                        <div class="Fs15 red">1.0.9 para 1.0.10 (01/2017)</div>
+                        <ul>
+                            <li>- Implantação modulos controle Produtos/Estoque/UsuárioTenant.</li>
+                            <li>- Implantação modulos controle rotina DoseCerta (Desmenbrar).</li>
+                            <li>- Continuação Conversão modulos sistema de ofício.</li>
+                            <li>- Implementacão da integração com o WebServices eCartório.</li>
+                            <li>- Implementacão da rotina código de barras eCartório.</li>
+                        </ul>
+                        
+                        <div class="EmptyBox10"></div>
+                        <div class="Fs15 red">1.0.8 para 1.0.9 (06/2016)</div>
+                        <ul>
+                            <li>- Conversão modulos sistema de ofício.</li>
+                            <li>- Continuação Implementação tema PrimeFaces.SENTINEL.</li>
+                            <li>- Implementacão da rotina de HELP dos formulários.</li>
+                        </ul>
+                        
+                        <div class="EmptyBox10"></div>
+                        <div class="Fs15 red">1.0.4 para 1.0.5/6/7/8 (05/2016)</div>
+                        <ul>
+                            <li>- Continuação Implementação tema PrimeFaces.SENTINEL.</li>
+                            <li>- Continuação Implementação Push-Notification(Google) x Android x IOS / MpComunicator.</li>
+                        </ul>
+                        
+                        <div class="EmptyBox10"></div>
+                        <div class="Fs15 red">1.0.1 para 1.0.2/3/4 (05/2016)</div>
+                        <ul>
+                            <li>- Inicio da Migração das telas para o modo responsivo (Baseado no workshopping Algaworks).</li>
+                            <li>- Inicio de implementação do Menu Dinâmico modo responsivo.</li>
+                            <li>- Inicio implementação do PrettyFaces (mascaramento urls do sistema).</li>
+                            <li>- Implementacão da integração com o WebServices da MULTIFARMAS (API JSON/XML).</li>
+                            <li>- Inicio da integração com o Aplicativo Telegram (API).</li>
+                            <li>- Inicio migração WebVideo.ZK.</li>
+                            <li>- Inicio de implementação do Hibernate ENVERS (Auditoria) -> (MpDolar).</li>
+                            <li>- Inicio de implementação Validação client-side -> (MpDolar).</li>
+                            <li>- Inicio Implementação tema PrimeFaces.SENTINEL (Us$75).</li>
+                        </ul>
+                        
+                        <div class="EmptyBox10"></div>
+                        <div class="Fs15 red">1.0.0 (04/2016)</div>
+                        <ul>
+                            <li>- Baseada no Sistema Comercial JSF/Primefaces AlgaWorks.</li>
+                            <li>- Implementação do padrão MPXDS, com tabelas/classes com prefixo "mp".</li>
+                            <li>- Ajustes nas telas básicas de cadastro com barra de navegação e controle de edição do registro.</li>
+                            <li>- Implemantação da rotina botão de hide(+) nos campos de filtros nas telas de pesquisas.</li>
+                            <li>- Menu Dinâmico baseado no perfil do usuário.</li>
+                            <li>- Implementacão da rotina de configuração do sistema.</li>
+                            <li>- Implementação da rotina de vários logs de controle no sistema.</li>
+                            <li>- Implementação da segurança com bloqueio do usuário após "N" tentativas de login, informando a
+senha inválida e solicitação da troca da senha após "N" dias em uso, diferente das últimas "N"s senhas informadas, onde "N"
+é tratado na tabela de configuração do sistema.</li>
+                            <li>- Implementação da rotina Multenancy (tenant_id) selecionado no ato do Login/Ambiente.</li>
+                            <li>- IMplementação de Apelidos(Cod.transação) para os formulários, com acesso direto no lado
+direito do rodapé.</li>
+                            <li>- Implementação da rotina Schedulle/Jobs (Delta Spike CDI / Quartz).</li>
+                            <li>- Implementação da integração com o WebServices(API JSON/XML) do Correio para a captura dados do CEP.</li>
+                        </ul>
+
+                    </p:panel>
+                                        
+                    <div class="EmptyBox60"></div>
+                </div>
+            </div>
+    </ui:define>
+
+</ui:composition>

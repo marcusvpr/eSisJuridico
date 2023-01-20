@@ -1,0 +1,135 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div class="ContainerIndent">
+		<div class="Container100">
+			<span class="DispInlBlock Fleft FloatNoneOnMobile"> 
+				<p:toolbar>
+					<p:toolbarGroup>
+
+						<p:commandButton title="Novo registro"
+							icon="fa fa-plus Fs14 white"
+							action="#{mpCadastroCompraBean.mpNew}" process="@this"
+							update="@form" rendered="#{mpCadastroCompraBean.indEditavel}" />
+						<p:commandButton title="Edita registro"
+							icon="fa fa-edit Fs14 white"
+        					disabled="#{mpCadastroCompraBean.mpCompra.naoAlteravel}"
+							action="#{mpCadastroCompraBean.mpEdit}" process="@this"
+							update="@form" rendered="#{mpCadastroCompraBean.indEditavel}" />
+						<p:commandButton title="Exclui registro"
+        					disabled="true"
+							icon="fa fa-trash Fs14 white"
+							oncomplete="PF('confirmacaoExclusaoR').show()"
+							rendered="#{mpCadastroCompraBean.indEditavel}" process="@this"
+							update=":frmCadastro:confirmacaoExclusaoDialogR" />
+
+						<h:panelGroup rendered="#{mpCadastroCompraBean.indEditavelNav}">
+							<span class="ui-separator">
+								<span class="fa fa-ellipsis-v leaden" />
+							</span>
+							<p:commandButton title="Registro Inicial" update="@form"
+								icon="fa fa-fast-backward Fs10 black"
+								action="#{mpCadastroCompraBean.mpFirst}" process="@this" />
+							<p:commandButton title="Registro Anterior" update="@form"
+								icon="fa fa-backward Fs10 black"
+								action="#{mpCadastroCompraBean.mpPrev}" process="@this" />
+						</h:panelGroup>
+
+						<p:commandButton title="Gravar registro"
+							icon="fa fa-save Fs14 yellow"
+							action="#{mpCadastroCompraBean.mpGrava}" process="@form"
+							update="@form" rendered="#{mpCadastroCompraBean.indNaoEditavel}" />
+						<p:commandButton title="Desfaz registro"
+							icon="fa fa-undo Fs14 yellow"
+							action="#{mpCadastroCompraBean.mpDesfaz}" process="@this"
+							update="@form" rendered="#{mpCadastroCompraBean.indNaoEditavel}" />
+
+						<h:panelGroup rendered="#{mpCadastroCompraBean.indEditavelNav}">
+							<p:commandButton title="Registro Próximo" update="@form"
+								icon="fa fa-forward Fs10 black"
+								action="#{mpCadastroCompraBean.mpNext}" process="@this" />
+							<p:commandButton title="Registro Final" update="@form"
+								icon="fa fa-fast-forward Fs10 black"
+								action="#{mpCadastroCompraBean.mpEnd}" process="@this" />
+							<span class="ui-separator"> 
+								<span class="fa fa-ellipsis-v leaden" />
+							</span>
+						</h:panelGroup>
+
+						<p:commandButton title="Registro Clona"
+							icon="fa fa-copy Fs14 white"
+							action="#{mpCadastroCompraBean.mpClone}" process="@this"
+							update="@form" rendered="#{mpCadastroCompraBean.indEditavel}" />
+
+						<p:button title="Registro Pesquisa..."
+							icon="fa fa-search Fs14 white"
+							rendered="#{mpCadastroCompraBean.indEditavel}"
+							outcome="/sentinel/compras/mpPesquisaCompras" />
+
+						<span class="ui-separator">
+							<span class="fa fa-ellipsis-v leaden" />
+						</span>
+						<p:commandButton title="Emitir"
+							icon="fa fa-indent Fs14 white"
+							action="#{mpEmissaoCompraBean.emitirMpCompra}" process="@this"
+							update="@form" rendered="#{mpCadastroCompraBean.indEditavel}" />
+							
+  						<p:commandButton value="Cancelar" action="#{mpCancelamentoCompraBean.cancelarMpCompra}"
+  							rendered="#{mpCadastroCompraBean.indEditavel}"
+  							process="@this" update="@form" disabled="#{mpCadastroCompraBean.mpCompra.naoCancelavel}" />
+  						<p:commandButton value="Enviar por e-mail" action="#{mpEnvioCompraEmailBean.enviarMpCompra}"
+  							rendered="#{mpCadastroCompraBean.indEditavel}"
+  							process="@this" disabled="#{mpCadastroCompraBean.mpCompra.naoEnviavelPorEmail}" />
+
+						<p:confirmDialog header="Exclusão do Compra" responsive="true"
+							global="true" showEffect="fade" hideEffect="fade" message=
+							"Deseja excluir o Compra #{mpCadastroCompraBean.mpCompra.dataCriacao}?"
+							widgetVar="confirmacaoExclusaoR" id="confirmacaoExclusaoDialogR">
+							<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+							 			icon="ui-icon-close fa fa-close Fs14 white"
+										onclick="PF('confirmacaoExclusaoR').hide(); return false;" />
+							<p:commandButton value="Sim" update=":frmCadastro" id="yesButtonR"
+								oncomplete="PF('confirmacaoExclusaoR').hide();"
+								action="#{mpCadastroCompraBean.mpDelete}" process="@this"
+								styleClass="ui-confirmdialog-yes"
+								icon="ui-icon-check fa fa-check Fs14 white" />
+						</p:confirmDialog>
+
+					</p:toolbarGroup>
+				</p:toolbar>
+
+			</span>
+			<span class="DispInlBlock Fright FloatNoneOnMobile">
+				<p:toolbar>
+					<p:toolbarGroup>
+
+						<p:outputLabel class="Fs18 FontTitilliumRegular black"
+							value="Data Criação" rendered="#{mpCadastroCompraBean.mpCompra.existente}" />
+        				<h:outputText class="Fs18 FontTitilliumRegular red"
+        					value="#{mpCadastroCompraBean.mpCompra.dataCriacao}" 
+        										rendered="#{mpCadastroCompraBean.mpCompra.existente}">
+        					<f:convertDateTime pattern="dd/MM/yyyy" />
+        				</h:outputText>
+        				<p:spacer width="20" height="5" />
+						<p:outputLabel class="Fs18 FontTitilliumRegular black" 
+							value="Número" rendered="#{mpCadastroCompraBean.mpCompra.existente}" />
+						<h:outputText class="Fs18 FontTitilliumRegular red" 
+							value="#{mpCadastroCompraBean.mpCompra.id}" 
+							rendered="#{mpCadastroCompraBean.mpCompra.existente}" />
+        				<p:spacer width="20" height="5" />
+        				<p:outputLabel class="Fs18 FontTitilliumRegular black" value="Status : "/>
+        				<h:outputText class="Fs18 FontTitilliumRegular red"
+        					value="#{mpCadastroCompraBean.mpCompra.mpStatus.descricao}" />
+        				<p:spacer width="20" height="5" />
+						<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="/dashboardRS" />
+
+					</p:toolbarGroup>
+				</p:toolbar>
+			</span>
+		</div>
+	</div>
+
+</ui:composition>

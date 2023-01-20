@@ -1,0 +1,64 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ps="http://primefaces.org/sentinel"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <div id="layout-menubar" class="Unselectable fontRegular">
+        <div class="layout-menubarinner-box" id="buttonArea">
+            <a href="#" id="layout-menubar-resize" class="BordRad3" title="Menu">
+            														<i class="icon-th-list-2"></i></a>
+            <a href="#" id="layout-menubar-resize2" class="BordRad3" title="Abir Menu">
+            														<i class="icon-menu"></i></a>
+        </div>
+       
+        <h:form id="menuform">
+            <ps:menu id="sm_leftmenu">
+                <p:menuitem id="sm_noticias" value="Notícias" icon="icon-info-circled-1"
+                 									containerStyleClass="layout-menubar-active" />
+                <p:menuitem id="sm_depoimentos" value="Depoimentos" icon=" icon-chat-2"
+                  									containerStyleClass="layout-menubar-active" />
+                <p:menuitem id="sm_videos" value="Vídeos" icon=" icon-video"  
+                									containerStyleClass="layout-menubar-active" />
+                <p:submenu id="sm_planosSaude" label="Planos Saúde" icon="icon-medkit" >
+                    <p:menuitem id="sm_ps_individual" value="Individual" icon="icon-male"
+                    												outcome="mpIndividual.xhtml" />
+                    <p:menuitem id="sm_ps_famililar" value="Familiar" icon="icon-users" />
+                    <p:menuitem id="sm_ps_empresarial" value="Empresarial" icon="icon-building" />
+                    <p:menuitem id="sm_ps_numFuncionarios" value="Número de Funcionários" 
+                    											icon="icon-sort-numeric-outline" />
+                </p:submenu>
+                <p:menuitem id="sm_planosOdontologico" value="Planos Odontológico" icon="icon-smile"  
+                									containerStyleClass="layout-menubar-active" />
+                <p:menuitem id="sm_comparePlanos" value="Compare Planos" icon="icon-money"  
+                										containerStyleClass="layout-menubar-active" />
+                <p:menuitem id="sm_procureHospital" value="Procure um Hospital" icon="icon-hospital"  
+                										containerStyleClass="layout-menubar-active" />
+                <p:submenu id="sm_contrateSeguroOnline" label="Contrate seu Seguro Online"
+                															icon="icon-tags-1">
+                    <p:menuitem id="sm_cso_automoveis" value="Automóveis" icon="icon-cab" />
+                    <p:menuitem id="sm_cso_equipamentoPortateis" value="Equipamentos Portáteis"
+                     														icon="icon-monitor" />
+                    <p:menuitem id="sm_cso_residencial" value="Residêncial" 
+                    													icon="icon-home-outline" />
+                    <p:menuitem id="sm_cso_viagens" value="Viagens" icon="icon-plane" />
+                </p:submenu>
+                <p:submenu id="sm_direitoReservados" label="Todos os direitos Reservados"
+                 																icon="icon-compass">
+                    <p:menuitem id="sm_dr_home" value="Home" icon="icon-home-outline" 
+                    														outcome="mpHome.xhtml" />
+                    <p:menuitem id="sm_dr_contato" value="Contato" icon="icon-phone" />
+                    <p:menuitem id="sm_dr_redeCredenciadas" value="Rede Credenciadas" 
+                    													icon=" icon-users-outline" />
+                    <p:menuitem id="sm_dr_cotacaoOnline" value="Cotação Online"	icon="icon-th" />
+                    <p:menuitem id="sm_dr_quemSomos" value="Quem Somos"	icon="icon-users" />
+                    <p:menuitem id="sm_dr_seguros" value="Seguros" icon="icon-target" />
+                    <p:menuitem id="sm_dr_redeSocial" value="Redes Social" icon="icon-users-1" />
+                </p:submenu>
+            </ps:menu>
+        </h:form>
+    </div>
+
+</ui:composition>

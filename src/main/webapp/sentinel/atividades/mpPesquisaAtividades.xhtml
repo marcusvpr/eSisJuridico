@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Atividades</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaAtividadesBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpAtividadesTable"
+									fileName="atividades"
+									postProcessor="#{mpPesquisaAtividadesBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="8" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+	    						<p:calendar pattern="dd/MM/yyyy" placeholder="Data De ..." mask="true"
+	    								value="#{mpPesquisaAtividadesBean.mpFiltro.dataDe}" />
+	    						<p:calendar pattern="dd/MM/yyyy" placeholder="Data Até ..." mask="true"
+	    								value="#{mpPesquisaAtividadesBean.mpFiltro.dataAte}" />
+	    						<p:outputLabel />
+	    						<p:outputLabel />
+								<p:inputText placeholder="Descrição"
+										value="#{mpPesquisaAtividadesBean.mpFiltro.descricao}" />
+								<p:inputText placeholder="Produto"
+										value="#{mpPesquisaAtividadesBean.mpFiltro.produto}" />
+	    						<p:outputLabel />
+	    						<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpAtividadesTable"
+							value="#{mpPesquisaAtividadesBean.mpAtividadesFiltrados}"
+							var="mpAtividade" selectionMode="single" style="margin-top:20px"
+							selection="#{mpPesquisaAtividadesBean.mpAtividadeSelecionado}"
+							rowKey="#{mpAtividade.dtHrAtividade}" reflow="true" 
+							emptyMessage="Nenhuma Atividade encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Data" sortBy="#{mpAtividade.dtHrAtividade}">
+								<h:outputText value="#{mpAtividade.dtHrAtividade}">
+	    							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" 
+	    															timeZone="America/Sao_Paulo" />
+	    						</h:outputText>
+							</p:column>
+							<p:column headerText="Data Fim" sortBy="#{mpAtividade.dtHrFimAtividade}">
+								<h:outputText value="#{mpAtividade.dtHrFimAtividade}">
+	    							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" 
+	    															timeZone="America/Sao_Paulo" />
+	    						</h:outputText>
+							</p:column>
+							<p:column headerText="Duração" style="text-align:center;"
+																	sortBy="#{mpAtividade.duracao}">
+								<h:outputText value="#{mpAtividade.duracao}" />
+							</p:column>
+							<p:column headerText="Descrição" sortBy="#{mpAtividade.descricao}">
+								<h:outputText value="#{mpAtividade.descricao}" />
+							</p:column>
+							<p:column headerText="Quantidade" style="text-align:center;" 
+																	sortBy="#{mpAtividade.quantidade}">
+								<h:outputText value="#{mpAtividade.quantidade}">
+	    							<f:convertNumber type="currency" pattern="##,##0.00"/>
+	    						</h:outputText>
+							</p:column>
+							<p:column headerText="Paciente" sortBy="#{mpAtividade.mpPaciente.nome}">
+								<h:outputText value="#{mpAtividade.mpPaciente.nome}" />
+							</p:column>
+							<p:column headerText="Produto" sortBy="#{mpAtividade.mpProduto.nome}">
+								<h:outputText value="#{mpAtividade.mpProduto.nome}" />
+							</p:column>
+							<p:column headerText="Observação" sortBy="#{mpAtividade.observacao}">
+								<h:outputText value="#{mpAtividade.observacao}" />
+							</p:column>
+							<p:column headerText="Alerta(s)" 
+												sortBy="#{mpAtividade.mpAlerta.configuracao}">
+								<h:outputText value="#{mpAtividade.mpAlerta.configuracao}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/atividades/mpCadastroAtividade"
+															icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpAtividade" value="#{mpAtividade.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,404 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+	
+		<f:metadata>
+			<o:viewParam name="mpImportarControle" value="#{mpRecebimentoBean.mpImportarControle}" />
+			<f:viewAction action="#{mpRecebimentoBean.inicializar}" />
+		</f:metadata>
+		
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces" target="head" />
+
+			<h:form id="frmReceb">
+				<p:growl id="growl" />
+
+				<h2 class="aw-page-title">Recebimento  ( 
+										#{mpRecebimentoBean.mpImportarControle.dataImportarSDF} )</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="/dashboardRS" />
+							<p:commandButton title="Ajuda - Informação (alt+h)" accesskey="h" 
+								icon="fa fa-question-circle Fs14 red" process="@this" 
+								action="#{mpRecebimentoBean.mpHelp}" update="frmHelp"
+								oncomplete="PF('helpRecebimentoDialog').show()" />			
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+
+						<p:panelGrid columns="7" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<h:panelGroup>
+								<p:outputLabel value="Nome Arquivo: "
+												rendered="#{mpLoginBean.scIndLabelCampo}" />
+								<p:inputText id="nomeArquivo" 
+									placeholder="Nome Arquivo" maxlength="11"
+									value="#{mpRecebimentoBean.mpRemessa.nomeArquivo}">
+									<p:ajax event="change" process="@this" update="frmReceb"
+										ignoreAutoUpdate="true"
+										listener="#{mpRecebimentoBean.trataArquivo}" />
+								</p:inputText>
+								<p:tooltip for="nomeArquivo" value=
+										"Nome Arquivo (Ex.: 20160718ATO, Z031807161 ou Z11708162)" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:inputText id="protocoloInicial" readolny="true"
+									placeholder="Protocolo Inicial" maxlength="6"
+									value="#{mpRecebimentoBean.mpRemessa.protocoloInicial}">
+								</p:inputText>
+								<p:tooltip for="protocoloInicial" value="Protocolo Inicial (Sem Utilidade)" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:inputText id="protocoloFinal" readolny="true"
+								 	placeholder="Protocolo Final" maxlength="6"
+									value="#{mpRecebimentoBean.mpRemessa.protocoloFinal}">
+								</p:inputText>
+								<p:tooltip for="protocoloFinal" value="Protocolo Final (Sem Utilidade)" />
+							</h:panelGroup>
+							<p:commandButton value="Receber" update="frmReceb"
+											rendered="#{mpRecebimentoBean.indReceber}"
+											actionListener="#{mpRecebimentoBean.receber}"
+											widgetVar="startButton2" />
+							<p:commandButton value="Complemento" update="frmReceb"
+											rendered="#{mpRecebimentoBean.indComplemento}"
+											actionListener="#{mpRecebimentoBean.complemento}"
+											widgetVar="startButton2" />
+							<p:commandButton value="XML" update="frmReceb"
+											rendered="#{mpRecebimentoBean.indXML}"
+											actionListener="#{mpRecebimentoBean.receberXML}"
+											widgetVar="startButton2" />
+							<p:commandButton value="Cancela"
+								rendered="#{mpRecebimentoBean.indCancela}"
+								actionListener="#{mpRecebimentoBean.cancel}"
+								oncomplete="PF('pbAjax').cancel();PF('startButton2').enable();" />
+
+							<p:commandButton value="Gravar" update="frmReceb"
+											rendered="#{mpRecebimentoBean.indGrava}"
+											actionListener="#{mpRecebimentoBean.gravaRecebimento}"
+											widgetVar="startButton2" />
+
+						</p:panelGrid>
+
+						<p:panelGrid columns="2" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+							
+							<p:dataTable id="headerTable" scrollable="true" scrollWidth="97%"
+								value="#{mpRecebimentoBean.mpHeaderList}"
+								emptyMessage="Nenhum mpHeader encontrado"
+								var="mpHeader" style="margin-top:10px" reflow="true">
+
+        						<f:facet name="header">
+            						Header
+        						</f:facet>
+        						<p:column headerText="Data" width="100">
+									<h:outputText value=
+									"#{mpHeader.mpRemessa.mpImportarControle.dataImportarSDF}" />
+								</p:column>
+								<p:column headerText="Arquivo" width="230">
+									<h:outputText value="#{mpHeader.mpRemessa.nomeArquivo}" />
+								</p:column>
+								<p:column headerText="Dt.Distrib" width="100">
+									<h:outputText value=
+												"#{mpHeader.mpRemessa.mpImportarControle.dataImportarSDF}" />
+								</p:column>
+								<p:column headerText="Id.Trans.Rem" width="50">
+									<h:outputText value="#{mpHeader.idenTransRemetente}" />
+								</p:column>
+								<p:column headerText="Id.Trans.Dest" width="50">
+									<h:outputText value="#{mpHeader.idenTransDestinatario}" />
+								</p:column>
+								<p:column headerText="Id.Trans.Tip" width="50">
+									<h:outputText value="#{mpHeader.idenTransTipo}" />
+								</p:column>
+								<p:column headerText="Num.Seq.Rem" width="50">
+									<h:outputText value="#{mpHeader.numeroSeqRemessa}" />
+								</p:column>
+								<p:column headerText="Qtd.Rem" width="50">
+									<h:outputText value="#{mpHeader.qtdRegRemessa}" />
+								</p:column>
+								<p:column headerText="Qtd.Tit.Rem" width="50">
+									<h:outputText value="#{mpHeader.qtdTitRemessa}" />
+								</p:column>
+								<p:column headerText="Qtd.Ind.Rem" width="50">
+									<h:outputText value="#{mpHeader.qtdIndRemessa}" />
+								</p:column>
+								<p:column headerText="Qtd.Orig.Rem" width="50">
+									<h:outputText value="#{mpHeader.qtdOrigRemessa}" />
+								</p:column>
+								<p:column headerText="Comp.Reg" width="50">
+									<h:outputText value="#{mpHeader.complementoRegistro}" />
+								</p:column>
+								<p:column headerText="Num.Seq.Reg" width="50">
+									<h:outputText value="#{mpHeader.numeroSeqRegistro}" />
+								</p:column>
+
+							</p:dataTable>
+
+							<p:dataTable id="traillerTable" scrollable="true" scrollWidth="97%"
+								value="#{mpRecebimentoBean.mpTraillerList}"
+								emptyMessage="Nenhum mpTrailler encontrado"
+								var="mpTrailler" style="margin-top:10px" reflow="true">
+
+        						<f:facet name="header">
+            						Trailler
+        						</f:facet>
+        						<p:column headerText="Data" width="100">
+									<h:outputText value=
+									"#{mpTrailler.mpRemessa.mpImportarControle.dataImportarSDF}" />
+								</p:column>
+								<p:column headerText="Arquivo" width="230">
+									<h:outputText value="#{mpTrailler.mpRemessa.nomeArquivo}" />
+								</p:column>
+								<p:column headerText="Dt.Dist." width="100">
+									<h:outputText value=
+									"#{mpTrailler.mpRemessa.mpImportarControle.dataImportarSDF}" />
+								</p:column>
+								<p:column headerText="Soma Seq.Qtd.Rem" width="200">
+									<h:outputText value="#{mpTrailler.somaSegQtdRemessa}" />
+								</p:column>
+								<p:column headerText="Soma Seq.Val.Rem" width="100">
+									<h:outputText value="#{mpTrailler.somaSegValRemessa}" />
+								</p:column>
+								<p:column headerText="Comp.Reg" width="100">
+									<h:outputText value="#{mpTrailler.complementoRegistro}" />
+								</p:column>
+								<p:column headerText="Num.Seq.Reg" width="100">
+									<h:outputText value="#{mpTrailler.numeroSeqRegistro}" />
+								</p:column>
+
+							</p:dataTable>
+								
+						</p:panelGrid>
+						
+						<p:dataTable id="transacaoTable" scrollable="true" scrollHeight="150"
+								value="#{mpRecebimentoBean.mpTransacaoList}" scrollWidth="97%"
+								emptyMessage="Nenhum mpTransacao encontrada"
+								var="mpTransacao" style="margin-top:10px" reflow="true">
+
+        					<f:facet name="header">
+            					Transação
+        					</f:facet>
+        					<p:column headerText="Data" width="100">
+								<h:outputText value=
+									"#{mpTransacao.mpRemessa.mpImportarControle.dataImportarSDF}" />
+							</p:column>
+							<p:column headerText="Arquivo" width="250">
+								<h:outputText value="#{mpTransacao.mpRemessa.nomeArquivo}" />
+							</p:column>
+							<p:column headerText="Cod.Port." width="100">
+								<h:outputText value="#{mpTransacao.numeroCodigoPortador}" />
+							</p:column>
+							<p:column headerText="Ag.Cod.Ced" width="150">
+								<h:outputText value="#{mpTransacao.agenciaCodCedente}" />
+							</p:column>
+							<p:column headerText="Noss.Num" width="150">
+								<h:outputText value="#{mpTransacao.nossoNumero}" />
+							</p:column>
+							<p:column headerText="Nom.Sac" width="350">
+								<h:outputText value="#{mpTransacao.nomSacador}" />
+							</p:column>
+							<p:column headerText="Nom.Ced.Fav" width="300">
+								<h:outputText value="#{mpTransacao.nomeCedFav}" />
+							</p:column>
+							<p:column headerText="Esp.Tit" width="100">
+								<h:outputText value="#{mpTransacao.especieTitulo}" />
+							</p:column>
+							<p:column headerText="Num.Tit" width="100">
+								<h:outputText value="#{mpTransacao.numeroTitulo}" />
+							</p:column>
+							<p:column headerText="Dt.Emis.Tit" width="100">
+								<h:outputText value="#{mpTransacao.dataEmissaoTitulo}" />
+							</p:column>
+							<p:column headerText="Dt.Venc.Tit" width="100">
+								<h:outputText value="#{mpTransacao.dataVencimentoTitulo}" />
+							</p:column>
+							<p:column headerText="Tip.Moeda" width="100">
+								<h:outputText value="#{mpTransacao.tipoMoeda}" />
+							</p:column>
+							<p:column headerText="Sld.Tit" width="150">
+								<h:outputText value="#{mpTransacao.saldoTitulo}" />
+							</p:column>
+							<p:column headerText="Praça.Pag" width="200">
+								<h:outputText value="#{mpTransacao.pracaPagamento}" />
+							</p:column>
+							<p:column headerText="Tip.End" width="100">
+								<h:outputText value="#{mpTransacao.tipoEndosso}" />
+							</p:column>
+							<p:column headerText="Inf.Aceit" width="100">
+								<h:outputText value="#{mpTransacao.informacaoAceite}" />
+							</p:column>
+							<p:column headerText="Num.Cont.Dev" width="100">
+								<h:outputText value="#{mpTransacao.numeroControleDevedor}" />
+							</p:column>
+							<p:column headerText="Nom.Dev" width="300">
+								<h:outputText value="#{mpTransacao.nomeDevedor}" />
+							</p:column>
+							<p:column headerText="Tip.Id.Dev" width="100">
+								<h:outputText value="#{mpTransacao.tipoIdentDevedor}" />
+							</p:column>
+							<p:column headerText="Num.Id.Dev" width="150">
+								<h:outputText value="#{mpTransacao.numeroIdentDevedor}" />
+							</p:column>
+							<p:column headerText="Doc.Dev" width="150">
+								<h:outputText value="#{mpTransacao.documentoDevedor}" />
+							</p:column>
+							<p:column headerText="End.Dev" width="300">
+								<h:outputText value="#{mpTransacao.enderecoDevedor}" />
+							</p:column>
+							<p:column headerText="Cep.Dev" width="100">
+								<h:outputText value="#{mpTransacao.cepDevedor}" />
+							</p:column>
+							<p:column headerText="Cid.Dev" width="200">
+								<h:outputText value="#{mpTransacao.cidadeDevedor}" />
+							</p:column>
+							<p:column headerText="Uf.Dev" width="100">
+								<h:outputText value="#{mpTransacao.ufDevedor}" />
+							</p:column>
+							<p:column headerText="Num.Cart" width="100">
+								<h:outputText value="#{mpTransacao.numeroCartorio}" />
+							</p:column>
+							<p:column headerText="Num.Prot.Cart" width="100">
+								<h:outputText value="#{mpTransacao.numeroProtocoloCartorio}" />
+							</p:column>
+							<p:column headerText="Dt.Prot.Cart" width="100">
+								<h:outputText value="#{mpTransacao.dataProtocoloCartorio}" />
+							</p:column>
+							<p:column headerText="Nom.Port" width="350">
+								<h:outputText value="#{mpTransacao.nomePortador }" />
+							</p:column>
+							<p:column headerText="Val.Cust.Cart.Dist" width="150">
+								<h:outputText value="#{mpTransacao.valorCustasCartorioDist}" />
+							</p:column>
+							<p:column headerText="Num.Dist" width="100">
+								<h:outputText value="#{mpTransacao.numeroDistribuicao}" />
+							</p:column>
+							<p:column headerText="Bair.Dev" width="200">
+								<h:outputText value="#{mpTransacao.bairroDevedor}" />
+							</p:column>
+							<p:column headerText="Selo.Dist" width="200">
+								<h:outputText value="#{mpTransacao.seloDistribuidor}" />
+							</p:column>
+							<p:column headerText="Comp.Reg" width="100">
+								<h:outputText value="#{mpTransacao.complementoRegistro}" />
+							</p:column>
+							<p:column headerText="Fins.Falim" width="100">
+								<h:outputText value="#{mpTransacao.finsFalimentares}" />
+							</p:column>
+							<p:column headerText="Conv" width="100">
+								<h:outputText value="#{mpTransacao.convenio}" />
+							</p:column>
+							<p:column headerText="Empresa" width="100">
+								<h:outputText value="#{mpTransacao.empresa}" />
+							</p:column>
+							<p:column headerText="Num.Seq.Reg" width="100">
+								<h:outputText value="#{mpTransacao.numeroSeqRegistro}" />
+							</p:column>
+
+						</p:dataTable>
+
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+		
+        <div class="ContainerIndent">
+		  <h:form id="frmHelp">
+			<p:dialog widgetVar="helpRecebimentoDialog" id="helpRecebimentoDialogId" modal="true"
+					header="HELP - Recebimento" 
+			 		showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+
+				<h:panelGroup id="helpRecebimentoPanel">
+				
+					<p:messages autoUpdate="false" />
+				
+					<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+													
+						<h:panelGroup id="pgHlpTransacao">
+							<p:outputLabel value="Transação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpTransacao" readonly="true"
+							 	value="#{mpRecebimentoBean.mpObjetoHelp.transacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpCodigoObjeto">
+							<p:outputLabel value="Codigo Formulário/Tela: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputText id="hlpCodigoObjeto" readonly="true"
+							 	value="#{mpRecebimentoBean.mpObjetoHelp.codigoId}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpDescricao">
+							<p:outputLabel value="Descrição: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpDescricao" readonly="true" rows="2"
+							 	value="#{mpRecebimentoBean.mpObjetoHelp.descricao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpInformacao">
+							<p:outputLabel value="Informação: "
+								rendered="#{mpLoginBean.scIndLabelCampo}" />
+							<p:inputTextarea id="hlpInformacao" readonly="true"
+								rows="5" style="width: 100% !important;" autoResize="false"
+							 	value="#{mpRecebimentoBean.mpObjetoHelp.informacao}" />
+						</h:panelGroup>
+						<h:panelGroup id="pgHlpURL">
+							<a href="#{mpRecebimentoBean.mpObjetoHelp.urlHelp}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Fleft ">
+    							<i class="icon-book"></i>Help Documento</a>
+    						<p:spacer width="30" height="20" />
+							<a href="#{mpRecebimentoBean.mpObjetoHelp.urlHelpVideo}" target="_blank"
+							 			class="DispInlBlock FontSourceSansLight hardblue Fs16 Frigth ">
+    							<i class="icon-file-video"></i>Help Video</a>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</h:panelGroup>
+			</p:dialog>
+		  </h:form>
+		</div>
+
+		<style type="text/css">
+    		.animated .ui-progressbar-value { 
+        		background-image: url("images/loading.gif"); 
+    		}
+		</style>
+		<script type="text/javascript">
+			function start() {
+    			PF('startButton1').disable();
+ 
+   				window['progress'] = setInterval(function() {
+   				    var pbClient = PF('pbClient'),
+    			    oldValue = pbClient.getValue(),
+        			newValue = oldValue + 10;
+ 
+        			pbClient.setValue(pbClient.getValue() + 10);
+ 
+        			if(newValue === 100) {
+            			clearInterval(window['progress']);
+        			}
+    			}, 1000);
+			}
+ 
+			function cancel() {
+    			clearInterval(window['progress']);
+    			PF('pbClient').setValue(0);
+    			PF('startButton1').enable();
+			}
+		</script>
+
+	</ui:define>
+
+</ui:composition>

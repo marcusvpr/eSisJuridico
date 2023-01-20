@@ -1,0 +1,118 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Projeto</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaProjetosBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpProjetosTable"
+									fileName="projetos"
+									postProcessor="#{mpPesquisaProjetosBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="/mpDashboard.xhtml" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="5" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<h:panelGroup id="pgNome">
+									<p:outputLabel value="Nome: "
+										rendered="#{mpLoginBean.scIndLabelCampo}" />
+	    							<p:inputText id="nome" placeholder="Nome" 
+	    								value="#{mpPesquisaProjetosBean.mpFiltro.nome}" />
+									<p:tooltip for="nome" value="Nome (Ex.: Rodizio Saber )" />
+								</h:panelGroup>
+
+	    						<p:outputLabel />
+	    						<p:outputLabel />
+	    						<p:outputLabel />
+	    						<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpProjetosTable"
+							value="#{mpPesquisaProjetosBean.mpProjetosFiltrados}"
+							var="mpProjeto" selectionMode="single"
+							selection="#{mpPesquisaProjetosBean.mpProjetoSelecionado}"
+							rowKey="#{mpProjeto.id}" reflow="true"
+							style="margin-top:20px"
+							emptyMessage="Nenhum Projeto filtrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="both">
+
+							<p:column headerText="Nome" sortBy="#{mpProjeto.nome}">
+								<h:outputText value="#{mpProjeto.nome}" />
+							</p:column>
+							<p:column headerText="Status" style="text-align:center;" 
+								sortBy="#{mpProjeto.mpStatusRequisito.descricao}">
+								<h:outputText value="#{mpProjeto.mpStatusRequisito.descricao}" />
+							</p:column>
+							<p:column headerText="Macro Req." style="text-align:center;" 
+								sortBy="#{mpProjeto.macroRequisitoSize}">
+								<h:outputText value="#{mpProjeto.macroRequisitoSize}" />
+							</p:column>
+							<p:column headerText="Módulo" style="text-align:center;" 
+								sortBy="#{mpProjeto.moduloSize}">
+								<h:outputText value="#{mpProjeto.moduloSize}" />
+							</p:column>
+							<p:column headerText="Funcionalidade" style="text-align:center;" 
+								sortBy="#{mpProjeto.funcionalidadeSize}">
+								<h:outputText value="#{mpProjeto.funcionalidadeSize}" />
+							</p:column>
+							<p:column headerText="Req.Funcional" style="text-align:center;" 
+								sortBy="#{mpProjeto.requisitoFuncionalSize}">
+								<h:outputText value="#{mpProjeto.requisitoFuncionalSize}" />
+							</p:column>
+							<p:column headerText="Regra Negócio" style="text-align:center;" 
+								sortBy="#{mpProjeto.regraNegocioSize}">
+								<h:outputText value="#{mpProjeto.regraNegocioSize}" />
+							</p:column>
+							<p:column headerText="Req.NãoFuncional" style="text-align:center;" 
+								sortBy="#{mpProjeto.requisitoNaoFuncionalSize}">
+								<h:outputText value="#{mpProjeto.requisitoNaoFuncionalSize}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/engReqs/projetos/mpCadastroProjeto"
+									icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpProjeto" value="#{mpProjeto.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

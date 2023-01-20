@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+	
+	<f:metadata>
+		<f:viewParam name="dummy"/>
+		<f:event listener="#{mpGraficoUsuariosLoginsBean.preRender}" type="preRenderView"/>
+	</f:metadata>
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+		
+			<div class="ContainerIndent">
+				<div class="Container100">
+					<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+						<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="./dashboardRS" />
+					</span>
+				</div>
+			</div>
+
+			<div class="ContainerIndent">
+				<div class="Container100">
+					<p:chart type="line" model="#{mpGraficoUsuariosLoginsBean.model}" />
+				</div>
+			</div>
+
+		</div>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,123 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpGrupo" value="#{mpCadastroGrupoBean.mpGrupo}" />
+			<f:viewAction action="#{mpCadastroGrupoBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Grupo #{mpCadastroGrupoBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesGrupo.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;">
+						<p:outputLabel value="Nome : " rendered="#{mpLoginBean.scIndLabelCampo}" />
+						<p:inputText id="nome" maxlength="150" placeholder="Nome"
+							styleClass="Container40 Fnone MarAuto Fs16"
+							required="#{mpCadastroGrupoBean.indEditavel}"
+							validatorMessage="Informar Nome"
+							readonly="#{mpCadastroGrupoBean.indEditavel}"
+							value="#{mpCadastroGrupoBean.mpGrupo.nome}" />
+					</div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgDescricao">
+														<p:outputLabel value="Descrição: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="descricao" maxlength="250" placeholder="Descrição"
+															required="#{mpCadastroGrupoBean.indEditavel}"
+															validatorMessage="Informar Descrição"
+															readonly="#{mpCadastroGrupoBean.indEditavel}"
+															value="#{mpCadastroGrupoBean.mpGrupo.descricao}" />
+														<p:tooltip id="toolTipDescricao" for="descricao" value="Descrição" />
+													</h:panelGroup>
+													<h:panelGroup id="pgStatus">
+														<p:outputLabel value="Status: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpStatus"
+															disabled="#{mpCadastroGrupoBean.indEditavel}"
+															value="#{mpCadastroGrupoBean.mpGrupo.mpStatus}">
+															<f:selectItem itemLabel="Selecione o Status" />
+															<f:selectItems value="#{mpCadastroGrupoBean.mpStatusList}"
+																var="mpStatus" itemValue="#{mpStatus}"
+																itemLabel="#{mpStatus.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip id="toolTipStatus" for="mpStatus" value="Status" />
+													</h:panelGroup>
+													<p:outputLabel />
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+						<p:tab title="Objetos">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="1" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<p:pickList id="pickList"
+														value="#{mpCadastroGrupoBean.mpDualObjetos}"
+														disabled="#{mpCadastroGrupoBean.indEditavel}"
+														var="mpObjeto" itemLabel="#{mpObjeto.nome}"
+														itemValue="#{mpObjeto}"
+														style="margin-top:10px; margin-left:80px; height:300px;"
+														showSourceFilter="true" showTargetFilter="true"
+														filterMatchMode="contains" converter="mpObjetoConverterX" />
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+				</p:panel>
+			</h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>

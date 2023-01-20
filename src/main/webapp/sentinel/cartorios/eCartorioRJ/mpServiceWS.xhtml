@@ -1,0 +1,118 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="dummy"/>
+		<f:event listener="#{mpECartorioRJBean.preRender}" type="preRenderView"/>
+	</f:metadata>
+
+    <ui:define name="content">
+
+		<script type="text/javascript">
+			function start() {
+    			PF('statusDialog').show();
+			}
+ 
+			function stop() {
+    			PF('statusDialog').hide();
+			}
+		</script>
+		
+		<h:outputScript name="jquery/jquery.js" library="primefaces" target="head" />
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Listar Pedidos - eCartorioRJ WebServices">
+
+					<!-- p:messages id="message" autoUpdate="false" showDetail="false" -->
+					<p:growl id="messages" showDetail="false" />
+
+					<div class="ContainerIndent">
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Sair" icon="fa fa-close Fs14 yellow" ajax="false"
+								action="#{mpECartorioRJBean.sairWS}" />
+						</span>
+					</div>
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+					
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="9" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<p:outputLabel value="Serviço: "
+														rendered="#{mpLoginBean.scIndLabelCampo}" />
+													<p:inputMask id="servico" mask="9999" readonly="true"
+														value="#{mpECartorioRJBean.scOficServentiaECartorioRJ}" />
+													<p:outputLabel value="Data Inicial: "
+														rendered="#{mpLoginBean.scIndLabelCampo}" />
+													<p:calendar id="dataInicial" required="true"
+														validatorMessage="Informar Data Inicial" placeholder="Data Inicial"
+														pattern="dd/MM/yyyy" showOn="button"
+														value="#{mpECartorioRJBean.dataInicio}" />
+													<p:outputLabel value="Data Final: "
+														rendered="#{mpLoginBean.scIndLabelCampo}" />
+													<p:calendar id="dataFinal" required="true"
+														validatorMessage="Informar Data Final" placeholder="Data Final"
+														pattern="dd/MM/yyyy" showOn="button"
+														value="#{mpECartorioRJBean.dataFim}" />
+													<p:outputLabel />
+													<p:commandButton value="Executar Web Service"
+														icon="ui-icon-search" ajax="false"
+														action="#{mpECartorioRJBean.executaWS}" />
+														
+    												<p:commandButton value="Download" ajax="false" immediate="true"
+    													rendered="#{mpECartorioRJBean.indFile}"
+    													action="#{mpECartorioRJBean.FileDownloadView}"
+    													icon="ui-icon-arrowthick-1-s">
+        												<p:fileDownload value="#{mpECartorioRJBean.fileSC}" />
+    												</p:commandButton>
+    												
+												</p:panelGrid>
+
+												<p:panelGrid columns="1" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<p:inputTextarea id="respostaWS" readonly="true" rows="3" 
+														value="#{mpECartorioRJBean.respostaWS}" />
+
+												</p:panelGrid>
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+			</h:form>
+		</div>
+		
+		<p:dialog modal="true" widgetVar="statusDialog" header="Status Web Service" draggable="false"
+		 																closable="false" resizable="false">
+    		<p:graphicImage name="/images/loading.gif" />
+		</p:dialog>
+
+    </ui:define>
+
+</ui:composition>

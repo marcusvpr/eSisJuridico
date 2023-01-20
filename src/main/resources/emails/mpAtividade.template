@@ -1,0 +1,56 @@
+<html>
+    <body>
+        <table>
+            <tr>
+                <td style="width: 100px">Atividade :</td>
+                <td>$mpAtividade.id</td>
+            </tr>
+            <tr>
+                <td>Descrição:</td>
+                <td>$mpAtividade.descricaoCompleta</td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="width: 300px">
+					<a href="http://$scSistemaURL/mpProtesto/alertaLogs/MpAlertaLogAtividade.xhtml?idAl=$mpAtividade.id&idAlP=Co&idAlT=AT">
+						. Atividade CONFIRMAR ... 
+					</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="width: 300px">
+					<a href="http://$scSistemaURL/mpProtesto/alertaLogs/MpAlertaLogAtividade.xhtml?idAl=$mpAtividade.id&idAlP=Ad05&idAlT=AT">
+						. Atividade ADIAR (5 minutos)... 
+					</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="width: 300px">
+					<a href="http://$scSistemaURL/mpProtesto/alertaLogs/MpAlertaLogAtividade.xhtml?idAl=$mpAtividade.id&idAlP=Ad15&idAlT=AT">
+						. Atividade ADIAR (15 minutos)... 
+					</a>
+                </td>
+            </tr>
+           	<tr>
+                <td>
+                </td>
+                <td style="width: 300px">
+					<a href="http://$scSistemaURL/mpProtesto/alertaLogs/MpAlertaLogAtividade.xhtml?idAl=$mpAtividade.id&idAlP=Ca&idAlT=AT">
+						. Atividade CANCELAR ... 
+					</a>
+                </td>
+            </tr>
+        </table>        
+    </body>
+</html>

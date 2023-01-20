@@ -1,0 +1,195 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpAlarme"
+				value="#{mpCadastroAlarmeBean.mpAlarme}" />
+			<f:viewAction action="#{mpCadastroAlarmeBean.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Alarme #{mpCadastroAlarmeBean.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesAlarme.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="4" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<h:panelGroup id="pgHoraMovimento">
+														<p:outputLabel value="Hora: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:calendar id="horaMovimento" pattern="HH:mm" mask="true"
+															placeholder="Horário" timeOnly="true"
+															required="#{mpCadastroAlarmeBean.indEditavel}"
+															validatorMessage="Informar Horário"
+															style="background-color:black; color:yellow;"
+															disabled="#{mpCadastroAlarmeBean.indEditavel}"
+															value="#{mpCadastroAlarmeBean.mpAlarme.horaMovimento}" />
+														<p:tooltip for="horaMovimento" value="Hora (Ex.: 16:00 )" />
+													</h:panelGroup>
+													<h:panelGroup>
+														<p:outputLabel value="Repetir Semanalmente "
+															for="semanalmente" />
+														<p:inputSwitch id="semanalmente"
+															disabled="#{mpCadastroAlarmeBean.indEditavel}"
+															value="#{mpCadastroAlarmeBean.mpAlarme.indSemanalmente}" />
+													</h:panelGroup>
+													<p:outputLabel />
+													<p:outputLabel />
+												</p:panelGrid>
+
+												<p:panelGrid columns="7" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<p:selectBooleanCheckbox itemLabel="Domingo"
+														disabled="#{mpCadastroAlarmeBean.indEditavel}"
+														value="#{mpCadastroAlarmeBean.mpAlarme.indDomingo}" />
+													<p:selectBooleanCheckbox itemLabel="Segunda"
+														disabled="#{mpCadastroAlarmeBean.indEditavel}"
+														value="#{mpCadastroAlarmeBean.mpAlarme.indSegunda}" />
+													<p:selectBooleanCheckbox itemLabel="Terça"
+														disabled="#{mpCadastroAlarmeBean.indEditavel}"
+														value="#{mpCadastroAlarmeBean.mpAlarme.indTerca}" />
+													<p:selectBooleanCheckbox itemLabel="Quarta"
+														disabled="#{mpCadastroAlarmeBean.indEditavel}"
+														value="#{mpCadastroAlarmeBean.mpAlarme.indQuarta}" />
+													<p:selectBooleanCheckbox itemLabel="Quinta"
+														disabled="#{mpCadastroAlarmeBean.indEditavel}"
+														value="#{mpCadastroAlarmeBean.mpAlarme.indQuinta}" />
+													<p:selectBooleanCheckbox itemLabel="Sexta"
+														disabled="#{mpCadastroAlarmeBean.indEditavel}"
+														value="#{mpCadastroAlarmeBean.mpAlarme.indSexta}" />
+													<p:selectBooleanCheckbox itemLabel="Sábado"
+														disabled="#{mpCadastroAlarmeBean.indEditavel}"
+														value="#{mpCadastroAlarmeBean.mpAlarme.indSabado}" />
+												</p:panelGrid>
+
+												<p:panelGrid columns="2" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+													<h:panelGroup id="pgNome">
+														<p:outputLabel value="Nome: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="nome" maxlength="150"
+													 		placeholder="Nome"
+															style="text-transform:uppercase;"
+															converter="mpToUpperCaseConverter"
+															readonly="#{mpCadastroAlarmeBean.indEditavel}"
+															value="#{mpCadastroAlarmeBean.mpAlarme.nome}">
+															<f:ajax event="blur" render="@this" />
+														</p:inputText>
+														<p:tooltip for="nome" value="Nome (Ex.: Reunião de Condomínio )" />
+													</h:panelGroup>
+													<p:selectBooleanCheckbox itemLabel="Ativo"
+														disabled="#{mpCadastroAlarmeBean.indEditavel}"
+														value="#{mpCadastroAlarmeBean.mpAlarme.indAtivo}" />
+												</p:panelGrid>
+												
+												<p:panel header="Alertas" toggleable="true" toggleSpeed="500"
+													closeSpeed="500" collapsed="true">
+													<p:panelGrid columns="7" layout="grid"
+														style="border:0px none;background:none"
+														styleClass="ui-fluid">
+
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaEmail}">
+															<p:outputLabel value="Alerta Email : " for="indEmail" />
+															<p:selectBooleanButton id="indEmail" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroAlarmeBean.indEditavel}"
+																disabled="#{mpCadastroAlarmeBean.indEditavel}"
+																value="#{mpCadastroAlarmeBean.mpAlarme.mpAlerta.indEmail}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaSMS}">
+															<p:outputLabel value="Alerta SMS : " for="indSMS" />
+															<p:selectBooleanButton id="indSMS" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroAlarmeBean.indEditavel}"
+																disabled="#{mpCadastroAlarmeBean.indEditavel}"
+																value="#{mpCadastroAlarmeBean.mpAlarme.mpAlerta.indSMS}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaPush}">
+															<p:outputLabel value="Alerta Push : " for="indPush" />
+															<p:selectBooleanButton id="indPush" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroAlarmeBean.indEditavel}"
+																disabled="#{mpCadastroAlarmeBean.indEditavel}"
+																value="#{mpCadastroAlarmeBean.mpAlarme.mpAlerta.indPush}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaTelegram}">
+															<p:outputLabel value="Alerta Telegram : "
+																for="indTelegram" />
+															<p:selectBooleanButton id="indTelegram" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroAlarmeBean.indEditavel}"
+																disabled="#{mpCadastroAlarmeBean.indEditavel}"
+																value="#{mpCadastroAlarmeBean.mpAlarme.mpAlerta.indTelegram}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaWhatsapp}">
+															<p:outputLabel value="Alerta Whatsapp : "
+																for="indWhatsapp" />
+															<p:selectBooleanButton id="indWhatsapp" onLabel="Sim"
+																offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroAlarmeBean.indEditavel}"
+																disabled="#{mpCadastroAlarmeBean.indEditavel}"
+																value="#{mpCadastroAlarmeBean.mpAlarme.mpAlerta.indWhatsapp}" />
+														</h:panelGroup>
+														<h:panelGroup rendered="#{mpLoginBean.scIndAtivaMpComunicator}">
+															<p:outputLabel value="Alerta MpComunicator : "
+																for="indMpComunicator" />
+															<p:selectBooleanButton id="indMpComunicator"
+																onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+																offIcon="ui-icon-close" style="width:90px"
+																required="#{mpCadastroAlarmeBean.indEditavel}"
+																disabled="#{mpCadastroAlarmeBean.indEditavel}"
+																value="#{mpCadastroAlarmeBean.mpAlarme.mpAlerta.indMpComunicator}" />
+														</h:panelGroup>
+														<h:panelGroup />
+
+													</p:panelGrid>
+												</p:panel>
+												
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

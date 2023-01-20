@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Sistema Configuração</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile">
+							<p:commandButton value="Pesquisar" update="@form"
+								action="#{mpPesquisaSistemaConfigsBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpSistemaConfigsTable"
+									fileName="sistemaConfigs"
+									postProcessor="#{mpPesquisaSistemaConfigsBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow"
+							 												href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="4" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:inputText placeholder="Parâmetro"
+									value="#{mpPesquisaSistemaConfigsBean.mpFiltro.parametro}" />
+								<p:inputText placeholder="Descrição"
+									value="#{mpPesquisaSistemaConfigsBean.mpFiltro.descricao}" />
+								<p:outputLabel />
+								<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpSistemaConfigsTable" var="mpSistemaConfig"
+							value="#{mpPesquisaSistemaConfigsBean.mpSistemaConfigsFiltrados}"
+							selection="#{mpPesquisaSistemaConfigsBean.mpSistemaConfigSelecionado}"
+							rowKey="#{mpSistemaConfig.parametro}" reflow="true"
+							style="margin-top:20px"
+							emptyMessage="Nenhum SistemaConfig encontrado." rows="5"
+							selectionMode="single" paginator="true"
+							paginatorAlwaysVisible="false" paginatorPosition="bottom">
+
+							<p:column headerText="Parâmetro"
+								sortBy="#{mpSistemaConfig.parametro}">
+								<h:outputText value="#{mpSistemaConfig.parametro}" />
+							</p:column>
+							<p:column headerText="Descrição"
+								sortBy="#{mpSistemaConfig.descricao}">
+								<h:outputText value="#{mpSistemaConfig.descricao}" />
+							</p:column>
+							<p:column headerText="Tipo Campo" 
+												sortBy="#{mpSistemaConfig.mpTipoCampo.descricao}">
+								<h:outputText value="#{mpSistemaConfig.mpTipoCampo.descricao}" />
+							</p:column>
+							<p:column headerText="Valor" sortBy="#{mpSistemaConfig.valor}">
+								<h:outputText value="#{mpSistemaConfig.valor}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/sistemaConfigs/mpCadastroSistemaConfig"
+									icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpSistemaConfig" value="#{mpSistemaConfig.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>MPXDS Protesto - Tour Vídeo</title>
+	<meta name="viewport" 
+				content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        
+    <h:outputStylesheet name="css/font-icon-layout.css" library="sentinel-layout" />
+    <h:outputStylesheet name="css/sentinel-layout.css" library="sentinel-layout" />
+    <h:outputStylesheet name="css/core-layout.css" library="sentinel-layout" />
+</h:head>
+
+<h:body class="fontRegular">
+	<div class="Container100">
+
+		<div class="ContainerIndent">
+			<div class="Container100">
+				<span class="DispInlBlock Fleft FloatNoneOnMobile">
+					<p:spacer width="30" />
+					<p:outputLabel style="font-size:20px; color:blue;"
+													value="MpProtesto - Vidêo Tour" />
+				</span>
+				<span class="DispInlBlock Fright FloatNoneOnMobile">
+				 	<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="/dashboardRS" />
+				</span>
+			</div>
+		</div>
+		<div class="ContainerIndent">
+			<p:spacer width="30" height="30" />
+		</div>
+
+		<div class="ContainerIndent">
+			<p:spacer width="50" height="50" />
+			<video controls="controls">
+				<source src="MpProtesto.mp4" type="video/mp4" />
+			</video>
+		</div>
+
+	</div>
+</h:body>
+
+</html>

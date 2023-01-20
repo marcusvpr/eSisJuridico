@@ -1,0 +1,117 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces" target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Alarmes</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaAlarmesBean.pesquisar}" />
+						</span>
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpAlarmesTable" fileName="alarmes"
+									postProcessor="#{mpPesquisaAlarmesBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="2" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+	    						<p:inputText placeholder="Nome" 
+	    								value="#{mpPesquisaAlarmesBean.mpFiltro.nome}" />	    				
+	    						<p:outputLabel />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpAlarmesTable"
+							value="#{mpPesquisaAlarmesBean.mpAlarmesFiltrados}"
+							var="mpAlarme" selectionMode="single" style="margin-top:20px"
+							selection="#{mpPesquisaAlarmesBean.mpAlarmeSelecionado}"
+							rowKey="#{mpAlarme.horaMovimento}" reflow="true" 
+							emptyMessage="Nenhum Alarme encontrado." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Horário" sortBy="#{mpAlarme.horaMovimento}">
+								<h:outputText value="#{mpAlarme.horaMovimento}">
+									<f:convertDateTime pattern="HH:mm" timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Nome"
+								style="text-align:center; width:250px" sortBy="#{mpAlarme.nome}">
+								<h:outputText value="#{mpAlarme.nome}" />
+							</p:column>
+							<p:column headerText="Dom" style="text-align:center;"
+								sortBy="#{mpAlarme.indDomingo}">
+								<h:outputText value="#{mpAlarme.indDomingo == true ? 'S' : ' '}" />
+							</p:column>
+							<p:column headerText="Seg" style="text-align:center;"
+								sortBy="#{mpAlarme.indSegunda}">
+								<h:outputText value="#{mpAlarme.indSegunda == true ? 'S' : ' '}" />
+							</p:column>
+							<p:column headerText="Ter" style="text-align:center;"
+								sortBy="#{mpAlarme.indTerca}">
+								<h:outputText value="#{mpAlarme.indTerca == true ? 'S' : ' '}" />
+							</p:column>
+							<p:column headerText="Qua" style="text-align:center;"
+								sortBy="#{mpAlarme.indQuarta}">
+								<h:outputText value="#{mpAlarme.indQuarta == true ? 'S' : ' '}" />
+							</p:column>
+							<p:column headerText="Qui" style="text-align:center;"
+								sortBy="#{mpAlarme.indQuinta}">
+								<h:outputText value="#{mpAlarme.indQuinta == true ? 'S' : ' '}" />
+							</p:column>
+							<p:column headerText="Sex" style="text-align:center;"
+								sortBy="#{mpAlarme.indSexta}">
+								<h:outputText value="#{mpAlarme.indSexta == true ? 'S' : ' '}" />
+							</p:column>
+							<p:column headerText="Sáb" style="text-align:center;"
+								sortBy="#{mpAlarme.indSabado}">
+								<h:outputText value="#{mpAlarme.indSabado == true ? 'S' : ' '}" />
+							</p:column>
+							<p:column headerText="Semanal." style="text-align:center;"
+								sortBy="#{mpAlarme.indSemanalmente}">
+								<h:outputText
+									value="#{mpAlarme.indSemanalmente == true ? 'S' : ' '}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/alarmes/mpCadastroAlarme"
+									icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpAlarme" value="#{mpAlarme.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+		<div class="ContainerIndent">
+			<h:outputScript name="jquery/jquery.js" library="primefaces"
+				target="head" />
+
+			<h:form id="frmPesquisa">
+				<h2 class="aw-page-title">Pesquisa Pessoa</h2>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<span class="DispInlBlock Fleft FloatNoneOnMobile"> <p:commandButton
+								value="Pesquisar" update="@form"
+								action="#{mpPesquisaPessoasBean.pesquisar}" />
+						</span> 
+						<span class="DispInlBlock Fright FloatNoneOnMobile"> 
+							<p:commandButton value="Exportar para XLS" ajax="false"
+															icon="fa fa-file-excel-o Fs14 red">
+								<p:dataExporter type="xls" target="mpPessoasTable"
+									fileName="pessoas"
+									postProcessor="#{mpPesquisaPessoasBean.posProcessarXls}" />
+							</p:commandButton>
+							<p:button title="Sair" icon="fa fa-close Fs14 yellow" href="./dashboardRS" />
+						</span>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:panel header="Filtra" toggleable="true" toggleSpeed="500"
+							closeSpeed="500" collapsed="true">
+							<p:panelGrid columns="4" layout="grid"
+								style="border:0px none;background:none" styleClass="ui-fluid">
+
+								<p:inputText placeholder="Nome"
+											value="#{mpPesquisaPessoasBean.mpFiltro.nome}" />
+								<p:inputText placeholder="E-mail"
+											value="#{mpPesquisaPessoasBean.mpFiltro.email}" />
+								<p:inputText placeholder="Tipo"
+											value="#{mpPesquisaPessoasBean.mpFiltro.tipo}" />
+								<p:inputText placeholder="Profissão"
+											value="#{mpPesquisaPessoasBean.mpFiltro.profissao}" />
+
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ContainerIndent">
+					<div class="Container100">
+						<p:dataTable id="mpPessoasTable"
+							value="#{mpPesquisaPessoasBean.mpPessoasFiltrados}"
+							var="mpPessoa" selectionMode="single"
+							selection="#{mpPesquisaPessoasBean.mpPessoaSelecionado}"
+							rowKey="#{mpPessoa.nome}" reflow="true" style="margin-top:20px"
+							emptyMessage="Nenhuma Pessoa encontrada." rows="10"
+							paginator="true" paginatorAlwaysVisible="false"
+							paginatorPosition="bottom">
+
+							<p:column headerText="Nome" sortBy="#{mpPessoa.nome}">
+								<h:outputText value="#{mpPessoa.nome}" />
+							</p:column>
+							<p:column headerText="Email" style="width:150px;"
+								sortBy="#{mpPessoa.email}">
+								<h:outputText value="#{mpPessoa.email}" />
+							</p:column>
+							<p:column headerText="Tipo" style="text-align:center;"
+								sortBy="#{mpPessoa.mpTipoPessoa}">
+								<h:outputText value="#{mpPessoa.mpTipoPessoa}" />
+							</p:column>
+							<p:column headerText="Profissão" style="text-align:center;"
+								sortBy="#{mpPessoa.mpProfissaoPessoa.descricao}">
+								<h:outputText value="#{mpPessoa.mpProfissaoPessoa.descricao}" />
+							</p:column>
+							<p:column headerText="Sexo" style="text-align:center;"
+								sortBy="#{mpPessoa.mpSexo.descricao}">
+								<h:outputText value="#{mpPessoa.mpSexo.descricao}" />
+							</p:column>
+							<p:column headerText="Dt.Nasc." style="text-align:center;"
+								sortBy="#{mpPessoa.dataNascimento}">
+								<h:outputText value="#{mpPessoa.dataNascimento}" />
+							</p:column>
+							<p:column headerText="Turno" style="text-align:center;"
+								sortBy="#{mpPessoa.mpTurno.descricao}">
+								<h:outputText value="#{mpPessoa.mpTurno.descricao}" />
+							</p:column>
+							<p:column headerText="Dt.Início" style="text-align:center;"
+								sortBy="#{mpPessoa.dataInicio}">
+								<h:outputText value="#{mpPessoa.dataInicio}" />
+							</p:column>
+							<p:column headerText="Salário" sortBy="#{mpPessoa.salario}">
+								<h:outputText value="#{mpPessoa.salario}">
+	    							<f:convertNumber type="currency" pattern="###,##0.00" />
+	    						</h:outputText>
+							</p:column>
+							<p:column headerText="Profissão" style="text-align:center;"
+								sortBy="#{mpPessoa.mpProfissao.descricao}">
+								<h:outputText value="#{mpPessoa.mpProfissao.descricao}" />
+							</p:column>
+							<p:column headerText="Observação" sortBy="#{mpPessoa.observacao}">
+								<h:outputText value="#{mpPessoa.observacao}" />
+							</p:column>
+
+							<p:column style="text-align:center">
+								<p:button outcome="/sentinel/pessoas/mpCadastroPessoa"
+									icon="ui-icon-check" title="Selecionar">
+									<f:param name="mpPessoa" value="#{mpPessoa.id}" />
+								</p:button>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

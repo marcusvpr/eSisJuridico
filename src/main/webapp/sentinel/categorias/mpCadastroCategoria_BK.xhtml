@@ -1,0 +1,101 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template/sentinel/mpTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="mpCategoria" value="#{mpCadastroCategoriaBeanX.mpCategoria}" />
+			<f:viewAction action="#{mpCadastroCategoriaBeanX.inicializar}" />
+		</f:metadata>
+
+		<div class="ContainerIndent">
+			<h:form id="frm">
+				<p:panel header="Categoria #{mpCadastroCategoriaBeanX.txtModoTela}">
+
+					<p:messages id="message" autoUpdate="false" showDetail="false" />
+
+					<ui:include src="/WEB-INF/template/sentinel/mpBotoesCategoria.xhtml" />
+
+					<div class="ContainerIndent" style="margin-top: 60px;"></div>
+
+					<p:tabView id="tabViewC">
+
+						<p:tab title="Dados">
+							<div class="ContainerIndent ui-fluid">
+								<p:panel>
+									<div class="Container">
+										<div class="Container95 Responsive100">
+											<div class="Container100">
+												<p:panelGrid columns="3" layout="grid"
+													style="border:0px !important; background:none;"
+													styleClass="ui-panelgrid-blank">
+
+													<h:panelGroup id="pgTipoProduto">
+														<p:outputLabel value="Tipo Produto: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="tipoProduto"
+															disabled="#{mpCadastroCategoriaBeanX.indEditavel}"
+															value="#{mpCadastroCategoriaBeanX.mpCategoria.mpTipoProduto}">
+															<f:selectItem itemLabel="Selecione o Tipo" />
+															<f:selectItems
+																value="#{mpCadastroCategoriaBeanX.mpTipoProdutoList}"
+																var="mpTipoProduto"
+																itemLabel="#{mpTipoProduto.descricao}"
+																itemValue="#{mpTipoProduto}" />
+														</p:selectOneMenu>
+														<p:tooltip for="tipoProduto" value="Tipo Produto (Ex.: Medicamentos )" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgDescricao">
+														<p:outputLabel value="Descrição: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:inputText id="descricao" maxlength="150"
+															placeholder="Descrição"
+															readonly="#{mpCadastroCategoriaBeanX.indEditavel}"
+															value="#{mpCadastroCategoriaBeanX.mpCategoria.descricao}" />
+														<p:tooltip for="descricao" value="Descrição (Ex.: Alergias e Infecções )" />
+													</h:panelGroup>
+
+													<h:panelGroup id="pgPai">
+														<p:outputLabel value="Categoria Pai: "
+															rendered="#{mpLoginBean.scIndLabelCampo}" />
+														<p:selectOneMenu id="mpCategoriaPai"
+															disabled="#{mpCadastroCategoriaBeanX.indEditavel}"
+															value="#{mpCadastroCategoriaBeanX.mpCategoria.mpCategoriaPai}">
+															<f:selectItem itemLabel="Selecione a Categoria Pai" />
+															<f:selectItems
+																value="#{mpCadastroCategoriaBeanX.mpCategoriasRaizes}"
+																var="mpCategoriaPai" itemValue="#{mpCategoriaPai}"
+																itemLabel="#{mpCategoriaPai.descricao}" />
+														</p:selectOneMenu>
+														<p:tooltip for="mpCategoriaPai" value="Categoria Pai (Ex.: Alergias e Infecções )" />
+													</h:panelGroup>
+
+												</p:panelGrid>
+												
+											</div>
+										</div>
+										<div class="Container5 Responsive100">
+											<div class="Container100">
+												<div class="ContainerIndent"></div>
+											</div>
+										</div>
+									</div>
+								</p:panel>
+							</div>
+						</p:tab>
+
+					</p:tabView>
+
+				</p:panel>
+			</h:form>
+		</div>
+				
+	</ui:define>
+
+</ui:composition>
